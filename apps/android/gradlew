@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+
+##############################################################################
+##
+##  Gradle start up script for UN*X
+##
+##############################################################################
+
+set -eu
+
+APP_HOME=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+
+JAVA_CMD=${JAVA_HOME:+$JAVA_HOME/bin/java}
+if [ -z "${JAVA_CMD:-}" ]; then
+  JAVA_CMD=java
+fi
+
+CLASSPATH="$APP_HOME/gradle/wrapper/gradle-wrapper.jar"
+MAIN_CLASS=org.gradle.wrapper.GradleWrapperMain
+
+exec "$JAVA_CMD" -classpath "$CLASSPATH" "$MAIN_CLASS" "$@"

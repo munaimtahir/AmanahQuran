@@ -1,0 +1,39 @@
+{
+  "project": "Amanah Quran",
+  "project_identity": "Amanah-e-Kisa",
+  "pack_id": "amanah-quran-v1-sacred-reader-content-manifest-template",
+  "content_packs": [
+    {
+      "pack_id": "quran-text-indopak-v1",
+      "content_type": "quran_text",
+      "script_type": "INDOPAK",
+      "source_name": "TO_BE_COMPLETED",
+      "source_url": "TO_BE_COMPLETED",
+      "license": "TO_BE_COMPLETED",
+      "source_version": "TO_BE_COMPLETED",
+      "import_date": "TO_BE_COMPLETED",
+      "checksum_sha256": "TO_BE_COMPLETED",
+      "surah_count": 114,
+      "ayah_count": 6236,
+      "validation_status": "PENDING",
+      "manual_review_status": "PENDING",
+      "notes": "Do not release publicly until license, checksum, validation, and manual review are complete."
+    },
+    {
+      "pack_id": "quran-text-uthmani-v1",
+      "content_type": "quran_text",
+      "script_type": "UTHMANI",
+      "source_name": "TO_BE_COMPLETED",
+      "source_url": "TO_BE_COMPLETED",
+      "license": "TO_BE_COMPLETED",
+      "source_version": "TO_BE_COMPLETED",
+      "import_date": "TO_BE_COMPLETED",
+      "checksum_sha256": "TO_BE_COMPLETED",
+      "surah_count": 114,
+      "ayah_count": 6236,
+      "validation_status": "PENDING",
+      "manual_review_status": "PENDING",
+      "notes": "Do not release publicly until license, checksum, validation, and manual review are complete."
+    }
+  ]
+}

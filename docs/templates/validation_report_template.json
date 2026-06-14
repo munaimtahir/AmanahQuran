@@ -1,0 +1,89 @@
+{
+  "project": "Amanah Quran",
+  "validation_report_version": "1.0-template",
+  "generated_at": "TO_BE_COMPLETED",
+  "overall_status": "PENDING",
+  "checks": [
+    {
+      "id": "C-001",
+      "name": "surah_count",
+      "expected": 114,
+      "actual": "TO_BE_COMPLETED",
+      "severity": "critical",
+      "passed": false
+    },
+    {
+      "id": "C-002",
+      "name": "ayah_count",
+      "expected": 6236,
+      "actual": "TO_BE_COMPLETED",
+      "severity": "critical",
+      "passed": false
+    },
+    {
+      "id": "C-003",
+      "name": "duplicate_ayah_keys",
+      "expected": 0,
+      "actual": "TO_BE_COMPLETED",
+      "severity": "critical",
+      "passed": false
+    },
+    {
+      "id": "C-004",
+      "name": "missing_indopak_text",
+      "expected": 0,
+      "actual": "TO_BE_COMPLETED",
+      "severity": "critical",
+      "passed": false
+    },
+    {
+      "id": "C-005",
+      "name": "missing_uthmani_text",
+      "expected": 0,
+      "actual": "TO_BE_COMPLETED",
+      "severity": "critical",
+      "passed": false
+    },
+    {
+      "id": "C-006",
+      "name": "missing_page_mapping",
+      "expected": 0,
+      "actual": "TO_BE_COMPLETED",
+      "severity": "critical",
+      "passed": false
+    },
+    {
+      "id": "C-007",
+      "name": "missing_juz_mapping",
+      "expected": 0,
+      "actual": "TO_BE_COMPLETED",
+      "severity": "critical",
+      "passed": false
+    },
+    {
+      "id": "C-008",
+      "name": "search_index_count",
+      "expected": 6236,
+      "actual": "TO_BE_COMPLETED",
+      "severity": "critical",
+      "passed": false
+    },
+    {
+      "id": "C-009",
+      "name": "content_manifest_complete",
+      "expected": true,
+      "actual": "TO_BE_COMPLETED",
+      "severity": "critical",
+      "passed": false
+    },
+    {
+      "id": "C-010",
+      "name": "checksum_verification",
+      "expected": "MATCH",
+      "actual": "TO_BE_COMPLETED",
+      "severity": "critical",
+      "passed": false
+    }
+  ],
+  "release_rule": "Public release is blocked unless every critical check passes and manual content review is approved."
+}
