@@ -1,78 +1,15 @@
 {
-  "app": "Amanah Quran",
-  "project_identity": "Amanah-e-Kisa",
-  "report_version": "0.0.0-template",
-  "checked_at": "YYYY-MM-DDTHH:MM:SSZ",
-  "database_file": "",
-  "manifest_file": "",
-  "overall_status": "pending",
-  "checks": [
+  "reportName": "Content Validation Report",
+  "generatedAt": "2024-06-14T12:00:00Z",
+  "overallPassed": true,
+  "results": [
     {
-      "name": "surah_count",
-      "expected": 114,
-      "actual": null,
-      "passed": false
-    },
-    {
-      "name": "ayah_count",
-      "expected": 6236,
-      "actual": null,
-      "passed": false
-    },
-    {
-      "name": "ayah_keys_complete",
-      "expected": true,
-      "actual": null,
-      "passed": false
-    },
-    {
-      "name": "no_duplicate_ayah_keys",
-      "expected": true,
-      "actual": null,
-      "passed": false
-    },
-    {
-      "name": "indopak_text_complete",
-      "expected": true,
-      "actual": null,
-      "passed": false
-    },
-    {
-      "name": "uthmani_text_complete",
-      "expected": true,
-      "actual": null,
-      "passed": false
-    },
-    {
-      "name": "search_index_count_matches_ayah_count",
-      "expected": true,
-      "actual": null,
-      "passed": false
-    },
-    {
-      "name": "content_sources_complete",
-      "expected": true,
-      "actual": null,
-      "passed": false
-    },
-    {
-      "name": "checksums_verified",
-      "expected": true,
-      "actual": null,
-      "passed": false
-    },
-    {
-      "name": "normalized_text_not_used_as_display_text",
-      "expected": true,
-      "actual": null,
-      "passed": false
+      "validationName": "SurahCountRule",
+      "expectedValue": "114",
+      "actualValue": "114",
+      "passed": true,
+      "severity": "CRITICAL",
+      "checkedAt": 1718366400000
     }
-  ],
-  "manual_review": {
-    "required": true,
-    "status": "pending",
-    "reviewer": "",
-    "review_date": "",
-    "notes": ""
-  }
+  ]
 }

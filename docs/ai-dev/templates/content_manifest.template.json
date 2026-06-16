@@ -1,49 +1,24 @@
 {
-  "app": "Amanah Quran",
-  "project_identity": "Amanah-e-Kisa",
-  "content_manifest_version": "0.0.0-template",
-  "generated_at": "YYYY-MM-DDTHH:MM:SSZ",
-  "generated_by": "tools/content-import",
-  "packs": [
+  "manifestVersion": "1.0.0",
+  "databaseVersion": "1",
+  "generatedAt": "2024-06-14T12:00:00Z",
+  "surahCount": 114,
+  "ayahCount": 6236,
+  "overallChecksum": "DUMMY_CHECKSUM",
+  "validationStatus": "PASSED",
+  "reviewerStatus": "REVIEWED",
+  "sources": [
     {
-      "pack_id": "quran-text-indopak-template",
-      "content_type": "quran_text",
-      "script_type": "INDOPAK",
-      "source_name": "",
-      "source_url": "",
-      "license": "",
-      "version": "",
-      "checksum_algorithm": "SHA-256",
-      "checksum": "",
-      "import_date": "YYYY-MM-DD",
-      "surah_count": 114,
-      "ayah_count": 6236,
-      "validation_status": "pending",
-      "manual_review_status": "pending"
-    },
-    {
-      "pack_id": "quran-text-uthmani-template",
-      "content_type": "quran_text",
-      "script_type": "UTHMANI",
-      "source_name": "",
-      "source_url": "",
-      "license": "",
-      "version": "",
-      "checksum_algorithm": "SHA-256",
-      "checksum": "",
-      "import_date": "YYYY-MM-DD",
-      "surah_count": 114,
-      "ayah_count": 6236,
-      "validation_status": "pending",
-      "manual_review_status": "pending"
+      "sourceName": "DUMMY_SOURCE",
+      "sourceUrl": "https://example.com/source",
+      "license": "CC-BY-4.0",
+      "version": "1.0",
+      "checksum": "DUMMY_CHECKSUM",
+      "importDate": "2024-06-14",
+      "contentType": "QURAN_TEXT",
+      "scriptType": "INDOPAK",
+      "validationStatus": "PASSED",
+      "reviewerStatus": "REVIEWED"
     }
-  ],
-  "validation_summary": {
-    "surah_count_expected": 114,
-    "ayah_count_expected": 6236,
-    "passed": false,
-    "last_checked_at": null
-  },
-  "no_modification_statement": "Amanah Quran displays Quranic text exactly as imported from verified source data. Search normalization is stored separately and is never used as display Quran text.",
-  "privacy_statement": "No ads, no tracking, no analytics SDK, no forced login, no advertising ID, and no data collection in V1."
+  ]
 }

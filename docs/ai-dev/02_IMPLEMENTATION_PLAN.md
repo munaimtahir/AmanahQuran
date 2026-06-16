@@ -2,8 +2,16 @@
 
 ## Stage 0 — Repository and Android Project Setup
 
+### Status
+**COMPLETED**
+
+## Stage 1 — Data Foundation (Mega Sprint)
+
+### Status
+**COMPLETED**
+
 ### Objective
-Create a clean Android-first project scaffold, preferably inside `/apps/android`, while keeping room for a later web app.
+Create Room database schema, data contracts, validation engine, manifest structures, repository scaffolding, and test coverage.
 
 ### Likely Files
 - `/settings.gradle.kts`

@@ -1,0 +1,615 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "60d4e2d2db115f25341f1a59d885d59a",
+    "entities": [
+      {
+        "tableName": "surahs",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`surahNumber` INTEGER NOT NULL, `nameArabic` TEXT NOT NULL, `nameSimple` TEXT NOT NULL, `nameUrdu` TEXT, `revelationType` TEXT, `ayahCount` INTEGER NOT NULL, PRIMARY KEY(`surahNumber`))",
+        "fields": [
+          {
+            "fieldPath": "surahNumber",
+            "columnName": "surahNumber",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nameArabic",
+            "columnName": "nameArabic",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nameSimple",
+            "columnName": "nameSimple",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nameUrdu",
+            "columnName": "nameUrdu",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "revelationType",
+            "columnName": "revelationType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ayahCount",
+            "columnName": "ayahCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "surahNumber"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "ayahs",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`ayahKey` TEXT NOT NULL, `surahNumber` INTEGER NOT NULL, `ayahNumber` INTEGER NOT NULL, `juzNumber` INTEGER NOT NULL, `pageNumber` INTEGER NOT NULL, `hizbNumber` INTEGER, `rukuNumber` INTEGER, `sajdahType` TEXT, PRIMARY KEY(`ayahKey`))",
+        "fields": [
+          {
+            "fieldPath": "ayahKey",
+            "columnName": "ayahKey",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "surahNumber",
+            "columnName": "surahNumber",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ayahNumber",
+            "columnName": "ayahNumber",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "juzNumber",
+            "columnName": "juzNumber",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pageNumber",
+            "columnName": "pageNumber",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hizbNumber",
+            "columnName": "hizbNumber",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "rukuNumber",
+            "columnName": "rukuNumber",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sajdahType",
+            "columnName": "sajdahType",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "ayahKey"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_ayahs_surahNumber",
+            "unique": false,
+            "columnNames": [
+              "surahNumber"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_ayahs_surahNumber` ON `${TABLE_NAME}` (`surahNumber`)"
+          },
+          {
+            "name": "index_ayahs_juzNumber",
+            "unique": false,
+            "columnNames": [
+              "juzNumber"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_ayahs_juzNumber` ON `${TABLE_NAME}` (`juzNumber`)"
+          },
+          {
+            "name": "index_ayahs_pageNumber",
+            "unique": false,
+            "columnNames": [
+              "pageNumber"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_ayahs_pageNumber` ON `${TABLE_NAME}` (`pageNumber`)"
+          },
+          {
+            "name": "index_ayahs_surahNumber_ayahNumber",
+            "unique": true,
+            "columnNames": [
+              "surahNumber",
+              "ayahNumber"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_ayahs_surahNumber_ayahNumber` ON `${TABLE_NAME}` (`surahNumber`, `ayahNumber`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "quran_text",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `ayahKey` TEXT NOT NULL, `scriptType` TEXT NOT NULL, `displayText` TEXT NOT NULL, `sourceId` INTEGER NOT NULL, `checksum` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ayahKey",
+            "columnName": "ayahKey",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "scriptType",
+            "columnName": "scriptType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "displayText",
+            "columnName": "displayText",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceId",
+            "columnName": "sourceId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "checksum",
+            "columnName": "checksum",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_quran_text_ayahKey",
+            "unique": false,
+            "columnNames": [
+              "ayahKey"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_quran_text_ayahKey` ON `${TABLE_NAME}` (`ayahKey`)"
+          },
+          {
+            "name": "index_quran_text_scriptType",
+            "unique": false,
+            "columnNames": [
+              "scriptType"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_quran_text_scriptType` ON `${TABLE_NAME}` (`scriptType`)"
+          },
+          {
+            "name": "index_quran_text_ayahKey_scriptType",
+            "unique": true,
+            "columnNames": [
+              "ayahKey",
+              "scriptType"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_quran_text_ayahKey_scriptType` ON `${TABLE_NAME}` (`ayahKey`, `scriptType`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "search_index",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`ayahKey` TEXT NOT NULL, `normalizedArabic` TEXT NOT NULL, `normalizedTransliteration` TEXT, `surahSearchTerms` TEXT, PRIMARY KEY(`ayahKey`))",
+        "fields": [
+          {
+            "fieldPath": "ayahKey",
+            "columnName": "ayahKey",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "normalizedArabic",
+            "columnName": "normalizedArabic",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "normalizedTransliteration",
+            "columnName": "normalizedTransliteration",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "surahSearchTerms",
+            "columnName": "surahSearchTerms",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "ayahKey"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "bookmarks",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `bookmarkType` TEXT NOT NULL, `ayahKey` TEXT, `pageNumber` INTEGER, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bookmarkType",
+            "columnName": "bookmarkType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ayahKey",
+            "columnName": "ayahKey",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "pageNumber",
+            "columnName": "pageNumber",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "last_read",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `ayahKey` TEXT NOT NULL, `surahNumber` INTEGER NOT NULL, `ayahNumber` INTEGER NOT NULL, `juzNumber` INTEGER NOT NULL, `pageNumber` INTEGER NOT NULL, `scriptType` TEXT NOT NULL, `scrollOffset` INTEGER, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ayahKey",
+            "columnName": "ayahKey",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "surahNumber",
+            "columnName": "surahNumber",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ayahNumber",
+            "columnName": "ayahNumber",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "juzNumber",
+            "columnName": "juzNumber",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pageNumber",
+            "columnName": "pageNumber",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "scriptType",
+            "columnName": "scriptType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "scrollOffset",
+            "columnName": "scrollOffset",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "content_sources",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `contentType` TEXT NOT NULL, `scriptType` TEXT, `sourceName` TEXT NOT NULL, `sourceUrl` TEXT NOT NULL, `license` TEXT NOT NULL, `version` TEXT NOT NULL, `checksum` TEXT NOT NULL, `importDate` TEXT NOT NULL, `validationStatus` TEXT NOT NULL, `reviewerStatus` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "contentType",
+            "columnName": "contentType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "scriptType",
+            "columnName": "scriptType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sourceName",
+            "columnName": "sourceName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceUrl",
+            "columnName": "sourceUrl",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "license",
+            "columnName": "license",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "version",
+            "columnName": "version",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "checksum",
+            "columnName": "checksum",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "importDate",
+            "columnName": "importDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "validationStatus",
+            "columnName": "validationStatus",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reviewerStatus",
+            "columnName": "reviewerStatus",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "content_validations",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `validationName` TEXT NOT NULL, `expectedValue` TEXT NOT NULL, `actualValue` TEXT NOT NULL, `passed` INTEGER NOT NULL, `severity` TEXT NOT NULL, `checkedAt` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "validationName",
+            "columnName": "validationName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "expectedValue",
+            "columnName": "expectedValue",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "actualValue",
+            "columnName": "actualValue",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "passed",
+            "columnName": "passed",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "severity",
+            "columnName": "severity",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "checkedAt",
+            "columnName": "checkedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "content_manifests",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `manifestVersion` TEXT NOT NULL, `databaseVersion` TEXT NOT NULL, `generatedAt` TEXT NOT NULL, `surahCount` INTEGER NOT NULL, `ayahCount` INTEGER NOT NULL, `indopakSourceId` INTEGER, `uthmaniSourceId` INTEGER, `overallChecksum` TEXT NOT NULL, `validationStatus` TEXT NOT NULL, `reviewerStatus` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "manifestVersion",
+            "columnName": "manifestVersion",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "databaseVersion",
+            "columnName": "databaseVersion",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "generatedAt",
+            "columnName": "generatedAt",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "surahCount",
+            "columnName": "surahCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ayahCount",
+            "columnName": "ayahCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "indopakSourceId",
+            "columnName": "indopakSourceId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "uthmaniSourceId",
+            "columnName": "uthmaniSourceId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "overallChecksum",
+            "columnName": "overallChecksum",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "validationStatus",
+            "columnName": "validationStatus",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reviewerStatus",
+            "columnName": "reviewerStatus",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '60d4e2d2db115f25341f1a59d885d59a')"
+    ]
+  }
+}
