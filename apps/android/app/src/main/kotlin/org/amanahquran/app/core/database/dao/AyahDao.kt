@@ -1,32 +1,29 @@
 package org.amanahquran.app.core.database.dao
 
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import kotlinx.coroutines.flow.Flow
 import org.amanahquran.app.core.database.entity.AyahEntity
 
 @Dao
 interface AyahDao {
-    @Query("SELECT * FROM ayahs WHERE ayahKey = :ayahKey")
-    suspend fun getAyahByKey(ayahKey: String): AyahEntity?
-
-    @Query("SELECT * FROM ayahs WHERE surahNumber = :surahNumber ORDER BY ayahNumber ASC")
-    fun getAyahsBySurah(surahNumber: Int): Flow<List<AyahEntity>>
-
-    @Query("SELECT * FROM ayahs WHERE juzNumber = :juzNumber ORDER BY surahNumber ASC, ayahNumber ASC")
-    fun getAyahsByJuz(juzNumber: Int): Flow<List<AyahEntity>>
-
-    @Query("SELECT * FROM ayahs WHERE pageNumber = :pageNumber ORDER BY surahNumber ASC, ayahNumber ASC")
-    fun getAyahsByPage(pageNumber: Int): Flow<List<AyahEntity>>
-
     @Query("SELECT COUNT(*) FROM ayahs")
     suspend fun getAyahCount(): Int
 
-    @Query("SELECT COUNT(*) FROM (SELECT ayahKey FROM ayahs GROUP BY ayahKey HAVING COUNT(*) > 1)")
-    suspend fun getDuplicateAyahKeyCount(): Int
+    @Query("SELECT * FROM ayahs WHERE ayah_key = :ayahKey")
+    suspend fun getAyahByKey(ayahKey: String): AyahEntity?
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAllAyahs(ayahs: List<AyahEntity>)
+    @Query("SELECT * FROM ayahs WHERE surah_number = :surahNumber ORDER BY ayah_number ASC")
+    suspend fun getAyahsBySurah(surahNumber: Int): List<AyahEntity>
+
+    @Query("SELECT * FROM ayahs WHERE page_number = :pageNumber ORDER BY surah_number ASC, ayah_number ASC")
+    suspend fun getAyahsByPageIndopak(pageNumber: Int): List<AyahEntity>
+
+    @Query("SELECT * FROM ayahs WHERE page_number = :pageNumber ORDER BY surah_number ASC, ayah_number ASC")
+    suspend fun getAyahsByPageUthmani(pageNumber: Int): List<AyahEntity>
+
+    @Query("SELECT * FROM ayahs WHERE juz_number = :juzNumber ORDER BY surah_number ASC, ayah_number ASC")
+    suspend fun getAyahsByJuz(juzNumber: Int): List<AyahEntity>
+
+    @Query("SELECT COUNT(*) FROM (SELECT ayah_key FROM ayahs GROUP BY ayah_key HAVING COUNT(*) > 1)")
+    suspend fun getDuplicateAyahKeyCount(): Int
 }

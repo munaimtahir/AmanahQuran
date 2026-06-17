@@ -1,0 +1,39 @@
+{
+  "app": "Amanah Quran",
+  "project_identity": "Amanah-e-Kisa",
+  "generated_at": "2026-06-16T20:41:56+00:00",
+  "quran_text_sources_actually_used": [
+    {
+      "script_type": "UTHMANI",
+      "source": "Tanzil Uthmani XML",
+      "raw_source": "sourcedata/1/quran-uthmani.xml",
+      "validation_status": "GO"
+    },
+    {
+      "script_type": "INDOPAK",
+      "source": "QUL Digital Khatt IndoPak",
+      "raw_source": "sourcedata/3/digital-khatt-indopak-ayah-by-ayah-script.json.zip",
+      "validation_status": "GO"
+    },
+    {
+      "script_type": "SEARCH_ONLY",
+      "source": "Tanzil Simple Clean XML",
+      "raw_source": "sourcedata/2/quran-simple-clean.xml",
+      "validation_status": "GO"
+    }
+  ],
+  "no_modification_statement": "Amanah Quran displays Quranic text exactly as imported from verified source data. Search normalization is stored separately and is never used as display Quran text.",
+  "validation_status": true,
+  "privacy_pledge": "No ads, no tracking, no analytics SDK, no login, no data collection, no data sharing, and fully functional offline after install.",
+  "app_content_integrity_placeholders": [
+    "Manual Quran text review pending",
+    "Font license review pending",
+    "Public release approval pending"
+  ],
+  "claims_not_made": [
+    "scholar review complete",
+    "font license approved",
+    "public release ready",
+    "Quran Foundation as final source"
+  ]
+}

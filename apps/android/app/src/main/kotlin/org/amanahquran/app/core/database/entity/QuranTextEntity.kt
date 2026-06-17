@@ -1,23 +1,39 @@
 package org.amanahquran.app.core.database.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import org.amanahquran.app.core.model.ScriptType
 
 @Entity(
-    tableName = "quran_text",
+    tableName = "quran_texts",
+    foreignKeys = [
+        ForeignKey(
+            entity = AyahEntity::class,
+            parentColumns = ["ayah_key"],
+            childColumns = ["ayah_key"],
+            onDelete = ForeignKey.NO_ACTION,
+            onUpdate = ForeignKey.NO_ACTION,
+            deferred = false
+        )
+    ],
     indices = [
-        Index(value = ["ayahKey"]),
-        Index(value = ["scriptType"]),
-        Index(value = ["ayahKey", "scriptType"], unique = true)
+        Index(value = ["ayah_key"])
     ]
 )
 data class QuranTextEntity(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    @PrimaryKey
+    @ColumnInfo(name = "id")
+    val id: Int?,
+    @ColumnInfo(name = "ayah_key")
     val ayahKey: String,
-    val scriptType: ScriptType,
+    @ColumnInfo(name = "script_type")
+    val scriptType: String,
+    @ColumnInfo(name = "display_text")
     val displayText: String, // Immutable verified Quran text
-    val sourceId: Long,
+    @ColumnInfo(name = "source_id")
+    val sourceId: Int,
+    @ColumnInfo(name = "checksum")
     val checksum: String?
 )

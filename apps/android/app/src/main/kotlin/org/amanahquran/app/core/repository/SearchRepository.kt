@@ -1,20 +1,34 @@
 package org.amanahquran.app.core.repository
 
-import kotlinx.coroutines.flow.Flow
+import org.amanahquran.app.core.database.dao.QuranTextDao
 import org.amanahquran.app.core.database.dao.SearchIndexDao
 import org.amanahquran.app.core.database.entity.SearchIndexEntity
 
+data class SearchResultDisplay(
+    val ayahKey: String,
+    val scriptType: String,
+    val displayText: String,
+)
+
 interface SearchRepository {
-    fun searchArabic(query: String): Flow<List<SearchIndexEntity>>
-    suspend fun getSearchIndex(ayahKey: String): SearchIndexEntity?
+    suspend fun searchNormalizedArabic(query: String, scriptType: String): List<SearchResultDisplay>
+    suspend fun getSearchRow(ayahKey: String): SearchIndexEntity?
 }
 
 class SearchRepositoryImpl(
-    private val searchIndexDao: SearchIndexDao
+    private val searchIndexDao: SearchIndexDao,
+    private val quranTextDao: QuranTextDao,
 ) : SearchRepository {
-    override fun searchArabic(query: String): Flow<List<SearchIndexEntity>> =
-        searchIndexDao.searchNormalizedArabic(query)
+    override suspend fun searchNormalizedArabic(query: String, scriptType: String): List<SearchResultDisplay> {
+        return searchIndexDao.searchNormalizedArabic(query).mapNotNull { row ->
+            val displayText = quranTextDao.getTextByAyahAndScript(row.ayahKey, scriptType) ?: return@mapNotNull null
+            SearchResultDisplay(
+                ayahKey = row.ayahKey,
+                scriptType = displayText.scriptType,
+                displayText = displayText.displayText,
+            )
+        }
+    }
 
-    override suspend fun getSearchIndex(ayahKey: String): SearchIndexEntity? =
-        searchIndexDao.getSearchIndexByAyahKey(ayahKey)
+    override suspend fun getSearchRow(ayahKey: String): SearchIndexEntity? = searchIndexDao.getSearchRow(ayahKey)
 }

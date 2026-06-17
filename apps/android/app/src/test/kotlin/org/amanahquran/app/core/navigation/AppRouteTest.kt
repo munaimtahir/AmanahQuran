@@ -9,14 +9,20 @@ class AppRouteTest {
         assertEquals(
             listOf(
                 AppRoute.Home,
-                AppRoute.Reader,
+                AppRoute.SurahList,
+                AppRoute.SurahReader,
                 AppRoute.Search,
                 AppRoute.Bookmarks,
                 AppRoute.Settings,
                 AppRoute.TrustCenter,
+                AppRoute.ContentProof,
             ),
             AppRoute.all,
         )
     }
-}
 
+    @Test
+    fun surahReader_buildsConcreteRoute() {
+        assertEquals("reader/surah/2", AppRoute.surahReader(2))
+    }
+}

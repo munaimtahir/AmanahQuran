@@ -50,7 +50,7 @@ class ContentValidationRuleTest {
     @Test
     fun `NoBlankDisplayTextRule fails if blank text exists`() = runBlocking {
         val quranTextDao = mock(QuranTextDao::class.java)
-        `when`(quranTextDao.getBlankDisplayTextCount(ScriptType.INDOPAK)).thenReturn(5)
+        `when`(quranTextDao.getBlankDisplayTextCount(ScriptType.INDOPAK.name)).thenReturn(5)
         
         val rule = NoBlankDisplayTextRule(ScriptType.INDOPAK)
         val result = rule.validate(mock(SurahDao::class.java), mock(AyahDao::class.java), quranTextDao, mock(SearchIndexDao::class.java), mock(ContentSourceDao::class.java))

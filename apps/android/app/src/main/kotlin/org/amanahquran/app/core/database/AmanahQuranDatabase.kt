@@ -17,6 +17,8 @@ import org.amanahquran.app.core.database.entity.*
         LastReadEntity::class,
         ContentSourceEntity::class,
         ContentValidationEntity::class,
+        MushafLayoutReferenceEntity::class,
+        FontInventoryEntity::class,
         ContentManifestEntity::class
     ],
     version = 1,
@@ -32,6 +34,8 @@ abstract class AmanahQuranDatabase : RoomDatabase() {
     abstract fun lastReadDao(): LastReadDao
     abstract fun contentSourceDao(): ContentSourceDao
     abstract fun contentValidationDao(): ContentValidationDao
+    abstract fun mushafLayoutReferenceDao(): MushafLayoutReferenceDao
+    abstract fun fontInventoryDao(): FontInventoryDao
     abstract fun contentManifestDao(): ContentManifestDao
 
     companion object {

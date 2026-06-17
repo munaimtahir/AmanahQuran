@@ -74,7 +74,7 @@ class NoBlankDisplayTextRule(private val scriptType: ScriptType) : ContentValida
         surahDao: SurahDao, ayahDao: AyahDao, quranTextDao: QuranTextDao,
         searchIndexDao: SearchIndexDao, contentSourceDao: ContentSourceDao
     ): ContentValidationResult {
-        val blankCount = quranTextDao.getBlankDisplayTextCount(scriptType)
+        val blankCount = quranTextDao.getBlankDisplayTextCount(scriptType.name)
         return ContentValidationResult(
             validationName = name,
             expectedValue = "0",

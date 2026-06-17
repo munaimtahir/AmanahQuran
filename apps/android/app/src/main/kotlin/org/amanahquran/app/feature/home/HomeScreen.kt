@@ -33,7 +33,7 @@ fun HomeScreen(
         ) {
             Text("Amanah Quran", style = MaterialTheme.typography.headlineMedium)
             Text(
-                "Android V1 Sacred Reader scaffold. Quran content, search, bookmarks, and trust data will arrive in later sprints.",
+                "Android V1 Sacred Reader for offline Quran reading from verified packaged content.",
                 style = MaterialTheme.typography.bodyLarge,
             )
 
@@ -55,4 +55,3 @@ fun HomeScreen(
         }
     }
 }
-
