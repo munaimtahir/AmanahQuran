@@ -6,6 +6,9 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.material3.Typography
 
 private val AmanahLightColors = lightColorScheme(
     primary = Color(0xFF3F5A36),
@@ -62,12 +65,34 @@ fun AmanahQuranTheme(
 
     MaterialTheme(
         colorScheme = colors,
-        typography = if (elderMode) AmanahTypographyLarge else AmanahTypographyDefault,
+        typography = if (elderMode) AmanahTypographyDefault.scaled(1.1f) else AmanahTypographyDefault,
         content = content,
     )
 }
 
-private val AmanahTypographyDefault = androidx.compose.material3.Typography()
+private val AmanahTypographyDefault = Typography()
+private fun Typography.scaled(factor: Float): Typography = Typography(
+    displayLarge = displayLarge.scaled(factor),
+    displayMedium = displayMedium.scaled(factor),
+    displaySmall = displaySmall.scaled(factor),
+    headlineLarge = headlineLarge.scaled(factor),
+    headlineMedium = headlineMedium.scaled(factor),
+    headlineSmall = headlineSmall.scaled(factor),
+    titleLarge = titleLarge.scaled(factor),
+    titleMedium = titleMedium.scaled(factor),
+    titleSmall = titleSmall.scaled(factor),
+    bodyLarge = bodyLarge.scaled(factor),
+    bodyMedium = bodyMedium.scaled(factor),
+    bodySmall = bodySmall.scaled(factor),
+    labelLarge = labelLarge.scaled(factor),
+    labelMedium = labelMedium.scaled(factor),
+    labelSmall = labelSmall.scaled(factor),
+)
 
-private val AmanahTypographyLarge = androidx.compose.material3.Typography()
-
+private fun TextStyle.scaled(factor: Float): TextStyle {
+    return copy(
+        fontSize = fontSize * factor,
+        lineHeight = if (lineHeight == TextUnit.Unspecified) lineHeight else lineHeight * factor,
+        letterSpacing = if (letterSpacing == TextUnit.Unspecified) letterSpacing else letterSpacing * factor,
+    )
+}

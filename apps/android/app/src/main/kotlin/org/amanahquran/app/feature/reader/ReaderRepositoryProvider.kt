@@ -11,5 +11,6 @@ internal fun quranContentRepository(context: Context): QuranContentRepository {
         surahDao = database.surahDao(),
         ayahDao = database.ayahDao(),
         quranTextDao = database.quranTextDao(),
+        mushafLayoutReferenceDao = database.mushafLayoutReferenceDao(),
     )
 }

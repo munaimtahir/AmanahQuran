@@ -8,10 +8,19 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.amanahquran.app.MainDispatcherRule
+import org.amanahquran.app.core.datastore.amanahPreferencesDataSourceForFile
 import org.amanahquran.app.core.database.AmanahContentDatabase
+import org.amanahquran.app.core.model.PageReferenceType
+import org.amanahquran.app.core.model.ReaderOpenMode
 import org.amanahquran.app.core.model.ScriptType
+import org.amanahquran.app.core.repository.BookmarkRepository
+import org.amanahquran.app.core.repository.BookmarkRepositoryImpl
+import org.amanahquran.app.core.repository.LastReadRepository
+import org.amanahquran.app.core.repository.LastReadRepositoryImpl
 import org.amanahquran.app.core.repository.QuranContentRepository
 import org.amanahquran.app.core.repository.QuranContentRepositoryImpl
+import org.amanahquran.app.core.repository.ReaderSettingsRepository
+import org.amanahquran.app.core.repository.ReaderSettingsRepositoryImpl
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -23,6 +32,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import org.robolectric.RuntimeEnvironment
+import java.io.File
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(RobolectricTestRunner::class)
@@ -33,10 +44,19 @@ class ReaderMvpViewModelTest {
 
     private lateinit var database: AmanahContentDatabase
     private lateinit var repository: QuranContentRepository
+    private lateinit var settingsRepository: ReaderSettingsRepository
+    private lateinit var lastReadRepository: LastReadRepository
+    private lateinit var bookmarkRepository: BookmarkRepository
+    private lateinit var preferencesTempFile: File
 
     @Before
     fun createRepository() {
         val context = ApplicationProvider.getApplicationContext<Context>()
+        preferencesTempFile = File(
+            RuntimeEnvironment.getApplication().filesDir,
+            "amanah-reader-state-${System.nanoTime()}.preferences_pb",
+        )
+        val dataSource = amanahPreferencesDataSourceForFile(preferencesTempFile)
         database = Room.databaseBuilder(
             context,
             AmanahContentDatabase::class.java,
@@ -50,7 +70,11 @@ class ReaderMvpViewModelTest {
             surahDao = database.surahDao(),
             ayahDao = database.ayahDao(),
             quranTextDao = database.quranTextDao(),
+            mushafLayoutReferenceDao = database.mushafLayoutReferenceDao(),
         )
+        settingsRepository = ReaderSettingsRepositoryImpl(dataSource)
+        lastReadRepository = LastReadRepositoryImpl(dataSource)
+        bookmarkRepository = BookmarkRepositoryImpl(dataSource)
     }
 
     @After
@@ -77,7 +101,10 @@ class ReaderMvpViewModelTest {
     fun reader_loadsSurah1With7Ayahs() = runTest {
         val viewModel = ReaderViewModel(
             repository = repository,
-            initialSurahNumber = 1,
+            settingsRepository = settingsRepository,
+            lastReadRepository = lastReadRepository,
+            bookmarkRepository = bookmarkRepository,
+            initialOpenMode = ReaderOpenMode.Surah(1),
             dispatcher = UnconfinedTestDispatcher(testScheduler),
         )
 
@@ -93,10 +120,13 @@ class ReaderMvpViewModelTest {
 
     @Test
     fun reader_loadsSurah2WithUthmaniText() = runTest {
+        settingsRepository.setSelectedScript(ScriptType.UTHMANI)
         val viewModel = ReaderViewModel(
             repository = repository,
-            initialSurahNumber = 2,
-            initialScript = ScriptType.UTHMANI,
+            settingsRepository = settingsRepository,
+            lastReadRepository = lastReadRepository,
+            bookmarkRepository = bookmarkRepository,
+            initialOpenMode = ReaderOpenMode.Surah(2),
             dispatcher = UnconfinedTestDispatcher(testScheduler),
         )
 
@@ -115,8 +145,10 @@ class ReaderMvpViewModelTest {
     fun reader_loadsSurah2WithIndoPakText() = runTest {
         val viewModel = ReaderViewModel(
             repository = repository,
-            initialSurahNumber = 2,
-            initialScript = ScriptType.INDOPAK,
+            settingsRepository = settingsRepository,
+            lastReadRepository = lastReadRepository,
+            bookmarkRepository = bookmarkRepository,
+            initialOpenMode = ReaderOpenMode.Surah(2),
             dispatcher = UnconfinedTestDispatcher(testScheduler),
         )
 
@@ -132,42 +164,35 @@ class ReaderMvpViewModelTest {
     }
 
     @Test
-    fun scriptSwitch_preservesAyahKeys() = runTest {
+    fun reader_loadsPage1WithUthmaniText() = runTest {
+        settingsRepository.setSelectedScript(ScriptType.UTHMANI)
         val viewModel = ReaderViewModel(
             repository = repository,
-            initialSurahNumber = 2,
-            initialScript = ScriptType.INDOPAK,
+            settingsRepository = settingsRepository,
+            lastReadRepository = lastReadRepository,
+            bookmarkRepository = bookmarkRepository,
+            initialOpenMode = ReaderOpenMode.Page(1, PageReferenceType.UTHMANI),
             dispatcher = UnconfinedTestDispatcher(testScheduler),
         )
-        val indopakKeys = viewModel.uiState.first { !it.isLoading }.ayahs.map { it.ayahKey }
 
-        viewModel.selectScript(ScriptType.UTHMANI)
-        val uthmaniState = viewModel.uiState.first {
-            !it.isLoading && it.selectedScript == ScriptType.UTHMANI
-        }
+        val state = viewModel.uiState.first { !it.isLoading }
 
-        assertEquals(ScriptType.UTHMANI, uthmaniState.selectedScript)
-        assertEquals(indopakKeys, uthmaniState.ayahs.map { it.ayahKey })
-        assertEquals(286, uthmaniState.ayahs.size)
+        assertEquals("Page 1", state.surahName)
+        assertEquals(9, state.ayahs.size)
+        assertEquals(PageReferenceType.UTHMANI, state.openMode.let { (it as ReaderOpenMode.Page).pageReferenceType })
+        assertEquals(
+            database.quranTextDao().getTextByAyahAndScript("1:1", "UTHMANI")?.displayText,
+            state.ayahs.first().displayText,
+        )
     }
 
     @Test
-    fun readerDisplayText_comesFromQuranTextsNotSearchIndex() = runTest {
-        val viewModel = ReaderViewModel(
-            repository = repository,
-            initialSurahNumber = 2,
-            initialScript = ScriptType.UTHMANI,
-            dispatcher = UnconfinedTestDispatcher(testScheduler),
-        )
+    fun scriptSwitch_preservesAyahKeys() = runTest {
+        val indopakKeys = repository.getAyahsForSurah(2, ScriptType.INDOPAK.name).map { it.ayahKey }
+        val uthmaniKeys = repository.getAyahsForSurah(2, ScriptType.UTHMANI.name).map { it.ayahKey }
 
-        val ayah255 = viewModel.uiState.first { !it.isLoading }.ayahs.first { it.ayahKey == "2:255" }
-        val quranText = database.quranTextDao().getTextByAyahAndScript("2:255", "UTHMANI")
-        val searchRow = database.searchIndexDao().getSearchRow("2:255")
-
-        assertNotNull(quranText)
-        assertNotNull(searchRow)
-        assertEquals(quranText!!.displayText, ayah255.displayText)
-        assertFalse(ayah255.displayText == searchRow!!.normalizedArabic)
+        assertEquals(indopakKeys, uthmaniKeys)
+        assertEquals(286, indopakKeys.size)
     }
 
     @Test

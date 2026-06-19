@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
@@ -24,26 +25,68 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import org.amanahquran.app.core.model.ReaderOpenMode
 import org.amanahquran.app.core.model.ScriptType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SurahReaderScreen(
     surahNumber: Int,
+    initialAyahKey: String? = null,
     onNavigateBack: () -> Unit,
     viewModel: ReaderViewModel = viewModel(
         key = "reader-surah-$surahNumber",
-        factory = ReaderViewModel.factory(LocalContext.current, surahNumber),
+        factory = ReaderViewModel.factory(LocalContext.current, surahNumber, initialAyahKey),
     ),
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    ReaderScreen(
+        uiState = viewModel.uiState.collectAsStateWithLifecycle().value,
+        onNavigateBack = onNavigateBack,
+        onScriptSelected = viewModel::selectScript,
+        onSelectAyah = viewModel::selectAyah,
+        onToggleBookmark = viewModel::toggleBookmark,
+        onTogglePageBookmark = viewModel::toggleCurrentPageBookmark,
+    )
+}
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun QuranReaderScreen(
+    openMode: ReaderOpenMode,
+    initialAyahKey: String? = null,
+    onNavigateBack: () -> Unit,
+    viewModel: ReaderViewModel = viewModel(
+        key = "reader-${openMode.identityKey()}-${initialAyahKey.orEmpty()}",
+        factory = ReaderViewModel.factory(LocalContext.current, openMode, initialAyahKey),
+    ),
+) {
+    ReaderScreen(
+        uiState = viewModel.uiState.collectAsStateWithLifecycle().value,
+        onNavigateBack = onNavigateBack,
+        onScriptSelected = viewModel::selectScript,
+        onSelectAyah = viewModel::selectAyah,
+        onToggleBookmark = viewModel::toggleBookmark,
+        onTogglePageBookmark = viewModel::toggleCurrentPageBookmark,
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ReaderScreen(
+    uiState: ReaderUiState,
+    onNavigateBack: () -> Unit,
+    onScriptSelected: (ScriptType) -> Unit,
+    onSelectAyah: (String) -> Unit,
+    onToggleBookmark: (String) -> Unit,
+    onTogglePageBookmark: (() -> Unit)? = null,
+) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(uiState.surahName.ifBlank { "Surah ${uiState.surahNumber}" }) },
+                title = { Text(uiState.surahName.ifBlank { uiState.modeTitle }) },
                 navigationIcon = {
                     TextButton(onClick = onNavigateBack) {
                         Text("Back")
@@ -73,7 +116,7 @@ fun SurahReaderScreen(
                         .padding(24.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
-                    Text("Unable to load Surah", style = MaterialTheme.typography.titleMedium)
+                    Text("Unable to load reader content", style = MaterialTheme.typography.titleMedium)
                     Text(uiState.errorMessage.orEmpty(), style = MaterialTheme.typography.bodyMedium)
                 }
             }
@@ -89,11 +132,19 @@ fun SurahReaderScreen(
                     item {
                         ReaderHeader(
                             selectedScript = uiState.selectedScript,
-                            onScriptSelected = viewModel::selectScript,
+                            isPageBookmarked = uiState.isPageBookmarked,
+                            showPageBookmark = uiState.openMode is ReaderOpenMode.Page,
+                            onScriptSelected = onScriptSelected,
+                            onTogglePageBookmark = onTogglePageBookmark,
                         )
                     }
                     items(uiState.ayahs, key = { it.ayahKey }) { ayah ->
-                        ReaderAyahRow(ayah)
+                        ReaderAyahRow(
+                            ayah = ayah,
+                            arabicFontSizeSp = uiState.arabicFontSizeSp,
+                            onSelect = onSelectAyah,
+                            onToggleBookmark = onToggleBookmark,
+                        )
                     }
                 }
             }
@@ -104,7 +155,10 @@ fun SurahReaderScreen(
 @Composable
 private fun ReaderHeader(
     selectedScript: ScriptType,
+    isPageBookmarked: Boolean,
+    showPageBookmark: Boolean,
     onScriptSelected: (ScriptType) -> Unit,
+    onTogglePageBookmark: (() -> Unit)?,
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(
@@ -124,33 +178,74 @@ private fun ReaderHeader(
                 label = { Text("Uthmani") },
             )
         }
+        if (showPageBookmark) {
+            Button(onClick = { onTogglePageBookmark?.invoke() }) {
+                Text(if (isPageBookmarked) "Page Bookmarked" else "Bookmark Page")
+            }
+        }
     }
 }
 
 @Composable
-private fun ReaderAyahRow(ayah: ReaderAyahUiModel) {
+private fun ReaderAyahRow(
+    ayah: ReaderAyahUiModel,
+    arabicFontSizeSp: Float,
+    onSelect: (String) -> Unit,
+    onToggleBookmark: (String) -> Unit,
+) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Button(onClick = { onToggleBookmark(ayah.ayahKey) }) {
+                Text(if (ayah.isBookmarked) "Bookmarked" else "Bookmark")
+            }
+            Text(
+                text = if (ayah.isSelected) "Current reading position" else "",
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.primary,
+            )
+        }
         Text(
             text = ayah.displayText,
             modifier = Modifier.fillMaxWidth(),
-            style = MaterialTheme.typography.headlineSmall,
+            style = MaterialTheme.typography.headlineSmall.copy(
+                fontSize = arabicFontSizeSp.sp,
+                lineHeight = (arabicFontSizeSp * 1.45f).sp,
+            ),
             textAlign = TextAlign.Right,
-            lineHeight = MaterialTheme.typography.headlineSmall.lineHeight,
+            color = if (ayah.isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
         )
-        Text(
-            text = ayah.ayahNumber.toString(),
+        Row(
             modifier = Modifier.fillMaxWidth(),
-            style = MaterialTheme.typography.labelMedium,
-            textAlign = TextAlign.Right,
-            color = MaterialTheme.colorScheme.primary,
-        )
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = "${ayah.surahNumber}:${ayah.ayahNumber}",
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.primary,
+            )
+            TextButton(onClick = { onSelect(ayah.ayahKey) }) {
+                Text(if (ayah.isSelected) "Selected" else "Mark current")
+            }
+        }
     }
 }
 
 private fun ScriptType.displayLabel(): String = when (this) {
     ScriptType.INDOPAK -> "IndoPak"
     ScriptType.UTHMANI -> "Uthmani"
+}
+
+private fun ReaderOpenMode.identityKey(): String = when (this) {
+    is ReaderOpenMode.Surah -> "surah-$surahNumber"
+    is ReaderOpenMode.Page -> "page-$pageNumber-${pageReferenceType.name}"
+    is ReaderOpenMode.Juz -> "juz-$juzNumber"
+    is ReaderOpenMode.AyahTarget -> "ayah-$surahNumber-$ayahKey"
 }
