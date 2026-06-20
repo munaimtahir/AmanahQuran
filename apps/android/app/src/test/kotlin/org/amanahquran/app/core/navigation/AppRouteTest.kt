@@ -9,8 +9,13 @@ class AppRouteTest {
         assertEquals(
             listOf(
                 AppRoute.Home,
+                AppRoute.QuranNavigation,
                 AppRoute.SurahList,
+                AppRoute.JuzList,
+                AppRoute.PageList,
                 AppRoute.SurahReader,
+                AppRoute.PageReader,
+                AppRoute.JuzReader,
                 AppRoute.Search,
                 AppRoute.Bookmarks,
                 AppRoute.Settings,

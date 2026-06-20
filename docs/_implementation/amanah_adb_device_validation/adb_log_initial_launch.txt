@@ -1,0 +1,597 @@
+--------- beginning of main
+06-19 11:58:33.800 E/msys    (19898): E[N mns:DGWClient]_LogError(304)=>Failed to resolve using system DNS resolver, getaddrinfo(): No address associated with hostname
+06-19 11:58:33.806 E/msys    (19898): E[N mns:DGWClient]_LogError(304)=>Failed to resolve using system DNS resolver, getaddrinfo(): No address associated with hostname
+06-19 11:58:34.408 E/BackupHelper(31098): Could not parse delayed permissions
+06-19 11:58:34.408 E/BackupHelper(31098): java.io.FileNotFoundException: /data/user_de/0/com.google.android.permissioncontroller/files/delayed_restore_permissions.xml: open failed: ENOENT (No such file or directory)
+06-19 11:58:34.408 E/BackupHelper(31098): 	at libcore.io.IoBridge.open(IoBridge.java:574)
+06-19 11:58:34.408 E/BackupHelper(31098): 	at java.io.FileInputStream.<init>(FileInputStream.java:179)
+06-19 11:58:34.408 E/BackupHelper(31098): 	at android.app.ContextImpl.openFileInput(ContextImpl.java:731)
+06-19 11:58:34.408 E/BackupHelper(31098): 	at com.android.permissioncontroller.permission.service.BackupHelper.restoreDelayedState(BackupHelper.java:408)
+06-19 11:58:34.408 E/BackupHelper(31098): 	at com.android.permissioncontroller.permission.service.PermissionControllerServiceImpl.onRestoreDelayedRuntimePermissionsBackup(PermissionControllerServiceImpl.java:429)
+06-19 11:58:34.408 E/BackupHelper(31098): 	at com.android.permissioncontroller.permission.service.PermissionControllerServiceImpl.lambda$onApplyStagedRuntimePermissionBackup$4(PermissionControllerServiceImpl.java:423)
+06-19 11:58:34.408 E/BackupHelper(31098): 	at com.android.permissioncontroller.permission.service.PermissionControllerServiceImpl.$r8$lambda$TbAZrpVHU85LYBnlVdzyQvclH0Q(PermissionControllerServiceImpl.java:0)
+06-19 11:58:34.408 E/BackupHelper(31098): 	at com.android.permissioncontroller.permission.service.PermissionControllerServiceImpl$$ExternalSyntheticLambda4.run(R8$$SyntheticClass:0)
+06-19 11:58:34.408 E/BackupHelper(31098): 	at android.os.AsyncTask$SerialExecutor$1.run(AsyncTask.java:305)
+06-19 11:58:34.408 E/BackupHelper(31098): 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1100)
+06-19 11:58:34.408 E/BackupHelper(31098): 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+06-19 11:58:34.408 E/BackupHelper(31098): 	at java.lang.Thread.run(Thread.java:1572)
+06-19 11:58:34.408 E/BackupHelper(31098): Caused by: android.system.ErrnoException: open failed: ENOENT (No such file or directory)
+06-19 11:58:34.408 E/BackupHelper(31098): 	at libcore.io.Linux.open(Native Method)
+06-19 11:58:34.408 E/BackupHelper(31098): 	at libcore.io.ForwardingOs.open(ForwardingOs.java:579)
+06-19 11:58:34.408 E/BackupHelper(31098): 	at libcore.io.BlockGuardOs.open(BlockGuardOs.java:274)
+06-19 11:58:34.408 E/BackupHelper(31098): 	at libcore.io.ForwardingOs.open(ForwardingOs.java:579)
+06-19 11:58:34.408 E/BackupHelper(31098): 	at android.app.ActivityThread$AndroidOs.open(ActivityThread.java:8418)
+06-19 11:58:34.408 E/BackupHelper(31098): 	at libcore.io.IoBridge.open(IoBridge.java:560)
+06-19 11:58:34.408 E/BackupHelper(31098): 	... 11 more
+06-19 11:58:34.466 E/CrashFixLancet(23395): androidx.room.RoomDatabase#beginTransaction
+06-19 11:58:34.467 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:34.467 E/CrashFixLancet(23395): androidx.room.RoomDatabase#beginTransaction
+06-19 11:58:34.467 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:34.468 E/CrashFixLancet(23395): androidx.room.RoomDatabase#endTransaction
+06-19 11:58:34.469 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:34.469 E/CrashFixLancet(23395): androidx.room.RoomDatabase#beginTransaction
+06-19 11:58:34.469 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:34.472 E/CrashFixLancet(23395): androidx.room.RoomDatabase#endTransaction
+06-19 11:58:34.472 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:34.472 E/CrashFixLancet(23395): androidx.room.RoomDatabase#beginTransaction
+06-19 11:58:34.473 E/CrashFixLancet(23395): androidx.room.RoomDatabase#endTransaction
+06-19 11:58:34.473 E/CrashFixLancet(23395): androidx.room.RoomDatabase#endTransaction
+06-19 11:58:34.571 E/CrashFixLancet(23395): androidx.room.RoomDatabase#beginTransaction
+06-19 11:58:34.571 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:34.571 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:34.573 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:34.573 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:34.574 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:34.575 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:34.576 E/CrashFixLancet(23395): androidx.room.RoomDatabase#beginTransaction
+06-19 11:58:34.576 E/CrashFixLancet(23395): androidx.room.RoomDatabase#endTransaction
+06-19 11:58:34.576 E/CrashFixLancet(23395): androidx.room.RoomDatabase#endTransaction
+06-19 11:58:34.609 E/CrashFixLancet(23395): androidx.room.RoomDatabase#query
+06-19 11:58:34.610 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:34.617 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:34.617 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:34.618 E/CrashFixLancet(23395): androidx.room.RoomDatabase#beginTransaction
+06-19 11:58:34.619 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:34.619 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:34.620 E/CrashFixLancet(23395): androidx.room.RoomDatabase#endTransaction
+06-19 11:58:34.621 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:34.622 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:34.633 E/CrashFixLancet(23395): androidx.room.RoomDatabase#beginTransaction
+06-19 11:58:34.634 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:34.634 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:34.635 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:34.636 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:34.637 E/CrashFixLancet(23395): androidx.room.RoomDatabase#beginTransaction
+06-19 11:58:34.639 E/CrashFixLancet(23395): androidx.room.RoomDatabase#endTransaction
+06-19 11:58:34.639 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:34.639 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:34.640 E/CrashFixLancet(23395): androidx.room.RoomDatabase#beginTransaction
+06-19 11:58:34.640 E/CrashFixLancet(23395): androidx.room.RoomDatabase#endTransaction
+06-19 11:58:34.640 E/CrashFixLancet(23395): androidx.room.RoomDatabase#endTransaction
+06-19 11:58:34.656 E/CrashFixLancet(23395): androidx.room.RoomDatabase#query
+06-19 11:58:34.656 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:34.669 E/VivoConfigStore(26022): key:vivo.software.multilandscape isCached is false and normal value is false
+06-19 11:58:34.692 E/VivoConfigStore(26022): key:vivo.software.splitrecents isCached is false and normal value is false
+06-19 11:58:34.694 E/VivoConfigStore(26022): key:vivo.software.splitratio isCached is false and normal value is false
+06-19 11:58:34.698 E/VivoConfigStore(26022): key:vivo.software.multiwindowresidentbar isCached is false and normal value is false
+06-19 11:58:34.704 E/VivoConfigStore(26022): key:vivo.software.hovermode isCached is false and normal value is false
+06-19 11:58:34.710 E/RoleControllerServiceImpl(31098): Default/fallback role holder package doesn't qualify for the role, package: com.google.android.gms.supervision, role: android.app.role.SYSTEM_SUPERVISION, user: 0
+06-19 11:58:34.738 E/VivoConfigStore( 3495): key:vivo.software.nightmode isCached is false and normal value is true
+06-19 11:58:34.828 E/Dck     ( 4106): Could not get ProviderInfo when resolving the content provider authority. [CONTEXT service_id=289 ]
+06-19 11:58:35.155 E/Finsky  (31201): [71] [Counters] attempted to use a non-positive increment for: 4752
+06-19 11:58:35.204 E/Finsky  (31201): [71] [Counters] attempted to use a non-positive increment for: 4753
+06-19 11:58:35.625 E/Finsky  (31201): [75] [Counters] attempted to use a non-positive increment for: 4752
+06-19 11:58:35.642 E/Finsky  (31201): [75] [Counters] attempted to use a non-positive increment for: 4753
+06-19 11:58:35.657 E/Finsky  (31201): [75] [Counters] attempted to use a non-positive increment for: 4752
+06-19 11:58:35.668 E/Finsky  (31201): [75] [Counters] attempted to use a non-positive increment for: 4752
+06-19 11:58:35.672 E/Finsky  (31201): [75] [Counters] attempted to use a non-positive increment for: 4753
+06-19 11:58:35.674 E/Finsky  (31201): [75] [Counters] attempted to use a non-positive increment for: 4753
+06-19 11:58:35.997 E/msys    (19898): E[N mns:DGWClient]_LogError(304)=>Failed to resolve using system DNS resolver, getaddrinfo(): No address associated with hostname
+--------- beginning of system
+06-19 11:58:37.061 E/ActivityThread(26022): Failed to find provider info for com.samsung.android.scloud.app.ui.datamigrator.linkcontext
+06-19 11:58:37.179 E/VivoConfigStore(26290): key:vivo.software.multilandscape isCached is false and normal value is false
+06-19 11:58:37.213 E/MATSDK  (26022): Invalid property name - "Singular/InitSkipReason": must contain [0-9A-Za-z_.] characters only
+06-19 11:58:37.214 E/OneDSChannel(26022): Failed to add property: class java.lang.IllegalArgumentException name:Singular/InitSkipReason is invalid.
+06-19 11:58:37.224 E/VivoConfigStore(26290): key:vivo.software.splitrecents isCached is false and normal value is false
+06-19 11:58:37.225 E/VivoConfigStore(26290): key:vivo.software.splitratio isCached is false and normal value is false
+06-19 11:58:37.227 E/VivoConfigStore(26290): key:vivo.software.multiwindowresidentbar isCached is false and normal value is false
+06-19 11:58:37.231 E/VivoConfigStore(26302): key:vivo.software.multilandscape isCached is false and normal value is false
+06-19 11:58:37.233 E/VivoConfigStore(26302): key:vivo.software.splitrecents isCached is false and normal value is false
+06-19 11:58:37.237 E/VivoConfigStore(26302): key:vivo.software.splitratio isCached is false and normal value is false
+06-19 11:58:37.240 E/VivoConfigStore(26302): key:vivo.software.multiwindowresidentbar isCached is false and normal value is false
+06-19 11:58:37.245 E/VivoConfigStore(26302): key:vivo.software.hovermode isCached is false and normal value is false
+06-19 11:58:37.249 E/VivoConfigStore(26290): key:vivo.software.hovermode isCached is false and normal value is false
+06-19 11:58:37.263 E/VivoConfigStore(26305): key:vivo.software.multilandscape isCached is false and normal value is false
+06-19 11:58:37.267 E/VivoConfigStore(26305): key:vivo.software.splitrecents isCached is false and normal value is false
+06-19 11:58:37.269 E/VivoConfigStore(26305): key:vivo.software.splitratio isCached is false and normal value is false
+06-19 11:58:37.271 E/VivoConfigStore(26305): key:vivo.software.multiwindowresidentbar isCached is false and normal value is false
+06-19 11:58:37.275 E/VivoConfigStore(26321): key:vivo.software.multilandscape isCached is false and normal value is false
+06-19 11:58:37.276 E/VivoConfigStore(26305): key:vivo.software.hovermode isCached is false and normal value is false
+06-19 11:58:37.279 E/VivoConfigStore(26321): key:vivo.software.splitrecents isCached is false and normal value is false
+06-19 11:58:37.281 E/VivoConfigStore(26321): key:vivo.software.splitratio isCached is false and normal value is false
+06-19 11:58:37.284 E/VivoConfigStore(26300): key:vivo.software.multilandscape isCached is false and normal value is false
+06-19 11:58:37.288 E/VivoConfigStore(26321): key:vivo.software.multiwindowresidentbar isCached is false and normal value is false
+06-19 11:58:37.296 E/VivoConfigStore(26321): key:vivo.software.hovermode isCached is false and normal value is false
+06-19 11:58:37.302 E/VivoConfigStore(26300): key:vivo.software.splitrecents isCached is false and normal value is false
+06-19 11:58:37.306 E/VivoConfigStore(26300): key:vivo.software.splitratio isCached is false and normal value is false
+06-19 11:58:37.314 E/VivoConfigStore(26300): key:vivo.software.multiwindowresidentbar isCached is false and normal value is false
+06-19 11:58:37.317 E/VivoConfigStore(26300): key:vivo.software.hovermode isCached is false and normal value is false
+06-19 11:58:37.326 E/VivoConfigStore(26351): key:vivo.software.multilandscape isCached is false and normal value is false
+06-19 11:58:37.328 E/VivoConfigStore(26351): key:vivo.software.splitrecents isCached is false and normal value is false
+06-19 11:58:37.334 E/VivoConfigStore(26351): key:vivo.software.splitratio isCached is false and normal value is false
+06-19 11:58:37.340 E/VivoConfigStore(26351): key:vivo.software.multiwindowresidentbar isCached is false and normal value is false
+06-19 11:58:37.343 E/VivoConfigStore(26351): key:vivo.software.hovermode isCached is false and normal value is false
+06-19 11:58:37.345 E/VivoConfigStore(26364): key:vivo.software.multilandscape isCached is false and normal value is false
+06-19 11:58:37.349 E/VivoConfigStore(26364): key:vivo.software.splitrecents isCached is false and normal value is false
+06-19 11:58:37.360 E/VivoConfigStore(26364): key:vivo.software.splitratio isCached is false and normal value is false
+06-19 11:58:37.367 E/VivoConfigStore(26364): key:vivo.software.multiwindowresidentbar isCached is false and normal value is false
+06-19 11:58:37.368 E/VivoConfigStore(26364): key:vivo.software.hovermode isCached is false and normal value is false
+06-19 11:58:37.769 E/VivoConfigStore(26400): key:vivo.software.multilandscape isCached is false and normal value is false
+06-19 11:58:37.772 E/VivoConfigStore(26400): key:vivo.software.splitrecents isCached is false and normal value is false
+06-19 11:58:37.773 E/VivoConfigStore(26400): key:vivo.software.splitratio isCached is false and normal value is false
+06-19 11:58:37.774 E/VivoConfigStore(26400): key:vivo.software.multiwindowresidentbar isCached is false and normal value is false
+06-19 11:58:37.775 E/VivoConfigStore(26400): key:vivo.software.hovermode isCached is false and normal value is false
+06-19 11:58:38.166 E/RoleControllerServiceImpl(31098): Default/fallback role holder package doesn't qualify for the role, package: com.google.android.gms.supervision, role: android.app.role.SYSTEM_SUPERVISION, user: 0
+06-19 11:58:38.195 E/VivoConfigStore(26429): key:vivo.software.multilandscape isCached is false and normal value is false
+06-19 11:58:38.196 E/VivoConfigStore(26429): key:vivo.software.splitrecents isCached is false and normal value is false
+06-19 11:58:38.197 E/VivoConfigStore(26429): key:vivo.software.splitratio isCached is false and normal value is false
+06-19 11:58:38.199 E/VivoConfigStore(26429): key:vivo.software.multiwindowresidentbar isCached is false and normal value is false
+06-19 11:58:38.201 E/VivoConfigStore(26429): key:vivo.software.hovermode isCached is false and normal value is false
+06-19 11:58:38.694 E/fice.officelens(26305): No implementation found for void com.microsoft.authentication.internal.Logging.nativeEnsureStaticLogCallback() (tried Java_com_microsoft_authentication_internal_Logging_nativeEnsureStaticLogCallback and Java_com_microsoft_authentication_internal_Logging_nativeEnsureStaticLogCallback__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:38.696 E/fice.officelens(26305): No implementation found for void com.microsoft.authentication.internal.DiagnosticsAccumulator.logEvent(int, long, int, java.lang.String) (tried Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent and Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent__IJILjava_lang_String_2) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:38.696 E/fice.officelens(26305): No implementation found for java.lang.String com.microsoft.authentication.internal.SharedUtil.tagToString(int) (tried Java_com_microsoft_authentication_internal_SharedUtil_tagToString and Java_com_microsoft_authentication_internal_SharedUtil_tagToString__I) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:38.871 E/ActivityThread(26290): Failed to find provider info for com.microsoft.yourphonecompanion.contentprovider.featureoverride
+06-19 11:58:38.923 E/fice.officelens(26305): No implementation found for int com.microsoft.authentication.internal.Logging.nativeGetLoggingThreadId() (tried Java_com_microsoft_authentication_internal_Logging_nativeGetLoggingThreadId and Java_com_microsoft_authentication_internal_Logging_nativeGetLoggingThreadId__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:38.923 E/fice.officelens(26305): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.013 E/fice.officelens(26305): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.028 E/fice.officelens(26305): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.038 E/ft.office.excel(26300): No implementation found for void com.microsoft.authentication.internal.Logging.nativeEnsureStaticLogCallback() (tried Java_com_microsoft_authentication_internal_Logging_nativeEnsureStaticLogCallback and Java_com_microsoft_authentication_internal_Logging_nativeEnsureStaticLogCallback__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.055 E/ft.office.excel(26300): No implementation found for void com.microsoft.authentication.internal.DiagnosticsAccumulator.logEvent(int, long, int, java.lang.String) (tried Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent and Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent__IJILjava_lang_String_2) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.057 E/ft.office.excel(26300): No implementation found for java.lang.String com.microsoft.authentication.internal.SharedUtil.tagToString(int) (tried Java_com_microsoft_authentication_internal_SharedUtil_tagToString and Java_com_microsoft_authentication_internal_SharedUtil_tagToString__I) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.117 E/fice.powerpoint(26351): No implementation found for void com.microsoft.authentication.internal.Logging.nativeEnsureStaticLogCallback() (tried Java_com_microsoft_authentication_internal_Logging_nativeEnsureStaticLogCallback and Java_com_microsoft_authentication_internal_Logging_nativeEnsureStaticLogCallback__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.141 E/fice.powerpoint(26351): No implementation found for void com.microsoft.authentication.internal.DiagnosticsAccumulator.logEvent(int, long, int, java.lang.String) (tried Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent and Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent__IJILjava_lang_String_2) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.142 E/fice.powerpoint(26351): No implementation found for java.lang.String com.microsoft.authentication.internal.SharedUtil.tagToString(int) (tried Java_com_microsoft_authentication_internal_SharedUtil_tagToString and Java_com_microsoft_authentication_internal_SharedUtil_tagToString__I) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.193 E/ActivityThread(26290): Failed to find provider info for com.samsung.android.mdx.windowslink.Tile.Provider
+06-19 11:58:39.244 E/ft.office.excel(26300): No implementation found for void com.microsoft.authentication.internal.DiagnosticsAccumulator.logEvent(int, long, int, java.lang.String) (tried Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent and Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent__IJILjava_lang_String_2) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.244 E/ft.office.excel(26300): No implementation found for java.lang.String com.microsoft.authentication.internal.SharedUtil.tagToString(int) (tried Java_com_microsoft_authentication_internal_SharedUtil_tagToString and Java_com_microsoft_authentication_internal_SharedUtil_tagToString__I) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.286 E/ft.office.excel(26300): No implementation found for void com.microsoft.authentication.internal.DiagnosticsAccumulator.logEvent(int, long, int, java.lang.String) (tried Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent and Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent__IJILjava_lang_String_2) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.287 E/ft.office.excel(26300): No implementation found for java.lang.String com.microsoft.authentication.internal.SharedUtil.tagToString(int) (tried Java_com_microsoft_authentication_internal_SharedUtil_tagToString and Java_com_microsoft_authentication_internal_SharedUtil_tagToString__I) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.283 E/ft.office.excel(26300): No implementation found for void com.microsoft.authentication.internal.DiagnosticsAccumulator.logEvent(int, long, int, java.lang.String) (tried Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent and Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent__IJILjava_lang_String_2) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.288 E/ft.office.excel(26300): No implementation found for java.lang.String com.microsoft.authentication.internal.SharedUtil.tagToString(int) (tried Java_com_microsoft_authentication_internal_SharedUtil_tagToString and Java_com_microsoft_authentication_internal_SharedUtil_tagToString__I) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.289 E/ft.office.excel(26300): No implementation found for void com.microsoft.authentication.internal.DiagnosticsAccumulator.logEvent(int, long, int, java.lang.String) (tried Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent and Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent__IJILjava_lang_String_2) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.289 E/ft.office.excel(26300): No implementation found for java.lang.String com.microsoft.authentication.internal.SharedUtil.tagToString(int) (tried Java_com_microsoft_authentication_internal_SharedUtil_tagToString and Java_com_microsoft_authentication_internal_SharedUtil_tagToString__I) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.342 E/oft.office.word(26364): No implementation found for void com.microsoft.authentication.internal.Logging.nativeEnsureStaticLogCallback() (tried Java_com_microsoft_authentication_internal_Logging_nativeEnsureStaticLogCallback and Java_com_microsoft_authentication_internal_Logging_nativeEnsureStaticLogCallback__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.345 E/oft.office.word(26364): No implementation found for void com.microsoft.authentication.internal.DiagnosticsAccumulator.logEvent(int, long, int, java.lang.String) (tried Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent and Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent__IJILjava_lang_String_2) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.345 E/oft.office.word(26364): No implementation found for java.lang.String com.microsoft.authentication.internal.SharedUtil.tagToString(int) (tried Java_com_microsoft_authentication_internal_SharedUtil_tagToString and Java_com_microsoft_authentication_internal_SharedUtil_tagToString__I) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.349 E/fice.powerpoint(26351): No implementation found for void com.microsoft.authentication.internal.DiagnosticsAccumulator.logEvent(int, long, int, java.lang.String) (tried Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent and Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent__IJILjava_lang_String_2) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.354 E/fice.powerpoint(26351): No implementation found for void com.microsoft.authentication.internal.DiagnosticsAccumulator.logEvent(int, long, int, java.lang.String) (tried Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent and Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent__IJILjava_lang_String_2) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.377 E/ft.office.excel(26300): No implementation found for int com.microsoft.authentication.internal.Logging.nativeGetLoggingThreadId() (tried Java_com_microsoft_authentication_internal_Logging_nativeGetLoggingThreadId and Java_com_microsoft_authentication_internal_Logging_nativeGetLoggingThreadId__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.377 E/ft.office.excel(26300): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.378 E/ft.office.excel(26300): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.379 E/fice.powerpoint(26351): No implementation found for java.lang.String com.microsoft.authentication.internal.SharedUtil.tagToString(int) (tried Java_com_microsoft_authentication_internal_SharedUtil_tagToString and Java_com_microsoft_authentication_internal_SharedUtil_tagToString__I) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.380 E/fice.powerpoint(26351): No implementation found for java.lang.String com.microsoft.authentication.internal.SharedUtil.tagToString(int) (tried Java_com_microsoft_authentication_internal_SharedUtil_tagToString and Java_com_microsoft_authentication_internal_SharedUtil_tagToString__I) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.389 E/ft.office.excel(26300): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.396 E/fice.powerpoint(26351): No implementation found for void com.microsoft.authentication.internal.DiagnosticsAccumulator.logEvent(int, long, int, java.lang.String) (tried Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent and Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent__IJILjava_lang_String_2) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.397 E/ft.office.excel(26300): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.397 E/ft.office.excel(26300): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.398 E/fice.powerpoint(26351): No implementation found for java.lang.String com.microsoft.authentication.internal.SharedUtil.tagToString(int) (tried Java_com_microsoft_authentication_internal_SharedUtil_tagToString and Java_com_microsoft_authentication_internal_SharedUtil_tagToString__I) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.398 E/ft.office.excel(26300): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.401 E/fice.powerpoint(26351): No implementation found for void com.microsoft.authentication.internal.DiagnosticsAccumulator.logEvent(int, long, int, java.lang.String) (tried Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent and Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent__IJILjava_lang_String_2) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.402 E/fice.powerpoint(26351): No implementation found for java.lang.String com.microsoft.authentication.internal.SharedUtil.tagToString(int) (tried Java_com_microsoft_authentication_internal_SharedUtil_tagToString and Java_com_microsoft_authentication_internal_SharedUtil_tagToString__I) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.410 E/fice.powerpoint(26351): No implementation found for int com.microsoft.authentication.internal.Logging.nativeGetLoggingThreadId() (tried Java_com_microsoft_authentication_internal_Logging_nativeGetLoggingThreadId and Java_com_microsoft_authentication_internal_Logging_nativeGetLoggingThreadId__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.414 E/fice.powerpoint(26351): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.421 E/fice.powerpoint(26351): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.427 E/fice.powerpoint(26351): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.447 E/fice.powerpoint(26351): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.448 E/fice.powerpoint(26351): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.449 E/fice.powerpoint(26351): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.504 E/oft.office.word(26364): No implementation found for void com.microsoft.authentication.internal.DiagnosticsAccumulator.logEvent(int, long, int, java.lang.String) (tried Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent and Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent__IJILjava_lang_String_2) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.504 E/oft.office.word(26364): No implementation found for java.lang.String com.microsoft.authentication.internal.SharedUtil.tagToString(int) (tried Java_com_microsoft_authentication_internal_SharedUtil_tagToString and Java_com_microsoft_authentication_internal_SharedUtil_tagToString__I) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.549 E/oft.office.word(26364): No implementation found for void com.microsoft.authentication.internal.DiagnosticsAccumulator.logEvent(int, long, int, java.lang.String) (tried Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent and Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent__IJILjava_lang_String_2) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.550 E/oft.office.word(26364): No implementation found for java.lang.String com.microsoft.authentication.internal.SharedUtil.tagToString(int) (tried Java_com_microsoft_authentication_internal_SharedUtil_tagToString and Java_com_microsoft_authentication_internal_SharedUtil_tagToString__I) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.551 E/oft.office.word(26364): No implementation found for void com.microsoft.authentication.internal.DiagnosticsAccumulator.logEvent(int, long, int, java.lang.String) (tried Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent and Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent__IJILjava_lang_String_2) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.559 E/oft.office.word(26364): No implementation found for java.lang.String com.microsoft.authentication.internal.SharedUtil.tagToString(int) (tried Java_com_microsoft_authentication_internal_SharedUtil_tagToString and Java_com_microsoft_authentication_internal_SharedUtil_tagToString__I) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.591 E/oft.office.word(26364): No implementation found for void com.microsoft.authentication.internal.DiagnosticsAccumulator.logEvent(int, long, int, java.lang.String) (tried Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent and Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent__IJILjava_lang_String_2) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.591 E/oft.office.word(26364): No implementation found for java.lang.String com.microsoft.authentication.internal.SharedUtil.tagToString(int) (tried Java_com_microsoft_authentication_internal_SharedUtil_tagToString and Java_com_microsoft_authentication_internal_SharedUtil_tagToString__I) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.621 E/ft.office.excel(26300): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.632 E/ft.office.excel(26300): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.635 E/fice.powerpoint(26351): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.685 E/fice.powerpoint(26351): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.729 E/oft.office.word(26364): No implementation found for int com.microsoft.authentication.internal.Logging.nativeGetLoggingThreadId() (tried Java_com_microsoft_authentication_internal_Logging_nativeGetLoggingThreadId and Java_com_microsoft_authentication_internal_Logging_nativeGetLoggingThreadId__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.731 E/oft.office.word(26364): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.732 E/oft.office.word(26364): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.758 E/oft.office.word(26364): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.785 E/oft.office.word(26364): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.789 E/oft.office.word(26364): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.789 E/oft.office.word(26364): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:39.994 E/oft.office.word(26364): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:40.080 E/oft.office.word(26364): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:40.435 E/henticator:auth(26400): hiddenapi: Accessing hidden method Lsun/misc/Unsafe;->getAndAddLong(Ljava/lang/Object;JJ)J (runtime_flags=0, domain=core-platform, api=max-target-r) from Lio/opentelemetry/internal/shaded/jctools/util/UnsafeAccess; (domain=app, TargetSdkVersion=35) using reflection: denied
+06-19 11:58:40.665 E/fice.powerpoint(26351): No implementation found for void com.microsoft.authentication.internal.DiagnosticsAccumulator.logEvent(int, long, int, java.lang.String) (tried Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent and Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent__IJILjava_lang_String_2) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:40.676 E/fice.powerpoint(26351): No implementation found for java.lang.String com.microsoft.authentication.internal.SharedUtil.tagToString(int) (tried Java_com_microsoft_authentication_internal_SharedUtil_tagToString and Java_com_microsoft_authentication_internal_SharedUtil_tagToString__I) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:40.687 E/fice.powerpoint(26351): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:40.737 E/ce.officehubrow(26302): No implementation found for void com.microsoft.authentication.internal.Logging.nativeEnsureStaticLogCallback() (tried Java_com_microsoft_authentication_internal_Logging_nativeEnsureStaticLogCallback and Java_com_microsoft_authentication_internal_Logging_nativeEnsureStaticLogCallback__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:40.738 E/ce.officehubrow(26302): No implementation found for void com.microsoft.authentication.internal.DiagnosticsAccumulator.logEvent(int, long, int, java.lang.String) (tried Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent and Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent__IJILjava_lang_String_2) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:40.738 E/ce.officehubrow(26302): No implementation found for java.lang.String com.microsoft.authentication.internal.SharedUtil.tagToString(int) (tried Java_com_microsoft_authentication_internal_SharedUtil_tagToString and Java_com_microsoft_authentication_internal_SharedUtil_tagToString__I) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:40.971 E/ce.officehubrow(26302): No implementation found for void com.microsoft.authentication.internal.DiagnosticsAccumulator.logEvent(int, long, int, java.lang.String) (tried Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent and Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent__IJILjava_lang_String_2) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:40.999 E/ce.officehubrow(26302): No implementation found for java.lang.String com.microsoft.authentication.internal.SharedUtil.tagToString(int) (tried Java_com_microsoft_authentication_internal_SharedUtil_tagToString and Java_com_microsoft_authentication_internal_SharedUtil_tagToString__I) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:40.985 E/ce.officehubrow(26302): No implementation found for void com.microsoft.authentication.internal.DiagnosticsAccumulator.logEvent(int, long, int, java.lang.String) (tried Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent and Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent__IJILjava_lang_String_2) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:41.001 E/ce.officehubrow(26302): No implementation found for java.lang.String com.microsoft.authentication.internal.SharedUtil.tagToString(int) (tried Java_com_microsoft_authentication_internal_SharedUtil_tagToString and Java_com_microsoft_authentication_internal_SharedUtil_tagToString__I) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:41.028 E/ce.officehubrow(26302): No implementation found for void com.microsoft.authentication.internal.DiagnosticsAccumulator.logEvent(int, long, int, java.lang.String) (tried Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent and Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent__IJILjava_lang_String_2) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:41.028 E/ce.officehubrow(26302): No implementation found for java.lang.String com.microsoft.authentication.internal.SharedUtil.tagToString(int) (tried Java_com_microsoft_authentication_internal_SharedUtil_tagToString and Java_com_microsoft_authentication_internal_SharedUtil_tagToString__I) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:41.037 E/ce.officehubrow(26302): No implementation found for void com.microsoft.authentication.internal.DiagnosticsAccumulator.logEvent(int, long, int, java.lang.String) (tried Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent and Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent__IJILjava_lang_String_2) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:41.037 E/ce.officehubrow(26302): No implementation found for java.lang.String com.microsoft.authentication.internal.SharedUtil.tagToString(int) (tried Java_com_microsoft_authentication_internal_SharedUtil_tagToString and Java_com_microsoft_authentication_internal_SharedUtil_tagToString__I) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:41.063 E/ce.officehubrow(26302): No implementation found for int com.microsoft.authentication.internal.Logging.nativeGetLoggingThreadId() (tried Java_com_microsoft_authentication_internal_Logging_nativeGetLoggingThreadId and Java_com_microsoft_authentication_internal_Logging_nativeGetLoggingThreadId__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:41.063 E/ce.officehubrow(26302): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:41.063 E/ce.officehubrow(26302): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:41.064 E/ce.officehubrow(26302): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:41.064 E/ce.officehubrow(26302): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:41.064 E/ce.officehubrow(26302): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:41.069 E/ce.officehubrow(26302): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:41.171 E/ce.officehubrow(26302): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:41.182 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:41.182 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:41.190 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:41.247 E/ft.office.excel(26300): No implementation found for void com.microsoft.authentication.internal.DiagnosticsAccumulator.logEvent(int, long, int, java.lang.String) (tried Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent and Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent__IJILjava_lang_String_2) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:41.251 E/ft.office.excel(26300): No implementation found for java.lang.String com.microsoft.authentication.internal.SharedUtil.tagToString(int) (tried Java_com_microsoft_authentication_internal_SharedUtil_tagToString and Java_com_microsoft_authentication_internal_SharedUtil_tagToString__I) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:41.396 E/ce.officehubrow(26302): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:41.499 E/s0      (26302): getString - Key not found
+06-19 11:58:41.509 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:41.511 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:41.512 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:41.512 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:41.512 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:41.514 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:41.516 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:41.516 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:41.551 E/msys    (19898): E[N mns:DGWClient]_LogError(304)=>Failed to resolve using system DNS resolver, getaddrinfo(): No address associated with hostname
+06-19 11:58:41.608 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:41.615 E/ft.office.excel(26300): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:41.655 E/oft.office.word(26364): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:41.719 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:41.730 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:41.731 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:41.734 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:41.773 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:41.853 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:41.857 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:41.862 E/OCMRequiredConfigManager(26302): SubstrateHost not ready, fallback to default WW value.
+06-19 11:58:41.865 E/CallbackExecutor_v1.7.1(26022): Connection query failed
+06-19 11:58:41.865 E/CallbackExecutor_v1.7.1(26022): java.util.concurrent.TimeoutException: Binding time exceeded for com.microsoft.office.outlook
+06-19 11:58:41.865 E/CallbackExecutor_v1.7.1(26022): 	at com.microsoft.tokenshare.x.d(SourceFile:30)
+06-19 11:58:41.865 E/CallbackExecutor_v1.7.1(26022): 	at com.microsoft.tokenshare.c.run(SourceFile:2)
+06-19 11:58:41.865 E/CallbackExecutor_v1.7.1(26022): 	at java.util.TimerThread.mainLoop(Timer.java:596)
+06-19 11:58:41.865 E/CallbackExecutor_v1.7.1(26022): 	at java.util.TimerThread.run(Timer.java:540)
+06-19 11:58:41.867 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:41.870 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:41.871 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:41.872 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:41.875 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:41.898 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:41.914 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:41.914 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:41.925 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:41.993 E/ce.officehubrow(26302): No implementation found for java.lang.String com.microsoft.authentication.internal.OneAuthLogging.getCorrelationIdString() (tried Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString and Java_com_microsoft_authentication_internal_OneAuthLogging_getCorrelationIdString__) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:42.018 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.026 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.027 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.028 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.028 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.028 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.029 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.031 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.031 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.031 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.033 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.033 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.033 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.034 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.037 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.039 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.045 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.047 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.049 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.052 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.053 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.053 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.055 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.063 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.064 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.067 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.067 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.068 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.068 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.069 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.082 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.097 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.116 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.117 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.122 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.192 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.192 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.192 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.192 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.192 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.193 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.193 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.193 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.193 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.193 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.193 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.193 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.193 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.193 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.193 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:42.797 E/oft.office.word(26364): No implementation found for void com.microsoft.authentication.internal.DiagnosticsAccumulator.logEvent(int, long, int, java.lang.String) (tried Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent and Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent__IJILjava_lang_String_2) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:42.798 E/oft.office.word(26364): No implementation found for java.lang.String com.microsoft.authentication.internal.SharedUtil.tagToString(int) (tried Java_com_microsoft_authentication_internal_SharedUtil_tagToString and Java_com_microsoft_authentication_internal_SharedUtil_tagToString__I) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:43.009 E/msys    (19898): E[N mns:DGWClient]_LogError(304)=>Failed to resolve using system DNS resolver, getaddrinfo(): No address associated with hostname
+06-19 11:58:43.009 E/msys    (19898): E[N mns:DGWClient]_LogError(304)=>Failed to resolve using system DNS resolver, getaddrinfo(): No address associated with hostname
+06-19 11:58:43.054 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.058 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.059 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.059 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.059 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.059 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.060 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.060 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.060 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.060 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.060 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.060 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.060 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.060 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.060 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.060 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.060 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.060 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.060 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.060 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.060 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.061 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.061 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.061 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.061 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.061 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.061 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.061 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.061 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.061 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.061 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.061 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.105 E/OCMRequiredConfigManager(26302): AddonFeatureEnabled not ready, fallback to default WW value.
+06-19 11:58:43.469 E/ce.officehubrow(26302): No implementation found for void com.microsoft.authentication.internal.DiagnosticsAccumulator.logEvent(int, long, int, java.lang.String) (tried Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent and Java_com_microsoft_authentication_internal_DiagnosticsAccumulator_logEvent__IJILjava_lang_String_2) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:43.470 E/ce.officehubrow(26302): No implementation found for java.lang.String com.microsoft.authentication.internal.SharedUtil.tagToString(int) (tried Java_com_microsoft_authentication_internal_SharedUtil_tagToString and Java_com_microsoft_authentication_internal_SharedUtil_tagToString__I) - is the library loaded, e.g. System.loadLibrary?
+06-19 11:58:43.496 E/TokenSharingManager_v1.7.1(26022): bind() got TimeoutConnection
+06-19 11:58:43.496 E/TokenSharingManager_v1.7.1(26022): java.util.concurrent.TimeoutException: Binding time exceeded for com.microsoft.office.outlook
+06-19 11:58:43.496 E/TokenSharingManager_v1.7.1(26022): 	at com.microsoft.tokenshare.x.d(SourceFile:30)
+06-19 11:58:43.496 E/TokenSharingManager_v1.7.1(26022): 	at com.microsoft.tokenshare.c.run(SourceFile:2)
+06-19 11:58:43.496 E/TokenSharingManager_v1.7.1(26022): 	at java.util.TimerThread.mainLoop(Timer.java:596)
+06-19 11:58:43.496 E/TokenSharingManager_v1.7.1(26022): 	at java.util.TimerThread.run(Timer.java:540)
+06-19 11:58:44.372 E/COST    (26321): bootstrap: 596 result: 0
+06-19 11:58:44.381 E/fb4a.SlowAppComponent(18132): 0ms: FbPushSdkFbnsReceiverShim instantiating…
+06-19 11:58:44.404 E/fb4a.SlowAppComponent(18132): Main thread was blocked for 246ms in the background starting with FbPushSdkFbnsReceiverShim
+06-19 11:58:44.463 E/MediaProvider( 5026): insertFileIfNecessary failed
+06-19 11:58:44.463 E/MediaProvider( 5026): java.lang.IllegalArgumentException: Primary directory null not allowed for content://media/external_primary/file; allowed directories are [Download, Documents]
+06-19 11:58:44.463 E/MediaProvider( 5026): 	at com.android.providers.media.MediaProvider.ensureFileColumns(MediaProvider.java:5256)
+06-19 11:58:44.463 E/MediaProvider( 5026): 	at com.android.providers.media.MediaProvider.ensureUniqueFileColumns(MediaProvider.java:4858)
+06-19 11:58:44.463 E/MediaProvider( 5026): 	at com.android.providers.media.MediaProvider.insertFile(MediaProvider.java:5701)
+06-19 11:58:44.463 E/MediaProvider( 5026): 	at com.android.providers.media.MediaProvider.insertInternal(MediaProvider.java:6305)
+06-19 11:58:44.463 E/MediaProvider( 5026): 	at com.android.providers.media.MediaProvider.insert(MediaProvider.java:5990)
+06-19 11:58:44.463 E/MediaProvider( 5026): 	at com.android.providers.media.MediaProvider.insertFileForFuse(MediaProvider.java:12168)
+06-19 11:58:44.463 E/MediaProvider( 5026): 	at com.android.providers.media.MediaProvider.insertFileIfNecessaryForFuse(MediaProvider.java:12263)
+06-19 11:58:44.501 E/fb4a.OpenMessagingPushPathLogger(18132): Flow is inactive when adding debug checkpoint for instance key 3342183
+06-19 11:58:44.519 E/CrashFixLancet(23395): androidx.room.RoomDatabase#beginTransaction
+06-19 11:58:44.543 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:44.543 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:44.573 E/fb4a.OpenMessagingPushPathLogger(18132): Flow is inactive when adding debug checkpoint for instance key 3342183
+06-19 11:58:44.604 E/fb4a.OpenMessagingPushPathLogger(18132): Flow is inactive when adding debug checkpoint for instance key 3342183
+06-19 11:58:44.610 E/fb4a.OpenMessagingPushPathLogger(18132): Flow is inactive while trying to log push property annotations for instance key 3342183
+06-19 11:58:44.610 E/fb4a.OpenMessagingPushPathLogger(18132): Flow is inactive while trying to log for message id: null, instance key: 3342183, mi trace id: -5937039640658518912
+06-19 11:58:44.649 E/RoleControllerServiceImpl(31098): Default/fallback role holder package doesn't qualify for the role, package: com.google.android.gms.supervision, role: android.app.role.SYSTEM_SUPERVISION, user: 0
+06-19 11:58:44.708 E/fb4a.OpenMessagingPushPathLogger(18132): Flow is inactive when adding debug checkpoint for instance key 3342183
+06-19 11:58:44.815 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:44.820 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:44.821 E/CrashFixLancet(23395): androidx.room.RoomDatabase#beginTransaction
+06-19 11:58:44.825 E/CrashFixLancet(23395): androidx.room.RoomDatabase#endTransaction
+06-19 11:58:44.827 E/CrashFixLancet(23395): androidx.room.RoomDatabase#beginTransaction
+06-19 11:58:44.827 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:44.827 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:44.827 E/CrashFixLancet(23395): androidx.room.RoomDatabase#beginTransaction
+06-19 11:58:44.828 E/CrashFixLancet(23395): androidx.room.RoomDatabase#endTransaction
+06-19 11:58:44.828 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:44.828 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:44.828 E/CrashFixLancet(23395): androidx.room.RoomDatabase#beginTransaction
+06-19 11:58:44.829 E/CrashFixLancet(23395): androidx.room.RoomDatabase#endTransaction
+06-19 11:58:44.829 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:44.829 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:44.838 E/CrashFixLancet(23395): androidx.room.RoomDatabase#endTransaction
+06-19 11:58:44.838 E/CrashFixLancet(23395): androidx.room.RoomDatabase#beginTransaction
+06-19 11:58:44.838 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:44.838 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:44.847 E/CrashFixLancet(23395): androidx.room.RoomDatabase#endTransaction
+06-19 11:58:44.847 E/CrashFixLancet(23395): androidx.room.RoomDatabase#endTransaction
+06-19 11:58:44.970 E/CrashFixLancet(23395): androidx.room.RoomDatabase#beginTransaction
+06-19 11:58:44.970 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:44.970 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:44.971 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:44.971 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:44.972 E/CrashFixLancet(23395): androidx.room.RoomDatabase#endTransaction
+06-19 11:58:44.980 E/CrashFixLancet(23395): androidx.room.RoomDatabase#query
+06-19 11:58:44.981 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:44.984 E/CrashFixLancet(23395): androidx.room.RoomDatabase#beginTransaction
+06-19 11:58:44.989 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:44.989 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:44.989 E/CrashFixLancet(23395): androidx.room.RoomDatabase#endTransaction
+06-19 11:58:44.995 E/CrashFixLancet(23395): androidx.room.RoomDatabase#query
+06-19 11:58:44.995 E/CrashFixLancet(23395): androidx.room.RoomDatabase#assertNotSuspendingTransaction
+06-19 11:58:44.999 E/SharedDeviceModeInitSynchronizer(26351): Exception while detecting intune app is installed or not.
+06-19 11:58:45.305 E/TokenSharingManager_v1.7.1(26022): com.microsoft.office.outlook doesn't have any callback to invoke
+06-19 11:58:45.326 E/ActivityThread(26400): Failed to find provider info for com.microsoft.intune.mam.policy
+06-19 11:58:45.975 E/msys    (19898): E[N mns:DGWClient]_LogError(304)=>Failed to resolve using system DNS resolver, getaddrinfo(): No address associated with hostname
+06-19 11:58:46.183 E/outlook.perf(26321): Watchdog ANR with dependencies true newANROccurred true
+06-19 11:58:46.208 E/NativeCrashManager(26321): register: NativeCrashManager is already enabled. Updating listener
+06-19 11:58:46.575 E/AccountStateManager(26321): Ignoring HxAccount handshake state changes for non-iCloud basic account with id: 32768
+06-19 11:58:46.627 E/SignatureManagerV2(26321): Exception when try to get signature cache entry with key: 32769
+06-19 11:58:46.627 E/SignatureManagerV2(26321): java.lang.NullPointerException: Attempt to invoke virtual method 'void com.microsoft.office.outlook.migration.accountid.AccountIdStorageAccess.putKeyMapping(java.lang.String, java.lang.String)' on a null object reference
+06-19 11:58:46.627 E/SignatureManagerV2(26321): 	at com.microsoft.office.outlook.olmcore.managers.SignatureManagerV2.getSignatureCacheEntrySync(SourceFile:29)
+06-19 11:58:46.627 E/SignatureManagerV2(26321): 	at com.microsoft.office.outlook.olmcore.managers.SignatureManagerV2.getAccountSignatureCacheEntrySync(SourceFile:5)
+06-19 11:58:46.627 E/SignatureManagerV2(26321): 	at com.microsoft.office.outlook.olmcore.managers.SignatureManagerV2.migrateLegacySignaturesToPerAccount(SourceFile:33)
+06-19 11:58:46.627 E/SignatureManagerV2(26321): 	at com.microsoft.office.outlook.olmcore.managers.SignatureManagerV2.access$migrateLegacySignaturesToPerAccount(SourceFile:0)
+06-19 11:58:46.627 E/SignatureManagerV2(26321): 	at com.microsoft.office.outlook.olmcore.managers.SignatureManagerV2$1.invokeSuspend(SourceFile:12)
+06-19 11:58:46.627 E/SignatureManagerV2(26321): 	at kotlin.coroutines.jvm.internal.a.resumeWith(SourceFile:10)
+06-19 11:58:46.627 E/SignatureManagerV2(26321): 	at qF.Z.run(SourceFile:128)
+06-19 11:58:46.627 E/SignatureManagerV2(26321): 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1100)
+06-19 11:58:46.627 E/SignatureManagerV2(26321): 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+06-19 11:58:46.627 E/SignatureManagerV2(26321): 	at com.microsoft.office.outlook.executors.PrioritizingRunnable.run(SourceFile:7)
+06-19 11:58:46.627 E/SignatureManagerV2(26321): 	at java.lang.Thread.run(Thread.java:1572)
+06-19 11:58:46.639 E/SignatureManagerV2(26321): Exception when try to get signature cache entry with key: 32768
+06-19 11:58:46.639 E/SignatureManagerV2(26321): java.lang.NullPointerException: Attempt to invoke virtual method 'void com.microsoft.office.outlook.migration.accountid.AccountIdStorageAccess.putKeyMapping(java.lang.String, java.lang.String)' on a null object reference
+06-19 11:58:46.639 E/SignatureManagerV2(26321): 	at com.microsoft.office.outlook.olmcore.managers.SignatureManagerV2.getSignatureCacheEntrySync(SourceFile:29)
+06-19 11:58:46.639 E/SignatureManagerV2(26321): 	at com.microsoft.office.outlook.olmcore.managers.SignatureManagerV2.getAccountSignatureCacheEntrySync(SourceFile:5)
+06-19 11:58:46.639 E/SignatureManagerV2(26321): 	at com.microsoft.office.outlook.olmcore.managers.SignatureManagerV2.migrateLegacySignaturesToPerAccount(SourceFile:33)
+06-19 11:58:46.639 E/SignatureManagerV2(26321): 	at com.microsoft.office.outlook.olmcore.managers.SignatureManagerV2.access$migrateLegacySignaturesToPerAccount(SourceFile:0)
+06-19 11:58:46.639 E/SignatureManagerV2(26321): 	at com.microsoft.office.outlook.olmcore.managers.SignatureManagerV2$1.invokeSuspend(SourceFile:12)
+06-19 11:58:46.639 E/SignatureManagerV2(26321): 	at kotlin.coroutines.jvm.internal.a.resumeWith(SourceFile:10)
+06-19 11:58:46.639 E/SignatureManagerV2(26321): 	at qF.Z.run(SourceFile:128)
+06-19 11:58:46.639 E/SignatureManagerV2(26321): 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1100)
+06-19 11:58:46.639 E/SignatureManagerV2(26321): 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+06-19 11:58:46.639 E/SignatureManagerV2(26321): 	at com.microsoft.office.outlook.executors.PrioritizingRunnable.run(SourceFile:7)
+06-19 11:58:46.639 E/SignatureManagerV2(26321): 	at java.lang.Thread.run(Thread.java:1572)
+06-19 11:58:46.640 E/SignatureManagerV2(26321): Exception when try to get signature cache entry with key: -1
+06-19 11:58:46.640 E/SignatureManagerV2(26321): java.lang.NullPointerException: Attempt to invoke virtual method 'void com.microsoft.office.outlook.migration.accountid.AccountIdStorageAccess.putKeyMapping(java.lang.String, java.lang.String)' on a null object reference
+06-19 11:58:46.640 E/SignatureManagerV2(26321): 	at com.microsoft.office.outlook.olmcore.managers.SignatureManagerV2.getSignatureCacheEntrySync(SourceFile:29)
+06-19 11:58:46.640 E/SignatureManagerV2(26321): 	at com.microsoft.office.outlook.olmcore.managers.SignatureManagerV2.getGlobalSignatureCacheEntrySync(SourceFile:2)
+06-19 11:58:46.640 E/SignatureManagerV2(26321): 	at com.microsoft.office.outlook.olmcore.managers.SignatureManagerV2.migrateLegacySignaturesToPerAccount(SourceFile:65)
+06-19 11:58:46.640 E/SignatureManagerV2(26321): 	at com.microsoft.office.outlook.olmcore.managers.SignatureManagerV2.access$migrateLegacySignaturesToPerAccount(SourceFile:0)
+06-19 11:58:46.640 E/SignatureManagerV2(26321): 	at com.microsoft.office.outlook.olmcore.managers.SignatureManagerV2$1.invokeSuspend(SourceFile:12)
+06-19 11:58:46.640 E/SignatureManagerV2(26321): 	at kotlin.coroutines.jvm.internal.a.resumeWith(SourceFile:10)
+06-19 11:58:46.640 E/SignatureManagerV2(26321): 	at qF.Z.run(SourceFile:128)
+06-19 11:58:46.640 E/SignatureManagerV2(26321): 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1100)
+06-19 11:58:46.640 E/SignatureManagerV2(26321): 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+06-19 11:58:46.640 E/SignatureManagerV2(26321): 	at com.microsoft.office.outlook.executors.PrioritizingRunnable.run(SourceFile:7)
+06-19 11:58:46.640 E/SignatureManagerV2(26321): 	at java.lang.Thread.run(Thread.java:1572)
+06-19 11:58:47.415 E/MATSDK  (26022): HTTP request ! failed after 10544 ms, events were rejected by the server (403) and will be all dropped
+06-19 11:58:47.468 E/outlook.perf(26321): ANR occurred, see profile_anr_1781852327160.json in anr_profiles.html
+06-19 11:58:47.504 E/outlook.perf(26321): com.acompli.acompli.utils.Watchdog$WatchdogError: Watchdog ANR
+06-19 11:58:47.504 E/outlook.perf(26321): 	at android.os.MessageQueue.nativePollOnce(Native Method)
+06-19 11:58:47.504 E/outlook.perf(26321): 	at android.os.MessageQueue.next(MessageQueue.java:339)
+06-19 11:58:47.504 E/outlook.perf(26321): 	at android.os.Looper.loopOnce(Looper.java:176)
+06-19 11:58:47.504 E/outlook.perf(26321): 	at android.os.Looper.loop(Looper.java:324)
+06-19 11:58:47.504 E/outlook.perf(26321): 	at android.app.ActivityThread.main(ActivityThread.java:8547)
+06-19 11:58:47.504 E/outlook.perf(26321): 	at java.lang.reflect.Method.invoke(Native Method)
+06-19 11:58:47.504 E/outlook.perf(26321): 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:582)
+06-19 11:58:47.504 E/outlook.perf(26321): 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1061)
+06-19 11:58:47.628 E/AS.ATRequest(23395): 11:58:47.617[218] ----doRetryPost(): response: {"ret_code":11020}
+06-19 11:58:48.235 E/AppCenter(26321): Sending logs groupName=group_core id=9ab795af-122f-4928-b87d-872c939bac1b failed
+06-19 11:58:48.235 E/AppCenter(26321): com.microsoft.appcenter.http.HttpException: 401 - {"status":"AppSecretForbiddenListed","validDiagnosticsIds":[],"throttledDiagnosticsIds":[],"correlationId":"cce74f3c-5482-4a19-a45d-b9ea388edc81"}
+06-19 11:58:48.235 E/AppCenter(26321): 	at Wi.c.a(SourceFile:422)
+06-19 11:58:48.235 E/AppCenter(26321): 	at Wi.c.b(SourceFile:6)
+06-19 11:58:48.235 E/AppCenter(26321): 	at Wi.c.doInBackground(SourceFile:2)
+06-19 11:58:48.235 E/AppCenter(26321): 	at android.os.AsyncTask$3.call(AsyncTask.java:394)
+06-19 11:58:48.235 E/AppCenter(26321): 	at java.util.concurrent.FutureTask.run(FutureTask.java:328)
+06-19 11:58:48.235 E/AppCenter(26321): 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1100)
+06-19 11:58:48.235 E/AppCenter(26321): 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+06-19 11:58:48.235 E/AppCenter(26321): 	at java.lang.Thread.run(Thread.java:1572)
+06-19 11:58:48.489 E/OneAuthLog(26022): [OneAuth:0003:Error::00000000] [Common] [2026-06-19 06:58:48 - thread_id: 165, correlation_id: UNSET - Android 33] Broker Result not returned from Broker   
+06-19 11:58:48.675 E/OneAuthLog(26022): [OneAuth:0005:Error:96xl9:05bd444a] Setting correlation ID to identical value
+06-19 11:58:48.675 E/OneAuthLog(26022): [OneAuth:0005:Error:96q8r:05bd444a] Attempting to set a new correlation ID to a thread with an existing correlation ID.
+06-19 11:58:48.675 E/OneAuthLog(26022): [OneAuth:0005:Error:76xma:05bd444a] Setting a non empty transaction.
+06-19 11:58:50.636 E/OneAuthLog(26290): [MSAL:0009]	ERROR  	ErrorInternalImpl:134	Created an error: 5sr96, StatusInternal::InteractionRequired, InternalEvent::None, Error Code -1821045337, Context 'BaseException com.microsoft.identity.common.java.exception.UiRequiredException: invalid_grant | (PII) | r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c MsalBrokerResultAdapter getUiRequiredException 11; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c MsalBrokerResultAdapter getBaseExceptionFromBundle 62; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c MsalBrokerResultAdapter getAcquireTokenResultFromResultBundle 66; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c BrokerMsalController$5 extractResultBundle 19; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c BrokerOperationExecutor performStrategy 103; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c BrokerOperationExecutor execute 63; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c BrokerMsalController acquireTokenSilent 10; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c BrokerClient getTokenSilently 25; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c AsyncTask$CppProxy native_execute -2; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c AsyncTask$CppProxy execute 3'
+06-19 11:58:50.636 E/OneAuthLog(26290): [MSAL:0010]	ERROR  	ErrorInternalImpl:134	Created an error: 5sr96, StatusInternal::InteractionRequired, InternalEvent::None, Error Code -1821045337, Context 'BaseException com.microsoft.identity.common.java.exception.UiRequiredException: invalid_grant | (PII) | r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c MsalBrokerResultAdapter getUiRequiredException 11; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c MsalBrokerResultAdapter getBaseExceptionFromBundle 62; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c MsalBrokerResultAdapter getAcquireTokenResultFromResultBundle 66; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c BrokerMsalController$5 extractResultBundle 19; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c BrokerOperationExecutor performStrategy 103; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c BrokerOperationExecutor execute 63; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c BrokerMsalController acquireTokenSilent 10; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c BrokerClient getTokenSilently 25; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c AsyncTask$CppProxy native_execute -2; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c AsyncTask$CppProxy execute 3'
+06-19 11:58:50.856 E/msys    (19898): E[N mns:DGWClient]_LogError(304)=>Failed to resolve using system DNS resolver, getaddrinfo(): No address associated with hostname
+06-19 11:58:50.862 E/msys    (19898): E[N mns:DGWClient]_LogError(304)=>Failed to resolve using system DNS resolver, getaddrinfo(): No address associated with hostname
+06-19 11:58:50.891 E/EmergencyPushPeriodicFetchWorker(19898): Skipping fetch since app is backgrounded
+06-19 11:58:51.335 E/msys    (19898): E[N mns:DGWClient]_LogError(304)=>Failed to resolve using system DNS resolver, getaddrinfo(): No address associated with hostname
+06-19 11:58:52.599 E/appproc (27305): checkAndSetEnv get_baksize open file /data/dalvik-cache/classpath failed , error(Permission denied)
+06-19 11:58:52.599 E/appproc (27305): checkAndSetEnv write_classpathbak open file failed:Permission denied
+06-19 11:58:52.599 E/appproc (27305): checkAndSetEnv get_baksize open file /data/dalvik-cache/classpath2 failed , error(Permission denied)
+06-19 11:58:52.599 E/appproc (27305): checkAndSetEnv write_classpathbak open file failed:Permission denied
+06-19 11:58:52.599 E/appproc (27305): checkAndSetEnv get_baksize open file /data/dalvik-cache/classpath3 failed , error(Permission denied)
+06-19 11:58:52.599 E/appproc (27305): checkAndSetEnv write_classpathbak open file failed:Permission denied
+06-19 11:58:52.599 E/appproc (27305): checkAndSetEnv get_baksize open file /data/dalvik-cache/classpath4 failed , error(Permission denied)
+06-19 11:58:52.599 E/appproc (27305): checkAndSetEnv write_classpathbak open file failed:Permission denied
+06-19 11:58:53.246 E/VivoConfigStore(27305): key:vivo.software.globaltheme isCached is false and normal value is true
+06-19 11:58:53.247 E/VivoConfigStore(27305): key:vivo.software.globaltheme isCached is true and value is true
+06-19 11:58:53.409 E/ActivityThread(26400): Failed to find provider info for com.microsoft.intune.mam.policy
+06-19 11:58:53.763 E/VivoConfigStore(27329): key:vivo.software.multilandscape isCached is false and normal value is false
+06-19 11:58:53.767 E/VivoConfigStore(27329): key:vivo.software.splitrecents isCached is false and normal value is false
+06-19 11:58:53.770 E/VivoConfigStore(27329): key:vivo.software.splitratio isCached is false and normal value is false
+06-19 11:58:53.774 E/VivoConfigStore(27329): key:vivo.software.multiwindowresidentbar isCached is false and normal value is false
+06-19 11:58:53.778 E/VivoConfigStore(27329): key:vivo.software.hovermode isCached is false and normal value is false
+06-19 11:58:55.086 E/VivoConfigStore(27329): key:vivo.software.multiwindow isCached is false and normal value is true
+06-19 11:58:55.088 E/VivoConfigStore(27329): key:vivo.software.freeform isCached is false and normal value is true
+06-19 11:58:55.247 E/VivoConfigStore(27329): key:vivo.software.nightmode isCached is false and normal value is true
+06-19 11:58:57.750 E/OneAuthLog(26290): [MSAL:0009]	ERROR  	ErrorInternalImpl:134	Created an error: 5sr96, StatusInternal::InteractionRequired, InternalEvent::None, Error Code -1821045337, Context 'BaseException com.microsoft.identity.common.java.exception.UiRequiredException: invalid_grant | (PII) | r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c MsalBrokerResultAdapter getUiRequiredException 11; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c MsalBrokerResultAdapter getBaseExceptionFromBundle 62; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c MsalBrokerResultAdapter getAcquireTokenResultFromResultBundle 66; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c BrokerMsalController$5 extractResultBundle 19; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c BrokerOperationExecutor performStrategy 103; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c BrokerOperationExecutor execute 63; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c BrokerMsalController acquireTokenSilent 10; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c BrokerClient getTokenSilently 25; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c AsyncTask$CppProxy native_execute -2; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c AsyncTask$CppProxy execute 3'
+06-19 11:58:58.123 E/msys    (19898): E[N mns:DGWClient]_LogError(304)=>Failed to resolve using system DNS resolver, getaddrinfo(): No address associated with hostname
+06-19 11:58:58.129 E/msys    (19898): E[N mns:DGWClient]_LogError(304)=>Failed to resolve using system DNS resolver, getaddrinfo(): No address associated with hostname
+06-19 11:58:59.387 E/ActivityThread(26400): Failed to find provider info for com.microsoft.intune.mam.policy
+06-19 11:59:00.268 E/MQTTBypassDGWStreamGroupConnection.cpp(19898): connect failed. Callbacks terminated before ack received
+06-19 11:59:00.288 E/MQTTBypassDGWStreamGroupCallbacks.cpp(19898): onStreamGroupError StreamGroupNetworkRequest request cancelled: max retries reached; last err (TransientError domain: MNSSecureTCP code: 1 detail: SecureTCP connection establish timeout)
+06-19 11:59:00.615 E/OneAuthLog(26290): [MSAL:0010]	ERROR  	ErrorInternalImpl:134	Created an error: 5sr96, StatusInternal::InteractionRequired, InternalEvent::None, Error Code -1821045337, Context 'BaseException com.microsoft.identity.common.java.exception.UiRequiredException: invalid_grant | (PII) | r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c MsalBrokerResultAdapter getUiRequiredException 11; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c MsalBrokerResultAdapter getBaseExceptionFromBundle 62; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c MsalBrokerResultAdapter getAcquireTokenResultFromResultBundle 66; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c BrokerMsalController$5 extractResultBundle 19; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c BrokerOperationExecutor performStrategy 103; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c BrokerOperationExecutor execute 63; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c BrokerMsalController acquireTokenSilent 10; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c BrokerClient getTokenSilently 25; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c AsyncTask$CppProxy native_execute -2; r8-map-id-fc08a1e572641479f73899e5561e69e58801ed326744a2e0d56e0c5c37475f7c AsyncTask$CppProxy execute 3'
+06-19 11:59:01.330 E/msys    (19898): E[N mns:TigonMNS]_OnResolverFailureWithFallback(632)=>Multinetwork resolver failed: AAAA: android_res_nresult failed: Success; A: android_res_nresult failed: Success
+06-19 11:59:01.330 E/msys    (19898): E[N mns:TigonMNS]_OnResolverFailureWithFallback(661)=>Cache refresh failed with Multinetwork resolver
+06-19 11:59:01.337 E/msys    (19898): E[N mns:DGWClient]_LogError(304)=>Failed to resolve using system DNS resolver, getaddrinfo(): No address associated with hostname
+06-19 11:59:01.341 E/msys    (19898): E[N mns:TigonMNS]_OnResolverFailureWithFallback(632)=>Multinetwork resolver failed: A: android_res_nresult failed: No such file or directory; AAAA: android_res_nresult failed: No such file or directory
+06-19 11:59:01.341 E/msys    (19898): E[N mns:TigonMNS]_OnResolverFailureWithFallback(661)=>Cache refresh failed with Multinetwork resolver
+06-19 11:59:01.893 E/VivoConfigStore(27417): key:vivo.software.multilandscape isCached is false and normal value is false
+06-19 11:59:01.897 E/VivoConfigStore(27417): key:vivo.software.splitrecents isCached is false and normal value is false
+06-19 11:59:01.900 E/VivoConfigStore(27417): key:vivo.software.splitratio isCached is false and normal value is false
+06-19 11:59:01.903 E/VivoConfigStore(27417): key:vivo.software.multiwindowresidentbar isCached is false and normal value is false
+06-19 11:59:01.906 E/VivoConfigStore(27417): key:vivo.software.hovermode isCached is false and normal value is false
+06-19 11:59:03.780 E/VivoConfigStore(26321): key:vivo.software.nightmode isCached is false and normal value is true
+06-19 11:59:04.515 E/GmsClient(27484): unable to connect to service: com.google.android.gms.gservices.START on com.google.android.gms
+06-19 11:59:05.355 E/msys    (19898): E[N mns:DGWClient]_LogError(304)=>Failed to resolve using system DNS resolver, getaddrinfo(): No address associated with hostname
+06-19 11:59:05.361 E/msys    (19898): E[N mns:DGWClient]_LogError(304)=>Failed to resolve using system DNS resolver, getaddrinfo(): No address associated with hostname
+06-19 11:59:05.422 E/VivoConfigStore(27417): key:vivo.software.nightmode isCached is false and normal value is true
+06-19 11:59:05.429 E/FBI     (27417): Can't load library: dlopen failed: library "libmagtsync.so" not found
+06-19 11:59:05.593 E/YT.mlplayer(27417): setAudioDrc(enabled=1)
+06-19 11:59:05.595 E/YT.mlplayer(27417): setDefaultLoudnessTargetPreferenceState
+06-19 11:59:05.845 E/android.youtube(27417): Attempt to load writable dex file: /data/user/0/com.google.android.youtube/app_pccache2/5/C571D7DB2E7379E33F5626D87812BBADE73E9BAD/pcam.jar
+06-19 11:59:07.884 E/OfflineAccountSwitcherS(27417): Could not resolve accountId while getting offline account items
+06-19 11:59:07.884 E/OfflineAccountSwitcherS(27417): atwt: Could not find direct account with account name.
+06-19 11:59:07.884 E/OfflineAccountSwitcherS(27417): 	at aaun.apply(PG:1949)
+06-19 11:59:07.884 E/OfflineAccountSwitcherS(27417): 	at aunm.apply(PG:17)
+06-19 11:59:07.884 E/OfflineAccountSwitcherS(27417): 	at avzd.c(PG:3)
+06-19 11:59:07.884 E/OfflineAccountSwitcherS(27417): 	at avze.run(PG:47)
+06-19 11:59:07.884 E/OfflineAccountSwitcherS(27417): 	at trn.run(PG:7)
+06-19 11:59:07.884 E/OfflineAccountSwitcherS(27417): 	at avuh.run(PG:44)
+06-19 11:59:07.884 E/OfflineAccountSwitcherS(27417): 	at tsl.run(PG:846)
+06-19 11:59:07.884 E/OfflineAccountSwitcherS(27417): 	at fer.run(PG:1113)
+06-19 11:59:07.884 E/OfflineAccountSwitcherS(27417): 	at java.lang.Thread.run(Thread.java:1572)
+06-19 11:59:07.884 E/OfflineAccountSwitcherS(27417): 	at tsj.run(PG:61)
+06-19 11:59:07.885 E/OfflineAccountSwitcherS(27417): Could not resolve accountId while getting offline account items
+06-19 11:59:07.885 E/OfflineAccountSwitcherS(27417): atwt: Could not find direct account with account name.
+06-19 11:59:07.885 E/OfflineAccountSwitcherS(27417): 	at aaun.apply(PG:1949)
+06-19 11:59:07.885 E/OfflineAccountSwitcherS(27417): 	at aunm.apply(PG:17)
+06-19 11:59:07.885 E/OfflineAccountSwitcherS(27417): 	at avzd.c(PG:3)
+06-19 11:59:07.885 E/OfflineAccountSwitcherS(27417): 	at avze.run(PG:47)
+06-19 11:59:07.885 E/OfflineAccountSwitcherS(27417): 	at trn.run(PG:7)
+06-19 11:59:07.885 E/OfflineAccountSwitcherS(27417): 	at avuh.run(PG:44)
+06-19 11:59:07.885 E/OfflineAccountSwitcherS(27417): 	at tsl.run(PG:846)
+06-19 11:59:07.885 E/OfflineAccountSwitcherS(27417): 	at fer.run(PG:1113)
+06-19 11:59:07.885 E/OfflineAccountSwitcherS(27417): 	at java.lang.Thread.run(Thread.java:1572)
+06-19 11:59:07.885 E/OfflineAccountSwitcherS(27417): 	at tsj.run(PG:61)
+06-19 11:59:08.639 E/juur    ( 3495): *~*~*~ Previous channel {0} was garbage collected without being shut down! ~*~*~*
+06-19 11:59:08.639 E/juur    ( 3495):     Make sure to call shutdown()/shutdownNow()
+06-19 11:59:08.639 E/juur    ( 3495): java.lang.RuntimeException: ManagedChannel allocation site
+06-19 11:59:08.639 E/juur    ( 3495): 	at juuq.<init>(:com.google.android.gms@262031029@26.20.31 (190400-919905943):21)
+06-19 11:59:08.639 E/juur    ( 3495): 	at juur.<init>(:com.google.android.gms@262031029@26.20.31 (190400-919905943):10)
+06-19 11:59:08.639 E/juur    ( 3495): 	at juup.a(:com.google.android.gms@262031029@26.20.31 (190400-919905943):300)
+06-19 11:59:08.639 E/juur    ( 3495): 	at juch.a(:com.google.android.gms@262031029@26.20.31 (190400-919905943):5)
+06-19 11:59:08.639 E/juur    ( 3495): 	at dach.h(:com.google.android.gms@262031029@26.20.31 (190400-919905943):154)
+06-19 11:59:08.639 E/juur    ( 3495): 	at hnfq.a(:com.google.android.gms@262031029@26.20.31 (190400-919905943):142)
+06-19 11:59:08.639 E/juur    ( 3495): 	at hapy.a(:com.google.android.gms@262031029@26.20.31 (190400-919905943):17)
+06-19 11:59:08.639 E/juur    ( 3495): 	at hjry.a(:com.google.android.gms@262031029@26.20.31 (190400-919905943):3)
+06-19 11:59:08.639 E/juur    ( 3495): 	at hjqz.run(:com.google.android.gms@262031029@26.20.31 (190400-919905943):19)
+06-19 11:59:08.639 E/juur    ( 3495): 	at hjsa.run(:com.google.android.gms@262031029@26.20.31 (190400-919905943):5)
+06-19 11:59:08.639 E/juur    ( 3495): 	at bjnp.c(:com.google.android.gms@262031029@26.20.31 (190400-919905943):50)
+06-19 11:59:08.639 E/juur    ( 3495): 	at bjnp.run(:com.google.android.gms@262031029@26.20.31 (190400-919905943):66)
+06-19 11:59:08.639 E/juur    ( 3495): 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1100)
+06-19 11:59:08.639 E/juur    ( 3495): 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+06-19 11:59:08.639 E/juur    ( 3495): 	at bjtg.run(:com.google.android.gms@262031029@26.20.31 (190400-919905943):8)
+06-19 11:59:08.639 E/juur    ( 3495): 	at java.lang.Thread.run(Thread.java:1572)
+06-19 11:59:09.552 W/PlayGamesServices[DataBroker]( 4106): No player ID found when refreshing
+06-19 11:59:09.558 W/PlayGamesServices[DataBroker]( 4106): No player ID found when refreshing
+06-19 11:59:09.561 W/PlayGamesServices[DataBroker]( 4106): No player ID found when refreshing
+06-19 11:59:09.564 W/PlayGamesServices[DataBroker]( 4106): No player ID found when refreshing
+06-19 11:59:09.566 W/PlayGamesServices[DataBroker]( 4106): No player ID found when refreshing

@@ -1,9 +1,11 @@
 package org.amanahquran.app.feature.reader
 
 import android.content.Context
+import androidx.lifecycle.viewModelScope
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -95,6 +97,7 @@ class ReaderMvpViewModelTest {
         assertEquals(114, state.surahs.size)
         assertEquals(1, state.surahs.first().surahNumber)
         assertEquals(114, state.surahs.last().surahNumber)
+        viewModel.viewModelScope.cancel()
     }
 
     @Test
@@ -116,6 +119,7 @@ class ReaderMvpViewModelTest {
         assertEquals(7, state.ayahs.size)
         assertEquals("1:1", state.ayahs.first().ayahKey)
         assertTrue(state.ayahs.all { it.displayText.isNotBlank() })
+        viewModel.viewModelScope.cancel()
     }
 
     @Test
@@ -139,6 +143,7 @@ class ReaderMvpViewModelTest {
             database.quranTextDao().getTextByAyahAndScript("2:1", "UTHMANI")?.displayText,
             state.ayahs.first().displayText,
         )
+        viewModel.viewModelScope.cancel()
     }
 
     @Test
@@ -161,6 +166,7 @@ class ReaderMvpViewModelTest {
             database.quranTextDao().getTextByAyahAndScript("2:1", "INDOPAK")?.displayText,
             state.ayahs.first().displayText,
         )
+        viewModel.viewModelScope.cancel()
     }
 
     @Test
@@ -184,6 +190,7 @@ class ReaderMvpViewModelTest {
             database.quranTextDao().getTextByAyahAndScript("1:1", "UTHMANI")?.displayText,
             state.ayahs.first().displayText,
         )
+        viewModel.viewModelScope.cancel()
     }
 
     @Test
