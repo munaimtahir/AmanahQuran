@@ -1,9 +1,12 @@
 # Trust Center Status
 
-Internal testing status only.
-Public release not approved.
-Manual Quran text review pending.
-Font/license review pending.
-Real-device page navigation verification pending.
-Trust Center wording review pending.
+Status: internal testing only.
 
+Public release is blocked.
+
+- Automated structural database validation passes.
+- The Trust Center now derives release status conservatively and cannot show
+  `APPROVED` while checksum, validation, or manual review metadata is pending.
+- Signed human/scholarly review evidence is not complete.
+- Prototype Mushaf line mapping remains not approved for public release.
+- Offline source attribution and privacy wording remain available.

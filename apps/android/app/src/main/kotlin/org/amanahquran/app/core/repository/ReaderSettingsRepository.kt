@@ -6,8 +6,10 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import org.amanahquran.app.core.datastore.AmanahPreferencesDataSource
 import org.amanahquran.app.core.datastore.amanahPreferencesDataSource
 import org.amanahquran.app.core.model.ScriptType
@@ -18,6 +20,7 @@ data class ReaderSettings(
     val selectedTheme: ThemeMode = ThemeMode.SYSTEM,
     val arabicFontSizeSp: Float = 24f,
     val elderModeEnabled: Boolean = false,
+    val bookModeEnabled: Boolean = false,
     val firstLaunchMessageDismissed: Boolean = false,
 )
 
@@ -28,6 +31,7 @@ interface ReaderSettingsRepository {
     suspend fun setSelectedTheme(themeMode: ThemeMode)
     suspend fun setArabicFontSize(arabicFontSizeSp: Float)
     suspend fun setElderModeEnabled(enabled: Boolean)
+    suspend fun setBookModeEnabled(enabled: Boolean)
     suspend fun setFirstLaunchMessageDismissed(dismissed: Boolean)
 }
 
@@ -38,31 +42,37 @@ class ReaderSettingsRepositoryImpl(
         preferences.toReaderSettings()
     }
 
-    override suspend fun setSelectedScript(scriptType: ScriptType) {
+    override suspend fun setSelectedScript(scriptType: ScriptType): Unit = withContext(NonCancellable) {
         dataSource.dataStore.edit { preferences ->
             preferences[Keys.selectedScript] = scriptType.name
         }
     }
 
-    override suspend fun setSelectedTheme(themeMode: ThemeMode) {
+    override suspend fun setSelectedTheme(themeMode: ThemeMode): Unit = withContext(NonCancellable) {
         dataSource.dataStore.edit { preferences ->
             preferences[Keys.selectedTheme] = themeMode.name
         }
     }
 
-    override suspend fun setArabicFontSize(arabicFontSizeSp: Float) {
+    override suspend fun setArabicFontSize(arabicFontSizeSp: Float): Unit = withContext(NonCancellable) {
         dataSource.dataStore.edit { preferences ->
             preferences[Keys.arabicFontSizeSp] = arabicFontSizeSp.coerceIn(16f, 42f)
         }
     }
 
-    override suspend fun setElderModeEnabled(enabled: Boolean) {
+    override suspend fun setElderModeEnabled(enabled: Boolean): Unit = withContext(NonCancellable) {
         dataSource.dataStore.edit { preferences ->
             preferences[Keys.elderModeEnabled] = enabled
         }
     }
 
-    override suspend fun setFirstLaunchMessageDismissed(dismissed: Boolean) {
+    override suspend fun setBookModeEnabled(enabled: Boolean): Unit = withContext(NonCancellable) {
+        dataSource.dataStore.edit { preferences ->
+            preferences[Keys.bookModeEnabled] = enabled
+        }
+    }
+
+    override suspend fun setFirstLaunchMessageDismissed(dismissed: Boolean): Unit = withContext(NonCancellable) {
         dataSource.dataStore.edit { preferences ->
             preferences[Keys.firstLaunchMessageDismissed] = dismissed
         }
@@ -80,6 +90,7 @@ class ReaderSettingsRepositoryImpl(
             selectedTheme = theme,
             arabicFontSizeSp = this[Keys.arabicFontSizeSp] ?: DEFAULT_ARABIC_FONT_SIZE_SP,
             elderModeEnabled = this[Keys.elderModeEnabled] ?: false,
+            bookModeEnabled = this[Keys.bookModeEnabled] ?: false,
             firstLaunchMessageDismissed = this[Keys.firstLaunchMessageDismissed] ?: false,
         )
     }
@@ -89,6 +100,7 @@ class ReaderSettingsRepositoryImpl(
         val selectedTheme = stringPreferencesKey("selected_theme")
         val arabicFontSizeSp = floatPreferencesKey("arabic_font_size_sp")
         val elderModeEnabled = booleanPreferencesKey("elder_mode_enabled")
+        val bookModeEnabled = booleanPreferencesKey("book_mode_enabled")
         val firstLaunchMessageDismissed = booleanPreferencesKey("first_launch_message_dismissed")
     }
 

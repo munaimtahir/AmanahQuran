@@ -3,9 +3,11 @@ package org.amanahquran.app.core.repository
 import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import org.amanahquran.app.core.datastore.AmanahPreferencesDataSource
 import org.amanahquran.app.core.datastore.amanahPreferencesDataSource
@@ -38,13 +40,15 @@ interface LastReadRepository {
 class LastReadRepositoryImpl(
     private val dataSource: AmanahPreferencesDataSource,
 ) : LastReadRepository {
-    override fun getLastRead(): Flow<LastReadState?> {
-        return dataSource.dataStore.data.map { preferences ->
-            preferences[Keys.lastReadJson]?.takeIf { it.isNotBlank() }?.toLastReadState()
-        }
+    private val lastReadFlow = dataSource.dataStore.data.map { preferences ->
+        preferences[Keys.lastReadJson]?.takeIf { it.isNotBlank() }?.toLastReadState()
     }
 
-    override suspend fun saveLastRead(lastRead: LastReadState) {
+    override fun getLastRead(): Flow<LastReadState?> {
+        return lastReadFlow
+    }
+
+    override suspend fun saveLastRead(lastRead: LastReadState): Unit = withContext(NonCancellable) {
         dataSource.dataStore.edit { preferences ->
             preferences[Keys.lastReadJson] = lastRead.toJson().toString()
         }
@@ -58,7 +62,7 @@ class LastReadRepositoryImpl(
         pageNumber: Int,
         scriptType: ScriptType,
         scrollOffset: Int?,
-    ) {
+    ): Unit = withContext(NonCancellable) {
         saveLastRead(
             LastReadState(
                 ayahKey = ayahKey,

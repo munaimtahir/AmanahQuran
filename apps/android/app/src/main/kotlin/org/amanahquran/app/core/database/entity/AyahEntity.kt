@@ -8,7 +8,10 @@ import androidx.room.PrimaryKey
 @Entity(
     tableName = "ayahs",
     indices = [
-        Index(value = ["ayah_key"], unique = true)
+        Index(value = ["surah_number", "ayah_number"], name = "idx_ayahs_surah_ayah"),
+        Index(value = ["juz_number", "surah_number", "ayah_number"], name = "idx_ayahs_juz_order"),
+        Index(value = ["page_number", "surah_number", "ayah_number"], name = "idx_ayahs_page_order"),
+        Index(value = ["ayah_key"], unique = true, name = "idx_ayahs_key")
     ]
 )
 data class AyahEntity(

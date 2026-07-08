@@ -1,0 +1,129 @@
+ayahKey,scriptType,displayText,exactSourceMatch,needsHumanReview,notes
+1:1,INDOPAK,بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ ۝,yes,no,Exact byte-for-byte match with restored raw source file
+1:1,UTHMANI,بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ,yes,no,Exact byte-for-byte match with restored raw source file
+1:2,INDOPAK,اَلْحَمْدُ لِلّٰهِ رَبِّ الْعٰلَمِيْنَ ۝١ۙ,yes,no,Exact byte-for-byte match with restored raw source file
+1:2,UTHMANI,ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ,yes,no,Exact byte-for-byte match with restored raw source file
+1:3,INDOPAK,الرَّحْمٰنِ الرَّحِيْمِ ۝٢ۙ,yes,no,Exact byte-for-byte match with restored raw source file
+1:3,UTHMANI,ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ,yes,no,Exact byte-for-byte match with restored raw source file
+1:4,INDOPAK,مٰلِكِ يَوْمِ الدِّيْنِ ۝٣ؕ,yes,no,Exact byte-for-byte match with restored raw source file
+1:4,UTHMANI,مَـٰلِكِ يَوْمِ ٱلدِّينِ,yes,no,Exact byte-for-byte match with restored raw source file
+1:5,INDOPAK,اِيَّاكَ نَعْبُدُ وَاِيَّاكَ نَسْتَعِيْنُ ۝٤ؕ,yes,no,Exact byte-for-byte match with restored raw source file
+1:5,UTHMANI,إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ,yes,no,Exact byte-for-byte match with restored raw source file
+1:6,INDOPAK,اِهْدِنَا الصِّرَاطَ الْمُسْتَقِيْمَ ۝٥ۙ,yes,no,Exact byte-for-byte match with restored raw source file
+1:6,UTHMANI,ٱهْدِنَا ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ,yes,no,Exact byte-for-byte match with restored raw source file
+1:7,INDOPAK,صِرَاطَ الَّذِيْنَ اَنْعَمْتَ عَلَيْهِمْ‮٦࣢ۙ غَيْرِ الْمَغْضُوْبِ عَلَيْهِمْ وَلَا الضَّا࢜لِّيْنَ ۝٧ࣖ,yes,no,Exact byte-for-byte match with restored raw source file
+1:7,UTHMANI,صِرَٰطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ,yes,no,Exact byte-for-byte match with restored raw source file
+2:1,INDOPAK,ال࢜مّ࢜ ۝١ۚ,yes,no,Exact byte-for-byte match with restored raw source file
+2:1,UTHMANI,الٓمٓ,yes,no,Exact byte-for-byte match with restored raw source file
+2:2,INDOPAK,ذٰلِكَ الْكِتٰبُ لَا رَيْبَۚۖۛ فِيْهِۚۛ هُدًي لِّلْمُتَّقِيْنَ ۝٢ۙ,yes,no,Exact byte-for-byte match with restored raw source file
+2:2,UTHMANI,ذَٰلِكَ ٱلْكِتَـٰبُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًى لِّلْمُتَّقِينَ,yes,no,Exact byte-for-byte match with restored raw source file
+2:3,INDOPAK,الَّذِيْنَ يُو͏ٔ͏ْمِنُوْنَ بِالْغَيْبِ وَيُقِيْمُوْنَ الصَّلٰوةَ وَمِمَّا رَزَقْنٰهُمْ يُنْفِقُوْنَ ۝٣ۙ,yes,no,Exact byte-for-byte match with restored raw source file
+2:3,UTHMANI,ٱلَّذِينَ يُؤْمِنُونَ بِٱلْغَيْبِ وَيُقِيمُونَ ٱلصَّلَوٰةَ وَمِمَّا رَزَقْنَـٰهُمْ يُنفِقُونَ,yes,no,Exact byte-for-byte match with restored raw source file
+2:4,INDOPAK,وَالَّذِيْنَ يُو͏ٔ͏ْمِنُوْنَ بِمَا͏ٓ اُنْزِلَ اِلَيْكَ وَمَا͏ٓ اُنْزِلَ مِنْ قَبْلِكَۚ وَبِالْاٰخِرَةِ هُمْ يُوْقِنُوْنَ ۝٤ؕ,yes,no,Exact byte-for-byte match with restored raw source file
+2:4,UTHMANI,وَٱلَّذِينَ يُؤْمِنُونَ بِمَآ أُنزِلَ إِلَيْكَ وَمَآ أُنزِلَ مِن قَبْلِكَ وَبِٱلْـَٔاخِرَةِ هُمْ يُوقِنُونَ,yes,no,Exact byte-for-byte match with restored raw source file
+2:5,INDOPAK,اُولٰ࢜ىِٕكَ عَلٰي هُدًي مِّنْ رَّبِّهِمْࣗ وَاُولٰ࢜ىِٕكَ هُمُ الْمُفْلِحُوْنَ ۝٥,yes,no,Exact byte-for-byte match with restored raw source file
+2:5,UTHMANI,أُو۟لَـٰٓئِكَ عَلَىٰ هُدًى مِّن رَّبِّهِمْ ۖ وَأُو۟لَـٰٓئِكَ هُمُ ٱلْمُفْلِحُونَ,yes,no,Exact byte-for-byte match with restored raw source file
+2:255,INDOPAK,اَللّٰهُ لَا͏ٓ اِلٰهَ اِلَّا هُوَۚ اَلْحَيُّ الْقَيُّوْمُ࣢ۚ لَا تَاْخُذُهٗ سِنَةٌ وَّلَا نَوْمٌؕ لَهٗ مَا فِي السَّمٰوٰتِ وَمَا فِي الْاَرْضِؕ مَنْ ذَا الَّذِيْ يَشْفَعُ عِنْدَهٗٓ اِلَّا بِاِذْنِهٖؕ يَعْلَمُ مَا بَيْنَ اَيْدِيْهِمْ وَمَا خَلْفَهُمْۚ وَلَا يُحِيْطُوْنَ بِشَيْءٍ مِّنْ عِلْمِهٖٓ اِلَّا بِمَا شَا࢜ءَۚ وَسِعَ كُرْسِيُّهُ السَّمٰوٰتِ وَالْاَرْضَۚ وَلَا يَـُٔوْدُهٗ حِفْظُهُمَاۚ وَهُوَ الْعَلِيُّ الْعَظِيْمُ ۝٢٥٥,yes,no,Exact byte-for-byte match with restored raw source file
+2:255,UTHMANI,ٱللَّهُ لَآ إِلَـٰهَ إِلَّا هُوَ ٱلْحَىُّ ٱلْقَيُّومُ ۚ لَا تَأْخُذُهُۥ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُۥ مَا فِى ٱلسَّمَـٰوَٰتِ وَمَا فِى ٱلْأَرْضِ ۗ مَن ذَا ٱلَّذِى يَشْفَعُ عِندَهُۥٓ إِلَّا بِإِذْنِهِۦ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَىْءٍ مِّنْ عِلْمِهِۦٓ إِلَّا بِمَا شَآءَ ۚ وَسِعَ كُرْسِيُّهُ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضَ ۖ وَلَا يَـُٔودُهُۥ حِفْظُهُمَا ۚ وَهُوَ ٱلْعَلِىُّ ٱلْعَظِيمُ,yes,no,Exact byte-for-byte match with restored raw source file
+3:18,INDOPAK,شَهِدَ اللّٰهُ اَنَّهٗ لَا͏ٓ اِلٰهَ اِلَّا هُوَۙ وَالْمَلٰ࢜ىِٕكَةُ وَاُولُوا الْعِلْمِ قَا࢜ىِٕمًاۢ بِالْقِسْطِؕ لَا͏ٓ اِلٰهَ اِلَّا هُوَ الْعَزِيْزُ الْحَكِيْمُ ۝١٨ؕ,yes,no,Exact byte-for-byte match with restored raw source file
+3:18,UTHMANI,شَهِدَ ٱللَّهُ أَنَّهُۥ لَآ إِلَـٰهَ إِلَّا هُوَ وَٱلْمَلَـٰٓئِكَةُ وَأُو۟لُوا۟ ٱلْعِلْمِ قَآئِمًۢا بِٱلْقِسْطِ ۚ لَآ إِلَـٰهَ إِلَّا هُوَ ٱلْعَزِيزُ ٱلْحَكِيمُ,yes,no,Exact byte-for-byte match with restored raw source file
+36:1,INDOPAK,يٰس࢜ ۝١ۚ,yes,no,Exact byte-for-byte match with restored raw source file
+36:1,UTHMANI,يسٓ,yes,no,Exact byte-for-byte match with restored raw source file
+36:2,INDOPAK,وَالْقُرْاٰنِ الْحَكِيْمِ ۝٢ۙ,yes,no,Exact byte-for-byte match with restored raw source file
+36:2,UTHMANI,وَٱلْقُرْءَانِ ٱلْحَكِيمِ,yes,no,Exact byte-for-byte match with restored raw source file
+36:3,INDOPAK,اِنَّكَ لَمِنَ الْمُرْسَلِيْنَ ۝٣ۙ,yes,no,Exact byte-for-byte match with restored raw source file
+36:3,UTHMANI,إِنَّكَ لَمِنَ ٱلْمُرْسَلِينَ,yes,no,Exact byte-for-byte match with restored raw source file
+36:4,INDOPAK,عَلٰي صِرَاطٍ مُّسْتَقِيْمٍ ۝٤ؕ,yes,no,Exact byte-for-byte match with restored raw source file
+36:4,UTHMANI,عَلَىٰ صِرَٰطٍ مُّسْتَقِيمٍ,yes,no,Exact byte-for-byte match with restored raw source file
+36:5,INDOPAK,تَنْزِيْلَ الْعَزِيْزِ الرَّحِيْمِ ۝٥ۙ,yes,no,Exact byte-for-byte match with restored raw source file
+36:5,UTHMANI,تَنزِيلَ ٱلْعَزِيزِ ٱلرَّحِيمِ,yes,no,Exact byte-for-byte match with restored raw source file
+36:6,INDOPAK,لِتُنْذِرَ قَوْمًا مَّا͏ٓ اُنْذِرَ اٰبَا࢜و͏ٔ͏ُهُمْ فَهُمْ غٰفِلُوْنَ ۝٦,yes,no,Exact byte-for-byte match with restored raw source file
+36:6,UTHMANI,لِتُنذِرَ قَوْمًا مَّآ أُنذِرَ ءَابَآؤُهُمْ فَهُمْ غَـٰفِلُونَ,yes,no,Exact byte-for-byte match with restored raw source file
+36:7,INDOPAK,لَقَدْ حَقَّ الْقَوْلُ عَلٰٓي اَكْثَرِهِمْ فَهُمْ لَا يُو͏ٔ͏ْمِنُوْنَ ۝٧,yes,no,Exact byte-for-byte match with restored raw source file
+36:7,UTHMANI,لَقَدْ حَقَّ ٱلْقَوْلُ عَلَىٰٓ أَكْثَرِهِمْ فَهُمْ لَا يُؤْمِنُونَ,yes,no,Exact byte-for-byte match with restored raw source file
+36:8,INDOPAK,اِنَّا جَعَلْنَا فِيْٓ اَعْنَاقِهِمْ اَغْلٰلًا فَهِيَ اِلَي الْاَذْقَانِ فَهُمْ مُّقْمَحُوْنَ ۝٨,yes,no,Exact byte-for-byte match with restored raw source file
+36:8,UTHMANI,إِنَّا جَعَلْنَا فِىٓ أَعْنَـٰقِهِمْ أَغْلَـٰلًا فَهِىَ إِلَى ٱلْأَذْقَانِ فَهُم مُّقْمَحُونَ,yes,no,Exact byte-for-byte match with restored raw source file
+36:9,INDOPAK,وَجَعَلْنَا مِنْۢ بَيْنِ اَيْدِيْهِمْ سَدًّا وَّمِنْ خَلْفِهِمْ سَدًّا فَاَغْشَيْنٰهُمْ فَهُمْ لَا يُبْصِرُوْنَ ۝٩,yes,no,Exact byte-for-byte match with restored raw source file
+36:9,UTHMANI,وَجَعَلْنَا مِنۢ بَيْنِ أَيْدِيهِمْ سَدًّا وَمِنْ خَلْفِهِمْ سَدًّا فَأَغْشَيْنَـٰهُمْ فَهُمْ لَا يُبْصِرُونَ,yes,no,Exact byte-for-byte match with restored raw source file
+36:10,INDOPAK,وَسَوَا࢜ءٌ عَلَيْهِمْ ءَاَنْذَرْتَهُمْ اَمْ لَمْ تُنْذِرْهُمْ لَا يُو͏ٔ͏ْمِنُوْنَ ۝١٠,yes,no,Exact byte-for-byte match with restored raw source file
+36:10,UTHMANI,وَسَوَآءٌ عَلَيْهِمْ ءَأَنذَرْتَهُمْ أَمْ لَمْ تُنذِرْهُمْ لَا يُؤْمِنُونَ,yes,no,Exact byte-for-byte match with restored raw source file
+36:11,INDOPAK,اِنَّمَا تُنْذِرُ مَنِ اتَّبَعَ الذِّكْرَ وَخَشِيَ الرَّحْمٰنَ بِالْغَيْبِۚ فَبَشِّرْهُ بِمَغْفِرَةٍ وَّاَجْرٍ كَرِيْمٍ ۝١١,yes,no,Exact byte-for-byte match with restored raw source file
+36:11,UTHMANI,إِنَّمَا تُنذِرُ مَنِ ٱتَّبَعَ ٱلذِّكْرَ وَخَشِىَ ٱلرَّحْمَـٰنَ بِٱلْغَيْبِ ۖ فَبَشِّرْهُ بِمَغْفِرَةٍ وَأَجْرٍ كَرِيمٍ,yes,no,Exact byte-for-byte match with restored raw source file
+36:12,INDOPAK,اِنَّا نَحْنُ نُحْيِ الْمَوْتٰي وَنَكْتُبُ مَا قَدَّمُوْا وَاٰثَارَهُمْؕؔ وَكُلَّ شَيْءٍ اَحْصَيْنٰهُ فِيْٓ اِمَامٍ مُّبِيْنٍ ۝١٢ࣖ,yes,no,Exact byte-for-byte match with restored raw source file
+36:12,UTHMANI,إِنَّا نَحْنُ نُحْىِ ٱلْمَوْتَىٰ وَنَكْتُبُ مَا قَدَّمُوا۟ وَءَاثَـٰرَهُمْ ۚ وَكُلَّ شَىْءٍ أَحْصَيْنَـٰهُ فِىٓ إِمَامٍ مُّبِينٍ,yes,no,Exact byte-for-byte match with restored raw source file
+55:1,INDOPAK,اَلرَّحْمٰنُ ۝١ۙ,yes,no,Exact byte-for-byte match with restored raw source file
+55:1,UTHMANI,ٱلرَّحْمَـٰنُ,yes,no,Exact byte-for-byte match with restored raw source file
+55:2,INDOPAK,عَلَّمَ الْقُرْاٰنَ ۝٢ؕ,yes,no,Exact byte-for-byte match with restored raw source file
+55:2,UTHMANI,عَلَّمَ ٱلْقُرْءَانَ,yes,no,Exact byte-for-byte match with restored raw source file
+55:3,INDOPAK,خَلَقَ الْاِنْسَانَ ۝٣ۙ,yes,no,Exact byte-for-byte match with restored raw source file
+55:3,UTHMANI,خَلَقَ ٱلْإِنسَـٰنَ,yes,no,Exact byte-for-byte match with restored raw source file
+55:4,INDOPAK,عَلَّمَهُ الْبَيَانَ ۝٤,yes,no,Exact byte-for-byte match with restored raw source file
+55:4,UTHMANI,عَلَّمَهُ ٱلْبَيَانَ,yes,no,Exact byte-for-byte match with restored raw source file
+55:5,INDOPAK,اَلشَّمْسُ وَالْقَمَرُ بِحُسْبَانٍ ۝٥ۙ,yes,no,Exact byte-for-byte match with restored raw source file
+55:5,UTHMANI,ٱلشَّمْسُ وَٱلْقَمَرُ بِحُسْبَانٍ,yes,no,Exact byte-for-byte match with restored raw source file
+55:6,INDOPAK,وَّالنَّجْمُ وَالشَّجَرُ يَسْجُدٰنِ ۝٦,yes,no,Exact byte-for-byte match with restored raw source file
+55:6,UTHMANI,وَٱلنَّجْمُ وَٱلشَّجَرُ يَسْجُدَانِ,yes,no,Exact byte-for-byte match with restored raw source file
+55:7,INDOPAK,وَالسَّمَا࢜ءَ رَفَعَهَا وَوَضَعَ الْمِيْزَانَ ۝٧ۙ,yes,no,Exact byte-for-byte match with restored raw source file
+55:7,UTHMANI,وَٱلسَّمَآءَ رَفَعَهَا وَوَضَعَ ٱلْمِيزَانَ,yes,no,Exact byte-for-byte match with restored raw source file
+55:8,INDOPAK,اَلَّا تَطْغَوْا فِي الْمِيْزَانِ ۝٨,yes,no,Exact byte-for-byte match with restored raw source file
+55:8,UTHMANI,أَلَّا تَطْغَوْا۟ فِى ٱلْمِيزَانِ,yes,no,Exact byte-for-byte match with restored raw source file
+55:9,INDOPAK,وَاَقِيْمُوا الْوَزْنَ بِالْقِسْطِ وَلَا تُخْسِرُوا الْمِيْزَانَ ۝٩,yes,no,Exact byte-for-byte match with restored raw source file
+55:9,UTHMANI,وَأَقِيمُوا۟ ٱلْوَزْنَ بِٱلْقِسْطِ وَلَا تُخْسِرُوا۟ ٱلْمِيزَانَ,yes,no,Exact byte-for-byte match with restored raw source file
+55:10,INDOPAK,وَالْاَرْضَ وَضَعَهَا لِلْاَنَامِ ۝١٠ۙ,yes,no,Exact byte-for-byte match with restored raw source file
+55:10,UTHMANI,وَٱلْأَرْضَ وَضَعَهَا لِلْأَنَامِ,yes,no,Exact byte-for-byte match with restored raw source file
+55:11,INDOPAK,فِيْهَا فَاكِهَةٌ وَّالنَّخْلُ ذَاتُ الْاَكْمَامِ ۝١١ۖ,yes,no,Exact byte-for-byte match with restored raw source file
+55:11,UTHMANI,فِيهَا فَـٰكِهَةٌ وَٱلنَّخْلُ ذَاتُ ٱلْأَكْمَامِ,yes,no,Exact byte-for-byte match with restored raw source file
+55:12,INDOPAK,وَالْحَبُّ ذُو الْعَصْفِ وَالرَّيْحَانُ ۝١٢ۚ,yes,no,Exact byte-for-byte match with restored raw source file
+55:12,UTHMANI,وَٱلْحَبُّ ذُو ٱلْعَصْفِ وَٱلرَّيْحَانُ,yes,no,Exact byte-for-byte match with restored raw source file
+55:13,INDOPAK,فَبِاَيِّ اٰلَا࢜ءِ رَبِّكُمَا تُكَذِّبٰنِ ۝١٣,yes,no,Exact byte-for-byte match with restored raw source file
+55:13,UTHMANI,فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ,yes,no,Exact byte-for-byte match with restored raw source file
+67:1,INDOPAK,تَبٰرَكَ الَّذِيْ بِيَدِهِ الْمُلْكُؗ وَهُوَ عَلٰي كُلِّ شَيْءٍ قَدِيْرُ ۝١ۙ,yes,no,Exact byte-for-byte match with restored raw source file
+67:1,UTHMANI,تَبَـٰرَكَ ٱلَّذِى بِيَدِهِ ٱلْمُلْكُ وَهُوَ عَلَىٰ كُلِّ شَىْءٍ قَدِيرٌ,yes,no,Exact byte-for-byte match with restored raw source file
+67:2,INDOPAK,اࣙلَّذِيْ خَلَقَ الْمَوْتَ وَالْحَيٰوةَ لِيَبْلُوَكُمْ اَيُّكُمْ اَحْسَنُ عَمَلًاؕ وَهُوَ الْعَزِيْزُ الْغَفُوْرُ ۝٢ۙ,yes,no,Exact byte-for-byte match with restored raw source file
+67:2,UTHMANI,ٱلَّذِى خَلَقَ ٱلْمَوْتَ وَٱلْحَيَوٰةَ لِيَبْلُوَكُمْ أَيُّكُمْ أَحْسَنُ عَمَلًا ۚ وَهُوَ ٱلْعَزِيزُ ٱلْغَفُورُ,yes,no,Exact byte-for-byte match with restored raw source file
+67:3,INDOPAK,الَّذِيْ خَلَقَ سَبْعَ سَمٰوٰتٍ طِبَاقًاؕ مَا تَرٰي فِيْ خَلْقِ الرَّحْمٰنِ مِنْ تَفٰوُتٍؕ فَارْجِعِ الْبَصَرَۙ هَلْ تَرٰي مِنْ فُطُوْرٍ ۝٣,yes,no,Exact byte-for-byte match with restored raw source file
+67:3,UTHMANI,ٱلَّذِى خَلَقَ سَبْعَ سَمَـٰوَٰتٍ طِبَاقًا ۖ مَّا تَرَىٰ فِى خَلْقِ ٱلرَّحْمَـٰنِ مِن تَفَـٰوُتٍ ۖ فَٱرْجِعِ ٱلْبَصَرَ هَلْ تَرَىٰ مِن فُطُورٍ,yes,no,Exact byte-for-byte match with restored raw source file
+67:4,INDOPAK,ثُمَّ ارْجِعِ الْبَصَرَ كَرَّتَيْنِ يَنْقَلِبْ اِلَيْكَ الْبَصَرُ خَاسِي͏ٔ͏ًا وَّهُوَ حَسِيْرٌ ۝٤,yes,no,Exact byte-for-byte match with restored raw source file
+67:4,UTHMANI,ثُمَّ ٱرْجِعِ ٱلْبَصَرَ كَرَّتَيْنِ يَنقَلِبْ إِلَيْكَ ٱلْبَصَرُ خَاسِئًا وَهُوَ حَسِيرٌ,yes,no,Exact byte-for-byte match with restored raw source file
+67:5,INDOPAK,وَلَقَدْ زَيَّنَّا السَّمَا࢜ءَ الدُّنْيَا بِمَصَابِيْحَ وَجَعَلْنٰهَا رُجُوْمًا لِّلشَّيٰطِيْنِ وَاَعْتَدْنَا لَهُمْ عَذَابَ السَّعِيْرِ ۝٥,yes,no,Exact byte-for-byte match with restored raw source file
+67:5,UTHMANI,وَلَقَدْ زَيَّنَّا ٱلسَّمَآءَ ٱلدُّنْيَا بِمَصَـٰبِيحَ وَجَعَلْنَـٰهَا رُجُومًا لِّلشَّيَـٰطِينِ ۖ وَأَعْتَدْنَا لَهُمْ عَذَابَ ٱلسَّعِيرِ,yes,no,Exact byte-for-byte match with restored raw source file
+67:6,INDOPAK,وَلِلَّذِيْنَ كَفَرُوْا بِرَبِّهِمْ عَذَابُ جَهَنَّمَؕ وَبِي͏ٔ͏ْسَ الْمَصِيْرُ ۝٦,yes,no,Exact byte-for-byte match with restored raw source file
+67:6,UTHMANI,وَلِلَّذِينَ كَفَرُوا۟ بِرَبِّهِمْ عَذَابُ جَهَنَّمَ ۖ وَبِئْسَ ٱلْمَصِيرُ,yes,no,Exact byte-for-byte match with restored raw source file
+67:7,INDOPAK,اِذَا͏ٓ اُلْقُوْا فِيْهَا سَمِعُوْا لَهَا شَهِيْقًا وَّهِيَ تَفُوْرُ ۝٧ۙ,yes,no,Exact byte-for-byte match with restored raw source file
+67:7,UTHMANI,إِذَآ أُلْقُوا۟ فِيهَا سَمِعُوا۟ لَهَا شَهِيقًا وَهِىَ تَفُورُ,yes,no,Exact byte-for-byte match with restored raw source file
+67:8,INDOPAK,تَكَادُ تَمَيَّزُ مِنَ الْغَيْظِؕ كُلَّمَا͏ٓ اُلْقِيَ فِيْهَا فَوْجٌ سَاَلَهُمْ خَزَنَتُهَا͏ٓ اَلَمْ يَاْتِكُمْ نَذِيْرٌ ۝٨,yes,no,Exact byte-for-byte match with restored raw source file
+67:8,UTHMANI,تَكَادُ تَمَيَّزُ مِنَ ٱلْغَيْظِ ۖ كُلَّمَآ أُلْقِىَ فِيهَا فَوْجٌ سَأَلَهُمْ خَزَنَتُهَآ أَلَمْ يَأْتِكُمْ نَذِيرٌ,yes,no,Exact byte-for-byte match with restored raw source file
+67:9,INDOPAK,قَالُوْا بَلٰي قَدْ جَا࢜ءَنَا نَذِيْرٌ࣢ۙ فَكَذَّبْنَا وَقُلْنَا مَا نَزَّلَ اللّٰهُ مِنْ شَيْءٍۚۖ اِنْ اَنْتُمْ اِلَّا فِيْ ضَلٰلٍ كَبِيْرٍ ۝٩,yes,no,Exact byte-for-byte match with restored raw source file
+67:9,UTHMANI,قَالُوا۟ بَلَىٰ قَدْ جَآءَنَا نَذِيرٌ فَكَذَّبْنَا وَقُلْنَا مَا نَزَّلَ ٱللَّهُ مِن شَىْءٍ إِنْ أَنتُمْ إِلَّا فِى ضَلَـٰلٍ كَبِيرٍ,yes,no,Exact byte-for-byte match with restored raw source file
+67:10,INDOPAK,وَقَالُوْا لَوْ كُنَّا نَسْمَعُ اَوْ نَعْقِلُ مَا كُنَّا فِيْٓ اَصْحٰبِ السَّعِيْرِ ۝١٠,yes,no,Exact byte-for-byte match with restored raw source file
+67:10,UTHMANI,وَقَالُوا۟ لَوْ كُنَّا نَسْمَعُ أَوْ نَعْقِلُ مَا كُنَّا فِىٓ أَصْحَـٰبِ ٱلسَّعِيرِ,yes,no,Exact byte-for-byte match with restored raw source file
+112:1,INDOPAK,قُلْ هُوَ اللّٰهُ اَحَدٌ ۝١ۚ,yes,no,Exact byte-for-byte match with restored raw source file
+112:1,UTHMANI,قُلْ هُوَ ٱللَّهُ أَحَدٌ,yes,no,Exact byte-for-byte match with restored raw source file
+112:2,INDOPAK,اَللّٰهُ الصَّمَدُ ۝٢ۚ,yes,no,Exact byte-for-byte match with restored raw source file
+112:2,UTHMANI,ٱللَّهُ ٱلصَّمَدُ,yes,no,Exact byte-for-byte match with restored raw source file
+112:3,INDOPAK,لَمْ يَلِدْ࣢ۙ وَلَمْ يُوْلَدْ ۝٣ۙ,yes,no,Exact byte-for-byte match with restored raw source file
+112:3,UTHMANI,لَمْ يَلِدْ وَلَمْ يُولَدْ,yes,no,Exact byte-for-byte match with restored raw source file
+112:4,INDOPAK,وَلَمْ يَكُنْ لَّهٗ كُفُوًا اَحَدٌ ۝٤ࣖ,yes,no,Exact byte-for-byte match with restored raw source file
+112:4,UTHMANI,وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌۢ,yes,no,Exact byte-for-byte match with restored raw source file
+113:1,INDOPAK,قُلْ اَعُوْذُ بِرَبِّ الْفَلَقِ ۝١ۙ,yes,no,Exact byte-for-byte match with restored raw source file
+113:1,UTHMANI,قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ,yes,no,Exact byte-for-byte match with restored raw source file
+113:2,INDOPAK,مِنْ شَرِّ مَا خَلَقَ ۝٢ۙ,yes,no,Exact byte-for-byte match with restored raw source file
+113:2,UTHMANI,مِن شَرِّ مَا خَلَقَ,yes,no,Exact byte-for-byte match with restored raw source file
+113:3,INDOPAK,وَمِنْ شَرِّ غَاسِقٍ اِذَا وَقَبَ ۝٣ۙ,yes,no,Exact byte-for-byte match with restored raw source file
+113:3,UTHMANI,وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ,yes,no,Exact byte-for-byte match with restored raw source file
+113:4,INDOPAK,وَمِنْ شَرِّ النَّفّٰثٰتِ فِي الْعُقَدِ ۝٤ۙ,yes,no,Exact byte-for-byte match with restored raw source file
+113:4,UTHMANI,وَمِن شَرِّ ٱلنَّفَّـٰثَـٰتِ فِى ٱلْعُقَدِ,yes,no,Exact byte-for-byte match with restored raw source file
+113:5,INDOPAK,وَمِنْ شَرِّ حَاسِدٍ اِذَا حَسَدَ ۝٥ࣖ,yes,no,Exact byte-for-byte match with restored raw source file
+113:5,UTHMANI,وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ,yes,no,Exact byte-for-byte match with restored raw source file
+114:1,INDOPAK,قُلْ اَعُوْذُ بِرَبِّ النَّاسِ ۝١ۙ,yes,no,Exact byte-for-byte match with restored raw source file
+114:1,UTHMANI,قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ,yes,no,Exact byte-for-byte match with restored raw source file
+114:2,INDOPAK,مَلِكِ النَّاسِ ۝٢ۙ,yes,no,Exact byte-for-byte match with restored raw source file
+114:2,UTHMANI,مَلِكِ ٱلنَّاسِ,yes,no,Exact byte-for-byte match with restored raw source file
+114:3,INDOPAK,اِلٰهِ النَّاسِ ۝٣ۙ,yes,no,Exact byte-for-byte match with restored raw source file
+114:3,UTHMANI,إِلَـٰهِ ٱلنَّاسِ,yes,no,Exact byte-for-byte match with restored raw source file
+114:4,INDOPAK,مِنْ شَرِّ الْوَسْوَاسِ࣢ۙ الْخَنَّاسِ ۝٤ࣕۙ,yes,no,Exact byte-for-byte match with restored raw source file
+114:4,UTHMANI,مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ,yes,no,Exact byte-for-byte match with restored raw source file
+114:5,INDOPAK,الَّذِيْ يُوَسْوِسُ فِيْ صُدُوْرِ النَّاسِ ۝٥ۙ,yes,no,Exact byte-for-byte match with restored raw source file
+114:5,UTHMANI,ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ,yes,no,Exact byte-for-byte match with restored raw source file
+114:6,INDOPAK,مِنَ الْجِنَّةِ وَالنَّاسِ ۝٦ࣖ,yes,no,Exact byte-for-byte match with restored raw source file
+114:6,UTHMANI,مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ,yes,no,Exact byte-for-byte match with restored raw source file

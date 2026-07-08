@@ -1,0 +1,348 @@
+# CONTENT_RESET_AUDIT
+
+Generated: 2026-07-08T14:30:25+00:00
+
+## Summary
+
+- Content-related files discovered: 583
+- Registry assets: 123
+
+## Classification
+
+### KEEP_APP_CODE
+
+- Count: 14
+- `scripts/__pycache__/content_pipeline_common.cpython-312.pyc`
+- `scripts/__pycache__/generate_content_pipeline.cpython-312.pyc`
+- `scripts/__pycache__/scan_packaged_content_assets.cpython-312.pyc`
+- `scripts/__pycache__/validate_content_licenses.cpython-312.pyc`
+- `scripts/__pycache__/validate_quran_database.cpython-312.pyc`
+- `scripts/content_pipeline_common.py`
+- `scripts/generate_content_pipeline.py`
+- `scripts/scan_packaged_content_assets.py`
+- `scripts/validate_content_licenses.py`
+- `scripts/validate_quran_database.py`
+- `tools/content-import/README.md`
+- `tools/content-import/audit_projectdata.py`
+- `tools/content-import/rebuild_projectdata.py`
+- `tools/validation/README.md`
+
+### CANDIDATE_SOURCE
+
+- Count: 93
+- `sourcedata/1/quran-uthmani.xml`
+- `sourcedata/2/quran-simple-clean.xml`
+- `sourcedata/3/digital-khatt-indopak-ayah-by-ayah-script.db.zip`
+- `sourcedata/3/digital-khatt-indopak-ayah-by-ayah-script.json.zip`
+- `sourcedata/5/quran-metadata-ayah.json.zip`
+- `sourcedata/5/quran-metadata-ayah.sqlite.zip`
+- `sourcedata/5/quran-metadata-hizb.json.zip`
+- `sourcedata/5/quran-metadata-hizb.sqlite.zip`
+- `sourcedata/5/quran-metadata-juz.json.zip`
+- `sourcedata/5/quran-metadata-juz.sqlite.zip`
+- `sourcedata/5/quran-metadata-manzil.json.zip`
+- `sourcedata/5/quran-metadata-manzil.sqlite.zip`
+- `sourcedata/5/quran-metadata-rub.json.zip`
+- `sourcedata/5/quran-metadata-rub.sqlite.zip`
+- `sourcedata/5/quran-metadata-ruku.json.zip`
+- `sourcedata/5/quran-metadata-ruku.sqlite.zip`
+- `sourcedata/5/quran-metadata-sajda.json.zip`
+- `sourcedata/5/quran-metadata-sajda.sqlite.zip`
+- `sourcedata/5/quran-metadata-surah-name.json.zip`
+- `sourcedata/5/quran-metadata-surah-name.sqlite.zip`
+- `sourcedata/6/1735117925-6-inodpka-15-lines-images.zip`
+- `sourcedata/6/digital-khatt-15-lines.db.zip`
+- `sourcedata/6/digital-khatt-15-lines.db_pages.zip`
+- `sourcedata/6/indopak-13-lines-layout-qudratullah.db.zip`
+- `sourcedata/6/indopak-13-lines-layout-qudratullah.db_pages.zip`
+- `sourcedata/6/indopak-13-lines-taj-company.db.zip`
+- `sourcedata/6/indopak-13-lines-taj-company.db_pages.zip`
+- `sourcedata/6/qpc-v2-15-lines.db.zip`
+- `sourcedata/6/qpc-v2-15-lines.db_pages.zip`
+- `sourcedata/6/qpc-v4-tajweed-15-lines.db.zip`
+- `sourcedata/6/qpc-v4-tajweed-15-lines.db_pages.zip`
+- `sourcedata/6/qudratullah-indopak-15-lines.db.zip`
+- `sourcedata/6/qudratullah-indopak-15-lines.db_pages.zip`
+- `sourcedata/6/taj-indopak-16-lines.db.zip`
+- `sourcedata/6/taj-indopak-16-lines.db_pages.zip`
+- `sourcedata/8/DigitalKhattIndoPak.otf.zip`
+- `sourcedata/8/DigitalKhattQuranicV1.otf.zip`
+- `sourcedata/8/DigitalKhattV2.otf.zip`
+- `sourcedata/8/KFGQPCNastaleeq-Regular.ttf.zip`
+- `sourcedata/8/KFGQPCNastaleeq-Regular.woff2.zip`
+- `sourcedata/8/QCF_SurahHeader_COLOR-Regular.ttf.zip`
+- `sourcedata/8/QCF_SurahHeader_COLOR-Regular.woff.zip`
+- `sourcedata/8/QCF_SurahHeader_COLOR-Regular.woff2.zip`
+- `sourcedata/8/QPC V1 Font.ttf.bz2`
+- `sourcedata/8/QPC V1 Font.woff.bz2`
+- `sourcedata/8/QPC V1 Font.woff2.bz2`
+- `sourcedata/8/QPC V2 Font.ttf.bz2`
+- `sourcedata/8/QPC V2 Font.woff.bz2`
+- `sourcedata/8/QPC V2 Font.woff2.bz2`
+- `sourcedata/8/Surah-header-ligature.json.zip`
+- `sourcedata/8/UthmanicHafs_V22.ttf.zip`
+- `sourcedata/8/UthmanicHafs_V22.woff2.zip`
+- `sourcedata/8/extracted/DigitalKhattIndoPak.otf`
+- `sourcedata/8/extracted/DigitalKhattQuranicV1.otf`
+- `sourcedata/8/extracted/DigitalKhattV2.otf`
+- `sourcedata/8/extracted/KFGQPCNastaleeq-Regular.ttf`
+- `sourcedata/8/extracted/UthmanicHafs_V22.ttf`
+- `sourcedata/8/font.ttf.zip`
+- `sourcedata/8/font.woff.zip`
+- `sourcedata/8/font.woff2.zip`
+- `sourcedata/8/ligatures (1).json.bz2`
+- `sourcedata/8/ligatures (2).json.bz2`
+- `sourcedata/8/ligatures (3).json.bz2`
+- `sourcedata/8/ligatures.json (1).zip`
+- `sourcedata/8/ligatures.json (2).zip`
+- `sourcedata/8/ligatures.json (3).zip`
+- `sourcedata/8/ligatures.json.zip`
+- `sourcedata/8/me_quran_volt_newmet.ttf.zip`
+- `sourcedata/8/qpc-hafs.zip`
+- `sourcedata/8/quran-common.ttf.zip`
+- `sourcedata/8/quran-common.woff.zip`
+- `sourcedata/8/quran-common.woff2.zip`
+- `sourcedata/8/surah-name-v2.ttf.zip`
+- `sourcedata/8/surah-name-v2.woff.zip`
+- `sourcedata/8/surah-name-v4.ttf.zip`
+- `sourcedata/8/surah-name-v4.woff.zip`
+- `sourcedata/8/surah-name-v4.woff2.zip`
+- `sourcedata/8/surah-name-v4ligatures.json.bz2`
+- `sourcedata/8/ttf.zip`
+- `sourcedata/8/woff.zip`
+- `sourcedata/8/woff2.zip`
+- `sourcedata/9/By Range _ Quran Foundation Documentation Portal.html`
+- `sourcedata/9/By Range _ Quran Foundation Documentation Portal.pdf`
+- `sourcedata/9/By Specific Verse By Key _ Quran Foundation Documentation Portal.html`
+- `sourcedata/9/By Specific Verse By Key _ Quran Foundation Documentation Portal.pdf`
+- `sourcedata/9/Get Uthmani Script of ayah _ Quran Foundation Documentation Portal.html`
+- `sourcedata/9/Get Uthmani Script of ayah _ Quran Foundation Documentation Portal.pdf`
+- `sourcedata/9/Quran Foundation Content APIs OAuth2 Quickstart _ Quran Foundation Documentation Portal.html`
+- `sourcedata/9/Quran Foundation Content APIs OAuth2 Quickstart _ Quran Foundation Documentation Portal.pdf`
+- `sourcedata/9/Quran Foundation Documentation Portal.html`
+- `sourcedata/9/Quran Foundation Documentation Portal.pdf`
+- `sourcedata/managed/pre_android_import_audit_report.md`
+- `sourcedata/sourcedata-1-2.zip`
+
+### GENERATED_OUTPUT
+
+- Count: 472
+- `apps/android/app/src/main/assets/content/.gitkeep`
+- `apps/android/app/src/main/assets/database/quran.db`
+- `apps/android/app/src/main/assets/db/.gitkeep`
+- `apps/android/app/src/main/assets/fonts/.gitkeep`
+- `apps/android/app/src/main/assets/trust/trust_center_content.json`
+- `apps/android/app/src/main/res/font/digital_khatt_indopak.otf`
+- `apps/android/app/src/main/res/font/digital_khatt_v2.otf`
+- `apps/android/app/src/main/res/font/indopak_nastaleeq.ttf`
+- `docs/_ai_quran_audit/AI_QURAN_AUDIT_ISSUE_REGISTER.csv`
+- `docs/_ai_quran_audit/FINAL_AI_QURAN_AUDIT_SUMMARY.md`
+- `docs/_ai_quran_audit/HUMAN_REVIEWER_HANDOFF_FROM_AI_AUDIT.md`
+- `docs/_ai_quran_audit/TRUST_CENTER_AI_AUDIT_WORDING_RECOMMENDATION.md`
+- `docs/_ai_quran_audit/phase0_audit_preflight_report.md`
+- `docs/_ai_quran_audit/phase1_structural_content_audit.md`
+- `docs/_ai_quran_audit/phase2_source_to_db_comparison_audit.md`
+- `docs/_ai_quran_audit/phase3_critical_ayahs_audit.csv`
+- `docs/_ai_quran_audit/phase3_critical_ayahs_audit_report.md`
+- `docs/_ai_quran_audit/phase4_suspicious_character_audit.md`
+- `docs/_ai_quran_audit/phase5_search_display_separation_audit.md`
+- `docs/_ai_quran_audit_source_diff/AI_QURAN_AUDIT_ISSUE_REGISTER_UPDATED.csv`
+- `docs/_ai_quran_audit_source_diff/FINAL_SOURCE_TO_DB_AUDIT_SUMMARY.md`
+- `docs/_ai_quran_audit_source_diff/critical_ayahs_source_match_update.csv`
+- `docs/_ai_quran_audit_source_diff/indopak_source_db_diff.csv`
+- `docs/_ai_quran_audit_source_diff/phase0_preflight_report.md`
+- `docs/_ai_quran_audit_source_diff/phase10_release_matrix_update_report.md`
+- `docs/_ai_quran_audit_source_diff/phase12_build_test_lint_sanity_report.md`
+- `docs/_ai_quran_audit_source_diff/phase1_source_file_location_report.md`
+- `docs/_ai_quran_audit_source_diff/phase2_source_parsing_report.md`
+- `docs/_ai_quran_audit_source_diff/phase3_db_extraction_report.md`
+- `docs/_ai_quran_audit_source_diff/phase4_exact_source_db_comparison_report.md`
+- `docs/_ai_quran_audit_source_diff/phase5_mismatch_classification_report.md`
+- `docs/_ai_quran_audit_source_diff/phase6_issue_register_update_report.md`
+- `docs/_ai_quran_audit_source_diff/phase7_critical_ayahs_source_match_report.md`
+- `docs/_ai_quran_audit_source_diff/phase8_human_reviewer_handoff_updated.md`
+- `docs/_ai_quran_audit_source_diff/phase9_trust_center_source_diff_wording_recommendation.md`
+- `docs/_ai_quran_audit_source_diff/uthmani_source_db_diff.csv`
+- `docs/_ai_quran_audit_source_diff_restored/AI_QURAN_AUDIT_ISSUE_REGISTER_SOURCE_DIFF.csv`
+- `docs/_ai_quran_audit_source_diff_restored/FINAL_SOURCE_TO_DB_AUDIT_SUMMARY.md`
+- `docs/_ai_quran_audit_source_diff_restored/HUMAN_REVIEWER_HANDOFF_AFTER_SOURCE_DIFF.md`
+- `docs/_ai_quran_audit_source_diff_restored/TRUST_CENTER_SOURCE_DIFF_WORDING_RECOMMENDATION.md`
+- `docs/_ai_quran_audit_source_diff_restored/critical_ayahs_source_match_update.csv`
+- `docs/_ai_quran_audit_source_diff_restored/db_indopak_display_extract.csv`
+- `docs/_ai_quran_audit_source_diff_restored/db_uthmani_display_extract.csv`
+- `docs/_ai_quran_audit_source_diff_restored/indopak_source_db_diff.csv`
+- `docs/_ai_quran_audit_source_diff_restored/indopak_source_extract.csv`
+- `docs/_ai_quran_audit_source_diff_restored/phase0_folder_structure_audit.md`
+- `docs/_ai_quran_audit_source_diff_restored/phase10_critical_ayahs_source_match_report.md`
+- `docs/_ai_quran_audit_source_diff_restored/phase11_human_signoff_evidence_report.md`
+- `docs/_ai_quran_audit_source_diff_restored/phase14_release_matrix_update_report.md`
+- `docs/_ai_quran_audit_source_diff_restored/phase15_build_test_lint_sanity_report.md`
+- `docs/_ai_quran_audit_source_diff_restored/phase1_source_file_inventory.md`
+- `docs/_ai_quran_audit_source_diff_restored/phase2_exact_source_identification.md`
+- `docs/_ai_quran_audit_source_diff_restored/phase3_uthmani_source_parse_report.md`
+- `docs/_ai_quran_audit_source_diff_restored/phase4_indopak_source_parse_report.md`
+- `docs/_ai_quran_audit_source_diff_restored/phase5_db_display_extract_report.md`
+- `docs/_ai_quran_audit_source_diff_restored/phase6_uthmani_source_db_comparison_report.md`
+- `docs/_ai_quran_audit_source_diff_restored/phase7_indopak_source_db_comparison_report.md`
+- `docs/_ai_quran_audit_source_diff_restored/phase8_mismatch_classification_report.md`
+- `docs/_ai_quran_audit_source_diff_restored/phase9_issue_register_update_report.md`
+- `docs/_ai_quran_audit_source_diff_restored/uthmani_source_db_diff.csv`
+- `docs/_ai_quran_audit_source_diff_restored/uthmani_source_extract.csv`
+- `docs/_implementation/amanah_adb_device_validation/adb_log_initial_launch.txt`
+- `docs/_implementation/amanah_adb_device_validation/phase0_adb_environment_report.md`
+- `docs/_implementation/amanah_adb_device_validation/phase1_gradle_recovery_report.md`
+- `docs/_implementation/amanah_adb_device_validation/phase2_debug_apk_report.md`
+- `docs/_implementation/amanah_adb_device_validation/phase3_adb_install_report.md`
+- `docs/_implementation/amanah_adb_device_validation/phase4_launch_crash_check_report.md`
+- `docs/_implementation/amanah_adb_device_validation/phase5_offline_mode_report.md`
+- `docs/_implementation/amanah_adb_device_validation/phase6_launch_crash_fix_report.md`
+- `docs/_implementation/amanah_adb_device_validation/screenshots/01_home.png`
+- `docs/_implementation/amanah_adb_device_validation/screenshots/02_quran_navigation.png`
+- `docs/_implementation/amanah_adb_device_validation/screenshots/03_surah_list.png`
+- `docs/_implementation/amanah_adb_device_validation/screenshots/04_surah_reader_indopak.png`
+- `docs/_implementation/amanah_adb_device_validation/screenshots/05_surah_reader_uthmani.png`
+- `docs/_implementation/amanah_adb_device_validation/screenshots/06_juz_list.png`
+- `docs/_implementation/amanah_adb_device_validation/screenshots/07_juz_30_reader.png`
+- `docs/_implementation/amanah_adb_device_validation/screenshots/08_page_list.png`
+- `docs/_implementation/amanah_adb_device_validation/screenshots/09_page_reader.png`
+- `docs/_implementation/amanah_adb_device_validation/screenshots/12_trust_center.png`
+- `docs/_implementation/amanah_adb_device_validation/screenshots/13_settings.png`
+- `docs/_implementation/amanah_adb_device_validation/screenshots/14_elder_mode.png`
+- `docs/_implementation/amanah_adb_device_validation/screenshots/15_sepia_theme.png`
+- `docs/_implementation/amanah_adb_device_validation/window_dump.xml`
+- `docs/_implementation/amanah_content_import/FINAL_SUMMARY.md`
+- `docs/_implementation/amanah_content_import/phase0_preflight_report.md`
+- `docs/_implementation/amanah_content_import/phase10_tests_report.md`
+- `docs/_implementation/amanah_content_import/phase11_build_validation_report.md`
+- `docs/_implementation/amanah_content_import/phase1_asset_copy_report.md`
+- `docs/_implementation/amanah_content_import/phase2_room_setup_report.md`
+- `docs/_implementation/amanah_content_import/phase3_entities_report.md`
+- `docs/_implementation/amanah_content_import/phase4_dao_report.md`
+- `docs/_implementation/amanah_content_import/phase5_database_class_report.md`
+- `docs/_implementation/amanah_content_import/phase6_repository_report.md`
+- `docs/_implementation/amanah_content_import/phase7_trust_asset_report.md`
+- `docs/_implementation/amanah_content_import/phase8_content_proof_screen_report.md`
+- `docs/_implementation/amanah_content_import/phase9_validation_service_report.md`
+- `docs/_implementation/amanah_mega_usability/FINAL_SUMMARY.md`
+- `docs/_implementation/amanah_mega_usability/phase0_preflight_report.md`
+- `docs/_implementation/amanah_mega_usability/phase10_page_bookmark_report.md`
+- `docs/_implementation/amanah_mega_usability/phase11_bookmarks_screen_report.md`
+- `docs/_implementation/amanah_mega_usability/phase12_search_repository_report.md`
+- `docs/_implementation/amanah_mega_usability/phase13_search_viewmodel_report.md`
+- `docs/_implementation/amanah_mega_usability/phase14_search_screen_report.md`
+- `docs/_implementation/amanah_mega_usability/phase15_search_navigation_report.md`
+- `docs/_implementation/amanah_mega_usability/phase16_trust_center_loader_report.md`
+- `docs/_implementation/amanah_mega_usability/phase17_trust_center_screen_report.md`
+- `docs/_implementation/amanah_mega_usability/phase18_settings_screen_report.md`
+- `docs/_implementation/amanah_mega_usability/phase19_theme_application_report.md`
+- `docs/_implementation/amanah_mega_usability/phase1_user_state_architecture_report.md`
+- `docs/_implementation/amanah_mega_usability/phase20_arabic_font_size_report.md`
+- `docs/_implementation/amanah_mega_usability/phase21_elder_mode_report.md`
+- `docs/_implementation/amanah_mega_usability/phase22_navigation_polish_report.md`
+- `docs/_implementation/amanah_mega_usability/phase23_first_launch_message_report.md`
+- `docs/_implementation/amanah_mega_usability/phase24_guardrail_audit_report.md`
+- `docs/_implementation/amanah_mega_usability/phase25_settings_tests_report.md`
+- `docs/_implementation/amanah_mega_usability/phase26_bookmark_lastread_tests_report.md`
+- `docs/_implementation/amanah_mega_usability/phase27_search_tests_report.md`
+- `docs/_implementation/amanah_mega_usability/phase28_trust_center_tests_report.md`
+- `docs/_implementation/amanah_mega_usability/phase29_ui_state_tests_report.md`
+- `docs/_implementation/amanah_mega_usability/phase2_datastore_foundation_report.md`
+- `docs/_implementation/amanah_mega_usability/phase30_build_validation_report.md`
+- `docs/_implementation/amanah_mega_usability/phase33_commit_readiness_report.md`
+- `docs/_implementation/amanah_mega_usability/phase3_script_persistence_report.md`
+- `docs/_implementation/amanah_mega_usability/phase4_theme_font_settings_foundation_report.md`
+- `docs/_implementation/amanah_mega_usability/phase5_last_read_repository_report.md`
+- `docs/_implementation/amanah_mega_usability/phase6_last_read_reader_integration_report.md`
+- `docs/_implementation/amanah_mega_usability/phase7_continue_reading_report.md`
+- `docs/_implementation/amanah_mega_usability/phase8_bookmark_storage_report.md`
+- `docs/_implementation/amanah_mega_usability/phase9_reader_bookmark_action_report.md`
+- `docs/_implementation/amanah_page_juz_non_adb/FINAL_SUMMARY.md`
+- `docs/_implementation/amanah_page_juz_non_adb/PROMPT_FOR_LATER_ADB_DEVICE_VALIDATION.md`
+- `docs/_implementation/amanah_page_juz_non_adb/phase0_preflight_report.md`
+- `docs/_implementation/amanah_page_juz_non_adb/phase10_page_bookmark_repository_report.md`
+- `docs/_implementation/amanah_page_juz_non_adb/phase11_page_bookmark_ui_report.md`
+- `docs/_implementation/amanah_page_juz_non_adb/phase12_bookmarks_screen_update_report.md`
+- `docs/_implementation/amanah_page_juz_non_adb/phase13_target_ayah_navigation_report.md`
+- `docs/_implementation/amanah_page_juz_non_adb/phase14_scroll_to_ayah_report.md`
+- `docs/_implementation/amanah_page_juz_non_adb/phase15_continue_reading_enhancement_report.md`
+- `docs/_implementation/amanah_page_juz_non_adb/phase16_search_result_opening_report.md`
+- `docs/_implementation/amanah_page_juz_non_adb/phase17_last_read_page_juz_report.md`
+- `docs/_implementation/amanah_page_juz_non_adb/phase18_elder_mode_page_juz_report.md`
+- `docs/_implementation/amanah_page_juz_non_adb/phase19_theme_page_juz_report.md`
+- `docs/_implementation/amanah_page_juz_non_adb/phase1_page_juz_metadata_audit.md`
+- `docs/_implementation/amanah_page_juz_non_adb/phase20_guardrail_audit_report.md`
+- `docs/_implementation/amanah_page_juz_non_adb/phase21_page_juz_repository_tests_report.md`
+- `docs/_implementation/amanah_page_juz_non_adb/phase22_page_bookmark_tests_report.md`
+- `docs/_implementation/amanah_page_juz_non_adb/phase23_target_ayah_tests_report.md`
+- `docs/_implementation/amanah_page_juz_non_adb/phase24_build_validation_report.md`
+- `docs/_implementation/amanah_page_juz_non_adb/phase25_non_adb_checklist_report.md`
+- `docs/_implementation/amanah_page_juz_non_adb/phase26_later_adb_prompt_report.md`
+- `docs/_implementation/amanah_page_juz_non_adb/phase27_status_docs_report.md`
+- `docs/_implementation/amanah_page_juz_non_adb/phase28_commit_readiness_report.md`
+- `docs/_implementation/amanah_page_juz_non_adb/phase2_navigation_ui_models_report.md`
+- `docs/_implementation/amanah_page_juz_non_adb/phase3_repository_report.md`
+- `docs/_implementation/amanah_page_juz_non_adb/phase4_dao_report.md`
+- `docs/_implementation/amanah_page_juz_non_adb/phase5_quran_navigation_hub_report.md`
+- `docs/_implementation/amanah_page_juz_non_adb/phase6_juz_list_report.md`
+- `docs/_implementation/amanah_page_juz_non_adb/phase7_page_list_report.md`
+- `docs/_implementation/amanah_page_juz_non_adb/phase8_generic_reader_mode_report.md`
+- `docs/_implementation/amanah_page_juz_non_adb/phase9_navigation_wiring_report.md`
+- `docs/_implementation/amanah_reader_mvp/FINAL_SUMMARY.md`
+- `docs/_implementation/amanah_reader_mvp/phase0_preflight_report.md`
+- `docs/_implementation/amanah_reader_mvp/phase1_ui_models_report.md`
+- `docs/_implementation/amanah_reader_mvp/phase2_surah_list_vm_report.md`
+- `docs/_implementation/amanah_reader_mvp/phase3_reader_vm_report.md`
+- `docs/_implementation/amanah_reader_mvp/phase4_surah_list_screen_report.md`
+- `docs/_implementation/amanah_reader_mvp/phase5_surah_reader_screen_report.md`
+- `docs/_implementation/amanah_reader_mvp/phase6_navigation_report.md`
+- `docs/_implementation/amanah_reader_mvp/phase7_script_setting_report.md`
+- `docs/_implementation/amanah_reader_mvp/phase8_tests_report.md`
+- `docs/_implementation/amanah_reader_mvp/phase9_build_validation_report.md`
+- `docs/_release_gate/ADB_DEVICE_VALIDATION_SUMMARY.md`
+- `docs/_release_gate/CONTENT_INTEGRITY_AUDIT.md`
+- `docs/_release_gate/FINAL_RELEASE_GATE_SUMMARY.md`
+- `docs/_release_gate/FONT_LICENSE_REVIEW.md`
+- `docs/_release_gate/PLAY_STORE_READINESS_NOTES.md`
+- `docs/_release_gate/PRIVACY_PERMISSION_AUDIT.md`
+- `docs/_release_gate/RELEASE_READINESS_MATRIX.md`
+- `docs/_release_gate/TRUST_CENTER_WORDING_REVIEW.md`
+- `docs/_release_gate/human_signoff/SIGNOFF_EVIDENCE_REQUIRED.md`
+- `docs/_release_gate/manual_quran_review/MANUAL_QURAN_REVIEW_WORKFLOW.md`
+- `docs/_release_gate/manual_quran_review/critical_ayahs_review.csv`
+- `docs/_release_gate/manual_quran_review/full_review_tracking_template.csv`
+- `docs/_release_gate/manual_quran_review/indopak_review_sample.csv`
+- `docs/_release_gate/manual_quran_review/random_ayahs_review.csv`
+- `docs/_release_gate/manual_quran_review/surah_opening_ayahs_review.csv`
+- `docs/_release_gate/manual_quran_review/uthmani_review_sample.csv`
+- `docs/_release_gate/phase0_release_gate_preflight_report.md`
+- `docs/_release_gate/phase10_final_build_test_lint_report.md`
+- `docs/_release_gate/phase2_manual_quran_review_package_report.md`
+- `docs/_release_gate/phase3_manual_review_workflow_report.md`
+- `docs/_release_gate/phase4_font_license_review_report.md`
+- `docs/_release_gate/phase5_trust_center_wording_review_report.md`
+- `docs/_release_gate/phase6_privacy_permission_audit_report.md`
+- `docs/_release_gate/phase7_content_integrity_audit_report.md`
+- `docs/_release_gate/phase8_release_readiness_matrix_report.md`
+- `docs/_release_gate/phase9_play_store_readiness_notes_report.md`
+- `docs/content/ADB_DEVICE_VALIDATION_CHECKLIST.md`
+- `docs/content/ANDROID_CONTENT_IMPORT_STATUS.md`
+- `docs/content/BOOKMARKS_LASTREAD_STATUS.md`
+- ... 272 more
+
+### QUARANTINE_LEGACY_CONTENT
+
+- Count: 4
+- `sourcedata/10/quranic-corpus-morphology-0.4.zip`
+- `sourcedata/4/indopak-nastaleeq.db.zip`
+- `sourcedata/4/indopak-nastaleeq.json.zip`
+- `sourcedata/7/quran-meta-master.zip`
+
+### UNKNOWN_REVIEW_REQUIRED
+
+- Count: 0
+
+## Notes
+
+- No content file was deleted during the reset pass.
+- Legacy and future-only sources are quarantined in the new pipeline tree.
+- Android UI/navigation/settings/trust screens were preserved.

@@ -44,7 +44,7 @@ abstract class AmanahContentDatabase : RoomDatabase() {
     abstract fun fontInventoryDao(): FontInventoryDao
 
     companion object {
-        const val DATABASE_NAME = "amanah_quran_content_v1_candidate.sqlite"
-        const val ASSET_PATH = "database/amanah_quran_content_v1_candidate.sqlite"
+        const val DATABASE_NAME = "quran.db"
+        const val ASSET_PATH = "database/quran.db"
     }
 }

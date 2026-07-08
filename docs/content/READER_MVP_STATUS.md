@@ -2,7 +2,7 @@
 
 Status: internal reader testing enabled.
 
-Public release is not approved.
+Public release status: blocked pending P0 fixes and fresh physical-device evidence.
 
 ## Surah List
 
@@ -21,12 +21,12 @@ Public release is not approved.
 
 ## Script Switch
 
-- Status: implemented locally in `ReaderViewModel`.
+- Status: implemented through reader/settings state, but needs post-fix verification.
 - Supported scripts:
   - IndoPak
   - Uthmani
 - Default: IndoPak.
-- Persistence: deferred until DataStore/settings architecture exists.
+- Persistence: implemented, but Continue Reading previously showed stale script state on the Mushaf path.
 
 ## Display Source Rule
 
@@ -42,7 +42,7 @@ Public release is not approved.
 
 ## Not Added
 
-- No fonts bundled.
+- Fonts are bundled and documented in the Trust Center.
 - No translations added.
 - No tafsir added.
 - No audio added.
@@ -53,7 +53,8 @@ Public release is not approved.
 
 ## Public Release Blockers
 
-- Manual Quran text review.
-- Font/license decisions.
-- Real-device page navigation verification.
-- Trust Center wording review.
+- Search/bookmark exact ayah anchors must open the selected ayah, not the Surah start.
+- Continue Reading must restore the correct script/content without multi-second delay.
+- Trust Center must not claim verified release status while packaged metadata is placeholder, `NOT VERIFIED`, or `PENDING REVIEW`.
+- Human/scholarly review evidence must contain reviewer identity, scope, scripts, decision, date, and evidence reference.
+- A fresh non-empty physical-device regression report must pass after P0 fixes.

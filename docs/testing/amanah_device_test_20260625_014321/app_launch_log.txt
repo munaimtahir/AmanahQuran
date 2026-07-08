@@ -1,0 +1,20 @@
+=== First launch Thu Jun 25 01:44:54 PKT 2026 ===
+Starting: Intent { cmp=org.amanahquran.app/.MainActivity }
+Status: ok
+LaunchState: COLD
+Activity: org.amanahquran.app/.MainActivity
+TotalTime: 2923
+WaitTime: 2943
+Complete
+
+Current focus:
+  mCurrentFocus=Window{8cc5579 u0 org.amanahquran.app/org.amanahquran.app.MainActivity}
+  mFocusedApp=ActivityRecord{4aa3995 u0 org.amanahquran.app/.MainActivity} t17279}
+=== Relaunch after reinstall Thu Jun 25 01:48:46 PKT 2026 ===
+Starting: Intent { cmp=org.amanahquran.app/.MainActivity }
+Status: ok
+LaunchState: COLD
+Activity: org.amanahquran.app/.MainActivity
+TotalTime: 2254
+WaitTime: 2263
+Complete

@@ -1,0 +1,244 @@
+Amanah Quran legal evidence collection
+Repo root: /home/munaim/Documents/github/AmanahQuran
+Evidence dir: /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence
+
+Downloading: https://raw.githubusercontent.com/TarteelAI/quranic-universal-library/main/LICENSE -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/quran/QUL_REPOSITORY_LICENSE_MIT.txt
+Downloading: https://qul.tarteel.ai/faq -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/quran/QUL_FAQ_RESOURCE_LICENSE_NOTICE.html
+Downloading: https://qul.tarteel.ai/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/quran/QUL_HOME_DEVELOPER_RESOURCES.html
+Downloading: https://qul.tarteel.ai/resources -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/quran/QUL_ALL_RESOURCES_PAGE.html
+Downloading: https://qul.tarteel.ai/resources/quran-script -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/quran/QUL_QURAN_SCRIPT_RESOURCE_PAGE.html
+Downloading: https://qul.tarteel.ai/docs -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/quran/QUL_DOCS_INDEX.html
+Downloading: https://qul.tarteel.ai/resources/font/568 -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/fonts/DIGITAL_KHATT_INDOPAK_QUL_FONT_PAGE.html
+Downloading: https://static-cdn.tarteel.ai/qul/fonts/dk/DigitalKhattIndoPak.otf -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/fonts/DigitalKhattIndoPak.otf
+Downloading: https://raw.githubusercontent.com/DigitalKhatt/indopakfont/main/LICENSE -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/fonts/DIGITAL_KHATT_INDOPAK_LICENSE_OFL_1_1.txt
+Downloading: https://github.com/DigitalKhatt/indopakfont -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/fonts/DIGITAL_KHATT_INDOPAK_GITHUB_PAGE.html
+Downloading: https://qul.tarteel.ai/resources/font/247 -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/fonts/DIGITAL_KHATT_V2_QUL_FONT_PAGE.html
+Downloading: https://static-cdn.tarteel.ai/qul/fonts/dk/DigitalKhattV2.otf -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/fonts/DigitalKhattV2.otf
+
+Scanning project folders for source URLs and bundled files...
+Downloading: https://9c4dxys7of-dsn.algolia.net/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/9c4dxys7of-dsn.algolia.net_.html
+FAILED: https://9c4dxys7of-dsn.algolia.net/
+Downloading: https://api-docs.quran.foundation/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_.html
+Downloading: https://api-docs.quran.foundation/# -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_.html
+Downloading: https://api-docs.quran.foundation/agent-prompts/qf-next-starter.md -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_agent-prompts_qf-next-starter.md.html
+Downloading: https://api-docs.quran.foundation/assets/js/02973409.29c330a9.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_02973409.29c330a9.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/0872af6e.f8e53191.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_0872af6e.f8e53191.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/09fc9bcd.ee044506.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_09fc9bcd.ee044506.js.html
+FAILED: https://api-docs.quran.foundation/assets/js/09fc9bcd.ee044506.js
+Downloading: https://api-docs.quran.foundation/assets/js/143d4c6f.1b87d4d8.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_143d4c6f.1b87d4d8.js.html
+FAILED: https://api-docs.quran.foundation/assets/js/143d4c6f.1b87d4d8.js
+Downloading: https://api-docs.quran.foundation/assets/js/18ef36ea.f9a73c04.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_18ef36ea.f9a73c04.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/1be78505.f4adbaf4.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_1be78505.f4adbaf4.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/1df93b7f.8edbc0aa.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_1df93b7f.8edbc0aa.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/2366cf0e.a7329495.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_2366cf0e.a7329495.js.html
+FAILED: https://api-docs.quran.foundation/assets/js/2366cf0e.a7329495.js
+Downloading: https://api-docs.quran.foundation/assets/js/26d6924e.8ae58400.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_26d6924e.8ae58400.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/26e3a4a2.5cb20fd3.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_26e3a4a2.5cb20fd3.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/3003a471.cf531eb3.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_3003a471.cf531eb3.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/3176571a.259ca7c9.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_3176571a.259ca7c9.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/3cbbe945.e69c34d1.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_3cbbe945.e69c34d1.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/41bf11bb.64c023f6.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_41bf11bb.64c023f6.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/47dfa52f.5b5c46f6.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_47dfa52f.5b5c46f6.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/48dca325.b9aa7ad6.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_48dca325.b9aa7ad6.js.html
+FAILED: https://api-docs.quran.foundation/assets/js/48dca325.b9aa7ad6.js
+Downloading: https://api-docs.quran.foundation/assets/js/4a3fc176.289330eb.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_4a3fc176.289330eb.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/4c5e977b.b0abc35d.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_4c5e977b.b0abc35d.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/529a2489.322ea369.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_529a2489.322ea369.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/52e7b168.6ca6f19c.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_52e7b168.6ca6f19c.js.html
+FAILED: https://api-docs.quran.foundation/assets/js/52e7b168.6ca6f19c.js
+Downloading: https://api-docs.quran.foundation/assets/js/53710d3c.659558ab.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_53710d3c.659558ab.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/58acbcb1.b57089bf.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_58acbcb1.b57089bf.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/599aa437.eb7b225c.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_599aa437.eb7b225c.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/5b9cfb76.a1c9033e.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_5b9cfb76.a1c9033e.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/5ce7d37a.95391c62.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_5ce7d37a.95391c62.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/5e8c3d05.f91fb424.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_5e8c3d05.f91fb424.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/62f3f105.1c421ce4.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_62f3f105.1c421ce4.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/64d450ec.808201fe.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_64d450ec.808201fe.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/6683f4ef.e2cd4c68.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_6683f4ef.e2cd4c68.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/7044ccbd.16247fc0.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_7044ccbd.16247fc0.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/77266aba.ea1ed53a.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_77266aba.ea1ed53a.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/861dbec6.9088a2c5.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_861dbec6.9088a2c5.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/87c49e91.08b536eb.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_87c49e91.08b536eb.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/8919bed7.1557c613.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_8919bed7.1557c613.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/935f2afb.8d2d9376.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_935f2afb.8d2d9376.js.html
+FAILED: https://api-docs.quran.foundation/assets/js/935f2afb.8d2d9376.js
+Downloading: https://api-docs.quran.foundation/assets/js/9ca66503.3c1e8054.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_9ca66503.3c1e8054.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/a4656de1.752f11b3.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_a4656de1.752f11b3.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/a7c3a22c.a4c831b1.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_a7c3a22c.a4c831b1.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/beece253.504db0ab.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_beece253.504db0ab.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/c4973b86.3465fa56.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_c4973b86.3465fa56.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/c7a93edc.eeb4a936.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_c7a93edc.eeb4a936.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/d05d25e4.66d25db4.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_d05d25e4.66d25db4.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/d24d551b.77db70ca.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_d24d551b.77db70ca.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/de7db25a.f520ca84.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_de7db25a.f520ca84.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/f3bd6e93.f28665df.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_f3bd6e93.f28665df.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/f537c40b.3f188675.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_f537c40b.3f188675.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/fc2ee1bc.efd2a62e.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_fc2ee1bc.efd2a62e.js.html
+Downloading: https://api-docs.quran.foundation/assets/js/fd4401e7.45d02f1c.js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_assets_js_fd4401e7.45d02f1c.js.html
+Downloading: https://api-docs.quran.foundation/docs/api/field-reference/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_api_field-reference_.html
+Downloading: https://api-docs.quran.foundation/docs/api/field-reference#tafsir-fields -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_api_field-reference_tafsir-fields.html
+Downloading: https://api-docs.quran.foundation/docs/api/field-reference#translation-fields -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_api_field-reference_translation-fields.html
+Downloading: https://api-docs.quran.foundation/docs/api/field-reference#verse-level-fields -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_api_field-reference_verse-level-fields.html
+Downloading: https://api-docs.quran.foundation/docs/api/field-reference#word-level-fields -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_api_field-reference_word-level-fields.html
+Downloading: https://api-docs.quran.foundation/docs/api-reference/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_api-reference_.html
+Downloading: https://api-docs.quran.foundation/docs/category/content-apis/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_category_content-apis_.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/content-apis/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_content-apis_.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/content-apis/#authentication -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_content-apis_authentication.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/quran-verses-by-script/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_quran-verses-by-script_.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/quran-verses-code-v-1/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_quran-verses-code-v-1_.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/quran-verses-code-v-2/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_quran-verses-code-v-2_.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/quran-verses-imlaei/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_quran-verses-imlaei_.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/quran-verses-indopak/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_quran-verses-indopak_.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/quran-verses-indopak-nastaleeq/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_quran-verses-indopak-nastaleeq_.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/quran-verses-uthmani/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_quran-verses-uthmani_.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/quran-verses-uthmani/# -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_quran-verses-uthmani_.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/quran-verses-uthmani/#docusaurus_skipToContent_fallback -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_quran-verses-uthmani_docusaurus_skipToContent_fallback.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/quran-verses-uthmani/#get-uthmani-script-of-ayah -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_quran-verses-uthmani_get-uthmani-script-of-ayah.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/quran-verses-uthmani-simple/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_quran-verses-uthmani-simple_.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/quran-verses-uthmani-tajweed/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_quran-verses-uthmani-tajweed_.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/random-verse/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_random-verse_.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/tafsir/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_tafsir_.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/translation/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_translation_.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/verses-by-chapter-number/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_verses-by-chapter-number_.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/verses-by-hizb-number/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_verses-by-hizb-number_.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/verses-by-juz-number/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_verses-by-juz-number_.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/verses-by-manzil-number/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_verses-by-manzil-number_.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/verses-by-page-number/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_verses-by-page-number_.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/verses-by-range/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_verses-by-range_.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/verses-by-range/# -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_verses-by-range_.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/verses-by-range/#by-range -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_verses-by-range_by-range.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/verses-by-range/#docusaurus_skipToContent_fallback -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_verses-by-range_docusaurus_skipToContent_fallback.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/verses-by-rub-el-hizb-number/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_verses-by-rub-el-hizb-number_.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/verses-by-rub-el-hizb-number-rub-el-hizb/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_verses-by-rub-el-hizb-number-rub-el-hizb_.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/verses-by-ruku-number/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_verses-by-ruku-number_.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/verses-by-verse-key/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_verses-by-verse-key_.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/verses-by-verse-key/# -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_verses-by-verse-key_.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/verses-by-verse-key/#by-specific-verse-by-key -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_verses-by-verse-key_by-specific-verse-by-key.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/4.0.0/verses-by-verse-key/#docusaurus_skipToContent_fallback -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_4.0.0_verses-by-verse-key_docusaurus_skipToContent_fallback.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/chapter-reciters -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_chapter-reciters.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/content-apis/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_content-apis_.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/recitations -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_recitations.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/tafsirs -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_tafsirs.html
+Downloading: https://api-docs.quran.foundation/docs/content_apis_versioned/translations -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_content_apis_versioned_translations.html
+Downloading: https://api-docs.quran.foundation/docs/developer-journey/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_developer-journey_.html
+Downloading: https://api-docs.quran.foundation/docs/oauth2_apis_versioned/1.0.0/oauth-2-apis/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_oauth2_apis_versioned_1.0.0_oauth-2-apis_.html
+Downloading: https://api-docs.quran.foundation/docs/oauth2_apis_versioned/oauth-2-apis/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_oauth2_apis_versioned_oauth-2-apis_.html
+Downloading: https://api-docs.quran.foundation/docs/quickstart/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_quickstart_.html
+Downloading: https://api-docs.quran.foundation/docs/quickstart/# -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_quickstart_.html
+Downloading: https://api-docs.quran.foundation/docs/quickstart/#docusaurus_skipToContent_fallback -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_quickstart_docusaurus_skipToContent_fallback.html
+Downloading: https://api-docs.quran.foundation/docs/quickstart/#environment-urls -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_quickstart_environment-urls.html
+Downloading: https://api-docs.quran.foundation/docs/quickstart/first-api-call/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_quickstart_first-api-call_.html
+Downloading: https://api-docs.quran.foundation/docs/quickstart/#first-raw-http-request -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_quickstart_first-raw-http-request.html
+Downloading: https://api-docs.quran.foundation/docs/quickstart/#first-sdk-request -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_quickstart_first-sdk-request.html
+Downloading: https://api-docs.quran.foundation/docs/quickstart/#integration-rules -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_quickstart_integration-rules.html
+Downloading: https://api-docs.quran.foundation/docs/quickstart/manual-authentication/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_quickstart_manual-authentication_.html
+Downloading: https://api-docs.quran.foundation/docs/quickstart/migration/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_quickstart_migration_.html
+Downloading: https://api-docs.quran.foundation/docs/quickstart/#need-help -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_quickstart_need-help.html
+Downloading: https://api-docs.quran.foundation/docs/quickstart/#next-steps -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_quickstart_next-steps.html
+Downloading: https://api-docs.quran.foundation/docs/quickstart/#quick-reference -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_quickstart_quick-reference.html
+Downloading: https://api-docs.quran.foundation/docs/quickstart/#recommended-architecture -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_quickstart_recommended-architecture.html
+Downloading: https://api-docs.quran.foundation/docs/quickstart/token-management/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_quickstart_token-management_.html
+Downloading: https://api-docs.quran.foundation/docs/sdk/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_sdk_.html
+Downloading: https://api-docs.quran.foundation/docs/sdk/javascript/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_sdk_javascript_.html
+Downloading: https://api-docs.quran.foundation/docs/sdk/javascript/answers/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_sdk_javascript_answers_.html
+Downloading: https://api-docs.quran.foundation/docs/sdk/javascript/apis-by-runtime/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_sdk_javascript_apis-by-runtime_.html
+Downloading: https://api-docs.quran.foundation/docs/sdk/javascript/app-shapes/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_sdk_javascript_app-shapes_.html
+Downloading: https://api-docs.quran.foundation/docs/sdk/javascript/audio/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_sdk_javascript_audio_.html
+Downloading: https://api-docs.quran.foundation/docs/sdk/javascript/auth-matrix/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_sdk_javascript_auth-matrix_.html
+Downloading: https://api-docs.quran.foundation/docs/sdk/javascript/chapters/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_sdk_javascript_chapters_.html
+Downloading: https://api-docs.quran.foundation/docs/sdk/javascript/common-errors/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_sdk_javascript_common-errors_.html
+Downloading: https://api-docs.quran.foundation/docs/sdk/javascript/entrypoint-matrix/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_sdk_javascript_entrypoint-matrix_.html
+Downloading: https://api-docs.quran.foundation/docs/sdk/javascript/full-stack/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_sdk_javascript_full-stack_.html
+Downloading: https://api-docs.quran.foundation/docs/sdk/javascript/hadith-references/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_sdk_javascript_hadith-references_.html
+Downloading: https://api-docs.quran.foundation/docs/sdk/javascript/juzs/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_sdk_javascript_juzs_.html
+Downloading: https://api-docs.quran.foundation/docs/sdk/javascript/migration-cheat-sheet/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_sdk_javascript_migration-cheat-sheet_.html
+Downloading: https://api-docs.quran.foundation/docs/sdk/javascript/public-quickstart/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_sdk_javascript_public-quickstart_.html
+Downloading: https://api-docs.quran.foundation/docs/sdk/javascript/quranreflect-posts/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_sdk_javascript_quranreflect-posts_.html
+Downloading: https://api-docs.quran.foundation/docs/sdk/javascript/resources/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_sdk_javascript_resources_.html
+Downloading: https://api-docs.quran.foundation/docs/sdk/javascript/runtime-matrix/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_sdk_javascript_runtime-matrix_.html
+Downloading: https://api-docs.quran.foundation/docs/sdk/javascript/search/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_sdk_javascript_search_.html
+Downloading: https://api-docs.quran.foundation/docs/sdk/javascript/server-quickstart/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_sdk_javascript_server-quickstart_.html
+Downloading: https://api-docs.quran.foundation/docs/sdk/javascript/v1-migration-guide/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_sdk_javascript_v1-migration-guide_.html
+Downloading: https://api-docs.quran.foundation/docs/sdk/javascript/verses/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_sdk_javascript_verses_.html
+Downloading: https://api-docs.quran.foundation/docs/search_apis_versioned/1.0.0/quran-foundation-search-api/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_search_apis_versioned_1.0.0_quran-foundation-search-api_.html
+Downloading: https://api-docs.quran.foundation/docs/search_apis_versioned/quran-foundation-search-api/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_search_apis_versioned_quran-foundation-search-api_.html
+Downloading: https://api-docs.quran.foundation/docs/tutorials/content-sync/client-flow/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_tutorials_content-sync_client-flow_.html
+Downloading: https://api-docs.quran.foundation/docs/tutorials/content-sync/full-copies-and-recovery/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_tutorials_content-sync_full-copies-and-recovery_.html
+Downloading: https://api-docs.quran.foundation/docs/tutorials/content-sync/getting-started/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_tutorials_content-sync_getting-started_.html
+Downloading: https://api-docs.quran.foundation/docs/tutorials/content-sync/offline-cache-patterns/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_tutorials_content-sync_offline-cache-patterns_.html
+Downloading: https://api-docs.quran.foundation/docs/tutorials/faq/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_tutorials_faq_.html
+Downloading: https://api-docs.quran.foundation/docs/tutorials/fonts/font-rendering/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_tutorials_fonts_font-rendering_.html
+Downloading: https://api-docs.quran.foundation/docs/tutorials/fonts/page-layout/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_tutorials_fonts_page-layout_.html
+Downloading: https://api-docs.quran.foundation/docs/tutorials/oidc/client-setup/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_tutorials_oidc_client-setup_.html
+Downloading: https://api-docs.quran.foundation/docs/tutorials/oidc/example-integration/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_tutorials_oidc_example-integration_.html
+Downloading: https://api-docs.quran.foundation/docs/tutorials/oidc/getting-started-with-oauth2/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_tutorials_oidc_getting-started-with-oauth2_.html
+Downloading: https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_tutorials_oidc_mobile-apps_.html
+Downloading: https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/android/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_tutorials_oidc_mobile-apps_android_.html
+Downloading: https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/iOS/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_tutorials_oidc_mobile-apps_iOS_.html
+Downloading: https://api-docs.quran.foundation/docs/tutorials/oidc/mobile-apps/react-native/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_tutorials_oidc_mobile-apps_react-native_.html
+Downloading: https://api-docs.quran.foundation/docs/tutorials/oidc/openid-connect/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_tutorials_oidc_openid-connect_.html
+Downloading: https://api-docs.quran.foundation/docs/tutorials/oidc/starter-with-npx/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_tutorials_oidc_starter-with-npx_.html
+Downloading: https://api-docs.quran.foundation/docs/tutorials/oidc/user-apis-quickstart/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_tutorials_oidc_user-apis-quickstart_.html
+Downloading: https://api-docs.quran.foundation/docs/updates/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_updates_.html
+Downloading: https://api-docs.quran.foundation/docs/user_related_apis_prelive/user-related-apis/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_user_related_apis_prelive_user-related-apis_.html
+Downloading: https://api-docs.quran.foundation/docs/user_related_apis_versioned/1.0.0/user-related-apis/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_user_related_apis_versioned_1.0.0_user-related-apis_.html
+Downloading: https://api-docs.quran.foundation/docs/user_related_apis_versioned/scopes/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_user_related_apis_versioned_scopes_.html
+Downloading: https://api-docs.quran.foundation/docs/user_related_apis_versioned/user-related-apis/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docs_user_related_apis_versioned_user-related-apis_.html
+Downloading: https://api-docs.quran.foundation/#docusaurus_skipToContent_fallback -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_docusaurus_skipToContent_fallback.html
+Downloading: https://api-docs.quran.foundation/llms.txt -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_llms.txt.html
+Downloading: https://api-docs.quran.foundation/opensearch.xml -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_opensearch.xml.html
+Downloading: https://api-docs.quran.foundation/request-access/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api-docs.quran.foundation_request-access_.html
+Downloading: https://api.quran.com/api/v4/.. -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/api.quran.com_api_v4_...html
+FAILED: https://api.quran.com/api/v4/..
+Downloading: https://apis-prelive.quran.foundation -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/apis-prelive.quran.foundation.html
+FAILED: https://apis-prelive.quran.foundation
+Downloading: https://apis-prelive.quran.foundation/content/api/v4 -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/apis-prelive.quran.foundation_content_api_v4.html
+FAILED: https://apis-prelive.quran.foundation/content/api/v4
+Downloading: https://apis-prelive.quran.foundation/content/api/v4/chapters -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/apis-prelive.quran.foundation_content_api_v4_chapters.html
+FAILED: https://apis-prelive.quran.foundation/content/api/v4/chapters
+Downloading: https://apis.quran.foundation -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/apis.quran.foundation.html
+FAILED: https://apis.quran.foundation
+Downloading: https://apis.quran.foundation/content/api/v4 -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/apis.quran.foundation_content_api_v4.html
+FAILED: https://apis.quran.foundation/content/api/v4
+Downloading: https://apis.quran.foundation/content/api/v4/quran/verses/uthmani?chapter_number=1&amp;juz_number=1&amp;page_number=1 -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/apis.quran.foundation_content_api_v4_quran_verses_uthmani_chapter_number_1_amp_juz_number_1_amp_page_number_1.html
+FAILED: https://apis.quran.foundation/content/api/v4/quran/verses/uthmani?chapter_number=1&amp;juz_number=1&amp;page_number=1
+Downloading: https://apis.quran.foundation/content/api/v4/verses/by_key/2:255?language=en&amp;words=true&amp;translations=131 -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/apis.quran.foundation_content_api_v4_verses_by_key_2_255_language_en_amp_words_true_amp_translations_131.html
+FAILED: https://apis.quran.foundation/content/api/v4/verses/by_key/2:255?language=en&amp;words=true&amp;translations=131
+Downloading: https://apis.quran.foundation/content/api/v4/verses/by_range?from=1%3A1&amp;to=1%3A7&amp;language=en -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/apis.quran.foundation_content_api_v4_verses_by_range_from_1_3A1_amp_to_1_3A7_amp_language_en.html
+FAILED: https://apis.quran.foundation/content/api/v4/verses/by_range?from=1%3A1&amp;to=1%3A7&amp;language=en
+Downloading: https://corpus.quran.com/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/corpus.quran.com_.html
+Downloading: https://discord.gg/SpEeJ5bWEQ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/discord.gg_SpEeJ5bWEQ.html
+Downloading: https://docs.quran.foundation/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/docs.quran.foundation_.html
+FAILED: https://docs.quran.foundation/
+Downloading: https://donate.quran.foundation/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/donate.quran.foundation_.html
+Downloading: https://fonts.qurancomplex.gov.sa/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/fonts.qurancomplex.gov.sa_.html
+FAILED: https://fonts.qurancomplex.gov.sa/
+Downloading: https://github.com/DigitalKhatt/indopakfont -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/github.com_DigitalKhatt_indopakfont.html
+Downloading: https://github.com/DigitalKhatt/indopakfont/blob/main/LICENSE -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/github.com_DigitalKhatt_indopakfont_blob_main_LICENSE.html
+Downloading: https://github.com/quran -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/github.com_quran.html
+Downloading: https://github.com/quran/api-js -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/github.com_quran_api-js.html
+Downloading: https://github.com/risan/quran-meta -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/github.com_risan_quran-meta.html
+FAILED: https://github.com/risan/quran-meta
+Downloading: https://oauth2.quran.foundation -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/oauth2.quran.foundation.html
+FAILED: https://oauth2.quran.foundation
+Downloading: https://prelive-oauth2.quran.foundation -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/prelive-oauth2.quran.foundation.html
+FAILED: https://prelive-oauth2.quran.foundation
+Downloading: https://prelive-oauth2.quran.foundation/oauth2/token -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/prelive-oauth2.quran.foundation_oauth2_token.html
+FAILED: https://prelive-oauth2.quran.foundation/oauth2/token
+Downloading: https://qul.tarteel.ai/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/qul.tarteel.ai_.html
+Downloading: https://qul.tarteel.ai/resources/quran-script/59 -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/qul.tarteel.ai_resources_quran-script_59.html
+Downloading: https://schema.org/BreadcrumbList -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/schema.org_BreadcrumbList.html
+Downloading: https://schema.org/ListItem -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/schema.org_ListItem.html
+Downloading: https://tanzil.net/docs/text_license -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/tanzil.net_docs_text_license.html
+Downloading: https://tanzil.net/download/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/tanzil.net_download_.html
+Downloading: https://verses.quran.foundation/Alafasy/mp3/001001.mp3 -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/verses.quran.foundation_Alafasy_mp3_001001.mp3.html
+Downloading: https://www.google-analytics.com/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/www.google-analytics.com_.html
+Downloading: https://www.googletagmanager.com/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/www.googletagmanager.com_.html
+FAILED: https://www.googletagmanager.com/
+Downloading: http://tanzil.net/updates/ -> /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence/source_pages/tanzil.net_updates_.html
+Generating checksums...
+
+Done. Evidence folder: /home/munaim/Documents/github/AmanahQuran/docs/legal/evidence
+Manifest: /home/munaim/Documents/github/AmanahQuran/docs/legal/CONTENT_AND_FONT_LICENSE_MANIFEST.md
+Checksums: /home/munaim/Documents/github/AmanahQuran/docs/legal/LEGAL_EVIDENCE_SHA256SUMS.txt
+Log: /home/munaim/Documents/github/AmanahQuran/docs/legal/license_download_log.txt

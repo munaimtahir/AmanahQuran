@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <script>
+    window.__IS_PRODUCTION_HOST__ =
+      window.location.hostname === 'donate.quran.foundation';
+    window.__ENABLE_PROD_ANALYTICS__ =
+      window.__IS_PRODUCTION_HOST__;
+
+    if (window.__ENABLE_PROD_ANALYTICS__) {
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+          'gtm.start': new Date().getTime(),
+          event: 'gtm.js',
+        });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-WNX87WF');
+    }
+  </script>
+  <title>Donate to Quran.com</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description"
+    content="Support our non-profit work to expand Quran.com and other platforms managed by Quran.Foundation" />
+  <meta name="keywords" content="Quran Fund,Quran,Quran.com,Islam" />
+  <meta property="og:url" content="https://donate.quran.foundation" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Donate to Quran.com" />
+  <meta property="og:description"
+    content="Support our non-profit work to expand Quran.com and other platforms managed by Quran.Foundation" />
+  <meta property="og:image" content="https://donate.quran.foundation/img/quran-foundation-donate-og.webp" />
+  <meta property="og:image:width" content="1366" />
+  <meta property="og:image:height" content="768" />
+
+  <!-- Twitter/X Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Donate to Quran.com" />
+  <meta name="twitter:description"
+    content="Support our non-profit work to expand Quran.com and other platforms managed by Quran.Foundation" />
+  <meta name="twitter:image" content="https://donate.quran.foundation/img/quran-foundation-donate-og.webp" />
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://donate.quran.foundation" />
+
+  <!-- <link rel="manifest" href="site.webmanifest"> -->
+  <!-- <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png"> -->
+  <link rel="shortcut icon" href="/img/favicon.571d2a1834.ico" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="image" href="img/hero-bg.6cede86067.webp" type="image/webp" fetchpriority="high" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&display=swap" />
+  <link rel="dns-prefetch" href="https://giving.classy.org" />
+  <link rel="preconnect" href="https://giving.classy.org" crossorigin />
+
+  <!-- Place favicon.ico in the root directory -->
+
+  <!-- CSS here -->
+  <link rel="stylesheet" href="css/style.5772a28a1f.css" />
+  <link rel="stylesheet" href="css/new.1d31ab1790.css" />
+  <link rel="stylesheet" href="css/home.5fa65681a2.css" />
+  <link rel="stylesheet" href="src/output.3735f5b2ed.css" />
+  <script async src="https://giving.classy.org/embedded/api/sdk/js/84571"></script>
+  <style>
+    cl-donation-form {
+      display: block;
+      width: 100%;
+    }
+
+    [data-hero-widget] cl-donation-form,
+    .classy-widget-shell--hero cl-donation-form {
+      --classy-font__paragraph-md--font-size: 14px;
+      --classy-font__paragraph-md--line-height: 20px;
+      --classy-font__paragraph-md-bold-font-size: 14px;
+      --classy-font__paragraph-md-bold-line-height: 20px;
+    }
+
+    .classy-widget-shell {
+      position: relative;
+      width: 100%;
+      min-height: 490px;
+    }
+
+    .classy-widget-shell--hero,
+    .classy-widget-shell--footer {
+      --classy-widget-radius: 20px;
+    }
+
+    .classy-widget-skeleton {
+      position: absolute;
+      inset: 0;
+      display: block;
+      box-sizing: border-box;
+      padding: 23px;
+      border: 1px solid #e4e8ee;
+      border-radius: var(--classy-widget-radius);
+      background: linear-gradient(180deg, #fbfbfc 0%, #f4f6f9 100%);
+      box-shadow: 0 8px 16px 0 rgba(27, 27, 27, 0.08);
+      overflow: hidden;
+      pointer-events: none;
+      transition: opacity 160ms ease, visibility 160ms ease;
+    }
+
+    .classy-widget-skeleton::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.45) 50%,
+          rgba(255, 255, 255, 0) 100%);
+      transform: translateX(-100%);
+      animation: classy-widget-shimmer 1.6s linear infinite;
+    }
+
+    .classy-widget-shell.classy-widget-static .classy-widget-skeleton::after {
+      animation: none;
+      transform: translateX(0);
+      opacity: 0;
+    }
+
+    .classy-widget-skeleton__tabs,
+    .classy-widget-skeleton__title,
+    .classy-widget-skeleton__grid,
+    .classy-widget-skeleton__split,
+    .classy-widget-skeleton__cta {
+      position: relative;
+      z-index: 1;
+    }
+
+    .classy-widget-skeleton__tabs {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0;
+      padding: 2px;
+      height: 42px;
+      border: 2px solid #ffffff;
+      border-radius: 20px;
+      background: #eceffa;
+      margin-bottom: 24px;
+    }
+
+    .classy-widget-skeleton__tab {
+      border-radius: 20px;
+      background: transparent;
+    }
+
+    .classy-widget-skeleton__tab--active {
+      background: #22a5ad;
+      box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.12);
+    }
+
+    .classy-widget-skeleton__title {
+      display: block;
+      width: 74%;
+      height: 24px;
+      border-radius: 999px;
+      background: #eceffa;
+      margin: 0 auto 24px;
+    }
+
+    .classy-widget-skeleton__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+
+    .classy-widget-skeleton__amount,
+    .classy-widget-skeleton__currency,
+    .classy-widget-skeleton__other {
+      display: block;
+      height: 56px;
+      border-radius: 8px;
+      background: #eceffa;
+    }
+
+    .classy-widget-skeleton__split {
+      display: grid;
+      grid-template-columns: 85px minmax(0, 1fr);
+      gap: 0;
+      margin-bottom: 64px;
+    }
+
+    .classy-widget-skeleton__currency {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-right: 1px solid #ffffff;
+    }
+
+    .classy-widget-skeleton__other {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    .classy-widget-skeleton__cta {
+      display: block;
+      height: 64px;
+      border-radius: 48px;
+      background: #000000;
+    }
+
+    .classy-widget-shell .classy-widget-mount {
+      transition: opacity 160ms ease;
+    }
+
+    .classy-widget-shell[aria-busy='true'] .classy-widget-mount {
+      opacity: 0;
+    }
+
+    .classy-widget-shell[aria-busy='false'] .classy-widget-skeleton {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .classy-widget-shell[aria-busy='false'] .classy-widget-mount {
+      opacity: 1;
+    }
+
+    @media (max-width: 1023px) {
+      .hero-background {
+        background-position: center top;
+        padding-bottom: 60px;
+      }
+
+      [data-hero-widget-mobile-anchor] {
+        margin-top: -40px;
+        position: relative;
+        z-index: 10;
+      }
+    }
+
+    @keyframes classy-widget-shimmer {
+      from {
+        transform: translateX(-100%);
+      }
+
+      to {
+        transform: translateX(100%);
+      }
+    }
+  </style>
+</head>
+<!-- <script>(function (gi, vi, n, g, l, oo, p) { gi[l] = gi[l] || function () { (gi[l].q = gi[l].q || []).push(arguments); gi.glObjName = l; }, oo = vi.createElement(n), p = vi.getElementsByTagName(n)[0]; oo.async = 1; oo.src = g; oo.dataset.orgId = 1728; p.parentNode.insertBefore(oo, p); oo.id = "gl-donation-popup-script"; })(window, document, "script", "https://www.givingloop.org/js?" + Array(1).fill(null).map(() => Math.random().toString(20).substr(2)).join(""), "givingloop");</script> -->
+<!-- <script id="gl-elements" src="https://givingloop.org/assets/js/gl_elements.js?org_id=1728"></script> -->
+
+<body>
+  <script>
+    if (window.__ENABLE_PROD_ANALYTICS__) {
+      var gtmIframe = document.createElement('iframe');
+      gtmIframe.src = 'https://www.googletagmanager.com/ns.html?id=GTM-WNX87WF';
+      gtmIframe.height = '0';
+      gtmIframe.width = '0';
+      gtmIframe.style.display = 'none';
+      gtmIframe.style.visibility = 'hidden';
+      document.body.insertBefore(gtmIframe, document.body.firstChild);
+    }
+  </script>
+  <main class="flex flex-col">
+    <!-- hero_section_start -->
+    <div class="w-full">
+      <div class="hero-background w-full bg-center bg-no-repeat bg-cover px-5 py-[18px] sm:py-6 lg:py-[50px] 2xl:px-0"
+        style="background-image: url('img/hero-bg.1348beb027.png'); background-image: image-set(url('img/hero-bg.6cede86067.webp') type('image/webp'), url('img/hero-bg.1348beb027.png') type('image/png'));">
+        <div
+          class="mx-auto flex w-full max-w-[1355px] flex-col gap-[17px] sm:gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-[98px]">
+          <div class="flex flex-col pt-2 lg:max-w-[895px] lg:pt-0">
+            <h1
+              class="max-w-[895px] text-left text-[48px] font-bold leading-[1.15] tracking-[-0.02em] text-white sm:text-[56px] lg:text-[72px] lg:leading-[1.2]">
+              Help Millions Connect with the Quran.
+            </h1>
+
+            <div
+              class="mt-[30px] max-w-[895px] space-y-6 text-left text-base font-medium leading-[1.6] text-white sm:text-lg lg:mt-[50px] lg:text-2xl">
+              <p>
+                The Prophet ﷺ said: 'Convey from me, even if it is one verse.'
+                <span class="text-sm lg:text-2xl">(Bukhari 3461)</span>
+              </p>
+              <p>
+                Your donation fuels a global Quran experience—free of cost, ad-free, and accessible to all. May you
+                receive continuous rewards (Sadaqah Jariyah) for every letter read, memorized, and listened to, and
+                for every heart inspired.
+              </p>
+            </div>
+          </div>
+          <div class="hidden lg:block lg:w-[301px] lg:max-w-none lg:shrink-0" data-hero-widget-desktop-anchor></div>
+        </div>
+      </div>
+      <div class="mx-auto w-[calc(100%-40px)] max-w-[350px] lg:hidden" data-hero-widget-mobile-anchor>
+        <div class="hero-widget-wrap w-full" data-hero-widget>
+          <div class="classy-widget-shell classy-widget-shell--hero" data-classy-widget aria-busy="true">
+            <div class="classy-widget-skeleton" aria-hidden="true">
+              <div class="classy-widget-skeleton__tabs">
+                <span class="classy-widget-skeleton__tab"></span>
+                <span class="classy-widget-skeleton__tab classy-widget-skeleton__tab--active"></span>
+              </div>
+              <span class="classy-widget-skeleton__title"></span>
+              <div class="classy-widget-skeleton__grid">
+                <span class="classy-widget-skeleton__amount"></span>
+                <span class="classy-widget-skeleton__amount"></span>
+                <span class="classy-widget-skeleton__amount"></span>
+                <span class="classy-widget-skeleton__amount"></span>
+              </div>
+              <div class="classy-widget-skeleton__split">
+                <span class="classy-widget-skeleton__currency"></span>
+                <span class="classy-widget-skeleton__other"></span>
+              </div>
+              <span class="classy-widget-skeleton__cta"></span>
+            </div>
+            <div id="BJnYPmVkxPI0hlr0GwaXY" classy="778249" class="classy-widget-mount w-full"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- hero_section_end -->
+
+    <script>
+      (function () {
+        var heroWidget = document.querySelector('[data-hero-widget]');
+        var desktopAnchor = document.querySelector('[data-hero-widget-desktop-anchor]');
+        var mobileAnchor = document.querySelector('[data-hero-widget-mobile-anchor]');
+
+        if (!heroWidget || !desktopAnchor || !mobileAnchor) {
+          return;
+        }
+
+        var desktopMedia = window.matchMedia('(min-width: 1024px)');
+
+        function placeHeroWidget() {
+          var target = desktopMedia.matches ? desktopAnchor : mobileAnchor;
+
+          if (heroWidget.parentNode !== target) {
+            target.appendChild(heroWidget);
+          }
+        }
+
+        if (typeof desktopMedia.addEventListener === 'function') {
+          desktopMedia.addEventListener('change', placeHeroWidget);
+        } else if (typeof desktopMedia.addListener === 'function') {
+          desktopMedia.addListener(placeHeroWidget);
+        }
+
+        placeHeroWidget();
+      })();
+    </script>
+
+    <!-- stats_section_start -->
+    <div class="pt-9 w-full bg-white lg:pt-12">
+      <div class="mx-auto max-w-[1355px] px-5 2xl:px-0">
+        <!-- Impact Description -->
+        <div class="mx-auto text-center">
+          <p class="mt-4 text-2xl font-light">
+            Monthly donations help us improve and sustain operations so we
+            focus less on fundraising and more on creating impact.
+            <strong>
+              Quran.Foundation is a 501(c)(3) non-profit organization</strong>
+          </p>
+          <div class="flex flex-col gap-5 justify-center items-center mt-8 md:flex-row">
+            <button
+              class="w-[250px] px-8 py-3 text-base font-semibold rounded-full text-center transition duration-500 bg-[#22a5ad] text-white cursor-pointer border border-transparent hover:bg-[#016e7c] hover:text-white donate-button"
+              style="text-wrap:nowrap;">
+              Become a Monthly Donor
+            </button>
+            <button
+              class="w-[250px] px-8 py-3 bg-[#EBF9FA] text-[#22A5AD] rounded-full hover:cursor-pointer hover:opacity-80 transition-colors mx-auto md:w-[200px] md:mx-0 md:text-lg"
+              onclick="navigator.clipboard.writeText(window.location.href); this.innerText = 'Copied'; setTimeout(() => this.innerText = 'Share', 3000); return false;">
+              Share
+            </button>
+
+            <p class="mt-1.5 md:mt-0 text-[#888D99] font-semibold">
+              Existing donor? Login
+              <a target="_blank" href="https://www.classy.org/sso" class="font-bold underline" key="login">Here</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- stats_section_end -->
+
+    <!-- separator_start -->
+    <div class="flex justify-center py-9 lg:py-12">
+      <div class="w-full h-[1px] bg-[#EAEAEA] rounded-[10px] lg:max-w-[1355px]"></div>
+    </div>
+    <!-- separator_end -->
+
+    <!-- achievements_section_start -->
+    <div class="w-full">
+      <div class="mx-auto max-w-[1355px] px-5 2xl:px-0">
+        <h2 class="mb-5 text-4xl font-semibold lg:text-5xl">
+          Our Achievements
+        </h2>
+        <p class="mb-8 text-xl font-normal lg:mb-12 lg:text-2xl">
+          Our Impact from February 2025 – February 2026
+        </p>
+        <p class="mb-8 text-xl font-normal lg:mb-12 lg:text-2xl">
+          With Allah's blessings first and foremost, and with the support of
+          generous donors, these are some of our achievements over the past
+          year, Alhamdulillah:
+        </p>
+
+        <!-- Achievement Cards Flex Container -->
+        <div class="flex flex-wrap gap-5 lg:gap-6">
+          <!-- Active Users across Platforms -->
+          <div
+            class="bg-white rounded-2xl p-6 border border-[#D8D8D8] min-h-[234px] flex-grow basis-[calc(100%-1.5rem)] md:basis-[calc(50%-1.5rem)] lg:basis-[calc(25%-1.5rem)]">
+            <div class="flex flex-col gap-5">
+              <h2 class="text-4xl font-bold lg:text-5xl">95 Million+</h2>
+              <div class="h-1 w-12 bg-[#22A5AD]"></div>
+              <p class="text-2xl font-light">
+                Active Users across Quran.Foundation Platforms
+              </p>
+              <p class="text-2xl font-light">(Last 12 months)</p>
+            </div>
+          </div>
+
+          <!-- Active Users Web & Mobile -->
+          <div
+            class="bg-white rounded-2xl p-6 border border-[#D8D8D8] min-h-[234px] flex-grow basis-[calc(100%-1.5rem)] md:basis-[calc(50%-1.5rem)] lg:basis-[calc(25%-1.5rem)]">
+            <div class="flex flex-col gap-5">
+              <h2 class="text-4xl font-bold lg:text-5xl">82 Million+</h2>
+              <div class="h-1 w-12 bg-[#22A5AD]"></div>
+              <p class="text-2xl font-light">
+                Active users on <a href="https://quran.com" target="_blank" rel="noopener noreferrer"
+                  class="text-[#22A5AD] underline">Quran.com</a> Web and Mobile Apps
+              </p>
+              <p class="text-2xl font-light">(Last 12 months)</p>
+            </div>
+          </div>
+
+          <!-- Reflections and Lessons -->
+          <div
+            class="bg-white rounded-2xl p-6 border border-[#D8D8D8] min-h-[234px] flex-grow basis-[calc(100%-1.5rem)] md:basis-[calc(50%-1.5rem)] lg:basis-[calc(25%-1.5rem)]">
+            <div class="flex flex-col gap-5">
+              <h2 class="text-4xl font-bold lg:text-5xl">22,000+</h2>
+              <div class="h-1 w-12 bg-[#22A5AD]"></div>
+              <p class="text-2xl font-light">
+                Total number of reflections and lessons posted and reviewed for quality
+              </p>
+              <p class="text-2xl font-light">(Last 12 months)</p>
+            </div>
+          </div>
+
+          <!-- Quran API Calls -->
+          <div
+            class="bg-white rounded-2xl p-6 border border-[#D8D8D8] min-h-[234px] flex-grow basis-[calc(100%-1.5rem)] md:basis-[calc(50%-1.5rem)] lg:basis-[calc(25%-1.5rem)]">
+            <div class="flex flex-col gap-5">
+              <h2 class="text-4xl font-bold lg:text-5xl">45 Million+</h2>
+              <div class="h-1 w-12 bg-[#22A5AD]"></div>
+              <p class="text-2xl font-light">
+                Quran API Calls last Month (through connected apps)
+              </p>
+              <p class="text-2xl font-light">(January 2026)</p>
+            </div>
+          </div>
+
+          <!-- Learning Plans -->
+          <div
+            class="bg-white rounded-2xl p-6 border border-[#D8D8D8] min-h-[234px] flex-grow basis-[calc(100%-1.5rem)] md:basis-[calc(50%-1.5rem)] lg:basis-[calc(25%-1.5rem)]">
+            <div class="flex flex-col gap-5">
+              <h2 class="text-4xl font-bold lg:text-5xl">100,000+</h2>
+              <div class="h-1 w-12 bg-[#22A5AD]"></div>
+              <p class="text-2xl font-light">Learning Plans Enrolled</p>
+              <p class="text-2xl font-light">(Since Release of Feature)</p>
+            </div>
+          </div>
+
+          <!-- Media Maker -->
+          <div
+            class="bg-white rounded-2xl p-6 border border-[#D8D8D8] min-h-[234px] flex-grow basis-[calc(100%-1.5rem)] md:basis-[calc(50%-1.5rem)] lg:basis-[calc(25%-1.5rem)]">
+            <div class="flex flex-col gap-5">
+              <h2 class="text-4xl font-bold lg:text-5xl">225,000+</h2>
+              <div class="h-1 w-12 bg-[#22A5AD]"></div>
+              <p class="text-2xl font-light">
+                Quran Media Maker Videos and Images Generated
+              </p>
+              <p class="text-2xl font-light">(Since Release of Feature)</p>
+            </div>
+          </div>
+
+          <!-- Goals Created -->
+          <div
+            class="bg-white rounded-2xl p-6 border border-[#D8D8D8] min-h-[234px] flex-grow basis-[calc(100%-1.5rem)] md:basis-[calc(50%-1.5rem)] lg:basis-[calc(25%-1.5rem)]">
+            <div class="flex flex-col gap-5">
+              <h2 class="text-4xl font-bold lg:text-5xl">300,000+</h2>
+              <div class="h-1 w-12 bg-[#22A5AD]"></div>
+              <p class="text-2xl font-light">
+                Goals Created on Quran.com Web App
+              </p>
+              <p class="text-2xl font-light">(Since Release of Feature)</p>
+            </div>
+          </div>
+
+          <!-- Notes Written -->
+          <div
+            class="bg-white rounded-2xl p-6 border border-[#D8D8D8] min-h-[234px] flex-grow basis-[calc(100%-1.5rem)] md:basis-[calc(50%-1.5rem)] lg:basis-[calc(25%-1.5rem)]">
+            <div class="flex flex-col gap-5">
+              <h2 class="text-4xl font-bold lg:text-5xl">230,000+</h2>
+              <div class="h-1 w-12 bg-[#22A5AD]"></div>
+              <p class="text-2xl font-light">Notes Written</p>
+              <p class="text-2xl font-light">(Since Release of Feature)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- achievements_section_end -->
+
+    <!-- separator_start -->
+    <div class="flex justify-center py-9 lg:py-12">
+      <div class="w-full h-[1px] bg-[#EAEAEA] rounded-[10px] lg:max-w-[1355px]"></div>
+    </div>
+    <!-- separator_end -->
+
+    <!-- cta_section_start -->
+    <div class="w-full">
+      <div class="mx-auto max-w-[1355px] px-5 2xl:px-0 flex items-center flex-col">
+        <div class="mb-12 text-center">
+          <h2 class="mb-5 text-4xl font-semibold">
+            Your support will help us reach more people, insha'Allah
+          </h2>
+          <p class="text-2xl font-normal">
+            Monthly donations help us improve and sustain operations so we
+            focus less on fundraising and more on creating impact.
+          </p>
+        </div>
+
+        <button data-gl-monthly="true" data-gl-amount="100"
+          class="w-[250px] text-white inline-block px-8 py-3 text-base font-semibold rounded-full text-center transition duration-500 bg-[#22a5ad] cursor-pointer border border-transparent hover:bg-[#016e7c] hover:text-white donate-button"
+          key="header-donation" style="text-wrap:nowrap;">
+          Become a Monthly Donor
+        </button>
+      </div>
+    </div>
+    <!-- cta_section_end -->
+
+    <!-- separator_start -->
+    <div class="flex justify-center py-9 lg:py-12">
+      <div class="w-full h-[1px] bg-[#EAEAEA] rounded-[10px] lg:max-w-[1355px]"></div>
+    </div>
+    <!-- separator_end -->
+
+    <!-- our_global_reach_section_start -->
+    <div class="w-full">
+      <div class="mx-auto max-w-[1355px] px-5 2xl:px-0 flex flex-col">
+        <div class="mb-12">
+          <h2 class="mb-5 text-4xl font-semibold lg:text-5xl">
+            Our Global Reach
+          </h2>
+          <p class="mb-8 text-xl font-normal lg:mb-12 lg:text-2xl">
+            Reaching and serving people in all 195 countries worldwide!
+          </p>
+        </div>
+        <div class="flex justify-center">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+            data-deferred-src="img/map.8621efd76c.png" alt="map" class="w-full max-w-[1034px]" width="1034" height="603"
+            decoding="async" fetchpriority="low" />
+        </div>
+      </div>
+    </div>
+    <!-- our_global_reach_section_end -->
+
+    <!-- separator_start -->
+    <div class="flex justify-center py-9 lg:py-12">
+      <div class="w-full h-[1px] bg-[#EAEAEA] rounded-[10px] lg:max-w-[1355px]"></div>
+    </div>
+    <!-- separator_end -->
+
+    <!-- updates_section_start -->
+    <div class="w-full">
+      <div class="mx-auto max-w-[1355px] px-5 2xl:px-0">
+        <h2 class="mb-5 text-4xl font-semibold lg:text-5xl">
+          Our Latest Achievements
+        </h2>
+        <p class="mb-8 text-xl font-normal lg:mb-12 lg:text-2xl">
+          Highlights of New Features, Tools, and Content from the Past Year
+        </p>
+
+        <div class="border border-[#E9ECEF] rounded-2xl overflow-hidden">
+          <!-- Quran.com Expanding Access and Impact Worldwide -->
+          <div>
+            <button class="flex justify-between items-center p-5 w-full lg:p-8" onclick="toggleUpdate(1)">
+              <div class="flex gap-6 items-center">
+                <div class="w-7 h-7 lg:w-11 lg:h-11 rounded-full bg-[#EBF9FA] flex items-center justify-center">
+                  <img src="img/checkmark.56ad25ea4a.svg" alt="Checkmark" class="w-6 h-6 lg:w-9 lg:h-9 min-w-6" loading="lazy"
+                    decoding="async" />
+                </div>
+                <h2 class="text-xl font-normal text-left lg:text-3xl">
+                  Quran.com Expanding Access and Impact Worldwide
+                </h2>
+              </div>
+              <img id="arrow-1" src="img/arrow-down.85edd8e6fb.svg" alt="Arrow" loading="lazy" decoding="async"
+                class="w-5 h-8 transition-transform duration-200" />
+            </button>
+            <div id="content-1" class="hidden pr-5 lg:pl-[100px] pl-[70px] pb-8">
+              <p class="text-base lg:text-2xl">
+                This year, Quran.com was significantly enhanced to provide a more powerful, accessible, and beneficial
+                experience for readers at every stage. Through improved study tools, expanded global access, and
+                stronger infrastructure, we have continued building a platform that serves millions worldwide with
+                excellence and care, insha'Allah.
+              </p>
+            </div>
+            <div class="h-[1px] bg-[#E9ECEF] mx-5 lg:mx-10"></div>
+          </div>
+
+          <!-- Improved Reading and Study Tools -->
+          <div>
+            <button class="flex justify-between items-center p-5 w-full lg:p-8" onclick="toggleUpdate(2)">
+              <div class="flex gap-6 items-center">
+                <div class="w-7 h-7 lg:w-11 lg:h-11 rounded-full bg-[#EBF9FA] flex items-center justify-center">
+                  <img src="img/checkmark.56ad25ea4a.svg" alt="Checkmark" class="w-6 h-6 lg:w-9 lg:h-9 min-w-6" loading="lazy"
+                    decoding="async" />
+                </div>
+                <h2 class="text-xl font-normal text-left lg:text-3xl">
+                  Improved Reading and Study Tools
+                </h2>
+              </div>
+              <img id="arrow-2" src="img/arrow-down.85edd8e6fb.svg" alt="Arrow" loading="lazy" decoding="async"
+                class="w-5 h-8 transition-transform duration-200" />
+            </button>
+            <div id="content-2" class="hidden pr-5 lg:pl-[100px] pl-[70px] pb-8">
+              <p class="text-base lg:text-2xl">
+                The Quran.com reader was redesigned to support deeper engagement and meaningful study. We introduced
+                Study Mode, enhanced navigation, improved collections, a new verse comparison tool, layered translation,
+                and integrated related hadith references. Notes and collections were also refined to help users
+                organize, reflect, and return to their learning with ease.
+              </p>
+            </div>
+            <div class="h-[1px] bg-[#E9ECEF] mx-5 lg:mx-10"></div>
+          </div>
+
+          <!-- Greater Global Accessibility -->
+          <div>
+            <button class="flex justify-between items-center p-5 w-full lg:p-8" onclick="toggleUpdate(3)">
+              <div class="flex gap-6 items-center">
+                <div class="w-7 h-7 lg:w-11 lg:h-11 rounded-full bg-[#EBF9FA] flex items-center justify-center">
+                  <img src="img/checkmark.56ad25ea4a.svg" alt="Checkmark" class="w-6 h-6 lg:w-9 lg:h-9 min-w-6" loading="lazy"
+                    decoding="async" />
+                </div>
+                <h2 class="text-xl font-normal text-left lg:text-3xl">
+                  Greater Global Accessibility
+                </h2>
+              </div>
+              <img id="arrow-3" src="img/arrow-down.85edd8e6fb.svg" alt="Arrow" loading="lazy" decoding="async"
+                class="w-5 h-8 transition-transform duration-200" />
+            </button>
+            <div id="content-3" class="hidden pr-5 lg:pl-[100px] pl-[70px] pb-8">
+              <p class="text-base lg:text-2xl">
+                Nineteen new Quran translations were added this year, including underserved languages, expanding access
+                to millions more readers. Word-by-word translation was expanded to six languages, and a dedicated
+                Vietnamese experience was launched. These efforts reflect our continued commitment to making the Quran
+                accessible, understandable, and meaningful for diverse global communities.
+              </p>
+            </div>
+            <div class="h-[1px] bg-[#E9ECEF] mx-5 lg:mx-10"></div>
+          </div>
+
+          <!-- Reliability and Performance at Global Scale -->
+          <div>
+            <button class="flex justify-between items-center p-5 w-full lg:p-8" onclick="toggleUpdate(4)">
+              <div class="flex gap-6 items-center">
+                <div class="w-7 h-7 lg:w-11 lg:h-11 rounded-full bg-[#EBF9FA] flex items-center justify-center">
+                  <img src="img/checkmark.56ad25ea4a.svg" alt="Checkmark" class="w-6 h-6 lg:w-9 lg:h-9 min-w-6" loading="lazy"
+                    decoding="async" />
+                </div>
+                <h2 class="text-xl font-normal text-left lg:text-3xl">
+                  Reliability and Performance at Global Scale
+                </h2>
+              </div>
+              <img id="arrow-4" src="img/arrow-down.85edd8e6fb.svg" alt="Arrow" loading="lazy" decoding="async"
+                class="w-5 h-8 transition-transform duration-200" />
+            </button>
+            <div id="content-4" class="hidden pr-5 lg:pl-[100px] pl-[70px] pb-8">
+              <p class="text-base lg:text-2xl">
+                Significant infrastructure improvements were made this year to ensure faster performance, stronger
+                stability during peak times such as Ramadan, and greater reliability for millions of users worldwide.
+                These enhancements allow Quran.com and its services to scale sustainably while maintaining a smooth,
+                uninterrupted experience for our growing global community.
+              </p>
+            </div>
+            <div class="h-[1px] bg-[#E9ECEF] mx-5 lg:mx-10"></div>
+          </div>
+
+          <!-- Learning Plans -->
+          <div>
+            <button class="flex justify-between items-center p-5 w-full lg:p-8" onclick="toggleUpdate(5)">
+              <div class="flex gap-6 items-center">
+                <div class="w-7 h-7 lg:w-11 lg:h-11 rounded-full bg-[#EBF9FA] flex items-center justify-center">
+                  <img src="img/checkmark.56ad25ea4a.svg" alt="Checkmark" class="w-6 h-6 lg:w-9 lg:h-9 min-w-6" loading="lazy"
+                    decoding="async" />
+                </div>
+                <h2 class="text-xl font-normal text-left lg:text-3xl">
+                  Learning Plans – From Reading to Transformation
+                </h2>
+              </div>
+              <img id="arrow-5" src="img/arrow-down.85edd8e6fb.svg" alt="Arrow" loading="lazy" decoding="async"
+                class="w-5 h-8 transition-transform duration-200" />
+            </button>
+            <div id="content-5" class="hidden pr-5 lg:pl-[100px] pl-[70px] pb-8">
+              <p class="text-base lg:text-2xl">
+                Structured Learning Plans received a highly positive response this year, with thousands of enrollees and
+                more than 3,000 five-star ratings from users who found them meaningful and beneficial. These guided
+                journeys help users connect real-life challenges such as screen use, emotional resilience, and spiritual
+                growth to Quranic guidance. Combining verses, scholarly insights, reflection-provoking questions, and
+                practical application, Learning Plans aim to move users from passive reading to sustained,
+                transformative engagement.
+              </p>
+            </div>
+            <div class="h-[1px] bg-[#E9ECEF] mx-5 lg:mx-10"></div>
+          </div>
+
+          <!-- Scholarly Depth and Authenticity -->
+          <div>
+            <button class="flex justify-between items-center p-5 w-full lg:p-8" onclick="toggleUpdate(6)">
+              <div class="flex gap-6 items-center">
+                <div class="w-7 h-7 lg:w-11 lg:h-11 rounded-full bg-[#EBF9FA] flex items-center justify-center">
+                  <img src="img/checkmark.56ad25ea4a.svg" alt="Checkmark" class="w-6 h-6 lg:w-9 lg:h-9 min-w-6" loading="lazy"
+                    decoding="async" />
+                </div>
+                <h2 class="text-xl font-normal text-left lg:text-3xl">
+                  Scholarly Depth and Authenticity
+                </h2>
+              </div>
+              <img id="arrow-6" src="img/arrow-down.85edd8e6fb.svg" alt="Arrow" loading="lazy" decoding="async"
+                class="w-5 h-8 transition-transform duration-200" />
+            </button>
+            <div id="content-6" class="hidden pr-5 lg:pl-[100px] pl-[70px] pb-8">
+              <p class="text-base lg:text-2xl">
+                Content rooted in established scholarship continued to expand, including new surah introductions and
+                question-based tafsir materials. A translation correction and feedback process was also established to
+                continuously improve accuracy and quality. By combining scholarly depth with thoughtful design,
+                Quran.Foundation remains committed to making authentic knowledge accessible without compromise.
+              </p>
+            </div>
+            <div class="h-[1px] bg-[#E9ECEF] mx-5 lg:mx-10"></div>
+          </div>
+
+          <!-- Accelerating Access to Quran-Centered Content -->
+          <div>
+            <button class="flex justify-between items-center p-5 w-full lg:p-8" onclick="toggleUpdate(7)">
+              <div class="flex gap-6 items-center">
+                <div class="w-7 h-7 lg:w-11 lg:h-11 rounded-full bg-[#EBF9FA] flex items-center justify-center">
+                  <img src="img/checkmark.56ad25ea4a.svg" alt="Checkmark" class="w-6 h-6 lg:w-9 lg:h-9 min-w-6" loading="lazy"
+                    decoding="async" />
+                </div>
+                <h2 class="text-xl font-normal text-left lg:text-3xl">
+                  Accelerating Access to Quran-Centered Content
+                </h2>
+              </div>
+              <img id="arrow-7" src="img/arrow-down.85edd8e6fb.svg" alt="Arrow" loading="lazy" decoding="async"
+                class="w-5 h-8 transition-transform duration-200" />
+            </button>
+            <div id="content-7" class="hidden pr-5 lg:pl-[100px] pl-[70px] pb-8">
+              <p class="text-base lg:text-2xl">
+                We built a new content management system (CMS) for Quran.com, a major milestone that significantly
+                accelerates our ability to serve users. Previously, publishing new lessons required technical timelines.
+                Today, our team can create, review, and publish Quran-centered content across multiple languages much
+                faster, helping more people access guidance, reflection, and learning when they need it.
+              </p>
+            </div>
+            <div class="h-[1px] bg-[#E9ECEF] mx-5 lg:mx-10"></div>
+          </div>
+
+          <!-- QuranReflect -->
+          <div>
+            <button class="flex justify-between items-center p-5 w-full lg:p-8" onclick="toggleUpdate(8)">
+              <div class="flex gap-6 items-center">
+                <div class="w-7 h-7 lg:w-11 lg:h-11 rounded-full bg-[#EBF9FA] flex items-center justify-center">
+                  <img src="img/checkmark.56ad25ea4a.svg" alt="Checkmark" class="w-6 h-6 lg:w-9 lg:h-9 min-w-6" loading="lazy"
+                    decoding="async" />
+                </div>
+                <h2 class="text-xl font-normal text-left lg:text-3xl">
+                  QuranReflect - Strengthening a Global Culture of Reflection
+                </h2>
+              </div>
+              <img id="arrow-8" src="img/arrow-down.85edd8e6fb.svg" alt="Arrow" loading="lazy" decoding="async"
+                class="w-5 h-8 transition-transform duration-200" />
+            </button>
+            <div id="content-8" class="hidden pr-5 lg:pl-[100px] pl-[70px] pb-8">
+              <p class="text-base lg:text-2xl mb-10">
+                A major new version of QuranReflect was released across web, iOS, and Android, featuring a redesigned
+                homepage, improved discovery, enhanced feeds, and a more intuitive experience. Over 1 million visitors
+                engaged with the platform, with thousands of reflections written and shared as users connected their
+                lives to the guidance of the Quran.
+              </p>
+              <br>
+              <p class="text-base lg:text-2xl">
+                Beyond the platform, live reflection retreats, podcasts, and interactive sessions fostered meaningful
+                engagement. Twelve monthly themes, including initiatives such as #RamadanReady, #LightForGaza,
+                #TadabburTaughtMe, and other campaigns that encouraged users to engage with the Quran around real-life
+                concerns and global events. Alhamdulillah, QuranReflect continues to grow as a safe, carefully moderated
+                space for thoughtful reflection and shared learning.
+              </p>
+            </div>
+            <div class="h-[1px] bg-[#E9ECEF] mx-5 lg:mx-10"></div>
+          </div>
+
+          <!-- Strategic Partnerships and Collaboration -->
+          <div>
+            <button class="flex justify-between items-center p-5 w-full lg:p-8" onclick="toggleUpdate(9)">
+              <div class="flex gap-6 items-center">
+                <div class="w-7 h-7 lg:w-11 lg:h-11 rounded-full bg-[#EBF9FA] flex items-center justify-center">
+                  <img src="img/checkmark.56ad25ea4a.svg" alt="Checkmark" class="w-6 h-6 lg:w-9 lg:h-9 min-w-6" loading="lazy"
+                    decoding="async" />
+                </div>
+                <h2 class="text-xl font-normal text-left lg:text-3xl">
+                  Strategic Partnerships and Collaboration
+                </h2>
+              </div>
+              <img id="arrow-9" src="img/arrow-down.85edd8e6fb.svg" alt="Arrow" loading="lazy" decoding="async"
+                class="w-5 h-8 transition-transform duration-200" />
+            </button>
+            <div id="content-9" class="hidden pr-5 lg:pl-[100px] pl-[70px] pb-8">
+              <p class="text-base lg:text-2xl">
+                To maximize impact and avoid duplication, Quran.Foundation actively engages with organizations,
+                scholars, and communities across the global Quran ecosystem. Through participation in gatherings such as
+                the Quran Summit in London, Aqwam Qeela in Doha, Muslim Tech Fest, and collaborations with partners such
+                as Al Sharq Youth, the team works to listen, align efforts, and identify opportunities for collective
+                impact. This approach ensures that resources are used wisely and that the work strengthens the broader
+                global effort to serve the Quran.
+              </p>
+            </div>
+            <div class="h-[1px] bg-[#E9ECEF] mx-5 lg:mx-10"></div>
+          </div>
+
+          <!-- Developer Ecosystem and Open Access -->
+          <div>
+            <button class="flex justify-between items-center p-5 w-full lg:p-8" onclick="toggleUpdate(10)">
+              <div class="flex gap-6 items-center">
+                <div class="w-7 h-7 lg:w-11 lg:h-11 rounded-full bg-[#EBF9FA] flex items-center justify-center">
+                  <img src="img/checkmark.56ad25ea4a.svg" alt="Checkmark" class="w-6 h-6 lg:w-9 lg:h-9 min-w-6" loading="lazy"
+                    decoding="async" />
+                </div>
+                <h2 class="text-xl font-normal text-left lg:text-3xl">
+                  Developer Ecosystem and Open Access
+                </h2>
+              </div>
+              <img id="arrow-10" src="img/arrow-down.85edd8e6fb.svg" alt="Arrow" loading="lazy" decoding="async"
+                class="w-5 h-8 transition-transform duration-200" />
+            </button>
+            <div id="content-10" class="hidden pr-5 lg:pl-[100px] pl-[70px] pb-8">
+              <p class="text-base lg:text-2xl mb-6">
+                This year marked major growth in tools that extend the Quran's reach beyond our own platforms.
+              </p>
+              <br>
+              <p class="text-base lg:text-2xl mb-4">Key initiatives included:</p>
+              <ul class="pl-6 lg:space-y-4 space-y-3 text-base lg:text-2xl" style="margin-left: 20px;">
+                <li class="list-disc!">Launch of the Quran Apps page</li>
+                <li class="list-disc!">Expansion of Quran Labs</li>
+                <li class="list-disc!">Secure APIs with OAuth support</li>
+                <li class="list-disc!">The Ayah Embed Builder, enabling websites and platforms to embed accurate Quran
+                  text, translations, and audio with proper attribution</li>
+              </ul>
+              <br>
+              <p class="text-base lg:text-2xl mt-10">
+                These tools enable developers, educators, and organizations worldwide to responsibly build
+                Quran-centered experiences, multiplying impact far beyond a single platform.
+              </p>
+            </div>
+            <div class="h-[1px] bg-[#E9ECEF] mx-5 lg:mx-10"></div>
+          </div>
+
+          <!-- Organizational Strength and Responsible Growth -->
+          <div>
+            <button class="flex justify-between items-center p-5 w-full lg:p-8" onclick="toggleUpdate(11)">
+              <div class="flex gap-6 items-center">
+                <div class="w-7 h-7 lg:w-11 lg:h-11 rounded-full bg-[#EBF9FA] flex items-center justify-center">
+                  <img src="img/checkmark.56ad25ea4a.svg" alt="Checkmark" class="w-6 h-6 lg:w-9 lg:h-9 min-w-6" loading="lazy"
+                    decoding="async" />
+                </div>
+                <h2 class="text-xl font-normal text-left lg:text-3xl">
+                  Organizational Strength and Responsible Growth
+                </h2>
+              </div>
+              <img id="arrow-11" src="img/arrow-down.85edd8e6fb.svg" alt="Arrow" loading="lazy" decoding="async"
+                class="w-5 h-8 transition-transform duration-200" />
+            </button>
+            <div id="content-11" class="hidden pr-5 lg:pl-[100px] pl-[70px] pb-8">
+              <p class="text-base lg:text-2xl">
+                To support growing global demand, Quran.Foundation expanded its international team across engineering,
+                leadership, and content, with contributors spanning multiple regions. Every addition was made
+                thoughtfully to ensure responsible stewardship of donor funds while strengthening our ability to serve
+                more users effectively. Work also began on a comprehensive rebranding initiative to advance the mission
+                and further growing global role and impact, insha'Allah.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- updates_section_end -->
+
+    <!-- separator_start -->
+    <div class="flex justify-center py-9 lg:py-12">
+      <div class="w-full h-[1px] bg-[#EAEAEA] rounded-[10px] lg:max-w-[1355px]"></div>
+    </div>
+    <!-- separator_end -->
+
+    <!-- roadmap_section_start -->
+    <div class="w-full">
+      <div class="mx-auto max-w-[1355px] px-5 2xl:px-0">
+        <h2 class="mb-5 text-4xl font-semibold lg:text-5xl">
+          Planned Roadmap
+        </h2>
+        <p class="mb-12 text-2xl font-semibold lg:text-3xl">
+          From Reading… to Engagement… to Transformation
+        </p>
+        <p class="mb-8 text-xl font-normal lg:mb-6 lg:text-2xl">
+          We began by making the Quran accessible to millions.
+          We then deepened engagement through reflections, lessons, and connected experiences across platforms.
+        </p>
+        <p class="mb-8 text-xl font-normal lg:mb-6 lg:text-2xl">
+          Now, we are focused on something greater: guiding intentional Quran journeys, elevating the quality of
+          verse-level reflection, enabling collaborative study, and building the infrastructure for lifelong
+          transformation.
+        </p>
+        <p class="mb-8 text-xl font-normal lg:mb-12 lg:text-2xl">
+          Your support helps move people beyond reading – toward living the Quran.
+        </p>
+
+        <div class="border border-[#E9ECEF] rounded-2xl overflow-hidden mb-12">
+          <!-- Enrich Ayah and Surah level content -->
+          <div>
+            <button class="flex justify-between items-center p-5 w-full lg:p-8" onclick="toggleRoadmap(1)">
+              <div class="flex gap-6 items-center">
+                <div class="w-7 h-7 lg:w-11 lg:h-11 rounded-full bg-[#EBF9FA] flex items-center justify-center">
+                  <img src="img/bullseye-arrow.0cc6a4ddba.svg" alt="Bullseye Arrow" class="w-6 h-6 lg:w-9 lg:h-9 min-w-6"
+                    loading="lazy" decoding="async" />
+                </div>
+                <h2 class="text-xl font-normal text-left lg:text-3xl">
+                  Enrich Ayah and Surah level content and experience
+                </h2>
+              </div>
+              <img id="roadmap-arrow-1" src="img/arrow-down.85edd8e6fb.svg" alt="Arrow" loading="lazy" decoding="async"
+                class="w-5 h-8 transition-transform duration-200" />
+            </button>
+            <div id="roadmap-content-1" class="hidden pr-5 lg:pl-[100px] pl-[70px] pb-8">
+              <ol class="pl-6 lg:space-y-4 space-y-3 text-base list-disc! lg:text-2xl">
+                <li class="list-disc!">Addition of curated content such as layered translation, related ayahs, related
+                  hadiths, and answers.</li>
+                <li class="list-disc!">Addition of partners, institutions, and scholarly content.</li>
+                <li class="list-disc!">Expand Qira'at experiences to familiarize users further and deepen their
+                  connection.</li>
+                <li class="list-disc!">Open up ayah level community Questions &amp; Answers.</li>
+                <li class="list-disc!">Expand search to different content types, leading to the surah and ayah.</li>
+                <li class="list-disc!">Introduce verse-level engagement modes to meet people where they are in their
+                  Quran journey.</li>
+              </ol>
+            </div>
+            <div class="h-[1px] bg-[#E9ECEF] mx-5 lg:mx-10"></div>
+          </div>
+
+          <!-- Connected experience across apps -->
+          <div>
+            <button class="flex justify-between items-center p-5 w-full lg:p-8" onclick="toggleRoadmap(2)">
+              <div class="flex gap-6 items-center">
+                <div class="w-7 h-7 lg:w-11 lg:h-11 rounded-full bg-[#EBF9FA] flex items-center justify-center">
+                  <img src="img/bullseye-arrow.0cc6a4ddba.svg" alt="Bullseye Arrow" class="w-6 h-6 lg:w-9 lg:h-9 min-w-6"
+                    loading="lazy" decoding="async" />
+                </div>
+                <h2 class="text-xl font-normal text-left lg:text-3xl">
+                  Connected experience across apps
+                </h2>
+              </div>
+              <img id="roadmap-arrow-2" src="img/arrow-down.85edd8e6fb.svg" alt="Arrow" loading="lazy" decoding="async"
+                class="w-5 h-8 transition-transform duration-200" />
+            </button>
+            <div id="roadmap-content-2" class="hidden pr-5 lg:pl-[100px] pl-[70px] pb-8">
+              <ol class="pl-6 lg:space-y-4 space-y-3 text-base list-disc! lg:text-2xl">
+                <li class="list-disc!">Connected user engagement across web and apps, reading, notes, bookmarks, and
+                  more, and profile settings.</li>
+                <li class="list-disc!">Expand feature parity between Quran.com on Web, Android, and iPhone/iOS.</li>
+                <li class="list-disc!">Expand the network of third-party apps that integrate with Quran Foundation APIs
+                  for verified content and user features.</li>
+                <li class="list-disc!">Mature Quran Apps page to ensure uniquely valuable apps are curated and available
+                  to users.</li>
+                <li class="list-disc!">Continue empowering third-party developers with high-quality Quranic
+                  infrastructure.</li>
+              </ol>
+            </div>
+            <div class="h-[1px] bg-[#E9ECEF] mx-5 lg:mx-10"></div>
+          </div>
+
+          <!-- Evolve social reflection experiences -->
+          <div>
+            <button class="flex justify-between items-center p-5 w-full lg:p-8" onclick="toggleRoadmap(3)">
+              <div class="flex gap-6 items-center">
+                <div class="w-7 h-7 lg:w-11 lg:h-11 rounded-full bg-[#EBF9FA] flex items-center justify-center">
+                  <img src="img/bullseye-arrow.0cc6a4ddba.svg" alt="Bullseye Arrow" class="w-6 h-6 lg:w-9 lg:h-9 min-w-6"
+                    loading="lazy" decoding="async" />
+                </div>
+                <h2 class="text-xl font-normal text-left lg:text-3xl">
+                  Evolve social reflection experiences
+                </h2>
+              </div>
+              <img id="roadmap-arrow-3" src="img/arrow-down.85edd8e6fb.svg" alt="Arrow" loading="lazy" decoding="async"
+                class="w-5 h-8 transition-transform duration-200" />
+            </button>
+            <div id="roadmap-content-3" class="hidden pr-5 lg:pl-[100px] pl-[70px] pb-8">
+              <ol class="pl-6 lg:space-y-4 space-y-3 text-base list-disc! lg:text-2xl">
+                <li class="list-disc!">Interactive features and widgets to deepen engagement.</li>
+                <li class="list-disc!">Introduce opportunities to build on others' reflections momentum (such as
+                  ReReflect).</li>
+                <li class="list-disc!">Introduce different types of media for reflection sharing.</li>
+                <li class="list-disc!">AI tools that could aid with reflection-provoking questions and assisted
+                  authoring.</li>
+                <li class="list-disc!">Community empowerment through reflection, moderation, and feedback loops.</li>
+                <li class="list-disc!">Support collaborative reflection and study within groups and organizations.</li>
+              </ol>
+            </div>
+            <div class="h-[1px] bg-[#E9ECEF] mx-5 lg:mx-10"></div>
+          </div>
+
+          <!-- Curating and expanding transformational content -->
+          <div>
+            <button class="flex justify-between items-center p-5 w-full lg:p-8" onclick="toggleRoadmap(4)">
+              <div class="flex gap-6 items-center">
+                <div class="w-7 h-7 lg:w-11 lg:h-11 rounded-full bg-[#EBF9FA] flex items-center justify-center">
+                  <img src="img/bullseye-arrow.0cc6a4ddba.svg" alt="Bullseye Arrow" class="w-6 h-6 lg:w-9 lg:h-9 min-w-6"
+                    loading="lazy" decoding="async" />
+                </div>
+                <h2 class="text-xl font-normal text-left lg:text-3xl">
+                  Curating and expanding transformational content
+                </h2>
+              </div>
+              <img id="roadmap-arrow-4" src="img/arrow-down.85edd8e6fb.svg" alt="Arrow" loading="lazy" decoding="async"
+                class="w-5 h-8 transition-transform duration-200" />
+            </button>
+            <div id="roadmap-content-4" class="hidden pr-5 lg:pl-[100px] pl-[70px] pb-8">
+              <ol class="pl-6 lg:space-y-4 space-y-3 text-base list-disc! lg:text-2xl">
+                <li class="list-disc!">Advance the curation of verified content covering key topics.</li>
+                <li class="list-disc!">Accelerate the addition of highly popular Learning Plans to address relevant
+                  topics and community needs.</li>
+                <li class="list-disc!">Allow external verified contributions from institutions and scholars.</li>
+                <li class="list-disc!">Invest in culture-shaping thought leadership to centralize the community around
+                  the Quran and its teachings.</li>
+              </ol>
+            </div>
+            <div class="h-[1px] bg-[#E9ECEF] mx-5 lg:mx-10"></div>
+          </div>
+
+          <!-- Expanding regional reach, languages, and accessibility -->
+          <div>
+            <button class="flex justify-between items-center p-5 w-full lg:p-8" onclick="toggleRoadmap(5)">
+              <div class="flex gap-6 items-center">
+                <div class="w-7 h-7 lg:w-11 lg:h-11 rounded-full bg-[#EBF9FA] flex items-center justify-center">
+                  <img src="img/bullseye-arrow.0cc6a4ddba.svg" alt="Bullseye Arrow" class="w-6 h-6 lg:w-9 lg:h-9 min-w-6"
+                    loading="lazy" decoding="async" />
+                </div>
+                <h2 class="text-xl font-normal text-left lg:text-3xl">
+                  Expanding regional reach, languages, and accessibility
+                </h2>
+              </div>
+              <img id="roadmap-arrow-5" src="img/arrow-down.85edd8e6fb.svg" alt="Arrow" loading="lazy" decoding="async"
+                class="w-5 h-8 transition-transform duration-200" />
+            </button>
+            <div id="roadmap-content-5" class="hidden pr-5 lg:pl-[100px] pl-[70px] pb-8">
+              <ol class="pl-6 lg:space-y-4 space-y-3 text-base list-disc! lg:text-2xl">
+                <li class="list-disc!">Broaden global reach through advanced analytics, SEO improvements, and better
+                  page ranking to make the Quran more accessible worldwide.</li>
+                <li class="list-disc!">Strengthen localization efforts to enhance experience and engagement for each
+                  supported region and language.</li>
+                <li class="list-disc!">Expand content across supported languages.</li>
+              </ol>
+            </div>
+            <div class="h-[1px] bg-[#E9ECEF] mx-5 lg:mx-10"></div>
+          </div>
+
+          <!-- Continuous R&D and innovation -->
+          <div>
+            <button class="flex justify-between items-center p-5 w-full lg:p-8" onclick="toggleRoadmap(6)">
+              <div class="flex gap-6 items-center">
+                <div class="w-7 h-7 lg:w-11 lg:h-11 rounded-full bg-[#EBF9FA] flex items-center justify-center">
+                  <img src="img/bullseye-arrow.0cc6a4ddba.svg" alt="Bullseye Arrow" class="w-6 h-6 lg:w-9 lg:h-9 min-w-6"
+                    loading="lazy" decoding="async" />
+                </div>
+                <h2 class="text-xl font-normal text-left lg:text-3xl">
+                  Continuous R&amp;D and innovation to expand engagement and user growth
+                </h2>
+              </div>
+              <img id="roadmap-arrow-6" src="img/arrow-down.85edd8e6fb.svg" alt="Arrow" loading="lazy" decoding="async"
+                class="w-5 h-8 transition-transform duration-200" />
+            </button>
+            <div id="roadmap-content-6" class="hidden pr-5 lg:pl-[100px] pl-[70px] pb-8">
+              <ol class="pl-6 lg:space-y-4 space-y-3 text-base list-disc! lg:text-2xl">
+                <li class="list-disc!">Expand research and innovation in AI applications.</li>
+                <li class="list-disc!">Scale partnerships with innovative teams.</li>
+                <li class="list-disc!">Encourage community contributions through Qurans Labs.</li>
+                <li class="list-disc!">Empower App developers with content and features through our secure APIs and
+                  Quran Apps page.</li>
+                <li class="list-disc!">Drive efficiencies in the technology stack, content curation, and operational
+                  processes.</li>
+                <li class="list-disc!">Improve resiliency, durability, and scalability of technology stack and
+                  infrastructure.</li>
+                <li class="list-disc!">Leverage data insights for content prioritization, feature development, and
+                  identifying transformation pathways.</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- roadmap_section_end -->
+
+    <!-- footer_section_start -->
+    <div class="flex flex-col justify-center w-full bg-center bg-cover bg-[#F7F8FA]"
+      data-deferred-bg="img/bg-footer.31f8122d80.png">
+      <div class="mx-auto max-w-[1355px] py-12">
+        <div class="flex flex-col gap-12 w-full lg:flex-row lg:justify-between lg:gap-24">
+          <!-- Left side content -->
+          <div class="flex flex-col justify-start items-start px-5 text-left 2xl:px-0">
+            <h2 class="mb-8 text-5xl font-bold lg:text-[64px]">
+              Become a Donor Today!
+            </h2>
+            <p class="mb-8 text-base lg:text-xl">
+              Your donation fuels a global Quran experience—free of cost,
+              ad-free, and accessible to all. May you receive continuous
+              rewards (Sadaqah Jariyah) for every letter read, memorized, and
+              listened to, and for every heart inspired.
+            </p>
+
+            <!-- benefits -->
+            <div class="flex flex-col gap-4 lg:my-20 md:flex-col">
+              <div class="flex gap-3 items-center">
+                <img src="img/checkmark-solid.3fdc88fb5e.svg" alt="Checkmark" class="w-5 h-5" loading="lazy" decoding="async" />
+                <span class="text-[#22A5AD] text-base lg:text-xl font-medium">Cancel anytime</span>
+              </div>
+              <div class="flex gap-3 items-center">
+                <img src="img/checkmark-solid.3fdc88fb5e.svg" alt="Checkmark" class="w-5 h-5" loading="lazy" decoding="async" />
+                <span class="text-[#22A5AD] text-base lg:text-xl font-medium">Tax deductible (As a US non-profit)</span>
+              </div>
+              <div class="flex gap-3 items-center">
+                <img src="img/checkmark-solid.3fdc88fb5e.svg" alt="Checkmark" class="w-5 h-5" loading="lazy" decoding="async" />
+                <span class="text-[#22A5AD] text-base lg:text-xl font-medium">Receive product progress updates</span>
+              </div>
+              <div class="flex gap-3 items-center">
+                <img src="img/checkmark-solid.3fdc88fb5e.svg" alt="Checkmark" class="w-5 h-5" loading="lazy" decoding="async" />
+                <span class="text-[#22A5AD] text-base lg:text-xl font-medium">Receive annual tax receipts (As a US
+                  non-profit)</span>
+              </div>
+            </div>
+
+            <p class="hidden mt-8 text-base font-light lg:block">
+              Donations are collected by Quran Foundation, a 501(c)(3)
+              nonprofit (EIN: 82-4203288). Donations are tax deductible in the
+              US. For any questions, please reach out to
+              <a href="/cdn-cgi/l/email-protection#05616a6b6a777645747077646b2b636a706b6164716c6a6b" class="font-bold text-black! underline"><span class="__cf_email__" data-cfemail="2a4e45444558596a5b5f584b44044c455f444e4b5e434544">[email&#160;protected]</span></a>
+            </p>
+          </div>
+
+          <!-- Right side donation form -->
+          <div id="footer-donation-widget"
+            class="flex w-full max-w-[420px] max-[420px]:max-w-[370px] self-center p-4 max-[420px]:p-1 bg-white rounded-xl border border-[#E9ECEF] lg:border-none">
+            <div class="classy-widget-shell classy-widget-shell--footer" data-classy-widget aria-busy="true">
+              <div class="classy-widget-skeleton" aria-hidden="true">
+                <div class="classy-widget-skeleton__tabs">
+                  <span class="classy-widget-skeleton__tab"></span>
+                  <span class="classy-widget-skeleton__tab classy-widget-skeleton__tab--active"></span>
+                </div>
+                <span class="classy-widget-skeleton__title"></span>
+                <div class="classy-widget-skeleton__grid">
+                  <span class="classy-widget-skeleton__amount"></span>
+                  <span class="classy-widget-skeleton__amount"></span>
+                  <span class="classy-widget-skeleton__amount"></span>
+                  <span class="classy-widget-skeleton__amount"></span>
+                </div>
+                <div class="classy-widget-skeleton__split">
+                  <span class="classy-widget-skeleton__currency"></span>
+                  <span class="classy-widget-skeleton__other"></span>
+                </div>
+                <span class="classy-widget-skeleton__cta"></span>
+              </div>
+              <div id="qWLSwK60r3wfQ11ZQF_m_" classy="777435" class="classy-widget-mount w-full donation-form"></div>
+            </div>
+          </div>
+
+          <p class="px-5 mx-auto text-base font-light text-center lg:hidden">
+            Donations are collected by Quran Foundation, a 501(c)(3) nonprofit
+            (EIN: 82-4203288). Donations are tax deductible in the US. For any
+            questions, please reach out to
+            <a href="/cdn-cgi/l/email-protection#e1858e8f8e9392a1909493808fcf878e948f858095888e8f" class="font-bold text-black! underline"><span class="__cf_email__" data-cfemail="6c080302031e1f2c1d191e0d02420a031902080d18050302">[email&#160;protected]</span></a>
+          </p>
+        </div>
+      </div>
+
+      <!-- separator_start -->
+      <div class="flex justify-center">
+        <div class="w-full h-[1px] bg-[#D9D9D9] rounded-[10px] lg:w-full"></div>
+      </div>
+      <!-- separator_end -->
+
+      <div
+        class="flex flex-col-reverse gap-y-8 lg:flex-row items-start justify-start lg:justify-between mx-auto w-full max-w-[1355px] px-5 2xl:px-0 py-6 max-[480px]:pb-20">
+        <p class="text-base font-light text-left leading-[22.4px]!">
+          Copyright &copy;
+          <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+            document.write(new Date().getFullYear());
+          </script>
+          by
+          <a target="_blank" href="https://quran.foundation" class="text-black! underline"
+            rel="noopener noreferrer">Quran Foundation</a>
+        </p>
+        <div class="flex flex-col gap-x-5 items-start max-lg:w-full sm:flex-row">
+          <p class="text-xl font-medium">Connect with us:</p>
+          <div class="flex gap-1 items-start">
+            <a href="/cdn-cgi/l/email-protection#086c6766677a7b48797d7a6966266e677d666c697c616766">
+              <img src="img/email.cb5a2365ff.svg" alt="Mail" class="inline-block m-0! w-5 h-5" loading="lazy" decoding="async" />
+            </a>
+            <a href="/cdn-cgi/l/email-protection#197d7677766b6a59686c6b7877377f766c777d786d707677" class="font-bold text-black! underline"><span class="__cf_email__" data-cfemail="1c787372736e6f5c6d696e7d72327a736972787d68757372">[email&#160;protected]</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- footer_section_end -->
+  </main>
+
+  <!-- JS here -->
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="js/landing.190e6571a0.js"></script>
+  <script src="js/utils.e9c83d39cc.js"></script>
+  <script type="text/javascript">
+    if (window.__ENABLE_PROD_ANALYTICS__) {
+      (function (c, l, a, r, i, t, y) {
+        c[a] =
+          c[a] ||
+          function () {
+            (c[a].q = c[a].q || []).push(arguments);
+          };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = 'https://www.clarity.ms/tag/' + i;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, 'clarity', 'script', 'qh4clupbtl');
+    }
+  </script>
+  <script>
+    const loadDeferredAsset = (element) => {
+      if (!element || element.dataset.deferredLoaded === 'true') {
+        return;
+      }
+
+      if (element.dataset.deferredSrc) {
+        element.src = element.dataset.deferredSrc;
+      }
+
+      if (element.dataset.deferredBg) {
+        element.style.backgroundImage = `url('${element.dataset.deferredBg}')`;
+      }
+
+      element.dataset.deferredLoaded = 'true';
+    };
+
+    const deferredAssets = document.querySelectorAll('[data-deferred-src], [data-deferred-bg]');
+    if ('IntersectionObserver' in window) {
+      const deferredAssetObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) {
+            return;
+          }
+
+          loadDeferredAsset(entry.target);
+          observer.unobserve(entry.target);
+        });
+      }, {
+        rootMargin: '500px 0px',
+      });
+
+      deferredAssets.forEach((element) => {
+        deferredAssetObserver.observe(element);
+      });
+    } else {
+      deferredAssets.forEach(loadDeferredAsset);
+    }
+
+  </script>
+  <script>
+    const onDonateButtonClicked = (e) => {
+      var is_OSX = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform);
+      var is_Mac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+      // if the user is using apple, we should redirect to the page that offers Apple
+      if (is_OSX || is_Mac) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.location.href =
+          'https://give.quran.foundation/campaign/802362/donate';
+        return true;
+      }
+
+      return false;
+    };
+
+    const getDonationScrollTarget = () =>
+      document.getElementById('footer-donation-widget') ||
+      document.querySelector('cl-donation-form') ||
+      document.querySelector('.donation-form');
+
+    const allDonateButtons = document.querySelectorAll('.donate-button');
+    allDonateButtons.forEach(function (btn) {
+      btn.addEventListener('click', function (event) {
+        const redirectedToAppleCheckout = onDonateButtonClicked(event);
+        const donationScrollTarget = getDonationScrollTarget();
+        if (!redirectedToAppleCheckout && donationScrollTarget) {
+          donationScrollTarget.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+          });
+        }
+      });
+    });
+
+    const isClassyMountLoaded = (shell) => {
+      if (!shell) {
+        return false;
+      }
+
+      if (shell.querySelector('cl-donation-form, iframe')) {
+        return true;
+      }
+
+      return Array.from(shell.childNodes).some((node) => {
+        if (node.nodeType === Node.ELEMENT_NODE) {
+          return (
+            !node.classList ||
+            (
+              !node.classList.contains('classy-widget-mount') &&
+              !node.classList.contains('classy-widget-skeleton')
+            )
+          );
+        }
+
+        return (
+          node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== ''
+        );
+      });
+    };
+
+    const markClassyShellLoaded = (shell) => {
+      if (!shell || shell.getAttribute('aria-busy') === 'false') {
+        return;
+      }
+
+      shell.setAttribute('aria-busy', 'false');
+      shell.classList.remove('classy-widget-static');
+
+      if (shell.__classyWidgetObserver) {
+        shell.__classyWidgetObserver.disconnect();
+        shell.__classyWidgetObserver = null;
+      }
+
+      if (shell.__classyWidgetTimeout) {
+        clearTimeout(shell.__classyWidgetTimeout);
+        shell.__classyWidgetTimeout = null;
+      }
+    };
+
+    const setupClassyShell = (shell) => {
+      const checkMountState = () => {
+        if (isClassyMountLoaded(shell)) {
+          markClassyShellLoaded(shell);
+        }
+      };
+
+      checkMountState();
+      if (shell.getAttribute('aria-busy') === 'false') {
+        return;
+      }
+
+      const observer = new MutationObserver(checkMountState);
+      observer.observe(shell, { childList: true, subtree: true });
+      shell.__classyWidgetObserver = observer;
+
+      shell.__classyWidgetTimeout = window.setTimeout(() => {
+        shell.classList.add('classy-widget-static');
+      }, 15000);
+    };
+
+    document
+      .querySelectorAll('[data-classy-widget]')
+      .forEach(setupClassyShell);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const donationScrollTarget = getDonationScrollTarget();
+    if (urlParams.has('showDonationPopup') && donationScrollTarget) {
+      donationScrollTarget.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }
+  </script>
+<!-- Cloudflare Pages Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "127d92e8a64e4ed183f96b6166ac1dac"}'></script><!-- Cloudflare Pages Analytics --></body>
+
+</html>

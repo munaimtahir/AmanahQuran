@@ -14,6 +14,7 @@ import org.amanahquran.app.core.datastore.amanahPreferencesDataSourceForFile
 import org.amanahquran.app.core.database.AmanahContentDatabase
 import org.amanahquran.app.core.model.PageReferenceType
 import org.amanahquran.app.core.model.ReaderOpenMode
+import org.amanahquran.app.core.model.ReaderAnchor
 import org.amanahquran.app.core.model.ScriptType
 import org.amanahquran.app.core.repository.BookmarkRepository
 import org.amanahquran.app.core.repository.BookmarkRepositoryImpl
@@ -221,6 +222,77 @@ class ReaderMvpViewModelTest {
             database.quranTextDao().getTextByAyahAndScript("2:255", "INDOPAK")?.displayText,
             indopak.displayText,
         )
+    }
+
+    @Test
+    fun exactAyahAnchorLoadsTargetAyahWithoutFallingBackToSurahStart() = runTest {
+        val viewModel = ReaderViewModel(
+            repository = repository,
+            settingsRepository = settingsRepository,
+            lastReadRepository = lastReadRepository,
+            bookmarkRepository = bookmarkRepository,
+            initialOpenMode = ReaderOpenMode.Surah(2),
+            initialAnchor = ReaderAnchor.ExactAyah("2:255"),
+            dispatcher = UnconfinedTestDispatcher(testScheduler),
+        )
+
+        val state = viewModel.uiState.first { !it.isLoading && it.selectedAyahKey == "2:255" }
+
+        assertEquals(ReaderOpenMode.AyahTarget(2, "2:255"), state.openMode)
+        assertEquals(1, state.ayahs.size)
+        assertEquals("2:255", state.ayahs.first().ayahKey)
+        assertEquals("2:255", state.selectedAyahKey)
+        assertTrue(state.anchorScrollIndex != null && state.anchorScrollIndex!! >= 0)
+        val targetBlock = state.readerBlocks[state.anchorScrollIndex!!] as ReaderStructuralItem.Ayah
+        assertEquals("2:255", targetBlock.ayah.ayahKey)
+        viewModel.viewModelScope.cancel()
+    }
+
+    @Test
+    fun exactAyahAnchorInBookModeLoadsContainingPageAndKeepsSelectedAyah() = runTest {
+        settingsRepository.setBookModeEnabled(true)
+        val viewModel = ReaderViewModel(
+            repository = repository,
+            settingsRepository = settingsRepository,
+            lastReadRepository = lastReadRepository,
+            bookmarkRepository = bookmarkRepository,
+            initialOpenMode = ReaderOpenMode.Surah(2),
+            initialAnchor = ReaderAnchor.ExactAyah("2:255"),
+            dispatcher = UnconfinedTestDispatcher(testScheduler),
+        )
+
+        val state = viewModel.uiState.first { !it.isLoading && it.selectedAyahKey == "2:255" }
+
+        val expectedPage = repository.getPageForAyah("2:255", PageReferenceType.INDOPAK)
+        assertEquals(ReaderOpenMode.Page(expectedPage ?: 1, PageReferenceType.INDOPAK), state.openMode)
+        assertEquals("2:255", state.selectedAyahKey)
+        assertTrue(state.ayahs.any { it.ayahKey == "2:255" })
+        assertTrue(state.anchorScrollIndex != null)
+        viewModel.viewModelScope.cancel()
+    }
+
+    @Test
+    fun exactAyahAnchorSurvivesScriptSwitch() = runTest {
+        val viewModel = ReaderViewModel(
+            repository = repository,
+            settingsRepository = settingsRepository,
+            lastReadRepository = lastReadRepository,
+            bookmarkRepository = bookmarkRepository,
+            initialOpenMode = ReaderOpenMode.Surah(2),
+            initialAnchor = ReaderAnchor.ExactAyah("2:255"),
+            dispatcher = UnconfinedTestDispatcher(testScheduler),
+        )
+        viewModel.uiState.first { !it.isLoading && it.selectedAyahKey == "2:255" }
+
+        viewModel.selectScript(ScriptType.UTHMANI)
+        val switched = viewModel.uiState.first {
+            !it.isLoading && it.selectedScript == ScriptType.UTHMANI && it.selectedAyahKey == "2:255"
+        }
+
+        assertEquals(ReaderAnchor.ExactAyah("2:255"), switched.anchor)
+        assertEquals("2:255", switched.selectedAyahKey)
+        assertTrue(switched.anchorScrollIndex != null)
+        viewModel.viewModelScope.cancel()
     }
 
     @Test

@@ -1,0 +1,2 @@
+0935c48269a57c9808e52dfae47864c189396452901c689977156036a72dd217  apps/android/app/src/main/res/font/digital_khatt_v2.otf
+a6463e24e36651404e9eff52dae26e18e9ef0718eb620636a66a20026a75c563  apps/android/app/src/main/res/font/indopak_nastaleeq.ttf

@@ -5,7 +5,18 @@ build/
 local.properties
 *.iml
 .idea/
+apps/android/keystore.properties
+apps/android/*.jks
 
 sourcedata/
 ProjectData/
 projectdata/
+content-pipeline/
+
+# Folders containing files >50MB
+content-pipeline/00_candidate_sources/fonts/
+content-pipeline/00_candidate_sources/page_mapping/
+content-pipeline/03_raw_immutable/fonts/
+content-pipeline/03_raw_immutable/page_mapping/
+sourcedata/6/
+sourcedata/8/

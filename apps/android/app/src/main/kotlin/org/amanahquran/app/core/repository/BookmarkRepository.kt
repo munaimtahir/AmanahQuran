@@ -3,9 +3,11 @@ package org.amanahquran.app.core.repository
 import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
 import org.amanahquran.app.core.datastore.AmanahPreferencesDataSource
@@ -29,21 +31,15 @@ data class BookmarkRecord(
 interface BookmarkRepository {
     fun getAllBookmarks(): Flow<List<BookmarkRecord>>
     suspend fun addAyahBookmark(ayahKey: String): Long
+    suspend fun toggleAyahBookmark(ayahKey: String): Boolean
     suspend fun addPageBookmark(
         pageNumber: Int,
-        pageReferenceType: PageReferenceType = PageReferenceType.INDOPAK,
+        pageReferenceType: PageReferenceType,
         firstAyahKey: String? = null,
     ): Long
-    suspend fun toggleAyahBookmark(ayahKey: String): Boolean
-    suspend fun togglePageBookmark(
-        pageNumber: Int,
-        pageReferenceType: PageReferenceType = PageReferenceType.INDOPAK,
-    ): Boolean
+    suspend fun togglePageBookmark(pageNumber: Int, pageReferenceType: PageReferenceType): Boolean
     suspend fun removeAyahBookmark(ayahKey: String)
-    suspend fun removePageBookmark(
-        pageNumber: Int,
-        pageReferenceType: PageReferenceType = PageReferenceType.INDOPAK,
-    )
+    suspend fun removePageBookmark(pageNumber: Int, pageReferenceType: PageReferenceType)
     suspend fun removeBookmarkById(id: Long)
     suspend fun isAyahBookmarked(ayahKey: String): Boolean
     suspend fun isPageBookmarked(
@@ -56,19 +52,21 @@ interface BookmarkRepository {
 class BookmarkRepositoryImpl(
     private val dataSource: AmanahPreferencesDataSource,
 ) : BookmarkRepository {
-    override fun getAllBookmarks(): Flow<List<BookmarkRecord>> {
-        return dataSource.dataStore.data.map { preferences ->
-            preferences[Keys.bookmarksJson]
-                .orEmpty()
-                .toBookmarkRecords()
-                .sortedByDescending { it.createdAt }
-        }
+    private val bookmarksFlow = dataSource.dataStore.data.map { preferences ->
+        preferences[Keys.bookmarksJson]
+            .orEmpty()
+            .toBookmarkRecords()
+            .sortedByDescending { it.createdAt }
     }
 
-    override suspend fun addAyahBookmark(ayahKey: String): Long {
-        if (!ValidationHelpers.isValidAyahKey(ayahKey)) return -1
+    override fun getAllBookmarks(): Flow<List<BookmarkRecord>> {
+        return bookmarksFlow
+    }
+
+    override suspend fun addAyahBookmark(ayahKey: String): Long = withContext(NonCancellable) {
+        if (!ValidationHelpers.isValidAyahKey(ayahKey)) return@withContext -1
         val (surahNumber, ayahNumber) = ayahKey.split(":").mapNotNull { it.toIntOrNull() }
-            .let { if (it.size == 2) it[0] to it[1] else return -1 }
+            .let { if (it.size == 2) it[0] to it[1] else return@withContext -1 }
         val now = System.currentTimeMillis()
         var createdId = -1L
         dataSource.dataStore.edit { preferences ->
@@ -99,15 +97,15 @@ class BookmarkRepositoryImpl(
             }
             preferences[Keys.bookmarksJson] = records.toJsonArray().toString()
         }
-        return createdId
+        createdId
     }
 
     override suspend fun addPageBookmark(
         pageNumber: Int,
         pageReferenceType: PageReferenceType,
         firstAyahKey: String?,
-    ): Long {
-        if (pageNumber <= 0) return -1
+    ): Long = withContext(NonCancellable) {
+        if (pageNumber <= 0) return@withContext -1
         val now = System.currentTimeMillis()
         var createdId = -1L
         dataSource.dataStore.edit { preferences ->
@@ -141,7 +139,7 @@ class BookmarkRepositoryImpl(
             }
             preferences[Keys.bookmarksJson] = records.toJsonArray().toString()
         }
-        return createdId
+        createdId
     }
 
     override suspend fun toggleAyahBookmark(ayahKey: String): Boolean {
@@ -166,30 +164,36 @@ class BookmarkRepositoryImpl(
 
     override suspend fun removeAyahBookmark(ayahKey: String) {
         if (!ValidationHelpers.isValidAyahKey(ayahKey)) return
-        dataSource.dataStore.edit { preferences ->
-            val records = preferences[Keys.bookmarksJson].orEmpty().toBookmarkRecords()
-                .filterNot { it.bookmarkType == BookmarkType.AYAH && it.ayahKey == ayahKey }
-            preferences[Keys.bookmarksJson] = records.toJsonArray().toString()
+        withContext(NonCancellable) {
+            dataSource.dataStore.edit { preferences ->
+                val records = preferences[Keys.bookmarksJson].orEmpty().toBookmarkRecords()
+                    .filterNot { it.bookmarkType == BookmarkType.AYAH && it.ayahKey == ayahKey }
+                preferences[Keys.bookmarksJson] = records.toJsonArray().toString()
+            }
         }
     }
 
     override suspend fun removePageBookmark(pageNumber: Int, pageReferenceType: PageReferenceType) {
-        dataSource.dataStore.edit { preferences ->
-            val records = preferences[Keys.bookmarksJson].orEmpty().toBookmarkRecords()
-                .filterNot {
-                    it.bookmarkType == BookmarkType.PAGE &&
-                        it.pageNumber == pageNumber &&
-                        it.pageReferenceType == pageReferenceType
-                }
-            preferences[Keys.bookmarksJson] = records.toJsonArray().toString()
+        withContext(NonCancellable) {
+            dataSource.dataStore.edit { preferences ->
+                val records = preferences[Keys.bookmarksJson].orEmpty().toBookmarkRecords()
+                    .filterNot {
+                        it.bookmarkType == BookmarkType.PAGE &&
+                            it.pageNumber == pageNumber &&
+                            it.pageReferenceType == pageReferenceType
+                    }
+                preferences[Keys.bookmarksJson] = records.toJsonArray().toString()
+            }
         }
     }
 
     override suspend fun removeBookmarkById(id: Long) {
-        dataSource.dataStore.edit { preferences ->
-            val records = preferences[Keys.bookmarksJson].orEmpty().toBookmarkRecords()
-                .filterNot { it.id == id }
-            preferences[Keys.bookmarksJson] = records.toJsonArray().toString()
+        withContext(NonCancellable) {
+            dataSource.dataStore.edit { preferences ->
+                val records = preferences[Keys.bookmarksJson].orEmpty().toBookmarkRecords()
+                    .filterNot { it.id == id }
+                preferences[Keys.bookmarksJson] = records.toJsonArray().toString()
+            }
         }
     }
 

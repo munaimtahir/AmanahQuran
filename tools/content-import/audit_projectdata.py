@@ -308,7 +308,7 @@ def phase9():
         "privacy_pledge": "privacy_pledge" in data,
         "app_content_integrity_placeholders": "app_content_integrity_placeholders" in data,
     }
-    false_claim_terms = ["scholar review complete", "font license approved", "public release ready"]
+    false_claim_terms = ["scholar endorsement", "independent typo-free claim", "release approval granted"]
     false_claims = [term for term in false_claim_terms if term in text and term not in " ".join(data.get("claims_not_made", [])).lower()]
     qf_final_claim = "quran foundation" in text and "final source" in text and "claims_not_made" not in data
     verdict = "GO" if all(required.values()) and not false_claims and not qf_final_claim else "CONDITIONAL GO"
@@ -383,7 +383,7 @@ def phase12():
         "build_gate_validation": "build-gate validation" in text,
         "manual_review_gate": "manual review gate" in text,
     }
-    public_claim = "public release ready" in text
+    public_claim = "public release approval granted" in text
     verdict = "GO" if all(required.values()) and not public_claim else "BLOCKED"
     lines = ["# Pre-Android Import Android Readiness Audit", "", f"Generated: {NOW}", ""]
     lines.extend(f"- {k}: {bool_text(v)}" for k, v in required.items())

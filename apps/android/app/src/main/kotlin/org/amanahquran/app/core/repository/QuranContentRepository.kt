@@ -2,6 +2,8 @@ package org.amanahquran.app.core.repository
 
 import org.amanahquran.app.core.database.dao.AyahDao
 import org.amanahquran.app.core.database.dao.AyahDisplayRow
+import org.amanahquran.app.core.database.dao.ReaderAyahRow
+import org.amanahquran.app.core.database.dao.AyahReferenceRow
 import org.amanahquran.app.core.database.dao.MushafLayoutReferenceDao
 import org.amanahquran.app.core.database.dao.QuranTextDao
 import org.amanahquran.app.core.database.dao.SurahDao
@@ -18,6 +20,27 @@ data class AyahDisplay(
     val pageNumber: Int,
     val scriptType: String,
     val displayText: String,
+)
+
+data class ReaderAyahDisplay(
+    val ayahKey: String,
+    val surahNumber: Int,
+    val ayahNumber: Int,
+    val juzNumber: Int,
+    val pageNumber: Int,
+    val scriptType: String,
+    val displayText: String,
+    val surahNameArabic: String,
+    val surahNameSimple: String,
+    val surahAyahCount: Int,
+)
+
+data class AyahReference(
+    val ayahKey: String,
+    val surahNumber: Int,
+    val ayahNumber: Int,
+    val juzNumber: Int,
+    val pageNumber: Int,
 )
 
 data class SurahInfo(
@@ -43,7 +66,9 @@ interface QuranContentRepository {
     suspend fun getJuzForAyah(ayahKey: String): Int?
     suspend fun getFirstAyahForPage(pageNumber: Int, pageReferenceType: PageReferenceType): String?
     suspend fun getFirstAyahForJuz(juzNumber: Int): String?
-    suspend fun getReaderAyahs(openMode: ReaderOpenMode, scriptType: String): List<AyahDisplay>
+    suspend fun getReaderAyahs(openMode: ReaderOpenMode, scriptType: String): List<ReaderAyahDisplay>
+    suspend fun getReaderAyah(ayahKey: String, scriptType: String): ReaderAyahDisplay?
+    suspend fun resolveAyahReference(ayahKey: String): AyahReference?
 }
 
 class QuranContentRepositoryImpl(
@@ -189,15 +214,60 @@ class QuranContentRepositoryImpl(
 
     override suspend fun getFirstAyahForJuz(juzNumber: Int): String? = ayahDao.getFirstAyahKeyForJuz(juzNumber)
 
-    override suspend fun getReaderAyahs(openMode: ReaderOpenMode, scriptType: String): List<AyahDisplay> {
+    override suspend fun getReaderAyahs(openMode: ReaderOpenMode, scriptType: String): List<ReaderAyahDisplay> {
         return when (openMode) {
-            is ReaderOpenMode.Surah -> getAyahsForSurah(openMode.surahNumber, scriptType)
-            is ReaderOpenMode.Page -> getAyahsForPage(openMode.pageNumber, openMode.pageReferenceType, scriptType)
-            is ReaderOpenMode.Juz -> getAyahsForJuz(openMode.juzNumber, scriptType)
-            is ReaderOpenMode.AyahTarget -> {
-                val display = getAyahDisplay(openMode.ayahKey, scriptType) ?: return emptyList()
-                listOf(display)
-            }
+            is ReaderOpenMode.Surah -> getReaderAyahsForSurah(openMode.surahNumber, scriptType)
+            is ReaderOpenMode.Page -> getReaderAyahsForPage(openMode.pageNumber, scriptType)
+            is ReaderOpenMode.Juz -> getReaderAyahsForJuz(openMode.juzNumber, scriptType)
+            is ReaderOpenMode.AyahTarget -> getReaderAyah(openMode.ayahKey, scriptType)?.let { listOf(it) } ?: emptyList()
         }
     }
+
+    override suspend fun getReaderAyah(ayahKey: String, scriptType: String): ReaderAyahDisplay? {
+        return ayahDao.getReaderAyahByKey(ayahKey, scriptType)?.toReaderAyahDisplay()
+    }
+
+    override suspend fun resolveAyahReference(ayahKey: String): AyahReference? {
+        return ayahDao.resolveAyahReference(ayahKey)?.toAyahReference()
+    }
+
+    private suspend fun getReaderAyahsForSurah(
+        surahNumber: Int,
+        scriptType: String,
+    ): List<ReaderAyahDisplay> = ayahDao.getReaderAyahsBySurah(surahNumber, scriptType).map { it.toReaderAyahDisplay() }
+
+    private suspend fun getReaderAyahsForJuz(
+        juzNumber: Int,
+        scriptType: String,
+    ): List<ReaderAyahDisplay> = ayahDao.getReaderAyahsByJuz(juzNumber, scriptType).map { it.toReaderAyahDisplay() }
+
+    private suspend fun getReaderAyahsForPage(
+        pageNumber: Int,
+        scriptType: String,
+    ): List<ReaderAyahDisplay> = ayahDao.getReaderAyahsByPage(pageNumber, scriptType).map { it.toReaderAyahDisplay() }
+}
+
+private fun AyahReferenceRow.toAyahReference(): AyahReference {
+    return AyahReference(
+        ayahKey = ayahKey,
+        surahNumber = surahNumber,
+        ayahNumber = ayahNumber,
+        juzNumber = juzNumber,
+        pageNumber = pageNumber,
+    )
+}
+
+private fun ReaderAyahRow.toReaderAyahDisplay(): ReaderAyahDisplay {
+    return ReaderAyahDisplay(
+        ayahKey = ayahKey,
+        surahNumber = surahNumber,
+        ayahNumber = ayahNumber,
+        juzNumber = juzNumber,
+        pageNumber = pageNumber,
+        scriptType = scriptType,
+        displayText = displayText,
+        surahNameArabic = surahNameArabic,
+        surahNameSimple = surahNameSimple,
+        surahAyahCount = surahAyahCount,
+    )
 }

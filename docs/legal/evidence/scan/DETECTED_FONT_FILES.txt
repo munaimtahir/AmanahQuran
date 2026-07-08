@@ -1,0 +1,9 @@
+# Detected font files requiring explicit source/license clearance
+/home/munaim/Documents/github/AmanahQuran/apps/android/app/src/main/res/font/digital_khatt_indopak.otf
+/home/munaim/Documents/github/AmanahQuran/apps/android/app/src/main/res/font/indopak_nastaleeq.ttf
+/home/munaim/Documents/github/AmanahQuran/apps/android/app/src/main/res/font/uthmanic_hafs_v22.ttf
+/home/munaim/Documents/github/AmanahQuran/sourcedata/8/extracted/DigitalKhattIndoPak.otf
+/home/munaim/Documents/github/AmanahQuran/sourcedata/8/extracted/DigitalKhattQuranicV1.otf
+/home/munaim/Documents/github/AmanahQuran/sourcedata/8/extracted/DigitalKhattV2.otf
+/home/munaim/Documents/github/AmanahQuran/sourcedata/8/extracted/KFGQPCNastaleeq-Regular.ttf
+/home/munaim/Documents/github/AmanahQuran/sourcedata/8/extracted/UthmanicHafs_V22.ttf

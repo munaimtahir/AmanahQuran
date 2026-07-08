@@ -2,32 +2,40 @@ package org.amanahquran.app.feature.reader
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import org.amanahquran.app.core.theme.AmanahSpacing
+import org.amanahquran.app.core.theme.LocalElderMode
+import org.amanahquran.app.core.ui.AmanahDivider
+import org.amanahquran.app.core.ui.AmanahNumberBadge
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,61 +46,64 @@ fun SurahListScreen(
         factory = SurahListViewModel.factory(LocalContext.current),
     ),
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsState()
+    val elder = LocalElderMode.current
+    val horizontalPadding = if (elder) AmanahSpacing.screenHorizontalPaddingElder else AmanahSpacing.screenHorizontalPadding
 
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
-                title = { Text("Quran") },
+                title = { Text("Surahs", style = MaterialTheme.typography.titleLarge) },
                 navigationIcon = {
-                    TextButton(onClick = onNavigateBack) {
-                        Text("Back")
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = "Go back")
                     }
                 },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background,
+                    titleContentColor = MaterialTheme.colorScheme.onBackground,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onBackground,
+                ),
             )
         },
     ) { padding ->
         when {
             uiState.isLoading -> {
-                Column(
+                Box(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(padding),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
+                    contentAlignment = Alignment.Center,
                 ) {
-                    CircularProgressIndicator()
+                    CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
                 }
             }
-
             uiState.errorMessage != null -> {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(padding)
-                        .padding(24.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                        .padding(AmanahSpacing.xxl),
+                    verticalArrangement = Arrangement.spacedBy(AmanahSpacing.md),
                 ) {
                     Text("Unable to load Quran", style = MaterialTheme.typography.titleMedium)
                     Text(uiState.errorMessage.orEmpty(), style = MaterialTheme.typography.bodyMedium)
                 }
             }
-
             else -> {
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(padding),
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    contentPadding = PaddingValues(horizontal = horizontalPadding, vertical = AmanahSpacing.sm),
                 ) {
                     items(uiState.surahs, key = { it.surahNumber }) { surah ->
                         SurahListRow(
                             surah = surah,
-                            onClick = {
-                                viewModel.openSurah(surah.surahNumber, onOpenSurah)
-                            },
+                            onClick = { viewModel.openSurah(surah.surahNumber, onOpenSurah) },
                         )
+                        AmanahDivider(modifier = Modifier.padding(horizontal = AmanahSpacing.sm))
                     }
                 }
             }
@@ -105,43 +116,40 @@ private fun SurahListRow(
     surah: SurahListItem,
     onClick: () -> Unit,
 ) {
-    Card(
+    val elder = LocalElderMode.current
+    Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick),
-        shape = RoundedCornerShape(8.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+            .heightIn(min = if (elder) 76.dp else 64.dp)
+            .clickable(onClick = onClick)
+            .padding(vertical = AmanahSpacing.md),
+        horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.md),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
+        AmanahNumberBadge(number = surah.surahNumber)
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(2.dp),
         ) {
             Text(
-                text = surah.surahNumber.toString(),
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.primary,
+                text = surah.simpleName,
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurface,
             )
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(4.dp),
-            ) {
-                Text(surah.simpleName, style = MaterialTheme.typography.titleMedium)
-                Text(
-                    text = listOfNotNull(
-                        "${surah.ayahCount} ayahs",
-                        surah.revelationType?.takeIf { it.isNotBlank() },
-                    ).joinToString(" • "),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
             Text(
-                text = surah.arabicName,
-                style = MaterialTheme.typography.titleLarge,
+                text = buildString {
+                    append("${surah.ayahCount} ayahs")
+                    surah.revelationType?.takeIf { it.isNotBlank() }?.let { append(" · $it") }
+                },
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
+        Text(
+            text = surah.arabicName,
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.onSurface,
+            textAlign = TextAlign.End,
+        )
     }
 }

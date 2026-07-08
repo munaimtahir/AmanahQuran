@@ -25,11 +25,13 @@ data class HomeContinueReadingUiModel(
     val previewText: String?,
     val surahNumber: Int,
     val ayahKey: String,
+    val pageNumber: Int? = null,
 )
 
 data class HomeUiState(
     val continueReading: HomeContinueReadingUiModel? = null,
     val showFirstLaunchMessage: Boolean = false,
+    val selectedScript: ScriptType = ScriptType.INDOPAK,
 )
 
 class HomeViewModel(
@@ -60,12 +62,13 @@ class HomeViewModel(
                 lastRead to settings
             }.collectLatest { (lastRead, settings) ->
                 val continueReading = lastRead?.let {
-                    buildContinueReading(it.ayahKey, it.surahNumber, it.ayahNumber, settings.selectedScript)
+                    buildContinueReading(it.ayahKey, it.surahNumber, it.ayahNumber, it.pageNumber, settings.selectedScript)
                 }
                 _uiState.update {
                     it.copy(
                         continueReading = continueReading,
                         showFirstLaunchMessage = !settings.firstLaunchMessageDismissed,
+                        selectedScript = settings.selectedScript,
                     )
                 }
             }
@@ -76,12 +79,18 @@ class HomeViewModel(
         ayahKey: String,
         surahNumber: Int,
         ayahNumber: Int,
+        pageNumber: Int?,
         scriptType: ScriptType,
     ): HomeContinueReadingUiModel? {
         val surah = repository.getSurahByNumber(surahNumber) ?: return null
         val display = repository.getAyahDisplay(ayahKey, scriptType.name)
+        val titleText = if (pageNumber != null) {
+            "Last read: Page $pageNumber · ${surah.nameSimple.ifBlank { "Surah $surahNumber" }}"
+        } else {
+            "Continue: ${surah.nameSimple.ifBlank { "Surah $surahNumber" }} $surahNumber:$ayahNumber"
+        }
         return HomeContinueReadingUiModel(
-            title = "Continue: ${surah.nameSimple.ifBlank { "Surah $surahNumber" }} $surahNumber:$ayahNumber",
+            title = titleText,
             subtitle = if (display?.displayText.isNullOrBlank()) {
                 "Open last-read position"
             } else {
@@ -90,6 +99,7 @@ class HomeViewModel(
             previewText = display?.displayText,
             surahNumber = surahNumber,
             ayahKey = ayahKey,
+            pageNumber = pageNumber,
         )
     }
 

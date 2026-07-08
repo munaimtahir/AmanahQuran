@@ -8,6 +8,8 @@ import org.amanahquran.app.core.datastore.amanahPreferencesDataSourceForFile
 import org.amanahquran.app.core.model.BookmarkType
 import org.amanahquran.app.core.model.PageReferenceType
 import org.amanahquran.app.core.model.ScriptType
+import org.amanahquran.app.core.model.ReaderAnchor
+import org.amanahquran.app.core.model.lastReadAnchor
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
@@ -101,5 +103,21 @@ class LastReadAndBookmarkRepositoryTest {
 
         bookmarkRepository.removePageBookmark(1, PageReferenceType.UTHMANI)
         assertFalse(bookmarkRepository.isPageBookmarked(1, PageReferenceType.UTHMANI))
+    }
+
+    @Test
+    fun lastReadWithAyahKeyCreatesExactCanonicalAnchor() {
+        assertEquals(
+            ReaderAnchor.ExactAyah("2:255"),
+            lastReadAnchor("2:255", 42, ScriptType.UTHMANI),
+        )
+    }
+
+    @Test
+    fun lastReadWithoutAyahKeyUsesScriptSpecificPageAnchor() {
+        assertEquals(
+            ReaderAnchor.PageStart(540, PageReferenceType.UTHMANI),
+            lastReadAnchor(null, 540, ScriptType.UTHMANI),
+        )
     }
 }

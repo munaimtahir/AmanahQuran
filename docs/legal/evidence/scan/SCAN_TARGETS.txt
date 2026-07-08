@@ -1,0 +1,5 @@
+# Detected scan targets
+/home/munaim/Documents/github/AmanahQuran/sourcedata
+/home/munaim/Documents/github/AmanahQuran/projectdata
+/home/munaim/Documents/github/AmanahQuran/apps/android/app/src/main/assets
+/home/munaim/Documents/github/AmanahQuran/apps/android/app/src/main/res

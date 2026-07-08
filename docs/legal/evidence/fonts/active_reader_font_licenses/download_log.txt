@@ -1,0 +1,30 @@
+Downloading: https://qul.tarteel.ai/resources/font/242 -> docs/legal/evidence/fonts/active_reader_font_licenses/source_pages/QUL_INDOPAK_NASTALEEQ_FONT_PAGE.html
+OK: docs/legal/evidence/fonts/active_reader_font_licenses/source_pages/QUL_INDOPAK_NASTALEEQ_FONT_PAGE.html
+Downloading: https://static-cdn.tarteel.ai/qul/fonts/nastaleeq/Hanafi/normal-v4.2.2/with-waqf-lazmi/font.ttf -> docs/legal/evidence/fonts/active_reader_font_licenses/fonts/Indopak_Nastaleeq_Hanafi_With_Waqf_Lazmi.ttf
+OK: docs/legal/evidence/fonts/active_reader_font_licenses/fonts/Indopak_Nastaleeq_Hanafi_With_Waqf_Lazmi.ttf
+Downloading: https://qul.tarteel.ai/resources/font/462 -> docs/legal/evidence/fonts/active_reader_font_licenses/source_pages/QUL_KFGQPC_NASTALEEQ_FONT_PAGE.html
+OK: docs/legal/evidence/fonts/active_reader_font_licenses/source_pages/QUL_KFGQPC_NASTALEEQ_FONT_PAGE.html
+Downloading: https://static-cdn.tarteel.ai/qul/fonts/nastaleeq/KFGQPCNastaleeq-Regular.ttf -> docs/legal/evidence/fonts/active_reader_font_licenses/fonts/KFGQPCNastaleeq-Regular.ttf
+OK: docs/legal/evidence/fonts/active_reader_font_licenses/fonts/KFGQPCNastaleeq-Regular.ttf
+Downloading: https://qul.tarteel.ai/resources/font/249 -> docs/legal/evidence/fonts/active_reader_font_licenses/source_pages/QUL_QPC_V2_FONT_PAGE.html
+OK: docs/legal/evidence/fonts/active_reader_font_licenses/source_pages/QUL_QPC_V2_FONT_PAGE.html
+Downloading: https://static-cdn.tarteel.ai/qul/fonts/quran_fonts/v2/ttf.ttf -> docs/legal/evidence/fonts/active_reader_font_licenses/fonts/QPC_V2_Hafs.ttf
+FAILED: https://static-cdn.tarteel.ai/qul/fonts/quran_fonts/v2/ttf.ttf
+Downloading: https://qul.tarteel.ai/resources/font/247 -> docs/legal/evidence/fonts/active_reader_font_licenses/source_pages/QUL_DIGITAL_KHATT_V2_FONT_PAGE.html
+OK: docs/legal/evidence/fonts/active_reader_font_licenses/source_pages/QUL_DIGITAL_KHATT_V2_FONT_PAGE.html
+Downloading: https://static-cdn.tarteel.ai/qul/fonts/dk/DigitalKhattV2.otf -> docs/legal/evidence/fonts/active_reader_font_licenses/fonts/DigitalKhattV2.otf
+OK: docs/legal/evidence/fonts/active_reader_font_licenses/fonts/DigitalKhattV2.otf
+Downloading: https://qul.tarteel.ai/faq -> docs/legal/evidence/fonts/active_reader_font_licenses/source_pages/QUL_FAQ_RESOURCE_LICENSE_NOTICE.html
+OK: docs/legal/evidence/fonts/active_reader_font_licenses/source_pages/QUL_FAQ_RESOURCE_LICENSE_NOTICE.html
+Downloading: https://qul.tarteel.ai/resources/font -> docs/legal/evidence/fonts/active_reader_font_licenses/source_pages/QUL_ALL_QURAN_FONTS_PAGE.html
+OK: docs/legal/evidence/fonts/active_reader_font_licenses/source_pages/QUL_ALL_QURAN_FONTS_PAGE.html
+Downloading: https://raw.githubusercontent.com/TarteelAI/quranic-universal-library/main/LICENSE -> docs/legal/evidence/fonts/active_reader_font_licenses/licenses/QUL_REPOSITORY_LICENSE_MIT.txt
+OK: docs/legal/evidence/fonts/active_reader_font_licenses/licenses/QUL_REPOSITORY_LICENSE_MIT.txt
+Downloading: https://scancode-licensedb.aboutcode.org/kfgqpc-uthmanic-script-hafs.html -> docs/legal/evidence/fonts/active_reader_font_licenses/licenses/KFGQPC_UTHMANIC_SCRIPT_HAFS_LICENSE_NOTICE_SCANCODE.html
+OK: docs/legal/evidence/fonts/active_reader_font_licenses/licenses/KFGQPC_UTHMANIC_SCRIPT_HAFS_LICENSE_NOTICE_SCANCODE.html
+Downloading: https://online-fonts.com/fonts/kfgqpc-hafs-uthmanic-script -> docs/legal/evidence/fonts/active_reader_font_licenses/source_pages/KFGQPC_HAFS_UTHMANIC_SCRIPT_THIRD_PARTY_LICENSE_NOTICE.html
+OK: docs/legal/evidence/fonts/active_reader_font_licenses/source_pages/KFGQPC_HAFS_UTHMANIC_SCRIPT_THIRD_PARTY_LICENSE_NOTICE.html
+Downloading: https://fonts.qurancomplex.gov.sa/ -> docs/legal/evidence/fonts/active_reader_font_licenses/source_pages/QURAN_COMPLEX_FONTS_HOME.html
+FAILED: https://fonts.qurancomplex.gov.sa/
+Downloading: https://qurancomplex.gov.sa/ -> docs/legal/evidence/fonts/active_reader_font_licenses/source_pages/QURAN_COMPLEX_HOME.html
+FAILED: https://qurancomplex.gov.sa/

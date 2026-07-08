@@ -1,23 +1,28 @@
 package org.amanahquran.app.core.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import kotlinx.coroutines.launch
+import org.amanahquran.app.core.model.PageReferenceType
+import org.amanahquran.app.core.model.ReaderAnchor
+import org.amanahquran.app.core.model.ReaderOpenMode
 import org.amanahquran.app.feature.bookmarks.BookmarksScreen
 import org.amanahquran.app.feature.contentproof.ContentProofScreen
 import org.amanahquran.app.feature.home.HomeScreen
-import org.amanahquran.app.core.model.PageReferenceType
-import org.amanahquran.app.core.model.ReaderOpenMode
-import org.amanahquran.app.feature.reader.SurahListScreen
-import org.amanahquran.app.feature.reader.QuranNavigationScreen
 import org.amanahquran.app.feature.reader.JuzListScreen
 import org.amanahquran.app.feature.reader.PageListScreen
-import org.amanahquran.app.feature.reader.SurahReaderScreen
+import org.amanahquran.app.feature.reader.QuranNavigationScreen
 import org.amanahquran.app.feature.reader.QuranReaderScreen
+import org.amanahquran.app.feature.reader.ReaderPerfLogger
+import org.amanahquran.app.feature.reader.SurahListScreen
+import org.amanahquran.app.feature.reader.SurahReaderScreen
+import org.amanahquran.app.feature.reader.mushaf.MushafPageScreen
 import org.amanahquran.app.feature.search.SearchScreen
 import org.amanahquran.app.feature.settings.SettingsScreen
 import org.amanahquran.app.feature.trust.TrustCenterScreen
@@ -25,6 +30,7 @@ import org.amanahquran.app.feature.trust.TrustCenterScreen
 @Composable
 fun AmanahQuranNavHost(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
+    val scope = rememberCoroutineScope()
 
     NavHost(
         navController = navController,
@@ -33,14 +39,56 @@ fun AmanahQuranNavHost(modifier: Modifier = Modifier) {
     ) {
         composable(AppRoute.Home) {
             HomeScreen(
-                onOpenReader = { navController.navigate(AppRoute.QuranNavigation) },
-                onContinueReading = { item ->
-                    navController.navigate(AppRoute.surahReader(item.surahNumber, item.ayahKey))
+                onContinueReading = { continueReading ->
+                    ReaderPerfLogger.log(
+                        "continue_click",
+                        detail = "ayah=${continueReading.ayahKey} page=${continueReading.pageNumber}",
+                    )
+                    ReaderPerfLogger.log("read_last_read_start", detail = "cached_home_state=true")
+                    ReaderPerfLogger.log("read_last_read_end", detail = "ayah=${continueReading.ayahKey}")
+                    ReaderPerfLogger.log("read_script_setting_start", detail = "cached_home_state=true")
+                    ReaderPerfLogger.log("read_script_setting_end")
+                    ReaderPerfLogger.log("route_start", detail = "anchor=ExactAyah(${continueReading.ayahKey})")
+                    navController.navigate(AppRoute.reader(ReaderAnchor.ExactAyah(continueReading.ayahKey)))
                 },
-                onOpenSearch = { navController.navigate(AppRoute.Search) },
-                onOpenBookmarks = { navController.navigate(AppRoute.Bookmarks) },
-                onOpenSettings = { navController.navigate(AppRoute.Settings) },
-                onOpenTrustCenter = { navController.navigate(AppRoute.TrustCenter) },
+                onOpenMushafReader = { pageNumber, scriptType ->
+                    val pageReferenceType = when (scriptType) {
+                        org.amanahquran.app.core.model.ScriptType.INDOPAK -> PageReferenceType.INDOPAK
+                        org.amanahquran.app.core.model.ScriptType.UTHMANI -> PageReferenceType.UTHMANI
+                    }
+                    ReaderPerfLogger.log("nav_click", detail = "home->reader page=$pageNumber script=${scriptType.name}")
+                    navController.navigate(
+                        AppRoute.reader(ReaderAnchor.PageStart(pageNumber, pageReferenceType))
+                    )
+                },
+                onOpenSurahList = {
+                    ReaderPerfLogger.log("nav_click", detail = "home->surah_list")
+                    navController.navigate(AppRoute.SurahList)
+                },
+                onOpenJuzList = {
+                    ReaderPerfLogger.log("nav_click", detail = "home->juz_list")
+                    navController.navigate(AppRoute.JuzList)
+                },
+                onOpenPageList = {
+                    ReaderPerfLogger.log("nav_click", detail = "home->page_list")
+                    navController.navigate(AppRoute.PageList)
+                },
+                onOpenSearch = {
+                    ReaderPerfLogger.log("nav_click", detail = "home->search")
+                    navController.navigate(AppRoute.Search)
+                },
+                onOpenBookmarks = {
+                    ReaderPerfLogger.log("nav_click", detail = "home->bookmarks")
+                    navController.navigate(AppRoute.Bookmarks)
+                },
+                onOpenSettings = {
+                    ReaderPerfLogger.log("nav_click", detail = "home->settings")
+                    navController.navigate(AppRoute.Settings)
+                },
+                onOpenTrustCenter = {
+                    ReaderPerfLogger.log("nav_click", detail = "home->trust_center")
+                    navController.navigate(AppRoute.TrustCenter)
+                },
             )
         }
         composable(AppRoute.QuranNavigation) {
@@ -53,20 +101,40 @@ fun AmanahQuranNavHost(modifier: Modifier = Modifier) {
         }
         composable(AppRoute.SurahList) {
             SurahListScreen(
-                onOpenSurah = { surahNumber -> navController.navigate(AppRoute.surahReader(surahNumber)) },
+                onOpenSurah = { surahNumber ->
+                    ReaderPerfLogger.log("nav_click", detail = "surah_list->reader surah=$surahNumber")
+                    navController.navigate(AppRoute.surahReader(surahNumber))
+                },
                 onNavigateBack = { navController.popBackStack() },
             )
         }
         composable(AppRoute.JuzList) {
             JuzListScreen(
                 onNavigateBack = { navController.popBackStack() },
-                onOpenJuz = { juzNumber -> navController.navigate(AppRoute.juzReader(juzNumber)) },
+                onOpenJuz = { juzNumber ->
+                    ReaderPerfLogger.log("nav_click", detail = "juz_list->reader juz=$juzNumber")
+                    navController.navigate(AppRoute.juzReader(juzNumber))
+                },
             )
         }
         composable(AppRoute.PageList) {
             PageListScreen(
                 onNavigateBack = { navController.popBackStack() },
-                onOpenPage = { pageNumber, pageReferenceType -> navController.navigate(AppRoute.pageReader(pageNumber, pageReferenceType)) },
+                onOpenPage = { pageNumber, pageReferenceType ->
+                    ReaderPerfLogger.log("nav_click", detail = "page_list->reader page=$pageNumber script=${pageReferenceType.name}")
+                    navController.navigate(AppRoute.pageReader(pageNumber, pageReferenceType))
+                },
+            )
+        }
+        composable(
+            route = AppRoute.MushafReader,
+            arguments = listOf(navArgument(AppRoute.PageNumberArg) { type = NavType.IntType }),
+        ) { backStackEntry ->
+            val pageNumber = backStackEntry.arguments?.getInt(AppRoute.PageNumberArg) ?: 1
+            MushafPageScreen(
+                initialPageNumber = pageNumber,
+                onBack = { navController.popBackStack() },
+                onOpenSettings = { navController.navigate(AppRoute.Settings) }
             )
         }
         composable(
@@ -108,20 +176,12 @@ fun AmanahQuranNavHost(modifier: Modifier = Modifier) {
             )
         }
         composable(
-            route = AppRoute.SurahReaderWithAyah,
-            arguments = listOf(
-                navArgument(AppRoute.SurahNumberArg) { type = NavType.IntType },
-                navArgument(AppRoute.AyahKeyArg) {
-                    type = NavType.StringType
-                    defaultValue = ""
-                },
-            ),
+            route = AppRoute.ExactAyahReader,
+            arguments = listOf(navArgument(AppRoute.AyahKeyArg) { type = NavType.StringType }),
         ) { backStackEntry ->
-            val surahNumber = backStackEntry.arguments?.getInt(AppRoute.SurahNumberArg) ?: 1
-            val ayahKey = backStackEntry.arguments?.getString(AppRoute.AyahKeyArg)?.takeIf { it.isNotBlank() }
-            SurahReaderScreen(
-                surahNumber = surahNumber,
-                initialAyahKey = ayahKey,
+            val ayahKey = backStackEntry.arguments?.getString(AppRoute.AyahKeyArg).orEmpty()
+            QuranReaderScreen(
+                anchor = ReaderAnchor.ExactAyah(ayahKey),
                 onNavigateBack = { navController.popBackStack() },
             )
         }
@@ -129,29 +189,10 @@ fun AmanahQuranNavHost(modifier: Modifier = Modifier) {
             SearchScreen(
                 onNavigateBack = { navController.popBackStack() },
                 onOpenResult = { result ->
-                    when (result.resultType) {
-                        org.amanahquran.app.core.repository.SearchResultType.PAGE -> {
-                            val pageNumber = result.pageNumber
-                            if (pageNumber != null) {
-                                val pageReferenceType = result.pageReferenceType ?: PageReferenceType.INDOPAK
-                                navController.navigate(AppRoute.pageReader(pageNumber, pageReferenceType))
-                            }
-                        }
-                        org.amanahquran.app.core.repository.SearchResultType.JUZ -> {
-                            result.juzNumber?.let { juzNumber ->
-                                navController.navigate(AppRoute.juzReader(juzNumber))
-                            }
-                        }
-                        org.amanahquran.app.core.repository.SearchResultType.SURAH -> {
-                            result.surahNumber?.let { surahNumber ->
-                                navController.navigate(AppRoute.surahReader(surahNumber))
-                            }
-                        }
-                        org.amanahquran.app.core.repository.SearchResultType.AYAH -> {
-                            val surahNumber = result.surahNumber
-                            if (surahNumber != null) {
-                                navController.navigate(AppRoute.surahReader(surahNumber, result.ayahKey))
-                            }
+                    scope.launch {
+                        result.toReaderAnchor()?.let { anchor ->
+                            ReaderPerfLogger.log("nav_click", detail = "search->reader anchor=$anchor")
+                            navController.navigate(AppRoute.reader(anchor))
                         }
                     }
                 },
@@ -161,17 +202,10 @@ fun AmanahQuranNavHost(modifier: Modifier = Modifier) {
             BookmarksScreen(
                 onNavigateBack = { navController.popBackStack() },
                 onOpenBookmark = { item ->
-                    when (item.record.bookmarkType) {
-                        org.amanahquran.app.core.model.BookmarkType.AYAH -> {
-                            navController.navigate(AppRoute.surahReader(item.record.surahNumber ?: 1, item.record.ayahKey))
-                        }
-                        org.amanahquran.app.core.model.BookmarkType.PAGE -> {
-                            navController.navigate(
-                                AppRoute.pageReader(
-                                    item.record.pageNumber ?: 1,
-                                    item.record.pageReferenceType ?: PageReferenceType.INDOPAK,
-                                ),
-                            )
+                    scope.launch {
+                        item.record.toReaderAnchor()?.let { anchor ->
+                            ReaderPerfLogger.log("nav_click", detail = "bookmark->reader anchor=$anchor")
+                            navController.navigate(AppRoute.reader(anchor))
                         }
                     }
                 },

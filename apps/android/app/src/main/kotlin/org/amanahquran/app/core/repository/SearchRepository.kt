@@ -94,11 +94,17 @@ class SearchRepositoryImpl(
             }
         }
 
+        findSurahAlias(trimmed)?.let { surahNumber ->
+            return searchSurahByNumberOrName(surahNumber, scriptType)
+        }
+
+        val normalizedNameQuery = trimmed.normalizeSurahName()
         val surahMatches = surahDao?.getAllSurahs().orEmpty()
             .filter { surah ->
                 surah.number.toString() == trimmed ||
                     surah.nameSimple.contains(trimmed, ignoreCase = true) ||
-                    surah.nameArabic.contains(trimmed, ignoreCase = true)
+                    surah.nameArabic.contains(trimmed, ignoreCase = true) ||
+                    surah.nameSimple.normalizeSurahName().contains(normalizedNameQuery)
             }
             .map { surah ->
                 SearchResultItem(
@@ -245,8 +251,43 @@ class SearchRepositoryImpl(
             .trim()
     }
 
+    private fun findSurahAlias(query: String): Int? {
+        return SURAH_ALIASES[query.normalizeSurahName()]
+    }
+
+    private fun String.normalizeSurahName(): String {
+        return lowercase()
+            .replace(Regex("[^\\p{L}\\p{N}]"), "")
+    }
+
     private fun ScriptType.toPageReferenceType(): PageReferenceType = when (this) {
         ScriptType.INDOPAK -> PageReferenceType.INDOPAK
         ScriptType.UTHMANI -> PageReferenceType.UTHMANI
+    }
+
+    private companion object {
+        val SURAH_ALIASES = mapOf(
+            "yaseen" to 36,
+            "yasin" to 36,
+            "يس" to 36,
+            "ikhlas" to 112,
+            "alikhlas" to 112,
+            "fatiha" to 1,
+            "fatihah" to 1,
+            "alfatihah" to 1,
+            "baqarah" to 2,
+            "albaqarah" to 2,
+            "mulk" to 67,
+            "almulk" to 67,
+            "nas" to 114,
+            "annas" to 114,
+            "falaq" to 113,
+            "alfalaq" to 113,
+            "tawbah" to 9,
+            "attawbah" to 9,
+            "aalimran" to 3,
+            "alimran" to 3,
+            "aaleimran" to 3,
+        )
     }
 }

@@ -54,7 +54,17 @@ class TrustCenterRepositoryTest {
         assertTrue(uiState.quranTextSourcesActuallyUsed.isNotEmpty())
         assertTrue(uiState.quranTextSourcesActuallyUsed.any { it.scriptType == "UTHMANI" })
         assertTrue(uiState.quranTextSourcesActuallyUsed.any { it.scriptType == "INDOPAK" })
+        assertTrue(uiState.sourceReferences.isNotEmpty())
+        assertTrue(uiState.sourceReferences.any { it.licenseName?.contains("Creative Commons Attribution 3.0", ignoreCase = true) == true })
+        assertTrue(uiState.sourceReferences.any { it.licenseName?.contains("SIL Open Font License 1.1", ignoreCase = true) == true })
+        assertNotNull(uiState.releaseApprovalStatus)
+        assertFalse(uiState.publicReleaseAllowed)
+        assertTrue(uiState.releaseApprovalStatus?.contains("BLOCKED", ignoreCase = true) == true)
+        assertTrue(uiState.quranTextSourcesActuallyUsed.first { it.scriptType == "INDOPAK" }
+            .referenceType?.contains("display text", ignoreCase = true) == true)
+        assertNotNull(uiState.appVersionName)
+        assertTrue(uiState.appVersionName == "0.1.0")
         assertTrue(uiState.claimsNotMade.isNotEmpty())
-        assertTrue(uiState.claimsNotMade.any { it.contains("public release ready", ignoreCase = true) })
+        assertTrue(uiState.claimsNotMade.any { it.contains("Quran Foundation as final source", ignoreCase = true) })
     }
 }

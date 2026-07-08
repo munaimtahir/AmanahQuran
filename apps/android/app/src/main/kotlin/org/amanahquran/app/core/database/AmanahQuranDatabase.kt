@@ -7,6 +7,9 @@ import org.amanahquran.app.core.database.converter.CommonConverters
 import org.amanahquran.app.core.database.dao.*
 import org.amanahquran.app.core.database.entity.*
 
+import org.amanahquran.app.core.database.entity.MushafPageEntity
+import org.amanahquran.app.core.database.entity.MushafLineEntity
+
 @Database(
     entities = [
         SurahEntity::class,
@@ -19,9 +22,11 @@ import org.amanahquran.app.core.database.entity.*
         ContentValidationEntity::class,
         MushafLayoutReferenceEntity::class,
         FontInventoryEntity::class,
-        ContentManifestEntity::class
+        ContentManifestEntity::class,
+        MushafPageEntity::class,
+        MushafLineEntity::class
     ],
-    version = 1,
+    version = 3,
     exportSchema = true
 )
 @TypeConverters(CommonConverters::class)
@@ -37,6 +42,7 @@ abstract class AmanahQuranDatabase : RoomDatabase() {
     abstract fun mushafLayoutReferenceDao(): MushafLayoutReferenceDao
     abstract fun fontInventoryDao(): FontInventoryDao
     abstract fun contentManifestDao(): ContentManifestDao
+    abstract fun mushafDao(): MushafDao
 
     companion object {
         const val DATABASE_NAME = "amanah_quran.db"

@@ -5,32 +5,50 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.ChevronRight
+import androidx.compose.material.icons.rounded.VerifiedUser
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 import org.amanahquran.app.core.model.ScriptType
 import org.amanahquran.app.core.repository.ReaderSettings
 import org.amanahquran.app.core.repository.readerSettingsRepository
+import org.amanahquran.app.core.theme.AmanahSpacing
+import org.amanahquran.app.core.theme.LocalElderMode
 import org.amanahquran.app.core.theme.ThemeMode
+import org.amanahquran.app.core.ui.AmanahCard
+import org.amanahquran.app.core.ui.AmanahDivider
+import org.amanahquran.app.core.ui.AmanahSectionCard
+import org.amanahquran.app.core.ui.AmanahSectionHeader
+import org.amanahquran.app.core.ui.AmanahScriptChip
+import org.amanahquran.app.core.ui.AmanahSettingsRow
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun SettingsScreen(
     onNavigateBack: () -> Unit,
@@ -38,18 +56,26 @@ fun SettingsScreen(
 ) {
     val context = LocalContext.current
     val settingsRepository = remember(context) { readerSettingsRepository(context) }
-    val settings by settingsRepository.settings.collectAsStateWithLifecycle(initialValue = ReaderSettings())
+    val settings by settingsRepository.settings.collectAsState(initial = ReaderSettings())
     val scope = rememberCoroutineScope()
+    val elder = LocalElderMode.current
+    val horizontalPadding = if (elder) AmanahSpacing.screenHorizontalPaddingElder else AmanahSpacing.screenHorizontalPadding
 
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
-                title = { Text("Settings") },
+                title = { Text("Settings", style = MaterialTheme.typography.titleLarge) },
                 navigationIcon = {
-                    TextButton(onClick = onNavigateBack) {
-                        Text("Back")
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = "Go back")
                     }
                 },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background,
+                    titleContentColor = MaterialTheme.colorScheme.onBackground,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onBackground,
+                ),
             )
         },
     ) { padding ->
@@ -57,122 +83,196 @@ fun SettingsScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(20.dp),
-            verticalArrangement = Arrangement.spacedBy(20.dp),
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = horizontalPadding)
+                .padding(vertical = AmanahSpacing.lg),
+            verticalArrangement = Arrangement.spacedBy(AmanahSpacing.xl),
         ) {
-            SettingSection(title = "Script") {
-                ChipRow(
-                    selected = settings.selectedScript,
-                    options = listOf(ScriptType.INDOPAK, ScriptType.UTHMANI),
-                    label = { it.displayName() },
-                    onSelect = { script ->
-                        scope.launch { settingsRepository.setSelectedScript(script) }
-                    },
-                )
-            }
 
-            SettingSection(title = "Theme") {
-                ChipRow(
-                    selected = settings.selectedTheme,
-                    options = listOf(ThemeMode.SYSTEM, ThemeMode.LIGHT, ThemeMode.DARK, ThemeMode.SEPIA),
-                    label = { it.displayName },
-                    onSelect = { theme ->
-                        scope.launch { settingsRepository.setSelectedTheme(theme) }
-                    },
-                )
-            }
-
-            SettingSection(title = "Arabic font size") {
-                Text(
-                    text = "${settings.arabicFontSizeSp.toInt()} sp",
-                    style = MaterialTheme.typography.bodyMedium,
-                )
-                Slider(
-                    value = settings.arabicFontSizeSp,
-                    onValueChange = { value ->
-                        scope.launch { settingsRepository.setArabicFontSize(value) }
-                    },
-                    valueRange = 18f..36f,
-                )
-            }
-
-            SettingSection(title = "Elder Mode") {
-                RowToggle(
-                    title = "Enable Elder Mode",
-                    checked = settings.elderModeEnabled,
-                    onCheckedChange = { enabled ->
-                        scope.launch { settingsRepository.setElderModeEnabled(enabled) }
-                    },
-                )
-            }
-
-            HorizontalDivider()
-
-            SettingSection(title = "Trust Center") {
-                Text(
-                    text = "Source transparency, privacy pledge, and verification details are available offline.",
-                    style = MaterialTheme.typography.bodyMedium,
-                )
-                TextButton(onClick = onOpenTrustCenter) {
-                    Text("Open Trust Center")
+            // Script
+            Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
+                AmanahSectionHeader(title = "Script")
+                AmanahCard(modifier = Modifier.fillMaxWidth()) {
+                    Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
+                        Text(
+                            text = "Arabic display script",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                        FlowRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.sm),
+                            verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm),
+                            maxItemsInEachRow = if (elder) 2 else 4,
+                        ) {
+                            AmanahScriptChip(
+                                label = "IndoPak",
+                                selected = settings.selectedScript == ScriptType.INDOPAK,
+                                onClick = {
+                                    scope.launch { settingsRepository.setSelectedScript(ScriptType.INDOPAK) }
+                                },
+                            )
+                            AmanahScriptChip(
+                                label = "Uthmani",
+                                selected = settings.selectedScript == ScriptType.UTHMANI,
+                                onClick = {
+                                    scope.launch { settingsRepository.setSelectedScript(ScriptType.UTHMANI) }
+                                },
+                            )
+                        }
+                    }
                 }
             }
+
+            // Theme
+            Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
+                AmanahSectionHeader(title = "Theme")
+                AmanahCard(modifier = Modifier.fillMaxWidth()) {
+                    Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
+                        Text(
+                            text = "App colour scheme",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                        Row(horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
+                            listOf(ThemeMode.SYSTEM, ThemeMode.LIGHT, ThemeMode.DARK, ThemeMode.SEPIA).forEach { mode ->
+                                AmanahScriptChip(
+                                    label = mode.displayName,
+                                    selected = settings.selectedTheme == mode,
+                                    onClick = {
+                                        scope.launch { settingsRepository.setSelectedTheme(mode) }
+                                    },
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Font size
+            Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
+                AmanahSectionHeader(title = "Arabic Font Size")
+                AmanahCard(modifier = Modifier.fillMaxWidth()) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            text = "Size",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurface,
+                        )
+                        Text(
+                            text = "${settings.arabicFontSizeSp.toInt()} sp",
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.primary,
+                        )
+                    }
+                    Slider(
+                        value = settings.arabicFontSizeSp,
+                        onValueChange = { value ->
+                            scope.launch { settingsRepository.setArabicFontSize(value) }
+                        },
+                        valueRange = 18f..36f,
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = SliderDefaults.colors(
+                            thumbColor = MaterialTheme.colorScheme.primary,
+                            activeTrackColor = MaterialTheme.colorScheme.primary,
+                            inactiveTrackColor = MaterialTheme.colorScheme.primaryContainer,
+                        ),
+                    )
+                }
+            }
+
+            // Accessibility & Reading Options
+            Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
+                AmanahSectionHeader(title = "Accessibility & Reading Options")
+                AmanahCard(modifier = Modifier.fillMaxWidth()) {
+                    Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.md)) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                    text = "Elder Mode",
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                )
+                                Text(
+                                    text = "Larger text and touch targets",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                )
+                            }
+                            Switch(
+                                checked = settings.elderModeEnabled,
+                                onCheckedChange = { enabled ->
+                                    scope.launch { settingsRepository.setElderModeEnabled(enabled) }
+                                },
+                                colors = SwitchDefaults.colors(
+                                    checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
+                                    checkedTrackColor = MaterialTheme.colorScheme.primary,
+                                ),
+                            )
+                        }
+
+                        AmanahDivider()
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                    text = "Book Reading Mode",
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                )
+                                Text(
+                                    text = "Swipe left/right to turn pages",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                )
+                            }
+                            Switch(
+                                checked = settings.bookModeEnabled,
+                                onCheckedChange = { enabled ->
+                                    scope.launch { settingsRepository.setBookModeEnabled(enabled) }
+                                },
+                                colors = SwitchDefaults.colors(
+                                    checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
+                                    checkedTrackColor = MaterialTheme.colorScheme.primary,
+                                ),
+                            )
+                        }
+                    }
+                }
+            }
+
+            AmanahDivider()
+
+            // Trust Center
+            AmanahSectionCard(
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                AmanahSettingsRow(
+                    title = "Trust Center",
+                    subtitle = "Source transparency, privacy pledge, and verification details",
+                    icon = Icons.Rounded.VerifiedUser,
+                    onClick = onOpenTrustCenter,
+                    trailing = {
+                        Icon(
+                            imageVector = Icons.Rounded.ChevronRight,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    },
+                )
+            }
         }
     }
-}
-
-@Composable
-private fun SettingSection(
-    title: String,
-    content: @Composable () -> Unit,
-) {
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text(title, style = MaterialTheme.typography.titleMedium)
-        content()
-    }
-}
-
-@Composable
-private fun <T> ChipRow(
-    selected: T,
-    options: List<T>,
-    label: (T) -> String,
-    onSelect: (T) -> Unit,
-) {
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        options.forEach { option ->
-            FilterChip(
-                selected = selected == option,
-                onClick = { onSelect(option) },
-                label = { Text(label(option)) },
-            )
-        }
-    }
-}
-
-@Composable
-private fun RowToggle(
-    title: String,
-    checked: Boolean,
-    onCheckedChange: (Boolean) -> Unit,
-) {
-    androidx.compose.foundation.layout.Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-    ) {
-        Text(title)
-        Switch(checked = checked, onCheckedChange = onCheckedChange)
-    }
-}
-
-private fun ScriptType.displayName(): String = when (this) {
-    ScriptType.INDOPAK -> "IndoPak"
-    ScriptType.UTHMANI -> "Uthmani"
-}
-
-private fun ThemeMode.displayName(): String = when (this) {
-    ThemeMode.SYSTEM -> "System"
-    ThemeMode.LIGHT -> "Light"
-    ThemeMode.DARK -> "Dark"
-    ThemeMode.SEPIA -> "Sepia"
 }

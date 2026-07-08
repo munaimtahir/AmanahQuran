@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "91ecd9da88cebb1b4c964a70507650d1",
+    "identityHash": "dbebbd8015483d9ad62a3f8586b3f8a0",
     "entities": [
       {
         "tableName": "surahs",
@@ -143,13 +143,45 @@
         },
         "indices": [
           {
-            "name": "index_ayahs_ayah_key",
+            "name": "idx_ayahs_surah_ayah",
+            "unique": false,
+            "columnNames": [
+              "surah_number",
+              "ayah_number"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_ayahs_surah_ayah` ON `${TABLE_NAME}` (`surah_number`, `ayah_number`)"
+          },
+          {
+            "name": "idx_ayahs_juz_order",
+            "unique": false,
+            "columnNames": [
+              "juz_number",
+              "surah_number",
+              "ayah_number"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_ayahs_juz_order` ON `${TABLE_NAME}` (`juz_number`, `surah_number`, `ayah_number`)"
+          },
+          {
+            "name": "idx_ayahs_page_order",
+            "unique": false,
+            "columnNames": [
+              "page_number",
+              "surah_number",
+              "ayah_number"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_ayahs_page_order` ON `${TABLE_NAME}` (`page_number`, `surah_number`, `ayah_number`)"
+          },
+          {
+            "name": "idx_ayahs_key",
             "unique": true,
             "columnNames": [
               "ayah_key"
             ],
             "orders": [],
-            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_ayahs_ayah_key` ON `${TABLE_NAME}` (`ayah_key`)"
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `idx_ayahs_key` ON `${TABLE_NAME}` (`ayah_key`)"
           }
         ],
         "foreignKeys": []
@@ -203,13 +235,23 @@
         },
         "indices": [
           {
-            "name": "index_quran_texts_ayah_key",
+            "name": "idx_quran_texts_ayah_script",
             "unique": false,
             "columnNames": [
               "ayah_key"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_quran_texts_ayah_key` ON `${TABLE_NAME}` (`ayah_key`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_quran_texts_ayah_script` ON `${TABLE_NAME}` (`ayah_key`)"
+          },
+          {
+            "name": "idx_quran_texts_unique_ayah_script",
+            "unique": true,
+            "columnNames": [
+              "ayah_key",
+              "script_type"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `idx_quran_texts_unique_ayah_script` ON `${TABLE_NAME}` (`ayah_key`, `script_type`)"
           }
         ],
         "foreignKeys": [
@@ -563,7 +605,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '91ecd9da88cebb1b4c964a70507650d1')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'dbebbd8015483d9ad62a3f8586b3f8a0')"
     ]
   }
 }

@@ -4,36 +4,100 @@
   "generated_at": "2026-06-16T20:41:56+00:00",
   "quran_text_sources_actually_used": [
     {
+      "reference_type": "Quran display text — Uthmani",
       "script_type": "UTHMANI",
-      "source": "Tanzil Uthmani XML",
+      "source_name": "Tanzil Uthmani XML",
       "raw_source": "sourcedata/1/quran-uthmani.xml",
+      "source_url": "https://tanzil.net/download/",
+      "license_name": "Creative Commons Attribution 3.0",
+      "license_url": "https://tanzil.net/docs/text_license",
+      "notes": "Exact Quran display text; no runtime modification.",
       "validation_status": "GO"
     },
     {
+      "reference_type": "Quran display text — IndoPak",
       "script_type": "INDOPAK",
-      "source": "QUL Digital Khatt IndoPak",
+      "source_name": "QUL Digital Khatt IndoPak",
       "raw_source": "sourcedata/3/digital-khatt-indopak-ayah-by-ayah-script.json.zip",
-      "validation_status": "GO"
+      "source_url": "https://qul.tarteel.ai/resources/quran-script/59",
+      "license_name": "Reviewed upstream font project",
+      "license_url": "https://github.com/DigitalKhatt/indopakfont/blob/main/LICENSE",
+      "notes": "IndoPak public-release source is unresolved.",
+      "validation_status": "REVIEW_REQUIRED"
     },
     {
-      "script_type": "SEARCH_ONLY",
-      "source": "Tanzil Simple Clean XML",
+      "reference_type": "Search-normalization source",
+      "script_type": "SEARCH_NORMALIZATION_SOURCE",
+      "source_name": "Tanzil Simple Clean XML",
       "raw_source": "sourcedata/2/quran-simple-clean.xml",
+      "source_url": "https://tanzil.net/download/",
+      "license_name": "Creative Commons Attribution 3.0",
+      "license_url": "https://tanzil.net/docs/text_license",
+      "notes": "Search-only and cross-check text; never represented as verified IndoPak Mushaf text.",
       "validation_status": "GO"
     }
   ],
-  "no_modification_statement": "Amanah Quran displays Quranic text exactly as imported from verified source data. Search normalization is stored separately and is never used as display Quran text.",
-  "validation_status": true,
+  "source_references": [
+    {
+      "reference_type": "Quran text",
+      "source_name": "Tanzil Quran Text",
+      "source_url": "https://tanzil.net/download/",
+      "license_name": "Creative Commons Attribution 3.0",
+      "license_url": "https://tanzil.net/docs/text_license",
+      "notes": "Official download and license page for Uthmani and Simple Clean Quran text."
+    },
+    {
+      "reference_type": "Font",
+      "source_name": "DigitalKhatt IndoPak font",
+      "source_url": "https://github.com/DigitalKhatt/indopakfont",
+      "license_name": "SIL Open Font License 1.1",
+      "license_url": "https://github.com/DigitalKhatt/indopakfont/blob/main/LICENSE",
+      "notes": "Upstream font project used as the IndoPak reference."
+    },
+    {
+      "reference_type": "Font",
+      "source_name": "KFGQPC Uthmanic Script HAFS",
+      "source_url": "https://fonts.qurancomplex.gov.sa/",
+      "license_name": "King Fahd Glorious Quran Printing Complex font notice",
+      "license_url": "https://fonts.qurancomplex.gov.sa/",
+      "notes": "Official font portal for the bundled Uthmani font; embedded font metadata carries the rights notice."
+    }
+  ],
+  "no_modification_statement": "Amanah Quran displays Quranic text exactly as imported from attributed source data. Search normalization is stored separately and is never used as display Quran text.",
+  "automated_validation_status": "PASSED",
   "privacy_pledge": "No ads, no tracking, no analytics SDK, no login, no data collection, no data sharing, and fully functional offline after install.",
+  "mushaf_page_layout": {
+    "page_layout_source": "Qudratullah (IndoPak 15-line) and King Fahd Complex (Uthmani 604-page)",
+    "script_type": "IndoPak and Uthmani",
+    "page_count": "559 (IndoPak), 604 (Uthmani)",
+    "line_mapping_status": "Internal prototype only — not for release",
+    "import_date": "2026-06-22",
+    "checksum": "N/A - prototype data",
+    "validation_status": "NOT VERIFIED",
+    "manual_review_status": "PENDING REVIEW"
+  },
   "app_content_integrity_placeholders": [
-    "Manual Quran text review pending",
-    "Font license review pending",
-    "Public release approval pending"
+    "Automated structural validation passed",
+    "Human reviewer identity and signed evidence are still required",
+    "IndoPak public-release source is unresolved",
+    "Simple Clean / fallback text must not be represented as verified IndoPak Mushaf text"
   ],
   "claims_not_made": [
-    "scholar review complete",
-    "font license approved",
-    "public release ready",
-    "Quran Foundation as final source"
-  ]
+    "scholar endorsement",
+    "runtime text conversion",
+    "Quran Foundation as final source",
+    "server-side content sync"
+  ],
+  "release_approval": {
+    "status": "BLOCKED",
+    "notes": "IndoPak public-release source is unresolved. Current Simple Clean / fallback text must not be represented as verified IndoPak Mushaf text."
+  },
+  "app_version": {
+    "version_name": "0.1.0",
+    "version_code": 1
+  },
+  "validation_status": "INTERNAL_TESTING_ONLY",
+  "public_release_status": "BLOCKED",
+  "indoPak_public_release_source_status": "UNRESOLVED",
+  "simple_clean_source_role": "SEARCH_NORMALIZATION_SOURCE"
 }

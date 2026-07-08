@@ -19,7 +19,8 @@ import androidx.room.PrimaryKey
         )
     ],
     indices = [
-        Index(value = ["ayah_key"])
+        Index(value = ["ayah_key"], name = "idx_quran_texts_ayah_script"),
+        Index(value = ["ayah_key", "script_type"], unique = true, name = "idx_quran_texts_unique_ayah_script"),
     ]
 )
 data class QuranTextEntity(

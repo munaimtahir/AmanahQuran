@@ -1,5 +1,9 @@
 # Final Summary
 
+Status note: this implementation summary is superseded for release decisions by
+`docs/CURRENT_APP_STATUS_AND_DEBUG_PLAN.md` and
+`docs/_release_gate/RELEASE_READINESS_MATRIX.md`.
+
 Final verdict: GO FOR INTERNAL CONTENT TESTING
 
 Files copied:
@@ -35,7 +39,6 @@ Confirmed:
 
 Remaining blockers:
 
-- Manual Quran text review pending.
-- Font/license review pending.
-- Real-device page navigation verification pending.
-- Trust Center wording review pending.
+- See the active release readiness matrix.
+- Public release remains blocked by P0 device-test findings until fixed and
+  re-tested.

@@ -1,0 +1,17 @@
+# Possible local license/readme/terms files
+Generated: 2026-06-27T01:45:02+05:00
+
+docs/ai-dev/README.md
+docs/legal/CONTENT_AND_FONT_LICENSE_MANIFEST.md
+docs/legal/evidence/fonts/active_font_clearance/ACTIVE_FONT_LICENSE_CLEARANCE_REPORT.md
+docs/legal/evidence/fonts/active_font_clearance/possible_license_files.txt
+docs/legal/evidence/fonts/DIGITAL_KHATT_INDOPAK_LICENSE_OFL_1_1.txt
+docs/legal/evidence/quran/QUL_FAQ_RESOURCE_LICENSE_NOTICE.html
+docs/legal/evidence/quran/QUL_REPOSITORY_LICENSE_MIT.txt
+docs/legal/evidence/source_pages/github.com_DigitalKhatt_indopakfont_blob_main_LICENSE.html
+docs/legal/evidence/source_pages/tanzil.net_docs_text_license.html
+docs/legal/license_download_log.txt
+docs/_release_gate/FONT_LICENSE_REVIEW.md
+docs/_release_gate/phase4_font_license_review_report.md
+docs/validation/screenshots/post_font_fix/README.md
+projectdata/managed/font_license_risk_report.md

@@ -1,0 +1,72 @@
+Amanah Quran privacy and permission audit
+Date: 2026-06-25
+Package: org.amanahquran.app
+Version: 0.1.0 (1)
+minSdk: 24
+targetSdk: 35
+
+Installed package components
+----------------------------
+Activity:
+- org.amanahquran.app/.MainActivity
+
+Receiver:
+- androidx.profileinstaller.ProfileInstallReceiver
+  Actions: SAVE_PROFILE, INSTALL_PROFILE, SKIP_FILE, BENCHMARK_OPERATION
+
+Provider:
+- androidx.startup.InitializationProvider
+  Authority: org.amanahquran.app.androidx-startup
+
+Services:
+- None listed by dumpsys package.
+
+Permissions
+-----------
+Dangerous runtime permissions:
+- None requested.
+- None granted.
+
+Network/advertising/sensitive permissions:
+- INTERNET: not declared.
+- ACCESS_NETWORK_STATE: not declared.
+- AD_ID: not declared.
+- Location: not declared.
+- Contacts: not declared.
+- Microphone: not declared.
+- Camera: not declared.
+- Storage/media: not declared.
+- POST_NOTIFICATIONS: not declared.
+
+Internal permission:
+- org.amanahquran.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+  Protection level: signature
+  Granted: yes
+  Purpose: AndroidX dynamic receiver isolation; not a user runtime permission.
+
+Manifest audit
+--------------
+The source AndroidManifest.xml contains no `<uses-permission>` entries.
+
+Dependency/source audit
+-----------------------
+No Firebase, analytics, AdMob, advertising ID, Singular, AppsFlyer, Adjust,
+Branch, Mixpanel, Amplitude, Sentry, Crashlytics, or Facebook SDK dependency
+was found in app/build.gradle.kts or Android source declarations.
+
+The device-wide logcat contains Singular SDK traffic from PID 25893. That PID
+is not the Amanah Quran process and is excluded from the app audit.
+
+Observed behavior
+-----------------
+- No login/account requirement.
+- No permission prompt on first launch.
+- No ad or tracking prompt.
+- Core reading, search, bookmarks, settings, and Trust Center operated with
+  airplane mode enabled and Wi-Fi/mobile data disabled.
+
+Conclusion
+----------
+PASS for V1 permission/privacy scope. No dangerous permission, network
+permission, advertising ID, ad SDK, analytics SDK, or login dependency was
+identified.

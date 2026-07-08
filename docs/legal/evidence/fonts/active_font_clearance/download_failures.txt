@@ -1,0 +1,2 @@
+FAILED: https://fonts.qurancomplex.gov.sa/
+FAILED: https://qurancomplex.gov.sa/

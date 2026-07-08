@@ -91,4 +91,34 @@ class SearchRepositoryTest {
         assertTrue(pageResults.isNotEmpty())
         assertTrue(juzResults.isNotEmpty())
     }
+
+    @Test
+    fun commonYaSinAliasesReturnSurah36() = runTest {
+        listOf("Yaseen", "Yasin", "Ya-Sin", "Ya Sin", "يس", "36").forEach { query ->
+            val result = repository.search(query, ScriptType.UTHMANI)
+            assertTrue("$query should return Ya-Sin", result.any {
+                it.resultType == SearchResultType.SURAH && it.surahNumber == 36
+            })
+        }
+    }
+
+    @Test
+    fun requiredCommonAliasesReturnCanonicalSurahs() = runTest {
+        val aliases = mapOf(
+            "Ikhlas" to 112,
+            "Fatiha" to 1,
+            "Baqarah" to 2,
+            "Mulk" to 67,
+            "Nas" to 114,
+            "Falaq" to 113,
+            "Tawbah" to 9,
+            "Aal-e-Imran" to 3,
+            "Ali Imran" to 3,
+        )
+        aliases.forEach { (query, expectedSurah) ->
+            assertTrue("$query should return Surah $expectedSurah", repository.search(query, ScriptType.INDOPAK).any {
+                it.resultType == SearchResultType.SURAH && it.surahNumber == expectedSurah
+            })
+        }
+    }
 }

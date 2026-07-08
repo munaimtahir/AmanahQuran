@@ -1,0 +1,33 @@
+Amanah Quran crash/ANR review
+Date: 2026-06-25
+Package: org.amanahquran.app
+Device: TECNO CH6i, Android 13
+
+Result:
+No crash/ANR observed during test run.
+
+Search results:
+- FATAL EXCEPTION: 0
+- ANR in / am_anr: 0
+- OutOfMemoryError: 0
+- App-attributed SQLiteException: 0
+
+Non-crash app findings:
+- Choreographer skipped-frame events were observed for Amanah Quran process IDs:
+  - 67 frames
+  - 31 frames
+  - 65 frames
+  - 31 frames
+  - 65 frames
+  - 66 frames
+  - 32 frames
+- Continue Reading/Mushaf page 540:
+  - Initial load started with stale INDOPAK state.
+  - `AmanahFontAudit` reported the INDOPAK load canceled/failed after 13392ms with `LeftCompositionCancellationException`.
+  - UTHMANI page 540 then loaded in 14ms.
+  - This was a visible loading delay, not an app crash.
+
+Excluded device-wide noise:
+- SQLiteExceptions for `pp_data` / `pp_name_data` were emitted by PID 18013, not Amanah Quran.
+- Singular network failures were emitted by PID 25893, not Amanah Quran.
+- Other OEM/Play Store/third-party exceptions were not attributed to org.amanahquran.app.
