@@ -44,6 +44,27 @@ fun resolveRepoRootScript(relativePath: String): File {
     return scriptFile
 }
 
+fun selectedReleaseTrack(): String {
+    val track = providers.gradleProperty("amanahReleaseTrack")
+        .orElse("public")
+        .get()
+        .trim()
+        .lowercase()
+    if (track !in setOf("internal", "public")) {
+        throw GradleException(
+            "BLOCKED: Invalid amanahReleaseTrack='$track'. Use 'public' or 'internal'.",
+        )
+    }
+    return track
+}
+
+val amanahReleaseTrack = selectedReleaseTrack()
+val amanahReleaseLabel = if (amanahReleaseTrack == "internal") {
+    "INTERNAL TESTING ONLY - NOT PUBLIC RELEASE APPROVED"
+} else {
+    "PUBLIC RELEASE TRACK"
+}
+
 android {
     namespace = "org.amanahquran.app"
     compileSdk = 35
@@ -182,7 +203,7 @@ val scanPackagedContentAssets by tasks.registering(Exec::class) {
         "python3",
         scriptFile.absolutePath,
         "--profile",
-        "public",
+        amanahReleaseTrack,
         "--scope",
         "packaged",
     )
@@ -202,7 +223,11 @@ val validateQuranDatabase by tasks.registering(Exec::class) {
 val validateReleaseContent by tasks.registering {
     group = "verification"
     description = "Run the content pipeline gates required for release."
-    dependsOn(validatePublicContentLicenses, validateQuranDatabase, scanPackagedContentAssets)
+    dependsOn(
+        validateQuranDatabase,
+        scanPackagedContentAssets,
+        if (amanahReleaseTrack == "internal") validateContentLicenses else validatePublicContentLicenses,
+    )
 
     doLast {
         val finalDb = file("src/main/assets/database/quran.db")
@@ -217,6 +242,19 @@ val validateReleaseContent by tasks.registering {
         if (failures.isNotEmpty()) {
             throw GradleException("BLOCKED: Release content validation failed:\n- ${failures.joinToString("\n- ")}")
         }
+
+        val markerFile = layout.buildDirectory.file("reports/amanah-release/release_track.txt").get().asFile
+        markerFile.parentFile.mkdirs()
+        markerFile.writeText(
+            buildString {
+                appendLine("amanahReleaseTrack=$amanahReleaseTrack")
+                appendLine("artifactLabel=$amanahReleaseLabel")
+            },
+            Charsets.UTF_8,
+        )
+
+        println("INFO: Amanah release track = $amanahReleaseTrack")
+        println("INFO: Amanah artifact label = $amanahReleaseLabel")
     }
 }
 

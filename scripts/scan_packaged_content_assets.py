@@ -129,6 +129,8 @@ def main() -> int:
     )
     args = parser.parse_args()
 
+    artifact_label = "INTERNAL TESTING ONLY - NOT PUBLIC RELEASE APPROVED" if args.profile == "internal" else "PUBLIC RELEASE TRACK"
+
     inventory = scan_inventory()
     blockers = []
     warnings = []
@@ -166,6 +168,7 @@ def main() -> int:
     report = {
         "generated_at": now_utc(),
         "profile": args.profile,
+        "artifact_label": artifact_label,
         "scope": args.scope,
         "packaged_count": len(inventory),
         "blocker_count": len(blockers),
@@ -178,6 +181,8 @@ def main() -> int:
     args.report.parent.mkdir(parents=True, exist_ok=True)
     args.report.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
+    print(f"INFO: Amanah release profile = {args.profile}")
+    print(f"INFO: Amanah artifact label = {artifact_label}")
     print(json.dumps(report, ensure_ascii=False, indent=2))
     if args.profile == "public" and blockers:
         return 1
