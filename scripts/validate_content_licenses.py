@@ -142,7 +142,7 @@ def evaluate_findings(profile: str, scope: str) -> tuple[list[Finding], dict]:
                 blockers += 1
                 continue
             license_status = (font.get("licenseStatus") or "").strip()
-            if profile == "public":
+            if profile == "public" and license_status != "CLEARED":
                 findings.append(
                     Finding(
                         path,
@@ -177,7 +177,7 @@ def evaluate_findings(profile: str, scope: str) -> tuple[list[Finding], dict]:
         if kind == "DATABASE" and name == "quran.db":
             generated_asset = generated.get("amanah_quran.sqlite", {})
             status = generated_asset.get("validation_status", "INTERNAL_TESTING_ONLY")
-            if profile == "public":
+            if profile == "public" and status != "APPROVED":
                 findings.append(
                     Finding(path, kind, profile, scope, "BLOCKER", "generated_database_not_public_release_approved", license_status=status, checksum_sha256=checksum)
                 )
@@ -192,7 +192,7 @@ def evaluate_findings(profile: str, scope: str) -> tuple[list[Finding], dict]:
         if kind == "TRUST_JSON" and name == "trust_center_content.json":
             generated_asset = generated.get("trust_center_sources.json", {})
             status = generated_asset.get("validation_status", "REVIEW_REQUIRED")
-            if profile == "public":
+            if profile == "public" and status != "APPROVED":
                 findings.append(
                     Finding(path, kind, profile, scope, "BLOCKER", "generated_trust_json_not_public_release_approved", license_status=status, checksum_sha256=checksum)
                 )

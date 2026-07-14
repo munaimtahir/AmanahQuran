@@ -140,17 +140,17 @@ def main() -> int:
         if item.kind == "DATABASE" and name == "amanah_quran_content_v1_candidate.sqlite":
             blockers.append({**item.__dict__, "reason": "legacy_candidate_database_packaged"})
         elif item.kind == "DATABASE" and name == "quran.db":
-            if args.profile == "public":
+            if args.profile == "public" and item.license_status != "APPROVED":
                 blockers.append({**item.__dict__, "reason": "generated_database_not_public_release_approved"})
             else:
                 warnings.append({**item.__dict__, "reason": "internal_testing_database"})
         elif item.kind == "TRUST_JSON" and name == "trust_center_content.json":
-            if args.profile == "public":
+            if args.profile == "public" and item.license_status != "APPROVED":
                 blockers.append({**item.__dict__, "reason": "generated_trust_json_not_public_release_approved"})
             else:
                 warnings.append({**item.__dict__, "reason": "internal_testing_trust_json"})
         elif item.kind == "FONT":
-            if args.profile == "public":
+            if args.profile == "public" and item.license_status != "CLEARED":
                 blockers.append({**item.__dict__, "reason": "font_not_public_release_approved"})
             else:
                 warnings.append({**item.__dict__, "reason": "internal_testing_font"})
