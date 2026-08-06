@@ -1,17 +1,17 @@
 # CONTENT_RESET_AUDIT
 
-Generated: 2026-07-14T19:53:10+00:00
+Generated: 2026-08-06T12:51:33+00:00
 
 ## Summary
 
-- Content-related files discovered: 583
+- Content-related files discovered: 590
 - Registry assets: 123
 
 ## Classification
 
 ### KEEP_APP_CODE
 
-- Count: 14
+- Count: 15
 - `scripts/__pycache__/content_pipeline_common.cpython-312.pyc`
 - `scripts/__pycache__/generate_content_pipeline.cpython-312.pyc`
 - `scripts/__pycache__/scan_packaged_content_assets.cpython-312.pyc`
@@ -24,12 +24,13 @@ Generated: 2026-07-14T19:53:10+00:00
 - `scripts/validate_quran_database.py`
 - `tools/content-import/README.md`
 - `tools/content-import/audit_projectdata.py`
+- `tools/content-import/import_quranenc_translation.py`
 - `tools/content-import/rebuild_projectdata.py`
 - `tools/validation/README.md`
 
 ### CANDIDATE_SOURCE
 
-- Count: 93
+- Count: 90
 - `sourcedata/1/quran-uthmani.xml`
 - `sourcedata/2/quran-simple-clean.xml`
 - `sourcedata/3/digital-khatt-indopak-ayah-by-ayah-script.db.zip`
@@ -87,9 +88,6 @@ Generated: 2026-07-14T19:53:10+00:00
 - `sourcedata/8/extracted/DigitalKhattV2.otf`
 - `sourcedata/8/extracted/KFGQPCNastaleeq-Regular.ttf`
 - `sourcedata/8/extracted/UthmanicHafs_V22.ttf`
-- `sourcedata/8/font.ttf.zip`
-- `sourcedata/8/font.woff.zip`
-- `sourcedata/8/font.woff2.zip`
 - `sourcedata/8/ligatures (1).json.bz2`
 - `sourcedata/8/ligatures (2).json.bz2`
 - `sourcedata/8/ligatures (3).json.bz2`
@@ -126,8 +124,10 @@ Generated: 2026-07-14T19:53:10+00:00
 
 ### GENERATED_OUTPUT
 
-- Count: 472
+- Count: 481
 - `apps/android/app/src/main/assets/content/.gitkeep`
+- `apps/android/app/src/main/assets/content/translations/translation_urdu_junagarhi.db`
+- `apps/android/app/src/main/assets/content/translations/translation_urdu_junagarhi_manifest.json`
 - `apps/android/app/src/main/assets/database/quran.db`
 - `apps/android/app/src/main/assets/db/.gitkeep`
 - `apps/android/app/src/main/assets/fonts/.gitkeep`
@@ -188,6 +188,11 @@ Generated: 2026-07-14T19:53:10+00:00
 - `docs/_ai_quran_audit_source_diff_restored/phase9_issue_register_update_report.md`
 - `docs/_ai_quran_audit_source_diff_restored/uthmani_source_db_diff.csv`
 - `docs/_ai_quran_audit_source_diff_restored/uthmani_source_extract.csv`
+- `docs/_implementation/READER_UX_01_UNIFIED_ADAPTIVE_READER_EXPERIENCE_REPORT.md`
+- `docs/_implementation/READER_UX_02_CONTINUOUS_AND_SPLIT_TRANSLATION_REPORT.md`
+- `docs/_implementation/V2_IMPLEMENTATION_STATE.md`
+- `docs/_implementation/V2_READER_EXPERIENCE_PREPARATION.md`
+- `docs/_implementation/V2_SPRINT_4_TO_11_REPORT.md`
 - `docs/_implementation/amanah_adb_device_validation/adb_log_initial_launch.txt`
 - `docs/_implementation/amanah_adb_device_validation/phase0_adb_environment_report.md`
 - `docs/_implementation/amanah_adb_device_validation/phase1_gradle_recovery_report.md`
@@ -304,6 +309,7 @@ Generated: 2026-07-14T19:53:10+00:00
 - `docs/_release_gate/FONT_LICENSE_REVIEW.md`
 - `docs/_release_gate/PLAY_STORE_READINESS_NOTES.md`
 - `docs/_release_gate/PRIVACY_PERMISSION_AUDIT.md`
+- `docs/_release_gate/RELEASE_LEDGER.md`
 - `docs/_release_gate/RELEASE_READINESS_MATRIX.md`
 - `docs/_release_gate/TRUST_CENTER_WORDING_REVIEW.md`
 - `docs/_release_gate/human_signoff/SIGNOFF_EVIDENCE_REQUIRED.md`
@@ -319,15 +325,7 @@ Generated: 2026-07-14T19:53:10+00:00
 - `docs/_release_gate/phase2_manual_quran_review_package_report.md`
 - `docs/_release_gate/phase3_manual_review_workflow_report.md`
 - `docs/_release_gate/phase4_font_license_review_report.md`
-- `docs/_release_gate/phase5_trust_center_wording_review_report.md`
-- `docs/_release_gate/phase6_privacy_permission_audit_report.md`
-- `docs/_release_gate/phase7_content_integrity_audit_report.md`
-- `docs/_release_gate/phase8_release_readiness_matrix_report.md`
-- `docs/_release_gate/phase9_play_store_readiness_notes_report.md`
-- `docs/content/ADB_DEVICE_VALIDATION_CHECKLIST.md`
-- `docs/content/ANDROID_CONTENT_IMPORT_STATUS.md`
-- `docs/content/BOOKMARKS_LASTREAD_STATUS.md`
-- ... 272 more
+- ... 281 more
 
 ### QUARANTINE_LEGACY_CONTENT
 

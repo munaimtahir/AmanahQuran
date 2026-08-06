@@ -76,7 +76,7 @@ For each Quran text or metadata file actually imported into the app database, ad
 
 ## Release Rule
 
-Public release is blocked until every bundled Quran text, metadata file, and font has:
+Public release requires every bundled Quran text, metadata file, and font to have:
 
 1. source URL,
 2. license evidence,
@@ -101,4 +101,5 @@ Retired or risky fonts are not bundled:
 - `KFGQPCNastaleeq-Regular.ttf`
 - `QPC_V2_Hafs.ttf`
 
-Public release still depends on the non-font release gates listed elsewhere in the project, including Quran source-to-database mapping and manual review sign-off.
+The v1.0.5 ledger records those release gates as approved on 2026-07-23. Any new
+or changed content/font asset must satisfy this rule again before release.

@@ -9,8 +9,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.amanahquran.app.core.database.AmanahContentDatabaseProvider
 import org.amanahquran.app.core.repository.TrustCenterRepository
 import org.amanahquran.app.core.repository.TrustCenterUiState
 import org.amanahquran.app.core.repository.trustCenterRepository
@@ -28,17 +28,37 @@ class TrustCenterViewModel(
         }
     }
 
+    fun verifyNow() {
+        viewModelScope.launch(dispatcher) {
+            _uiState.update { it.copy(isVerifying = true, verificationError = null) }
+            runCatching { trustCenterRepository.verifyPackagedContent() }
+                .onSuccess { results ->
+                    _uiState.update {
+                        it.copy(
+                            isVerifying = false,
+                            verificationResults = results,
+                            verificationCheckedAt = System.currentTimeMillis(),
+                            verificationError = null,
+                        )
+                    }
+                }
+                .onFailure { throwable ->
+                    _uiState.update {
+                        it.copy(
+                            isVerifying = false,
+                            verificationError = throwable.message ?: "Unable to verify packaged content offline.",
+                        )
+                    }
+                }
+        }
+    }
+
     companion object {
         fun factory(context: Context): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                val database = AmanahContentDatabaseProvider.getDatabase(context)
                 return TrustCenterViewModel(
-                    trustCenterRepository = trustCenterRepository(
-                        context = context,
-                        contentSourceDao = database.contentSourceDao(),
-                        contentValidationDao = database.contentValidationDao(),
-                    ),
+                    trustCenterRepository = trustCenterRepository(context),
                 ) as T
             }
         }

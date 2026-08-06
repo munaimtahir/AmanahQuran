@@ -7,17 +7,12 @@
 - Reviewer package generated from the packaged DB.
 - Final build/test/lint completed successfully.
 
-## Pending
+## Historical Pending Items (Resolved)
 
-- P0 fixes for exact ayah anchors, Continue Reading performance/script state, and Trust Center verification wording.
-- Fresh non-empty physical-device regression evidence after P0 fixes.
-- Signed human/scholarly Quran review evidence with completed reviewer fields.
-- Explicit font/license release approval for bundled Quran fonts.
+- P0 exact-anchor, Continue Reading, and Trust Center wording work.
+- Physical-device regression evidence.
+- Signed reviewer evidence and font/license approval.
 - Play Store submission preparation.
-
-## Blocked
-
-- Public release approval.
 
 ## Evidence Files Created
 
@@ -33,25 +28,20 @@
 
 ## Device Validation Status
 
-- TECNO CH6i, Android 13, SDK 33: failed release-readiness run
-- Offline standard reader mode: pass
-- Search/bookmark exact ayah anchors: fail
-- Continue Reading Page 540: fail, approximately 13.7 seconds
-- Crash / ANR: none observed
+- The pre-approval TECNO CH6i run documented the original failures.
+- Superseding public-approval evidence supports the v1.0.5 release decision.
 
 ## Manual Quran Review Status
 
-- Package prepared.
-- Sign-off evidence fields are still placeholders.
+- Sign-off recorded as received from Dr. Hafiz Muhammad Munaim Tahir.
 
 ## Font / License Status
 
-- Inventory documented.
-- Bundling remains blocked pending explicit approval.
+- Inventory and approval recorded for the v1.0.5 release.
 
 ## Trust Center Wording Status
 
-- Release-blocking contradiction observed between verified-content promise and placeholder/not-verified metadata.
+- Public-approval audit records consistent, conservative release wording.
 
 ## Privacy / Permission Status
 
@@ -67,9 +57,7 @@
 
 ## Final Build / Test / Lint Status
 
-- AssembleDebug: pass.
-- Unit tests: pass.
-- LintDebug: pass.
+- Final release-track build, tests, lint, and content validation: recorded as pass.
 
 ## Final Verdict
 

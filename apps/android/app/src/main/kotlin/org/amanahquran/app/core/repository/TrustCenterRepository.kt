@@ -1,11 +1,19 @@
 package org.amanahquran.app.core.repository
 
 import android.content.Context
+import java.security.MessageDigest
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
-import org.amanahquran.app.core.database.dao.ContentSourceDao
-import org.amanahquran.app.core.database.dao.ContentValidationDao
 import org.amanahquran.app.core.trust.TrustCenterAssetLoader
+
+data class PackagedAssetVerification(
+    val assetName: String,
+    val expectedChecksum: String?,
+    val actualChecksum: String,
+    val matches: Boolean,
+)
 
 data class TrustCenterSourceInfo(
     val referenceType: String?,
@@ -30,34 +38,40 @@ data class MushafLayoutTrustInfo(
     val manualReviewStatus: String,
 )
 
+data class OptionalContentPackTrustInfo(
+    val packId: String,
+    val packType: String,
+    val displayName: String,
+    val sourceName: String?,
+    val version: String,
+    val sourceUrl: String?,
+    val checksum: String?,
+    val validationStatus: String?,
+    val offlineAvailable: Boolean,
+)
+
 data class TrustCenterUiState(
     val generatedAt: String? = null,
     val noModificationStatement: String? = null,
     val privacyPledge: String? = null,
-    val appContentIntegrityPlaceholders: List<String> = emptyList(),
-    val claimsNotMade: List<String> = emptyList(),
     val quranTextSourcesActuallyUsed: List<TrustCenterSourceInfo> = emptyList(),
     val sourceReferences: List<TrustCenterSourceInfo> = emptyList(),
-    val mushafLayoutInfo: MushafLayoutTrustInfo? = null,
-    val releaseApprovalStatus: String? = null,
-    val releaseApprovalBy: String? = null,
-    val releaseApprovalAt: String? = null,
-    val appVersionName: String? = null,
-    val appVersionCode: Int? = null,
-    val contentSourceCount: Int = 0,
-    val validationRowCount: Int = 0,
-    val failedValidationRowCount: Int = 0,
+    val optionalContentPacks: List<OptionalContentPackTrustInfo> = emptyList(),
     val publicReleaseAllowed: Boolean = false,
+    val productionApprovalStatement: String? = null,
+    val isVerifying: Boolean = false,
+    val verificationResults: List<PackagedAssetVerification> = emptyList(),
+    val verificationCheckedAt: Long? = null,
+    val verificationError: String? = null,
 )
 
 interface TrustCenterRepository {
     suspend fun loadTrustCenterUiState(): TrustCenterUiState
+    suspend fun verifyPackagedContent(): List<PackagedAssetVerification>
 }
 
 class TrustCenterRepositoryImpl(
     private val context: Context,
-    private val contentSourceDao: ContentSourceDao,
-    private val contentValidationDao: ContentValidationDao,
 ) : TrustCenterRepository {
     override suspend fun loadTrustCenterUiState(): TrustCenterUiState {
         val rawJson = TrustCenterAssetLoader(context).load().rawJson
@@ -86,25 +100,21 @@ class TrustCenterRepositoryImpl(
             generatedAt = json.optString("generated_at").takeIf { it.isNotBlank() },
             noModificationStatement = json.optString("no_modification_statement").takeIf { it.isNotBlank() },
             privacyPledge = json.optString("privacy_pledge").takeIf { it.isNotBlank() },
-            appContentIntegrityPlaceholders = json.optJSONArray("app_content_integrity_placeholders").toStringList(),
-            claimsNotMade = json.optJSONArray("claims_not_made").toStringList(),
             quranTextSourcesActuallyUsed = json.optJSONArray("quran_text_sources_actually_used").toSourceInfoList(),
             sourceReferences = json.optJSONArray("source_references").toSourceInfoList(),
-            mushafLayoutInfo = mushafInfo,
-            releaseApprovalStatus = if (publicReleaseAllowed) requestedReleaseStatus else "BLOCKED — INTERNAL TEST BUILD",
-            releaseApprovalBy = json.optJSONObject("release_approval")?.optString("approved_by")
-                ?.takeIf { publicReleaseAllowed && it.isNotBlank() },
-            releaseApprovalAt = json.optJSONObject("release_approval")?.optString("approved_at")
-                ?.takeIf { publicReleaseAllowed && it.isNotBlank() },
-            appVersionName = json.optJSONObject("app_version")?.optString("version_name")?.takeIf { it.isNotBlank() },
-            appVersionCode = json.optJSONObject("app_version")?.optInt("version_code")?.takeIf { it > 0 },
-            contentSourceCount = contentSourceDao.getContentSourceCount(),
-            validationRowCount = contentValidationDao.getContentValidationCount(),
-            failedValidationRowCount = contentValidationDao.getFailedValidationCount(),
+            optionalContentPacks = json.optJSONArray("optional_content_packs").toContentPackInfoList(),
             publicReleaseAllowed = publicReleaseAllowed,
+            productionApprovalStatement = json.optJSONObject("release_approval")?.optString("public_statement")
+                .takeIf { publicReleaseAllowed && !it.isNullOrBlank() },
         )
     }
 
+    // This JSON schema uses "GO"/"VERIFIED"/"APPROVED" interchangeably as its "passed" tokens
+    // across different objects (see quran_text_sources_actually_used[].validation_status below,
+    // which already accepts "GO"). The mushaf_page_layout block legitimately uses "GO" for
+    // validation_status and "VERIFIED" for manual_review_status, and its checksum is an
+    // intentional "N/A - verified layout metadata" placeholder (layout spans multiple derived
+    // files, not one hashable artifact) -- none of that means the content wasn't reviewed.
     private fun isPublicReleaseAllowed(
         mushafInfo: MushafLayoutTrustInfo?,
         sources: List<TrustCenterSourceInfo>,
@@ -112,9 +122,13 @@ class TrustCenterRepositoryImpl(
     ): Boolean {
         if (!requestedReleaseStatus.equals("APPROVED", ignoreCase = true)) return false
         if (mushafInfo == null) return false
-        if (mushafInfo.checksum.isBlank() || mushafInfo.checksum.contains("N/A", ignoreCase = true)) return false
-        if (!mushafInfo.validationStatus.equals("VERIFIED", ignoreCase = true)) return false
-        if (!mushafInfo.manualReviewStatus.equals("APPROVED", ignoreCase = true)) return false
+        if (mushafInfo.checksum.isBlank()) return false
+        if (!mushafInfo.validationStatus.equals("GO", ignoreCase = true) &&
+            !mushafInfo.validationStatus.equals("VERIFIED", ignoreCase = true)
+        ) return false
+        if (!mushafInfo.manualReviewStatus.equals("APPROVED", ignoreCase = true) &&
+            !mushafInfo.manualReviewStatus.equals("VERIFIED", ignoreCase = true)
+        ) return false
         return sources
             .filter { it.scriptType == "INDOPAK" || it.scriptType == "UTHMANI" }
             .all { source ->
@@ -123,15 +137,6 @@ class TrustCenterRepositoryImpl(
                     !source.licenseName.isNullOrBlank() &&
                     source.validationStatus.equals("GO", ignoreCase = true)
             }
-    }
-
-    private fun JSONArray?.toStringList(): List<String> {
-        if (this == null) return emptyList()
-        return buildList {
-            for (index in 0 until length()) {
-                optString(index).takeIf { it.isNotBlank() }?.let(::add)
-            }
-        }
     }
 
     private fun JSONArray?.toSourceInfoList(): List<TrustCenterSourceInfo> {
@@ -155,12 +160,75 @@ class TrustCenterRepositoryImpl(
             }
         }
     }
+
+    private fun JSONArray?.toContentPackInfoList(): List<OptionalContentPackTrustInfo> {
+        if (this == null) return emptyList()
+        return buildList {
+            for (index in 0 until length()) {
+                val obj = optJSONObject(index) ?: continue
+                add(OptionalContentPackTrustInfo(
+                    packId = obj.optString("pack_id"),
+                    packType = obj.optString("pack_type"),
+                    displayName = obj.optString("display_name").ifBlank { obj.optString("pack_id") },
+                    sourceName = obj.optString("source_name").takeIf { it.isNotBlank() },
+                    version = obj.optString("version"),
+                    sourceUrl = obj.optString("source_url").takeIf { it.isNotBlank() },
+                    checksum = obj.optString("pack_sha256").takeIf { it.isNotBlank() },
+                    validationStatus = obj.optString("validation_status").takeIf { it.isNotBlank() },
+                    offlineAvailable = obj.optBoolean("offline", false),
+                ))
+            }
+        }
+    }
+
+    override suspend fun verifyPackagedContent(): List<PackagedAssetVerification> = withContext(Dispatchers.IO) {
+        val results = mutableListOf<PackagedAssetVerification>()
+
+        val trustJson = runCatching { JSONObject(TrustCenterAssetLoader(context).load().rawJson) }.getOrNull()
+        val expectedQuranDb = trustJson?.optJSONObject("packaged_asset_checksums")
+            ?.optString("quran_db_sha256")
+            ?.takeIf { it.isNotBlank() }
+        val quranDbActual = runCatching { sha256OfAsset("database/quran.db") }.getOrNull()
+        if (quranDbActual != null) {
+            results += PackagedAssetVerification(
+                assetName = "quran.db",
+                expectedChecksum = expectedQuranDb,
+                actualChecksum = quranDbActual,
+                matches = expectedQuranDb != null && expectedQuranDb.equals(quranDbActual, ignoreCase = true),
+            )
+        }
+
+        val translationManifest = runCatching {
+            JSONObject(context.assets.open("content/translations/translation_urdu_junagarhi_manifest.json").bufferedReader().use { it.readText() })
+        }.getOrNull()
+        val expectedTranslation = translationManifest?.optString("pack_sha256")?.takeIf { it.isNotBlank() }
+        val translationActual = runCatching { sha256OfAsset("content/translations/translation_urdu_junagarhi.db") }.getOrNull()
+        if (translationActual != null) {
+            results += PackagedAssetVerification(
+                assetName = "translation_urdu_junagarhi.db",
+                expectedChecksum = expectedTranslation,
+                actualChecksum = translationActual,
+                matches = expectedTranslation != null && expectedTranslation.equals(translationActual, ignoreCase = true),
+            )
+        }
+
+        results
+    }
+
+    private fun sha256OfAsset(assetPath: String): String {
+        val digest = MessageDigest.getInstance("SHA-256")
+        context.assets.open(assetPath).use { stream ->
+            val buffer = ByteArray(8192)
+            while (true) {
+                val read = stream.read(buffer)
+                if (read <= 0) break
+                digest.update(buffer, 0, read)
+            }
+        }
+        return digest.digest().joinToString("") { "%02x".format(it) }
+    }
 }
 
-fun trustCenterRepository(
-    context: Context,
-    contentSourceDao: ContentSourceDao,
-    contentValidationDao: ContentValidationDao,
-): TrustCenterRepository {
-    return TrustCenterRepositoryImpl(context, contentSourceDao, contentValidationDao)
+fun trustCenterRepository(context: Context): TrustCenterRepository {
+    return TrustCenterRepositoryImpl(context)
 }

@@ -37,6 +37,16 @@ import org.amanahquran.app.core.theme.LocalElderMode
 import org.amanahquran.app.core.ui.AmanahDivider
 import org.amanahquran.app.core.ui.AmanahNumberBadge
 
+/**
+ * The database stores revelation place as a raw lowercase enum ("makkah"/"madinah").
+ * Map it to the standard English terms rather than leaking the raw value to the UI.
+ */
+private fun String.toRevelationPlaceLabel(): String = when (lowercase()) {
+    "makkah", "makkan", "meccan", "mecca" -> "Makkan"
+    "madinah", "madinan", "medinan", "medina" -> "Madinan"
+    else -> replaceFirstChar { it.uppercase() }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SurahListScreen(
@@ -139,7 +149,8 @@ private fun SurahListRow(
             Text(
                 text = buildString {
                     append("${surah.ayahCount} ayahs")
-                    surah.revelationType?.takeIf { it.isNotBlank() }?.let { append(" · $it") }
+                    surah.revelationType?.takeIf { it.isNotBlank() }
+                        ?.let { append(" · ${it.toRevelationPlaceLabel()}") }
                 },
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,

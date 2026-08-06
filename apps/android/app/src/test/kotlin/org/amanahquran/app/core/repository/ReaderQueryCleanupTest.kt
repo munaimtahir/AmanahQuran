@@ -50,26 +50,46 @@ class ReaderQueryCleanupTest {
     }
 
     @Test
-    fun surahQueryReturnsSelectedSurahAndSelectedScriptOnly() {
+    fun surahQueryReturnsSelectedSurahOnwardForContinuousReadingAndSelectedScriptOnly() {
+        // READER-UX-02: a Surah open reads continuously through to the end of the Quran (Surah
+        // 114) rather than stopping at that Surah's own last ayah -- see AyahDao.getReaderAyahsBySurah.
         val ayahs = kotlinx.coroutines.runBlocking {
             repository.getReaderAyahs(ReaderOpenMode.Surah(2), ScriptType.UTHMANI.name)
         }
 
         assertTrue(ayahs.isNotEmpty())
-        assertTrue(ayahs.all { it.surahNumber == 2 })
+        assertTrue(ayahs.all { it.surahNumber >= 2 })
         assertTrue(ayahs.all { it.scriptType == ScriptType.UTHMANI.name })
         assertTrue(ayahs.all { it.displayText.isNotBlank() })
+        assertEquals("2:1", ayahs.first().ayahKey)
+        assertEquals(114, ayahs.last().surahNumber)
+        // Surah-ascending order must never regress within a script (no duplicate/omitted ayah).
+        assertEquals(ayahs.map { it.ayahKey }.distinct().size, ayahs.size)
     }
 
     @Test
-    fun juzQueryReturnsSelectedJuzAndSelectedScriptOnly() {
+    fun juzQueryReturnsSelectedJuzOnwardForContinuousReadingAndSelectedScriptOnly() {
+        val ayahs = kotlinx.coroutines.runBlocking {
+            repository.getReaderAyahs(ReaderOpenMode.Juz(29), ScriptType.INDOPAK.name)
+        }
+
+        assertTrue(ayahs.isNotEmpty())
+        assertTrue(ayahs.all { it.juzNumber >= 29 })
+        assertTrue(ayahs.all { it.scriptType == ScriptType.INDOPAK.name })
+        assertEquals(30, ayahs.last().juzNumber)
+        assertEquals(ayahs.map { it.ayahKey }.distinct().size, ayahs.size)
+    }
+
+    @Test
+    fun juzQueryForTheLastJuzReturnsExactlyThatJuz() {
+        // Boundary case: Juz 30 has nothing to continue into, so this must behave exactly like
+        // the old exact-match query did.
         val ayahs = kotlinx.coroutines.runBlocking {
             repository.getReaderAyahs(ReaderOpenMode.Juz(30), ScriptType.INDOPAK.name)
         }
 
         assertTrue(ayahs.isNotEmpty())
         assertTrue(ayahs.all { it.juzNumber == 30 })
-        assertTrue(ayahs.all { it.scriptType == ScriptType.INDOPAK.name })
     }
 
     @Test

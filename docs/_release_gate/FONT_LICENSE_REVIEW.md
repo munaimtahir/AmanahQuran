@@ -13,9 +13,9 @@ The packaged database contains 41 `font_inventory` rows. Review status has been 
 
 | Font / source name | File present in repo | Bundled in app | License known | License text available | Commercial / free public app use allowed | Decision | Notes |
 |---|---|---|---|---|---|---|---|
-| QUL font files | Yes | Yes | Yes | Yes | Internal testing only until public gates clear | Approved | Reference URLs documented in Trust Center |
-| QUL IndoPak / Nastaleeq candidates | Yes | Yes | Yes | Yes | Internal testing only until public gates clear | Approved | Current runtime uses `digital_khatt_indopak.otf` with `indopak_nastaleeq.ttf` as fallback |
-| QUL Uthmani font candidates | Yes | Yes | Yes | Yes | Internal testing only until public gates clear | Approved | Official font portal recorded; `indopak_nastaleeq.ttf` remains a fallback for rare marks |
+| QUL font files | Yes | Yes | Yes | Yes | Approved for v1.0.5 public release | Approved | Reference URLs documented in Trust Center |
+| QUL IndoPak / Nastaleeq candidates | Yes | Yes | Yes | Yes | Approved for v1.0.5 public release | Approved | Current runtime uses `digital_khatt_indopak.otf` with `indopak_nastaleeq.ttf` as fallback |
+| QUL Uthmani font candidates | Yes | Yes | Yes | Yes | Approved for v1.0.5 public release | Approved | Official font portal recorded; `indopak_nastaleeq.ttf` remains a fallback for rare marks |
 | Quran metadata / ligature assets | No | No | No | No | Not bundled | Not in V1 | Kept out of the app binary |
 | Quran Foundation reference pages | No | No | No | No | Not bundled | Reference only | Not part of the app package |
 | Quranic Arabic Corpus morphology data | No | No | No | No | Not bundled | Not in V1 | Excluded from V1 scope |
@@ -25,7 +25,9 @@ The packaged database contains 41 `font_inventory` rows. Review status has been 
 - Keep bundled Quran fonts documented with source URLs and license notices.
 - Do not rely on implied permissibility from source location or filename alone.
 - Keep non-V1 font candidates as metadata until a specific license review approves them.
-- Public release remains blocked until the non-font gates and manual review evidence are complete.
+- The v1.0.5 release ledger records that the non-font gates and manual review
+  evidence were completed on 2026-07-23. Any font change requires a renewed
+  license, coverage, and visual-QA review before release.
 
 ## Reference Links
 

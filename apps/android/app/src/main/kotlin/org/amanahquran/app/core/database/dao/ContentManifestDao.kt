@@ -13,5 +13,5 @@ interface ContentManifestDao {
     fun getLatestManifest(): Flow<ContentManifestEntity?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertManifest(manifest: ContentManifestEntity)
+    suspend fun insertManifest(manifest: ContentManifestEntity): Long
 }

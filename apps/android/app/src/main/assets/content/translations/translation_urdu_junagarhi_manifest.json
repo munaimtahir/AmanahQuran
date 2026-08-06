@@ -1,0 +1,27 @@
+{
+  "pack_id": "urdu_junagarhi",
+  "pack_type": "translation",
+  "language_code": "ur",
+  "language_name": "Urdu",
+  "translator": "Muhammad Junagarhi",
+  "edition": "QuranEnc Urdu Translation",
+  "source_name": "QuranEnc / Rowwad Translation Center",
+  "source_url": "https://quranenc.com/en/browse/urdu_junagarhi",
+  "download_url": "https://quranenc.com/en/home/download/csv/urdu_junagarhi",
+  "version": "v1.1.3-csv.1",
+  "source_sha256": "027cd258d87285bdb8afbffa60fd141c450a1d029b14c16501355ab24481fec4",
+  "pack_sha256": "9f08b2e434884262a7343abc6b29638d4d270b1769d0e3f12138377970a33677",
+  "ayah_count": 6236,
+  "license_status": "REPUBLICATION_TERMS_RECORDED",
+  "terms": [
+    "Do not modify, add, or delete translation content.",
+    "Attribute QuranEnc.com and the publisher.",
+    "Display the source version and retain transcript information.",
+    "Update the translation when QuranEnc publishes a newer version.",
+    "Do not include inappropriate advertisements."
+  ],
+  "validation_status": "AUTOMATED_VALIDATION_PASSED",
+  "reviewer_status": "APPROVED",
+  "offline": true,
+  "audio": false
+}

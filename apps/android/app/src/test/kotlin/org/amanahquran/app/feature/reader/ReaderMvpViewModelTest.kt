@@ -102,7 +102,15 @@ class ReaderMvpViewModelTest {
     }
 
     @Test
-    fun reader_loadsSurah1With7Ayahs() = runTest {
+    fun reader_openingSurah1ContinuesThroughTheEndOfTheQuranNotJustItsOwn7Ayahs() = runTest {
+        // READER-UX-02: a bare Surah open (Surah Index / "Continue Reading" -- no specific target
+        // ayah) reads continuously through to the end of the Quran instead of dead-ending at that
+        // Surah's own last ayah, so scrolling past Al-Fatihah's 7th ayah flows into Al-Baqarah
+        // rather than stopping (this also fixed a real reported bug: with the old exact-surah-only
+        // query, enabling Page Mode made "open Surah 1" silently jump to "Page 1", which legitimately
+        // also contains Al-Baqarah 2:1-2:2 on a real Mushaf page and looked like Surah 2 bleeding
+        // into Surah 1).
+        val totalAyahCount = repository.getAyahCount()
         val viewModel = ReaderViewModel(
             repository = repository,
             settingsRepository = settingsRepository,
@@ -117,15 +125,40 @@ class ReaderMvpViewModelTest {
         assertFalse(state.isLoading)
         assertEquals(1, state.surahNumber)
         assertEquals(ScriptType.INDOPAK, state.selectedScript)
-        assertEquals(7, state.ayahs.size)
+        assertEquals(totalAyahCount, state.ayahs.size)
         assertEquals("1:1", state.ayahs.first().ayahKey)
+        assertEquals(114, state.ayahs.last().surahNumber)
+        assertTrue(state.ayahs.any { it.ayahKey == "2:1" })
         assertTrue(state.ayahs.all { it.displayText.isNotBlank() })
         viewModel.viewModelScope.cancel()
     }
 
     @Test
-    fun reader_loadsSurah2WithUthmaniText() = runTest {
+    fun reader_bareSurahOpenWithPageModeEnabledStaysListScopedNotThePageThatBleedsIntoTheNextSurah() = runTest {
+        // The exact scenario reported as a bug: Page Mode globally on, user opens "Surah 1" from
+        // the Surah Index (no specific ayah -- anchor is SurahStart). This must NOT redirect into
+        // ReaderOpenMode.Page (which would show Al-Baqarah 2:1/2:2 on the same physical page).
+        settingsRepository.setBookModeEnabled(true)
+        val viewModel = ReaderViewModel(
+            repository = repository,
+            settingsRepository = settingsRepository,
+            lastReadRepository = lastReadRepository,
+            bookmarkRepository = bookmarkRepository,
+            initialOpenMode = ReaderOpenMode.Surah(1),
+            dispatcher = UnconfinedTestDispatcher(testScheduler),
+        )
+
+        val state = viewModel.uiState.first { !it.isLoading }
+
+        assertEquals(ReaderOpenMode.Surah(1), state.openMode)
+        assertEquals("1:1", state.ayahs.first().ayahKey)
+        viewModel.viewModelScope.cancel()
+    }
+
+    @Test
+    fun reader_loadsSurah2WithUthmaniTextAndContinuesPastItsOwnLastAyah() = runTest {
         settingsRepository.setSelectedScript(ScriptType.UTHMANI)
+        val expectedCount = repository.getAyahCount() - (repository.getSurahByNumber(1)?.ayahCount ?: 7)
         val viewModel = ReaderViewModel(
             repository = repository,
             settingsRepository = settingsRepository,
@@ -139,16 +172,18 @@ class ReaderMvpViewModelTest {
 
         assertFalse(state.isLoading)
         assertEquals(ScriptType.UTHMANI, state.selectedScript)
-        assertEquals(286, state.ayahs.size)
+        assertEquals(expectedCount, state.ayahs.size)
         assertEquals(
             database.quranTextDao().getTextByAyahAndScript("2:1", "UTHMANI")?.displayText,
             state.ayahs.first().displayText,
         )
+        assertEquals(114, state.ayahs.last().surahNumber)
         viewModel.viewModelScope.cancel()
     }
 
     @Test
-    fun reader_loadsSurah2WithIndoPakText() = runTest {
+    fun reader_loadsSurah2WithIndoPakTextAndContinuesPastItsOwnLastAyah() = runTest {
+        val expectedCount = repository.getAyahCount() - (repository.getSurahByNumber(1)?.ayahCount ?: 7)
         val viewModel = ReaderViewModel(
             repository = repository,
             settingsRepository = settingsRepository,
@@ -162,11 +197,12 @@ class ReaderMvpViewModelTest {
 
         assertFalse(state.isLoading)
         assertEquals(ScriptType.INDOPAK, state.selectedScript)
-        assertEquals(286, state.ayahs.size)
+        assertEquals(expectedCount, state.ayahs.size)
         assertEquals(
             database.quranTextDao().getTextByAyahAndScript("2:1", "INDOPAK")?.displayText,
             state.ayahs.first().displayText,
         )
+        assertEquals(114, state.ayahs.last().surahNumber)
         viewModel.viewModelScope.cancel()
     }
 
@@ -225,7 +261,8 @@ class ReaderMvpViewModelTest {
     }
 
     @Test
-    fun exactAyahAnchorLoadsTargetAyahWithoutFallingBackToSurahStart() = runTest {
+    fun exactAyahAnchorLoadsContainingSurahAndScrollsToTargetAyah() = runTest {
+        val expectedCount = repository.getAyahCount() - (repository.getSurahByNumber(1)?.ayahCount ?: 7)
         val viewModel = ReaderViewModel(
             repository = repository,
             settingsRepository = settingsRepository,
@@ -238,9 +275,10 @@ class ReaderMvpViewModelTest {
 
         val state = viewModel.uiState.first { !it.isLoading && it.selectedAyahKey == "2:255" }
 
-        assertEquals(ReaderOpenMode.AyahTarget(2, "2:255"), state.openMode)
-        assertEquals(1, state.ayahs.size)
-        assertEquals("2:255", state.ayahs.first().ayahKey)
+        assertEquals(ReaderOpenMode.Surah(2), state.openMode)
+        assertEquals(expectedCount, state.ayahs.size)
+        assertEquals("2:1", state.ayahs.first().ayahKey)
+        assertTrue(state.ayahs.any { it.ayahKey == "2:255" })
         assertEquals("2:255", state.selectedAyahKey)
         assertTrue(state.anchorScrollIndex != null && state.anchorScrollIndex!! >= 0)
         val targetBlock = state.readerBlocks[state.anchorScrollIndex!!] as ReaderStructuralItem.Ayah
@@ -284,7 +322,7 @@ class ReaderMvpViewModelTest {
         )
         viewModel.uiState.first { !it.isLoading && it.selectedAyahKey == "2:255" }
 
-        viewModel.selectScript(ScriptType.UTHMANI)
+        settingsRepository.setSelectedScript(ScriptType.UTHMANI)
         val switched = viewModel.uiState.first {
             !it.isLoading && it.selectedScript == ScriptType.UTHMANI && it.selectedAyahKey == "2:255"
         }

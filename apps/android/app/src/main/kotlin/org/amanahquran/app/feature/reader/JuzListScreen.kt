@@ -152,7 +152,7 @@ private fun JuzListRow(
                 color = MaterialTheme.colorScheme.onSurface,
             )
             Text(
-                text = if (endInfo.isNotBlank()) "$startInfo → $endInfo" else startInfo,
+                text = if (endInfo.isNotBlank()) "$startInfo – $endInfo" else startInfo,
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -307,7 +307,7 @@ private fun PageListRow(
                 color = MaterialTheme.colorScheme.onSurface,
             )
             Text(
-                text = if (endInfo.isNotBlank()) "$startInfo → $endInfo" else startInfo,
+                text = if (endInfo.isNotBlank()) "$startInfo – $endInfo" else startInfo,
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )

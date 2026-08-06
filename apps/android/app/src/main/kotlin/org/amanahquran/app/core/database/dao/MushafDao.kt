@@ -34,17 +34,17 @@ interface MushafDao {
     suspend fun getAllLinesForScript(scriptType: String): List<MushafLineEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertPage(page: MushafPageEntity)
+    suspend fun insertPage(page: MushafPageEntity): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertPages(pages: List<MushafPageEntity>)
+    suspend fun insertPages(pages: List<MushafPageEntity>): List<Long>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertLines(lines: List<MushafLineEntity>)
+    suspend fun insertLines(lines: List<MushafLineEntity>): List<Long>
 
     @Query("DELETE FROM mushaf_pages")
-    suspend fun clearPages()
+    suspend fun clearPages(): Int
 
     @Query("DELETE FROM mushaf_lines")
-    suspend fun clearLines()
+    suspend fun clearLines(): Int
 }

@@ -83,6 +83,8 @@ def classify_packaged_asset(path: Path) -> tuple[str, str]:
         return "DATABASE", rel
     if rel.startswith("apps/android/app/src/main/assets/trust/"):
         return "TRUST_JSON", rel
+    if rel.startswith("apps/android/app/src/main/assets/content/translations/"):
+        return "TRANSLATION", rel
     if rel.startswith("apps/android/app/src/main/assets/"):
         return "ASSET", rel
     return "OTHER", rel
@@ -199,6 +201,22 @@ def evaluate_findings(profile: str, scope: str) -> tuple[list[Finding], dict]:
                 blockers += 1
             else:
                 findings.append(Finding(path, kind, profile, scope, "OK", "internal_testing_trust_json", license_status=status, checksum_sha256=checksum))
+                warnings += 1
+            continue
+
+        if kind == "TRANSLATION" and name in {
+            "translation_urdu_junagarhi.db",
+            "translation_urdu_junagarhi_manifest.json",
+        }:
+            generated_asset = generated.get(name, {})
+            status = generated_asset.get("validation_status", "REVIEW_REQUIRED")
+            if profile == "public" and status != "APPROVED":
+                findings.append(
+                    Finding(path, kind, profile, scope, "BLOCKER", "translation_not_public_release_approved", source_name="QuranEnc Urdu Junagarhi", license_status=status, checksum_sha256=checksum)
+                )
+                blockers += 1
+            else:
+                findings.append(Finding(path, kind, profile, scope, "OK", "internal_testing_translation", source_name="QuranEnc Urdu Junagarhi", license_status=status, checksum_sha256=checksum))
                 warnings += 1
             continue
 

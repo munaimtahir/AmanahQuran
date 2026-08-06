@@ -64,6 +64,8 @@ def classify(path: Path) -> str:
         return "DATABASE"
     if rel.startswith("apps/android/app/src/main/assets/trust/"):
         return "TRUST_JSON"
+    if rel.startswith("apps/android/app/src/main/assets/content/translations/"):
+        return "TRANSLATION"
     if rel.startswith("apps/android/app/src/main/assets/"):
         return "ASSET"
     if rel.startswith("apps/android/app/src/main/res/font/"):
@@ -101,6 +103,13 @@ def scan_inventory() -> list[PackageAsset]:
                 source_match = "generated_projectdata/trust_center_sources.json"
                 license_status = generated.get("trust_center_sources.json", {}).get("validation_status")
                 notes = "generated Trust Center JSON"
+            elif kind == "TRANSLATION" and path.name in {
+                "translation_urdu_junagarhi.db",
+                "translation_urdu_junagarhi_manifest.json",
+            }:
+                source_match = "docs/legal/TRANSLATION_LICENSE_CLEARANCE_DECISION.md"
+                license_status = generated.get(path.name, {}).get("validation_status")
+                notes = "packaged Urdu Junagarhi translation (QuranEnc)"
             else:
                 reg = (
                     registry.get(f"sourcedata/{path.name}")
@@ -154,6 +163,14 @@ def main() -> int:
                 blockers.append({**item.__dict__, "reason": "font_not_public_release_approved"})
             else:
                 warnings.append({**item.__dict__, "reason": "internal_testing_font"})
+        elif item.kind == "TRANSLATION" and name in {
+            "translation_urdu_junagarhi.db",
+            "translation_urdu_junagarhi_manifest.json",
+        }:
+            if args.profile == "public" and item.license_status != "APPROVED":
+                blockers.append({**item.__dict__, "reason": "translation_not_public_release_approved"})
+            else:
+                warnings.append({**item.__dict__, "reason": "internal_testing_translation"})
         elif name.endswith((".zip", ".xml", ".csv", ".bz2", ".pdf", ".docx", ".html", ".md")):
             blockers.append({**item.__dict__, "reason": "raw_source_or_archive_packaged"})
         elif item.source_match is None:

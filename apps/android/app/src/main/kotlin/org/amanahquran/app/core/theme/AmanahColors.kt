@@ -43,3 +43,38 @@ val DarkPrimaryGreen = Color(0xFF8CC9AE)
 val DarkAccentGold = Color(0xFFD9C070)
 val DarkSurfaceVariant = Color(0xFF24382F)
 val DarkReaderSurface = Color(0xFF24382F)
+
+// Muted sage/eucalyptus reader accents (calm, not promotional -- see ReaderPalette). Deliberately
+// desaturated compared to AmanahGreenDeep/AmanahGreenMuted, which stay reserved for primary
+// brand/navigation chrome outside the reading surface itself.
+val AmanahSageMuted = Color(0xFF6E8F7C)
+val AmanahSageDeep = Color(0xFF4B6656)
+val AmanahSageSoft = Color(0xFFDCE7DF)
+val AmanahSageOnDark = Color(0xFF9FC2AE)
+val AmanahSageSoftOnDark = Color(0xFF2A3A33)
+
+// Quick-action icon-badge accents: one muted jewel tone per home-screen category so the
+// browse grid stops reading as a flat, colorless block. Shared lightness/saturation across
+// the 5 hues keeps them feeling like one calm family rather than a scattered rainbow --
+// color lives only in the small icon badge, never the card body, so it stays elegant.
+val AmanahAccentGoldIcon = Color(0xFF7A5A1E)
+val AmanahAccentGoldBg = AmanahGoldSoftSurface
+val AmanahAccentTealIcon = Color(0xFF3E7C74)
+val AmanahAccentTealBg = Color(0xFFDCECE8)
+val AmanahAccentTerracottaIcon = Color(0xFFB1603C)
+val AmanahAccentTerracottaBg = Color(0xFFF2E1D6)
+val AmanahAccentPlumIcon = Color(0xFF6B5590)
+val AmanahAccentPlumBg = Color(0xFFE9E2F2)
+val AmanahAccentRoseIcon = Color(0xFFB4536B)
+val AmanahAccentRoseBg = Color(0xFFF4E0E6)
+
+val AmanahAccentGoldIconDark = DarkAccentGold
+val AmanahAccentGoldBgDark = Color(0xFF3A331C)
+val AmanahAccentTealIconDark = Color(0xFF7FC2B8)
+val AmanahAccentTealBgDark = Color(0xFF1C332F)
+val AmanahAccentTerracottaIconDark = Color(0xFFE0916B)
+val AmanahAccentTerracottaBgDark = Color(0xFF3A2620)
+val AmanahAccentPlumIconDark = Color(0xFFB6A3D9)
+val AmanahAccentPlumBgDark = Color(0xFF2E2740)
+val AmanahAccentRoseIconDark = Color(0xFFE0A0B2)
+val AmanahAccentRoseBgDark = Color(0xFF3A252B)

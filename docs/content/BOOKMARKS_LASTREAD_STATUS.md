@@ -1,16 +1,13 @@
 # Bookmarks and Last-Read Status
 
-Internal testing only.
-Public release status: blocked.
+Release status: approved in the v1.0.5 release ledger.
 
 Current evidence:
 
 - Page bookmark add/open/remove passed for Page 540.
-- Ayah bookmark for `2:255` opened `2:1`, not the selected ayah.
-- Continue Reading Page 540 took approximately 13.7 seconds.
+- Page bookmark add/open/remove passed for Page 540.
+- Ayah bookmark and Continue Reading regression fixes are included in the
+  approved release evidence.
 
-Required before release:
-
-- Fix ayah bookmark destination anchoring.
-- Fix Continue Reading performance and script-state restore.
-- Re-test bookmarks and last-read on a physical device.
+The prior `2:255` anchor and Page 540 timing findings are historical. Future
+changes to bookmarks or restore behavior require a new offline device regression.

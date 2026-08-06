@@ -2,6 +2,7 @@ package org.amanahquran.app.core.ui
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,11 +10,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Bookmark
 import androidx.compose.material.icons.rounded.BookmarkBorder
@@ -27,16 +32,21 @@ import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.amanahquran.app.core.theme.AmanahGoldMuted
@@ -51,6 +61,8 @@ fun AmanahPrimaryButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     icon: ImageVector? = null,
+    containerColor: Color = MaterialTheme.colorScheme.primary,
+    contentColor: Color = MaterialTheme.colorScheme.onPrimary,
 ) {
     val elder = LocalElderMode.current
     val height = if (elder) AmanahSpacing.buttonHeightElder else AmanahSpacing.buttonHeight
@@ -61,8 +73,8 @@ fun AmanahPrimaryButton(
         enabled = enabled,
         shape = AmanahShapes.button,
         colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
+            containerColor = containerColor,
+            contentColor = contentColor,
         ),
         contentPadding = PaddingValues(horizontal = AmanahSpacing.xl, vertical = AmanahSpacing.md),
     ) {
@@ -80,6 +92,7 @@ fun AmanahTonalButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     icon: ImageVector? = null,
+    iconTint: Color? = null,
 ) {
     val elder = LocalElderMode.current
     val height = if (elder) AmanahSpacing.buttonHeightElder else AmanahSpacing.buttonHeight
@@ -95,7 +108,7 @@ fun AmanahTonalButton(
         contentPadding = PaddingValues(horizontal = AmanahSpacing.xl, vertical = AmanahSpacing.md),
     ) {
         if (icon != null) {
-            Icon(icon, contentDescription = null, modifier = Modifier.size(20.dp))
+            Icon(icon, contentDescription = null, modifier = Modifier.size(20.dp), tint = iconTint ?: LocalContentColor.current)
             Spacer(Modifier.width(AmanahSpacing.sm))
         }
         Text(text, fontSize = textSize, fontWeight = FontWeight.Medium)
@@ -126,6 +139,10 @@ fun AmanahOutlinedButton(
 fun AmanahCard(
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
+    containerColor: Color = MaterialTheme.colorScheme.surface,
+    borderColor: Color = MaterialTheme.colorScheme.outline,
+    borderWidth: Dp = 1.dp,
+    elevation: Dp = 0.dp,
     content: @Composable () -> Unit,
 ) {
     val elder = LocalElderMode.current
@@ -134,10 +151,10 @@ fun AmanahCard(
         modifier = if (onClick != null) modifier.clickable(onClick = onClick) else modifier,
         shape = AmanahShapes.card,
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface,
+            containerColor = containerColor,
         ),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+        border = BorderStroke(borderWidth, borderColor),
+        elevation = CardDefaults.cardElevation(defaultElevation = elevation),
     ) {
         Box(modifier = Modifier.padding(padding)) {
             Column { content() }
@@ -158,7 +175,7 @@ fun AmanahSectionCard(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
         ),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
     ) {
         Box(modifier = Modifier.padding(padding)) {
@@ -216,6 +233,61 @@ fun AmanahScriptChip(
             borderColor = MaterialTheme.colorScheme.outline,
             selectedBorderColor = MaterialTheme.colorScheme.primary,
         ),
+    )
+}
+
+/**
+ * A slider with a small circular thumb and a single continuous track, replacing the
+ * stock Material3 slider whose default thumb is a tall vertical bar with a gap around
+ * it -- that default reads as "split" rather than as one smooth control.
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AmanahSlider(
+    value: Float,
+    onValueChange: (Float) -> Unit,
+    valueRange: ClosedFloatingPointRange<Float>,
+    modifier: Modifier = Modifier,
+    onValueChangeFinished: (() -> Unit)? = null,
+) {
+    val elder = LocalElderMode.current
+    val thumbSize = if (elder) 26.dp else 22.dp
+    val trackHeight = 4.dp
+
+    Slider(
+        value = value,
+        onValueChange = onValueChange,
+        onValueChangeFinished = onValueChangeFinished,
+        valueRange = valueRange,
+        modifier = modifier.heightIn(min = if (elder) AmanahSpacing.minTouchTargetElder else AmanahSpacing.minTouchTarget),
+        thumb = {
+            Box(
+                modifier = Modifier
+                    .size(thumbSize)
+                    .background(MaterialTheme.colorScheme.primary, CircleShape)
+                    .border(2.dp, MaterialTheme.colorScheme.surface, CircleShape),
+            )
+        },
+        track = { state ->
+            val fraction = ((state.value - state.valueRange.start) /
+                (state.valueRange.endInclusive - state.valueRange.start))
+                .coerceIn(0f, 1f)
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(trackHeight)
+                    .clip(RoundedCornerShape(50))
+                    .background(MaterialTheme.colorScheme.primaryContainer),
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(fraction)
+                        .fillMaxHeight()
+                        .clip(RoundedCornerShape(50))
+                        .background(MaterialTheme.colorScheme.primary),
+                )
+            }
+        },
     )
 }
 

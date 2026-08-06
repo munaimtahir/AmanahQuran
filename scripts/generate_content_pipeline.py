@@ -539,6 +539,7 @@ def build_generated_project_data(staging: dict[str, Any], registry: list[dict]) 
     target_db = CONTENT_PIPELINE / "06_generated_projectdata" / "amanah_quran.sqlite"
     if source_db.resolve() != target_db.resolve():
         shutil.copy2(source_db, target_db)
+    quran_db_checksum = sha256_file(target_db)
 
     # Check if scholar reviewer has signed off
     signoff_file = ROOT / "docs" / "_public_release_approval" / "quran_db_review_20260715" / "08_REVIEWER_SIGN_OFF_TEMPLATE.md"
@@ -548,6 +549,19 @@ def build_generated_project_data(staging: dict[str, Any], registry: list[dict]) 
         if "Dr. Hafiz Muhammad Munaim Tahir" in text and "SIGNED AND APPROVED" in text:
             is_signed_off = True
 
+    # Check if the Urdu translation has a recorded public-distribution license clearance
+    translation_license_file = ROOT / "docs" / "legal" / "TRANSLATION_LICENSE_CLEARANCE_DECISION.md"
+    translation_validation_file = CONTENT_PIPELINE / "05_validation_reports" / "urdu_translation_validation.json"
+    is_translation_licensed = False
+    if translation_license_file.exists() and translation_validation_file.exists():
+        license_text = translation_license_file.read_text(encoding="utf-8")
+        validation_data = load_json(translation_validation_file)
+        if (
+            "TRANSLATION LICENSE CLEARANCE: APPROVED FOR PUBLIC DISTRIBUTION" in license_text
+            and "APPROVED" in str(validation_data.get("reviewer_status", ""))
+        ):
+            is_translation_licensed = True
+
     trust_data = load_json(ANDROID_TRUST_JSON)
     if is_signed_off:
         trust_data["validation_status"] = "PASSED"
@@ -556,7 +570,8 @@ def build_generated_project_data(staging: dict[str, Any], registry: list[dict]) 
         trust_data["simple_clean_source_role"] = "SEARCH_NORMALIZATION_SOURCE"
         trust_data["release_approval"] = {
             "status": "APPROVED",
-            "notes": "Approved by Dr. Hafiz Muhammad Munaim Tahir.",
+            "notes": "Approved after human scholarly review.",
+            "public_statement": "This version has been completely reviewed by qualified people and is verified and approved for open production release.",
         }
         for item in trust_data.get("quran_text_sources_actually_used", []):
             if item.get("source_name") == "Tanzil Simple Clean XML":
@@ -579,7 +594,7 @@ def build_generated_project_data(staging: dict[str, Any], registry: list[dict]) 
         }
         trust_data["app_content_integrity_placeholders"] = [
             "Automated structural validation passed",
-            "Human reviewer sign-off completed by Dr. Hafiz Muhammad Munaim Tahir",
+            "Human reviewer sign-off completed",
             "IndoPak public-release source resolved",
             "Simple Clean / fallback text must not be represented as verified IndoPak Mushaf text",
         ]
@@ -608,11 +623,26 @@ def build_generated_project_data(staging: dict[str, Any], registry: list[dict]) 
             "Simple Clean / fallback text must not be represented as verified IndoPak Mushaf text",
         ]
 
+    trust_data["packaged_asset_checksums"] = {
+        "quran_db_sha256": quran_db_checksum,
+    }
     write_json(CONTENT_PIPELINE / "06_generated_projectdata" / "trust_center_sources.json", trust_data)
     generated_asset_checksums = {
         "amanah_quran.sqlite": sha256_file(CONTENT_PIPELINE / "06_generated_projectdata" / "amanah_quran.sqlite"),
         "trust_center_sources.json": sha256_file(CONTENT_PIPELINE / "06_generated_projectdata" / "trust_center_sources.json"),
     }
+    translation_assets = {
+        "translation_urdu_junagarhi.db": ROOT / "apps" / "android" / "app" / "src" / "main" / "assets" / "content" / "translations" / "translation_urdu_junagarhi.db",
+        "translation_urdu_junagarhi_manifest.json": ROOT / "apps" / "android" / "app" / "src" / "main" / "assets" / "content" / "translations" / "translation_urdu_junagarhi_manifest.json",
+    }
+    translation_generated_assets = [
+        {
+            "asset_name": name,
+            "checksum_sha256": sha256_file(path) if path.exists() else None,
+            "validation_status": "APPROVED" if (is_translation_licensed and path.exists()) else "REVIEW_REQUIRED",
+        }
+        for name, path in translation_assets.items()
+    ]
     content_manifest = {
         "app": "Amanah Quran",
         "project_identity": "Amanah-e-Kisa",
@@ -646,7 +676,7 @@ def build_generated_project_data(staging: dict[str, Any], registry: list[dict]) 
             "public_release_status": "APPROVED" if is_signed_off else "BLOCKED",
             "indoPak_public_release_source_status": "RESOLVED" if is_signed_off else "UNRESOLVED",
             "simple_clean_source_role": "SEARCH_NORMALIZATION_SOURCE",
-            "source_blocker_note": "All checks passed. Signed off by Dr. Hafiz Muhammad Munaim Tahir." if is_signed_off else "IndoPak public-release source is unresolved. Current Simple Clean / fallback text must not be represented as verified IndoPak Mushaf text.",
+            "source_blocker_note": "All checks passed. Signed off by a qualified human reviewer." if is_signed_off else "IndoPak public-release source is unresolved. Current Simple Clean / fallback text must not be represented as verified IndoPak Mushaf text.",
             "generated_assets": [
                 {
                     "asset_name": "amanah_quran.sqlite",
@@ -658,6 +688,7 @@ def build_generated_project_data(staging: dict[str, Any], registry: list[dict]) 
                     "checksum_sha256": generated_asset_checksums["trust_center_sources.json"],
                     "validation_status": "APPROVED" if is_signed_off else "REVIEW_REQUIRED",
                 },
+                *translation_generated_assets,
             ],
         },
     }
@@ -684,7 +715,7 @@ def build_generated_project_data(staging: dict[str, Any], registry: list[dict]) 
             "generated_at": NOW,
             "status": "APPROVED" if is_signed_off else "INTERNAL_TESTING_ONLY",
             "public_release_status": "APPROVED" if is_signed_off else "BLOCKED",
-            "reason": "All checks passed. Signed off by Dr. Hafiz Muhammad Munaim Tahir." if is_signed_off else "IndoPak public-release source is unresolved. Current Simple Clean / fallback text must not be represented as verified IndoPak Mushaf text.",
+            "reason": "All checks passed. Signed off by a qualified human reviewer." if is_signed_off else "IndoPak public-release source is unresolved. Current Simple Clean / fallback text must not be represented as verified IndoPak Mushaf text.",
             "surah_count": 114,
             "ayah_count": 6236,
             "simple_clean_source_role": "SEARCH_NORMALIZATION_SOURCE",
@@ -697,6 +728,10 @@ def build_generated_project_data(staging: dict[str, Any], registry: list[dict]) 
                     "asset_name": "trust_center_sources.json",
                     "validation_status": "APPROVED" if is_signed_off else "REVIEW_REQUIRED",
                 },
+                *[
+                    {"asset_name": item["asset_name"], "validation_status": item["validation_status"]}
+                    for item in translation_generated_assets
+                ],
             ],
         },
     )
@@ -788,6 +823,7 @@ def write_docs() -> None:
                 "- Tanzil Simple Clean XML is treated as search-normalization and cross-check input only.",
                 "- Current QUL IndoPak assets are retained in the pipeline but remain under review until license status is cleared.",
                 "- Approved reader fonts remain internal-testing only until explicit public distribution approval exists.",
+                "- QuranEnc Urdu Junagarhi translation is cleared for public distribution; see docs/legal/TRANSLATION_LICENSE_CLEARANCE_DECISION.md.",
             ]
         )
         + "\n",

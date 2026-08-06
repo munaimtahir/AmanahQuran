@@ -12,6 +12,12 @@ interface AyahDao {
     @Query("SELECT * FROM ayahs WHERE ayah_key = :ayahKey")
     suspend fun getAyahByKey(ayahKey: String): AyahEntity?
 
+    @Query("SELECT * FROM ayahs WHERE ayah_key IN (:ayahKeys)")
+    suspend fun getAyahsByKeys(ayahKeys: List<String>): List<AyahEntity>
+
+    @Query("SELECT page_number AS pageNumber, COUNT(*) AS ayahCount FROM ayahs GROUP BY page_number")
+    suspend fun getAyahCountsByPage(): List<PageAyahCountRow>
+
     @Query("""
         SELECT
             ayah_key AS ayahKey,
@@ -129,9 +135,14 @@ interface AyahDao {
         FROM ayahs a
         INNER JOIN quran_texts qt ON qt.ayah_key = a.ayah_key AND qt.script_type = :scriptType
         INNER JOIN surahs s ON s.number = a.surah_number
-        WHERE a.surah_number = :surahNumber
-        ORDER BY a.ayah_number ASC
+        WHERE a.surah_number >= :surahNumber
+        ORDER BY a.surah_number ASC, a.ayah_number ASC
     """)
+    // READER-UX-02: continuous reading from Surah Index -- opening Surah N returns every ayah
+    // from N through the end of the Quran (Surah 114), not just Surah N's own ayahs, so scrolling
+    // past a surah's last ayah flows naturally into the next surah (with its own header) rather
+    // than dead-ending. Surah/ayah ordering is monotonic with canonical Quran order, so this
+    // simple range is equivalent to "from Surah N onward" with no separate global index needed.
     suspend fun getReaderAyahsBySurah(
         surahNumber: Int,
         scriptType: String,
@@ -152,9 +163,11 @@ interface AyahDao {
         FROM ayahs a
         INNER JOIN quran_texts qt ON qt.ayah_key = a.ayah_key AND qt.script_type = :scriptType
         INNER JOIN surahs s ON s.number = a.surah_number
-        WHERE a.juz_number = :juzNumber
+        WHERE a.juz_number >= :juzNumber
         ORDER BY a.surah_number ASC, a.ayah_number ASC
     """)
+    // READER-UX-02: continuous reading from Juz Index -- same "from N through the end" widening
+    // as getReaderAyahsBySurah above, applied to Juz.
     suspend fun getReaderAyahsByJuz(
         juzNumber: Int,
         scriptType: String,

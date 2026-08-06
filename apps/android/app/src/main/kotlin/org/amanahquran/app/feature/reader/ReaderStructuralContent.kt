@@ -21,6 +21,7 @@ import org.amanahquran.app.core.model.ScriptType
 import org.amanahquran.app.core.theme.AmanahGoldMuted
 import org.amanahquran.app.core.theme.AmanahSpacing
 import org.amanahquran.app.core.theme.LocalElderMode
+import org.amanahquran.app.core.theme.LocalReaderPalette
 import org.amanahquran.app.core.theme.QuranFonts
 
 sealed interface ReaderStructuralItem {
@@ -45,32 +46,55 @@ sealed interface ReaderStructuralItem {
     data class Ayah(
         val ayah: ReaderAyahUiModel,
     ) : ReaderStructuralItem
+
+    /** A subtle, non-Quran page separator (section 22) -- only emitted when [buildReaderStructuralItems]
+     * is called with `showPageDividers = true` and no Juz/Surah header already marks that boundary. */
+    data class PageDivider(
+        val pageNumber: Int,
+    ) : ReaderStructuralItem
+
+    /** READER-UX-02 Continuous Mode: a run of consecutive ayahs assembled into one flowing,
+     * inline-marker block by [collapseIntoContinuousBlocks]. Rendered specially by the reader
+     * screen (see `ContinuousReaderRenderer.kt`), not by the generic [ReaderStructuralContent]
+     * dispatcher below. */
+    data class ContinuousBlock(
+        val block: ContinuousQuranBlock,
+    ) : ReaderStructuralItem
 }
 
 fun buildReaderStructuralItems(
     ayahs: List<ReaderAyahUiModel>,
     openMode: ReaderOpenMode,
     showLeadingJuzHeader: Boolean = false,
+    // Defaults to false so every existing caller/test (Page-open-mode single-page loads, the
+    // exact structural-key assertions in ReaderStructuralContentTest) is unaffected; the live
+    // scroll-mode reader screen opts in explicitly for its continuous Surah/Juz reading views.
+    showPageDividers: Boolean = false,
 ): List<ReaderStructuralItem> {
     if (ayahs.isEmpty()) return emptyList()
 
     val items = mutableListOf<ReaderStructuralItem>()
     var previousJuzNumber: Int? = null
+    var previousPageNumber: Int? = null
 
     ayahs.forEachIndexed { index, ayah ->
         val isFirstItem = index == 0
         val juzChanged = previousJuzNumber != null && ayah.juzNumber != previousJuzNumber
+        val pageChanged = previousPageNumber != null && ayah.pageNumber != previousPageNumber
+        var structuralMarkerInserted = false
 
         if (isFirstItem && (openMode is ReaderOpenMode.Juz || showLeadingJuzHeader)) {
             items += ReaderStructuralItem.JuzHeader(
                 juzNumber = ayah.juzNumber,
                 startingReference = ayah.startingReferenceLabel(),
             )
+            structuralMarkerInserted = true
         } else if (!isFirstItem && juzChanged) {
             items += ReaderStructuralItem.JuzHeader(
                 juzNumber = ayah.juzNumber,
                 startingReference = ayah.startingReferenceLabel(),
             )
+            structuralMarkerInserted = true
         }
 
         if (ayah.ayahNumber == 1) {
@@ -81,6 +105,7 @@ fun buildReaderStructuralItems(
                 ayahCount = ayah.surahAyahCount,
                 scriptType = ayah.scriptType,
             )
+            structuralMarkerInserted = true
             if (shouldRenderBismillah(ayah)) {
                 items += ReaderStructuralItem.Bismillah(
                     surahNumber = ayah.surahNumber,
@@ -89,9 +114,14 @@ fun buildReaderStructuralItems(
             }
         }
 
+        if (showPageDividers && !isFirstItem && pageChanged && !structuralMarkerInserted) {
+            items += ReaderStructuralItem.PageDivider(pageNumber = ayah.pageNumber)
+        }
+
         items += ReaderStructuralItem.Ayah(ayah)
 
         previousJuzNumber = ayah.juzNumber
+        previousPageNumber = ayah.pageNumber
     }
 
     return items
@@ -102,6 +132,9 @@ fun ReaderStructuralItem.key(): String = when (this) {
     is ReaderStructuralItem.SurahHeader -> "surah-header-$surahNumber"
     is ReaderStructuralItem.Bismillah -> "bismillah-$surahNumber"
     is ReaderStructuralItem.Ayah -> "ayah-${ayah.ayahKey}-${ayah.scriptType.name}"
+    is ReaderStructuralItem.PageDivider -> "page-divider-$pageNumber"
+    is ReaderStructuralItem.ContinuousBlock ->
+        "continuous-block-${block.pageNumber}-${block.ayahRanges.firstOrNull()?.ayahKey}-${block.ayahRanges.lastOrNull()?.ayahKey}"
 }
 
 @Composable
@@ -110,7 +143,42 @@ fun ReaderStructuralContent(item: ReaderStructuralItem) {
         is ReaderStructuralItem.JuzHeader -> ReaderJuzHeader(item)
         is ReaderStructuralItem.SurahHeader -> ReaderSurahHeader(item)
         is ReaderStructuralItem.Bismillah -> ReaderBismillah(item)
+        is ReaderStructuralItem.PageDivider -> ReaderPageDivider(item)
         is ReaderStructuralItem.Ayah -> Unit
+        is ReaderStructuralItem.ContinuousBlock -> Unit
+    }
+}
+
+@Composable
+private fun ReaderPageDivider(item: ReaderStructuralItem.PageDivider) {
+    val palette = LocalReaderPalette.current
+    val elder = LocalElderMode.current
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = if (elder) AmanahSpacing.md else AmanahSpacing.sm),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
+    ) {
+        HorizontalDivider(
+            modifier = Modifier
+                .weight(1f)
+                .padding(end = AmanahSpacing.sm),
+            color = palette.divider,
+            thickness = 0.75.dp,
+        )
+        Text(
+            text = item.pageNumber.toString(),
+            style = MaterialTheme.typography.labelSmall.copy(fontSize = if (elder) 13.sp else 11.sp),
+            color = palette.secondaryText,
+        )
+        HorizontalDivider(
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = AmanahSpacing.sm),
+            color = palette.divider,
+            thickness = 0.75.dp,
+        )
     }
 }
 

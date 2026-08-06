@@ -168,11 +168,22 @@ class QuranContentRepositoryImpl(
     }
 
     override suspend fun getPageList(pageReferenceType: PageReferenceType): List<PageListItem> {
-        return mushafLayoutReferenceDao.getReferencesForLayout(pageReferenceType.layoutName).mapNotNull { reference ->
-            val startAyah = reference.firstAyahKey?.let { ayahDao.getAyahByKey(it) } ?: return@mapNotNull null
-            val endAyah = reference.lastAyahKey?.let { ayahDao.getAyahByKey(it) }
-            val startSurah = surahDao.getSurahByNumber(startAyah.surahNumber)
-            val endSurah = endAyah?.let { surahDao.getSurahByNumber(it.surahNumber) }
+        // Batched to avoid an N+1 query storm: with ~559 pages, doing 4-5 sequential
+        // suspend DB round trips per page (as a naive per-row loop would) meant ~2,800
+        // awaited queries in series, which was slow enough on lower-end devices to look
+        // like the page list never finished loading. Everything needed is fetched in a
+        // handful of queries up front and joined in memory instead.
+        val references = mushafLayoutReferenceDao.getReferencesForLayout(pageReferenceType.layoutName)
+        val ayahKeys = references.flatMap { listOfNotNull(it.firstAyahKey, it.lastAyahKey) }.distinct()
+        val ayahsByKey = ayahDao.getAyahsByKeys(ayahKeys).associateBy { it.ayahKey }
+        val surahsByNumber = surahDao.getAllSurahs().associateBy { it.number }
+        val ayahCountByPage = ayahDao.getAyahCountsByPage().associate { it.pageNumber to it.ayahCount }
+
+        return references.mapNotNull { reference ->
+            val startAyah = reference.firstAyahKey?.let { ayahsByKey[it] } ?: return@mapNotNull null
+            val endAyah = reference.lastAyahKey?.let { ayahsByKey[it] }
+            val startSurah = surahsByNumber[startAyah.surahNumber]
+            val endSurah = endAyah?.let { surahsByNumber[it.surahNumber] }
             PageListItem(
                 pageNumber = reference.pageNumber,
                 pageReferenceType = pageReferenceType,
@@ -182,7 +193,7 @@ class QuranContentRepositoryImpl(
                 startSurahName = startSurah?.nameSimple?.ifBlank { "Surah ${startAyah.surahNumber}" } ?: "Surah ${startAyah.surahNumber}",
                 endSurahNumber = endAyah?.surahNumber,
                 endSurahName = endSurah?.nameSimple?.ifBlank { "Surah ${endAyah.surahNumber}" },
-                ayahCount = ayahDao.getAyahCountForPage(reference.pageNumber),
+                ayahCount = ayahCountByPage[reference.pageNumber] ?: 0,
             )
         }
     }

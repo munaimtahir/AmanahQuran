@@ -10,5 +10,5 @@ interface LastReadDao {
     fun getLastRead(): Flow<LastReadEntity?>
 
     @Upsert
-    suspend fun upsertLastRead(lastRead: LastReadEntity)
+    suspend fun upsertLastRead(lastRead: LastReadEntity): Long
 }

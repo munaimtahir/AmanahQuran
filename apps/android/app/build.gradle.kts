@@ -4,7 +4,7 @@ import java.util.Properties
 
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.compose")
     id("com.google.devtools.ksp")
 }
 
@@ -67,14 +67,14 @@ val amanahReleaseLabel = if (amanahReleaseTrack == "internal") {
 
 android {
     namespace = "org.amanahquran.app"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "org.amanahquran.app"
         minSdk = 24
-        targetSdk = 35
-        versionCode = 1
-        versionName = "0.1.0"
+        targetSdk = 36
+        versionCode = 8
+        versionName = "2.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         
@@ -97,12 +97,13 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
             ndk {
-                debugSymbolLevel = "NONE"
+                debugSymbolLevel = "FULL"
             }
             if (releaseSigningConfigured) {
                 signingConfig = signingConfigs.getByName("release")
@@ -113,10 +114,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        jvmTarget = "17"
     }
 
     buildFeatures {
@@ -130,13 +127,18 @@ android {
         }
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.14"
-    }
 
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+        jniLibs {
+            // Only used by androidx.datastore's multi-process file lock, which this
+            // app never enables (single-process PreferenceDataStoreFactory only).
+            // Google ships it pre-stripped with no debug symbols available, which
+            // Play Console flags; dropping the unused native lib removes the warning
+            // at the source instead of chasing symbols that don't exist upstream.
+            excludes += "**/libdatastore_shared_counter.so"
         }
     }
 }
@@ -269,12 +271,13 @@ tasks.matching { it.name.contains("Release", ignoreCase = true) && it.name != "v
 }
 
 dependencies {
-    val roomVersion = "2.6.1"
+    val roomVersion = "2.7.0-alpha01"
     val coroutinesVersion = "1.8.1"
     val datastoreVersion = "1.1.1"
 
-    implementation(platform("androidx.compose:compose-bom:2024.06.00"))
-    implementation("androidx.activity:activity-compose:1.9.0")
+    implementation(platform("androidx.compose:compose-bom:2026.06.01"))
+    implementation("androidx.core:core-ktx:1.13.1")
+    implementation("androidx.activity:activity-compose:1.13.0")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.ui:ui")
@@ -301,7 +304,7 @@ dependencies {
     testImplementation("org.robolectric:robolectric:4.12.1")
     testImplementation("androidx.test:core:1.6.1")
 
-    androidTestImplementation(platform("androidx.compose:compose-bom:2024.06.00"))
+    androidTestImplementation(platform("androidx.compose:compose-bom:2026.06.01"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
@@ -411,4 +414,18 @@ tasks.register<Exec>("validateQuranFonts") {
 
 tasks.matching { it.name.startsWith("compile") && it.name.endsWith("Kotlin") }.configureEach {
     dependsOn("validateQuranFonts")
+}
+
+val zipReleaseNativeDebugSymbols by tasks.registering(Zip::class) {
+    group = "build"
+    description = "Create native debug symbols zip file for Google Play Console upload."
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    archiveFileName.set("native-debug-symbols.zip")
+    destinationDirectory.set(layout.buildDirectory.dir("outputs/native-debug-symbols"))
+    from(layout.buildDirectory.dir("intermediates/merged_native_libs/release/mergeReleaseNativeLibs/out/lib"))
+    from(layout.buildDirectory.dir("intermediates/stripped_native_libs/release/stripReleaseDebugSymbols/out/lib"))
+}
+
+tasks.matching { it.name in setOf("assembleRelease", "bundleRelease") }.configureEach {
+    finalizedBy(zipReleaseNativeDebugSymbols)
 }

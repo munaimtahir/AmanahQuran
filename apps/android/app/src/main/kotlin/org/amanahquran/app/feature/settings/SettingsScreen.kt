@@ -14,15 +14,16 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material.icons.rounded.VerifiedUser
+import androidx.compose.material.icons.rounded.Backup
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -31,13 +32,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.launch
+import org.amanahquran.app.core.model.ReaderContentMode
 import org.amanahquran.app.core.model.ScriptType
 import org.amanahquran.app.core.repository.ReaderSettings
 import org.amanahquran.app.core.repository.readerSettingsRepository
+import org.amanahquran.app.core.repository.bookmarkRepository
+import org.amanahquran.app.core.repository.bookmarkCollectionRepository
+import org.amanahquran.app.core.repository.lastReadRepository
+import org.amanahquran.app.core.backup.UserBackupPayload
+import org.amanahquran.app.core.backup.UserBackupService
 import org.amanahquran.app.core.theme.AmanahSpacing
 import org.amanahquran.app.core.theme.LocalElderMode
 import org.amanahquran.app.core.theme.ThemeMode
@@ -47,6 +58,7 @@ import org.amanahquran.app.core.ui.AmanahSectionCard
 import org.amanahquran.app.core.ui.AmanahSectionHeader
 import org.amanahquran.app.core.ui.AmanahScriptChip
 import org.amanahquran.app.core.ui.AmanahSettingsRow
+import org.amanahquran.app.core.ui.AmanahSlider
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
@@ -58,6 +70,17 @@ fun SettingsScreen(
     val settingsRepository = remember(context) { readerSettingsRepository(context) }
     val settings by settingsRepository.settings.collectAsState(initial = ReaderSettings())
     val scope = rememberCoroutineScope()
+    var pendingRestore by remember { mutableStateOf<UserBackupPayload?>(null) }
+    var backupMessage by remember { mutableStateOf<String?>(null) }
+    val backupService = remember(context) {
+        UserBackupService(context, bookmarkRepository(context), bookmarkCollectionRepository(context), settingsRepository, lastReadRepository(context))
+    }
+    val createBackup = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri ->
+        if (uri != null) scope.launch { runCatching { backupService.write(uri, backupService.encodeCurrent()) }.onSuccess { backupMessage = "Backup saved" }.onFailure { backupMessage = "Backup failed: ${it.message}" } }
+    }
+    val openBackup = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        if (uri != null) runCatching { backupService.read(uri) }.onSuccess { pendingRestore = it }.onFailure { backupMessage = "Backup rejected: ${it.message}" }
+    }
     val elder = LocalElderMode.current
     val horizontalPadding = if (elder) AmanahSpacing.screenHorizontalPaddingElder else AmanahSpacing.screenHorizontalPadding
 
@@ -124,6 +147,45 @@ fun SettingsScreen(
                 }
             }
 
+            // READER-UX-02: Reading mode -- Ayah Mode's existing one-verse-per-row layout, or the
+            // new book-style Continuous Mode. Purely a rendering choice, so switching it never
+            // reloads or re-fetches Quran content.
+            Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
+                AmanahSectionHeader(title = "Reading Mode")
+                AmanahCard(modifier = Modifier.fillMaxWidth()) {
+                    Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
+                        Text(
+                            text = "How the Quran text is laid out",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                        Row(horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
+                            AmanahScriptChip(
+                                label = "Ayah-by-Ayah",
+                                selected = settings.readerContentMode == ReaderContentMode.AYAH,
+                                onClick = {
+                                    scope.launch { settingsRepository.setReaderContentMode(ReaderContentMode.AYAH) }
+                                },
+                            )
+                            AmanahScriptChip(
+                                label = "Continuous Reading",
+                                selected = settings.readerContentMode == ReaderContentMode.CONTINUOUS,
+                                onClick = {
+                                    scope.launch { settingsRepository.setReaderContentMode(ReaderContentMode.CONTINUOUS) }
+                                },
+                            )
+                        }
+                        if (settings.readerContentMode == ReaderContentMode.CONTINUOUS && settings.translationEnabled) {
+                            Text(
+                                text = "Translation shows side-by-side with the Quran in Continuous Mode.",
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                    }
+                }
+            }
+
             // Theme
             Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
                 AmanahSectionHeader(title = "Theme")
@@ -134,15 +196,28 @@ fun SettingsScreen(
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
-                        Row(horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
-                            listOf(ThemeMode.SYSTEM, ThemeMode.LIGHT, ThemeMode.DARK, ThemeMode.SEPIA).forEach { mode ->
-                                AmanahScriptChip(
-                                    label = mode.displayName,
-                                    selected = settings.selectedTheme == mode,
-                                    onClick = {
-                                        scope.launch { settingsRepository.setSelectedTheme(mode) }
-                                    },
-                                )
+                        val themeChip: @Composable (ThemeMode) -> Unit = { mode ->
+                            AmanahScriptChip(
+                                label = mode.displayName,
+                                selected = settings.selectedTheme == mode,
+                                onClick = { scope.launch { settingsRepository.setSelectedTheme(mode) } },
+                                modifier = Modifier.weight(1f),
+                            )
+                        }
+                        Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.sm),
+                            ) {
+                                themeChip(ThemeMode.SYSTEM)
+                                themeChip(ThemeMode.LIGHT)
+                            }
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.sm),
+                            ) {
+                                themeChip(ThemeMode.DARK)
+                                themeChip(ThemeMode.SEPIA)
                             }
                         }
                     }
@@ -169,19 +244,50 @@ fun SettingsScreen(
                             color = MaterialTheme.colorScheme.primary,
                         )
                     }
-                    Slider(
+                    AmanahSlider(
                         value = settings.arabicFontSizeSp,
                         onValueChange = { value ->
                             scope.launch { settingsRepository.setArabicFontSize(value) }
                         },
                         valueRange = 18f..36f,
                         modifier = Modifier.fillMaxWidth(),
-                        colors = SliderDefaults.colors(
-                            thumbColor = MaterialTheme.colorScheme.primary,
-                            activeTrackColor = MaterialTheme.colorScheme.primary,
-                            inactiveTrackColor = MaterialTheme.colorScheme.primaryContainer,
-                        ),
                     )
+                }
+            }
+
+            // Accessibility & Reading Options
+            Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
+                AmanahSectionHeader(title = "Reading Comfort")
+                AmanahCard(modifier = Modifier.fillMaxWidth()) {
+                    Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.md)) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                        ) {
+                            Text("Arabic line spacing", style = MaterialTheme.typography.bodyMedium)
+                            Text("${settings.arabicLineSpacingMultiplier}×", style = MaterialTheme.typography.labelLarge)
+                        }
+                        AmanahSlider(
+                            value = settings.arabicLineSpacingMultiplier,
+                            onValueChange = { value -> scope.launch { settingsRepository.setArabicLineSpacing(value) } },
+                            valueRange = 1.5f..2.4f,
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                        AmanahDivider()
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                        ) {
+                            Text("Reading margins", style = MaterialTheme.typography.bodyMedium)
+                            Text("${settings.readerHorizontalPaddingDp.toInt()} dp", style = MaterialTheme.typography.labelLarge)
+                        }
+                        AmanahSlider(
+                            value = settings.readerHorizontalPaddingDp,
+                            onValueChange = { value -> scope.launch { settingsRepository.setReaderHorizontalPadding(value) } },
+                            valueRange = 8f..32f,
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
                 }
             }
 
@@ -228,12 +334,12 @@ fun SettingsScreen(
                         ) {
                             Column(modifier = Modifier.weight(1f)) {
                                 Text(
-                                    text = "Book Reading Mode",
+                                    text = "Page Mode",
                                     style = MaterialTheme.typography.bodyLarge,
                                     color = MaterialTheme.colorScheme.onSurface,
                                 )
                                 Text(
-                                    text = "Swipe left/right to turn pages",
+                                    text = "Fits a full page on screen, swipe left/right to turn pages, pinch to zoom. Off: scroll continuously instead.",
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 )
@@ -249,6 +355,68 @@ fun SettingsScreen(
                                 ),
                             )
                         }
+                    }
+                }
+            }
+
+            Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
+                AmanahSectionHeader(title = "Urdu Translation")
+                AmanahCard(modifier = Modifier.fillMaxWidth()) {
+                    Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.md)) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text("Show Urdu translation", style = MaterialTheme.typography.bodyLarge)
+                                Text(
+                                    "Muhammad Junagarhi · QuranEnc · offline",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                )
+                            }
+                            Switch(
+                                checked = settings.translationEnabled,
+                                onCheckedChange = { enabled ->
+                                    scope.launch { settingsRepository.setTranslationEnabled(enabled) }
+                                },
+                            )
+                        }
+                        if (settings.translationEnabled) {
+                            AmanahDivider()
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                            ) {
+                                Text("Urdu font size", style = MaterialTheme.typography.bodyMedium)
+                                Text("${settings.translationFontSizeSp.toInt()} sp", style = MaterialTheme.typography.labelLarge)
+                            }
+                            AmanahSlider(
+                                value = settings.translationFontSizeSp,
+                                onValueChange = { value ->
+                                    scope.launch { settingsRepository.setTranslationFontSize(value) }
+                                },
+                                valueRange = 14f..30f,
+                                modifier = Modifier.fillMaxWidth(),
+                            )
+                        }
+                    }
+                }
+            }
+
+            AmanahDivider()
+
+            Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
+                AmanahSectionHeader(title = "Local Backup")
+                AmanahCard(modifier = Modifier.fillMaxWidth()) {
+                    Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
+                        Text("Bookmarks, collections, settings and last-read position stay on this device.", style = MaterialTheme.typography.bodyMedium)
+                        Row(horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
+                            TextButton(onClick = { createBackup.launch("amanah-quran-backup.json") }) { Text("Export") }
+                            TextButton(onClick = { openBackup.launch(arrayOf("application/json", "text/*")) }) { Text("Import") }
+                        }
+                        backupMessage?.let { Text(it, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
                     }
                 }
             }
@@ -274,5 +442,15 @@ fun SettingsScreen(
                 )
             }
         }
+    }
+
+    pendingRestore?.let { payload ->
+        AlertDialog(
+            onDismissRequest = { pendingRestore = null },
+            title = { Text("Restore local backup?") },
+            text = { Text("This backup contains ${payload.bookmarks.size} bookmarks and ${if (payload.lastRead != null) "a last-read position" else "no last-read position"}. Current local data will be replaced.") },
+            confirmButton = { TextButton(onClick = { scope.launch { runCatching { backupService.restore(payload) }.onSuccess { backupMessage = "Backup restored" }.onFailure { backupMessage = "Restore failed: ${it.message}" }; pendingRestore = null } }) { Text("Restore") } },
+            dismissButton = { TextButton(onClick = { pendingRestore = null }) { Text("Cancel") } },
+        )
     }
 }

@@ -1,5 +1,7 @@
 package org.amanahquran.app.core.repository
 
+import org.amanahquran.app.content.translation.TranslationDao
+import org.amanahquran.app.content.translation.TranslationRepository.Companion.TRANSLATION_ID
 import org.amanahquran.app.core.database.dao.AyahDao
 import org.amanahquran.app.core.database.dao.QuranTextDao
 import org.amanahquran.app.core.database.dao.SearchIndexDao
@@ -32,6 +34,7 @@ data class SearchResultItem(
     val pageReferenceType: PageReferenceType?,
     val juzNumber: Int?,
     val previewText: String?,
+    val translationText: String? = null,
 )
 
 interface SearchRepository {
@@ -45,6 +48,7 @@ class SearchRepositoryImpl(
     private val quranTextDao: QuranTextDao,
     private val surahDao: SurahDao? = null,
     private val ayahDao: AyahDao? = null,
+    private val translationDao: TranslationDao? = null,
 ) : SearchRepository {
     override suspend fun search(query: String, scriptType: ScriptType): List<SearchResultItem> {
         val trimmed = query.trim()
@@ -139,7 +143,47 @@ class SearchRepositoryImpl(
             )
         }
 
-        return (surahMatches + arabicMatches).distinctBy { it.resultType to it.ayahKey to it.surahNumber to it.pageNumber to it.juzNumber }
+        val translationMatches = searchUrduTranslation(trimmed, scriptType)
+
+        return (surahMatches + mergeAyahMatches(arabicMatches, translationMatches))
+            .distinctBy { it.resultType to it.ayahKey to it.surahNumber to it.pageNumber to it.juzNumber }
+    }
+
+    private suspend fun searchUrduTranslation(query: String, scriptType: ScriptType): List<SearchResultItem> {
+        val dao = translationDao ?: return emptyList()
+        val normalized = query.normalizeUrduForSearch()
+        if (normalized.isBlank()) return emptyList()
+        return dao.search(TRANSLATION_ID, normalized, 50).mapNotNull { translation ->
+            val ayah = ayahDao?.getAyahByKey(translation.ayahKey)
+            val quran = quranTextDao.getTextByAyahAndScript(translation.ayahKey, scriptType.name)
+            SearchResultItem(
+                resultType = SearchResultType.AYAH,
+                title = ayah?.let { "Surah ${it.surahNumber}" } ?: translation.ayahKey,
+                subtitle = translation.ayahKey,
+                ayahKey = translation.ayahKey,
+                surahNumber = ayah?.surahNumber,
+                ayahNumber = ayah?.ayahNumber,
+                pageNumber = ayah?.pageNumber,
+                pageReferenceType = ayah?.let { scriptType.toPageReferenceType() },
+                juzNumber = ayah?.juzNumber,
+                previewText = quran?.displayText,
+                translationText = translation.displayText,
+            )
+        }
+    }
+
+    private fun mergeAyahMatches(
+        primary: List<SearchResultItem>,
+        secondary: List<SearchResultItem>,
+    ): List<SearchResultItem> {
+        val byKey = linkedMapOf<String, SearchResultItem>()
+        primary.forEach { item -> item.ayahKey?.let { byKey[it] = item } }
+        secondary.forEach { item ->
+            val key = item.ayahKey ?: return@forEach
+            val existing = byKey[key]
+            byKey[key] = if (existing != null) existing.copy(translationText = item.translationText) else item
+        }
+        return byKey.values.toList()
     }
 
     override suspend fun searchNormalizedArabic(query: String, scriptType: String): List<SearchResultDisplay> {
@@ -237,6 +281,13 @@ class SearchRepositoryImpl(
             return match.groupValues[1].toIntOrNull()
         }
         return null
+    }
+
+    private fun String.normalizeUrduForSearch(): String {
+        return replace('ـ'.toString(), "")
+            .replace(Regex("[\\u064B-\\u065F\\u0670]"), "")
+            .replace(Regex("\\s+"), " ")
+            .trim()
     }
 
     private fun String.normalizeForSearch(): String {

@@ -1,12 +1,12 @@
 # Amanah Quran - Final Font License Clearance Decision
 
 Date: 2026-06-27
+Release-status update: 2026-07-23
 
 ## Decision
 
-Internal testing is allowed.
-
-Public release is still blocked.
+The original decision allowed internal testing. The v1.0.5 release ledger records
+the subsequent public-release approval on 2026-07-23.
 
 ## Actual Bundled Font Files
 
@@ -57,15 +57,17 @@ Reason:
 - They are not referenced by the current Android code/resources.
 - They are not active reader fonts.
 
-## Remaining Blockers
+## Historical Follow-up Notes
 
 - Font coverage helper warnings remain for rare code points:
   - `indopak_nastaleeq.ttf` does not cover `U+034F` in the source database.
   - `digital_khatt_v2.otf` does not cover `U+06EA` and `U+06EB` in the source database.
-- Sampled visual QA did not show tofu on the reviewed pages, but the coverage warnings need follow-up before public release.
-- Non-font release blockers still remain elsewhere in the project, including Quran source-to-database mapping and manual Quran review sign-off.
+- Sampled visual QA did not show tofu on the reviewed pages. Future font changes
+  require a renewed coverage and visual-QA review.
+- The original source-mapping and manual-review blockers were resolved for the
+  v1.0.5 approval record.
 
 ## Release Position
 
 - Internal testing: allowed.
-- Public release: still blocked.
+- Public release: approved for v1.0.5; see `docs/_release_gate/RELEASE_LEDGER.md`.

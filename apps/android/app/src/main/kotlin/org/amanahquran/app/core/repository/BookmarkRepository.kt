@@ -47,6 +47,7 @@ interface BookmarkRepository {
         pageReferenceType: PageReferenceType = PageReferenceType.INDOPAK,
     ): Boolean
     suspend fun getBookmarkCount(): Int
+    suspend fun replaceAllBookmarks(records: List<BookmarkRecord>) = Unit
 }
 
 class BookmarkRepositoryImpl(
@@ -214,6 +215,10 @@ class BookmarkRepositoryImpl(
     }
 
     override suspend fun getBookmarkCount(): Int = getAllBookmarks().map { it.size }.first()
+
+    override suspend fun replaceAllBookmarks(records: List<BookmarkRecord>): Unit = withContext(NonCancellable) {
+        dataSource.dataStore.edit { preferences -> preferences[Keys.bookmarksJson] = records.toJsonArray().toString() }
+    }
 
     private fun String.toBookmarkRecords(): List<BookmarkRecord> {
         if (isBlank()) return emptyList()

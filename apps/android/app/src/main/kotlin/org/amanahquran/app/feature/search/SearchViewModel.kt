@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.amanahquran.app.content.translation.TranslationDatabaseProvider
 import org.amanahquran.app.core.model.ScriptType
 import org.amanahquran.app.core.repository.ReaderSettingsRepository
 import org.amanahquran.app.core.repository.SearchRepository
@@ -110,6 +111,7 @@ class SearchViewModel(
                         quranTextDao = org.amanahquran.app.core.database.AmanahContentDatabaseProvider.getDatabase(context).quranTextDao(),
                         surahDao = org.amanahquran.app.core.database.AmanahContentDatabaseProvider.getDatabase(context).surahDao(),
                         ayahDao = org.amanahquran.app.core.database.AmanahContentDatabaseProvider.getDatabase(context).ayahDao(),
+                        translationDao = TranslationDatabaseProvider.getDatabase(context).translationDao(),
                     ),
                     settingsRepository = readerSettingsRepository(context),
                 ) as T

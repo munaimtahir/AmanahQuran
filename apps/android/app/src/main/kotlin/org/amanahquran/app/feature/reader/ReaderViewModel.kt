@@ -19,6 +19,9 @@ import org.amanahquran.app.core.model.ReaderAnchor
 import org.amanahquran.app.core.model.ReaderOpenMode
 import org.amanahquran.app.core.model.ScriptType
 import org.amanahquran.app.core.model.PageReferenceType
+import org.amanahquran.app.core.model.AutoScrollPace
+import org.amanahquran.app.core.model.ReaderContentMode
+import org.amanahquran.app.core.model.ReaderZoomLevel
 import org.amanahquran.app.core.repository.BookmarkRepository
 import org.amanahquran.app.core.repository.LastReadRepository
 import org.amanahquran.app.core.repository.LastReadState
@@ -28,12 +31,14 @@ import org.amanahquran.app.core.model.BookmarkType
 import org.amanahquran.app.core.repository.bookmarkRepository
 import org.amanahquran.app.core.repository.lastReadRepository
 import org.amanahquran.app.core.repository.readerSettingsRepository
+import org.amanahquran.app.content.translation.TranslationRepository
 
 class ReaderViewModel(
     private val repository: QuranContentRepository,
     private val settingsRepository: ReaderSettingsRepository,
     private val lastReadRepository: LastReadRepository,
     private val bookmarkRepository: BookmarkRepository,
+    private val translationRepository: TranslationRepository? = null,
     private val initialOpenMode: ReaderOpenMode,
     private val initialAyahKey: String? = null,
     private val initialAnchor: ReaderAnchor = initialOpenMode.toReaderAnchor(initialAyahKey),
@@ -69,8 +74,20 @@ class ReaderViewModel(
                     arabicFontSizeSp = initialSettings.arabicFontSizeSp,
                     elderModeEnabled = initialSettings.elderModeEnabled,
                     bookModeEnabled = initialSettings.bookModeEnabled,
+                    translationEnabled = initialSettings.translationEnabled,
+                    translationFontSizeSp = initialSettings.translationFontSizeSp,
+                    arabicLineSpacingMultiplier = initialSettings.arabicLineSpacingMultiplier,
+                    readerHorizontalPaddingDp = initialSettings.readerHorizontalPaddingDp,
+                    zoomLevel = initialSettings.effectiveZoomLevel(),
+                    autoScrollPace = initialSettings.autoScrollPace,
+                    firstZoomHintShown = initialSettings.firstZoomHintShown,
+                    pinchToResizeEnabled = initialSettings.pinchToResizeEnabled,
+                    contentMode = initialSettings.readerContentMode,
+                    translationZoomLevel = initialSettings.translationZoomLevel,
+                    linkedZoomEnabled = initialSettings.linkedZoomEnabled,
                 )
             }
+            if (initialSettings.translationEnabled) loadTranslations()
             observeSettings()
             observeBookmarks()
             ReaderPerfLogger.log("viewmodel_init_load_open_mode")
@@ -84,19 +101,135 @@ class ReaderViewModel(
         }
     }
 
-    fun selectScript(scriptType: ScriptType) {
+    fun setArabicFontSize(arabicFontSizeSp: Float) {
         viewModelScope.launch(dispatcher) {
-            settingsRepository.setSelectedScript(scriptType)
+            settingsRepository.setArabicFontSize(arabicFontSizeSp)
         }
+    }
+
+    fun increaseZoom() {
+        val current = _uiState.value
+        viewModelScope.launch(dispatcher) {
+            settingsRepository.increaseZoomLevel(current.selectedScript, current.elderModeEnabled)
+        }
+    }
+
+    fun decreaseZoom() {
+        val current = _uiState.value
+        viewModelScope.launch(dispatcher) {
+            settingsRepository.decreaseZoomLevel(current.selectedScript, current.elderModeEnabled)
+        }
+    }
+
+    fun selectZoomLevel(level: ReaderZoomLevel) {
+        val current = _uiState.value
+        viewModelScope.launch(dispatcher) {
+            settingsRepository.setZoomLevel(current.selectedScript, current.elderModeEnabled, level)
+        }
+    }
+
+    fun resetZoom() {
+        val current = _uiState.value
+        viewModelScope.launch(dispatcher) {
+            settingsRepository.resetZoomLevel(current.selectedScript, current.elderModeEnabled)
+        }
+    }
+
+    fun setAutoScrollPace(pace: AutoScrollPace) {
+        viewModelScope.launch(dispatcher) {
+            settingsRepository.setAutoScrollPace(pace)
+        }
+    }
+
+    /**
+     * Content mode is purely a rendering choice -- the same [uiState] `ayahs`/`readerBlocks` this
+     * ViewModel already loads are reused by both Ayah Mode and Continuous Mode, so switching never
+     * re-queries the database or touches [loadOpenMode].
+     */
+    fun setContentMode(mode: ReaderContentMode) {
+        viewModelScope.launch(dispatcher) {
+            settingsRepository.setReaderContentMode(mode)
+        }
+    }
+
+    fun setLinkedZoomEnabled(enabled: Boolean) {
+        viewModelScope.launch(dispatcher) {
+            settingsRepository.setLinkedZoomEnabled(enabled)
+        }
+    }
+
+    fun setTranslationZoomLevel(level: ReaderZoomLevel) {
+        viewModelScope.launch(dispatcher) {
+            settingsRepository.setTranslationZoomLevel(level)
+        }
+    }
+
+    fun increaseTranslationZoom() {
+        viewModelScope.launch(dispatcher) {
+            settingsRepository.increaseTranslationZoomLevel()
+        }
+    }
+
+    fun decreaseTranslationZoom() {
+        viewModelScope.launch(dispatcher) {
+            settingsRepository.decreaseTranslationZoomLevel()
+        }
+    }
+
+    fun resetTranslationZoom() {
+        viewModelScope.launch(dispatcher) {
+            settingsRepository.resetTranslationZoomLevel()
+        }
+    }
+
+    fun setFirstZoomHintShown(shown: Boolean) {
+        viewModelScope.launch(dispatcher) {
+            settingsRepository.setFirstZoomHintShown(shown)
+        }
+    }
+
+    /**
+     * Silently records the ayah currently under the reading position as last-read, without
+     * forcing it into the "selected" highlighted state the way [selectAyah] does -- auto-scroll
+     * passing through many ayahs on its way down the page should not visibly jump a highlight
+     * from row to row, only persist where the user ended up when they paused/stopped/backgrounded.
+     */
+    fun updateReadingPosition(ayahKey: String) {
+        val ayah = _uiState.value.ayahs.firstOrNull { it.ayahKey == ayahKey } ?: return
+        persistLastRead(ayah, _uiState.value.selectedScript)
     }
 
     fun selectAyah(ayahKey: String) {
         val current = _uiState.value
         val selectedAyah = current.ayahs.firstOrNull { it.ayahKey == ayahKey } ?: return
         _uiState.update {
-            it.copy(selectedAyahKey = ayahKey, ayahs = updateAyahSelection(it.ayahs, ayahKey))
+            it.copy(
+                selectedAyahKey = ayahKey,
+                ayahs = updateAyahSelection(it.ayahs, ayahKey),
+                readerBlocks = updateReaderBlocks(it.readerBlocks, ayahKey),
+                anchorScrollIndex = it.readerBlocks.indexOfAyah(ayahKey),
+                anchorScrollRequestId = it.anchorScrollRequestId + 1,
+            )
         }
         persistLastRead(selectedAyah, current.selectedScript)
+    }
+
+    fun clearSelectedAyah() {
+        _uiState.update {
+            it.copy(
+                selectedAyahKey = null,
+                ayahs = updateAyahSelection(it.ayahs, null),
+                readerBlocks = updateReaderBlocks(it.readerBlocks, null),
+            )
+        }
+    }
+
+    fun selectAdjacentAyah(direction: Int) {
+        val current = _uiState.value
+        val currentIndex = current.ayahs.indexOfFirst { it.ayahKey == current.selectedAyahKey }
+        val nextIndex = (if (currentIndex < 0) 0 else currentIndex + direction)
+            .coerceIn(0, current.ayahs.lastIndex)
+        current.ayahs.getOrNull(nextIndex)?.let { selectAyah(it.ayahKey) }
     }
 
     fun toggleBookmark(ayahKey: String) {
@@ -126,14 +259,24 @@ class ReaderViewModel(
         loadJob = viewModelScope.launch(dispatcher) {
             var resolvedMode = openMode
             val targetPageRefType = if (scriptType == ScriptType.UTHMANI) PageReferenceType.UTHMANI else PageReferenceType.INDOPAK
+            // READER-UX-02: a bare Surah/Juz open (Surah Index, Juz Index, or "Continue Reading"
+            // at Surah/Juz granularity -- anchor is SurahStart/JuzStart, no specific ayah) always
+            // stays in the user's list-based reading mode (Ayah or Continuous) and never silently
+            // redirects into the Page Mode pager, even when Page Mode is globally enabled -- that
+            // redirect used to make "open Surah 1" actually open "Page 1", which legitimately also
+            // contains the start of Surah 2 on a real Mushaf page, and looked like a bug ("opening
+            // Surah 1 shows Surah 2's first ayah"). Jumping to one *specific* ayah (bookmark/search
+            // navigation, anchor is ExactAyah, which also resolves through ReaderOpenMode.Surah --
+            // see resolveAnchor below) still opens that ayah's real page in Page Mode as before,
+            // since there the pager's per-page fidelity is the whole point, not a surprise.
             if (_uiState.value.bookModeEnabled) {
-                if (openMode is ReaderOpenMode.Surah) {
-                    val firstAyahKey = "${openMode.surahNumber}:1"
-                    val page = repository.getPageForAyah(firstAyahKey, targetPageRefType) ?: 1
+                if (openMode is ReaderOpenMode.Surah && anchor is ReaderAnchor.ExactAyah) {
+                    val targetAyahKey = selectedAyahKey ?: anchor.ayahKey
+                    val page = repository.getPageForAyah(targetAyahKey, targetPageRefType) ?: 1
                     resolvedMode = ReaderOpenMode.Page(page, targetPageRefType)
-                } else if (openMode is ReaderOpenMode.Juz) {
-                    val firstAyahKey = repository.getFirstAyahForJuz(openMode.juzNumber)
-                    val page = firstAyahKey?.let { repository.getPageForAyah(it, targetPageRefType) } ?: 1
+                } else if (openMode is ReaderOpenMode.Juz && anchor is ReaderAnchor.ExactAyah) {
+                    val targetAyahKey = selectedAyahKey ?: anchor.ayahKey
+                    val page = repository.getPageForAyah(targetAyahKey, targetPageRefType) ?: 1
                     resolvedMode = ReaderOpenMode.Page(page, targetPageRefType)
                 } else if (openMode is ReaderOpenMode.Page) {
                     if (openMode.pageReferenceType != targetPageRefType) {
@@ -223,6 +366,10 @@ class ReaderViewModel(
                     ayahs = ayahs,
                     openMode = resolvedMode,
                     showLeadingJuzHeader = leadingJuzHeader,
+                    // Only ever fires on an actual page-number transition inside the loaded ayah
+                    // list; a single ReaderOpenMode.Page load never contains more than one page,
+                    // so this is inert there and only draws dividers in continuous Surah/Juz reading.
+                    showPageDividers = true,
                 )
                 val firstJuzNumber = rawAyahs.firstOrNull()?.juzNumber ?: 1
                 val firstAyah = ayahs.firstOrNull()
@@ -296,7 +443,22 @@ class ReaderViewModel(
                         arabicFontSizeSp = settings.arabicFontSizeSp,
                         elderModeEnabled = settings.elderModeEnabled,
                         bookModeEnabled = settings.bookModeEnabled,
+                        translationEnabled = settings.translationEnabled,
+                        translationFontSizeSp = settings.translationFontSizeSp,
+                        arabicLineSpacingMultiplier = settings.arabicLineSpacingMultiplier,
+                        readerHorizontalPaddingDp = settings.readerHorizontalPaddingDp,
+                        zoomLevel = settings.effectiveZoomLevel(),
+                        autoScrollPace = settings.autoScrollPace,
+                        firstZoomHintShown = settings.firstZoomHintShown,
+                        pinchToResizeEnabled = settings.pinchToResizeEnabled,
+                        contentMode = settings.readerContentMode,
+                        translationZoomLevel = settings.translationZoomLevel,
+                        linkedZoomEnabled = settings.linkedZoomEnabled,
                     )
+                }
+                if (settings.translationEnabled && !current.translationEnabled) loadTranslations()
+                if (!settings.translationEnabled && current.translationEnabled) {
+                    _uiState.update { it.copy(translations = emptyMap()) }
                 }
                 if (scriptChanged || bookModeChanged) {
                     val nextAnchor = when (val currentAnchor = current.anchor) {
@@ -355,6 +517,14 @@ class ReaderViewModel(
                     )
                 }
             }
+        }
+    }
+
+    private fun loadTranslations() {
+        viewModelScope.launch(dispatcher) {
+            val translations = translationRepository?.observeAll()?.first().orEmpty()
+                .associate { it.ayahKey to it.displayText }
+            _uiState.update { it.copy(translations = translations) }
         }
     }
 
@@ -455,10 +625,11 @@ class ReaderViewModel(
                     detail = "ayah=${reference.ayahKey} surah=${reference.surahNumber} page=${reference.pageNumber} juz=${reference.juzNumber} script=${scriptType.name}",
                 )
                 ResolvedAnchor(
-                    openMode = ReaderOpenMode.AyahTarget(
-                        surahNumber = reference.surahNumber,
-                        ayahKey = reference.ayahKey,
-                    ),
+                    // Keep the full surrounding reading context available. The
+                    // selected ayah is used as the scroll/selection anchor; an
+                    // AyahTarget would load only that one verse and make
+                    // Continue Reading appear truncated.
+                    openMode = ReaderOpenMode.Surah(reference.surahNumber),
                     selectedAyahKey = reference.ayahKey,
                 )
             }
@@ -488,6 +659,7 @@ class ReaderViewModel(
                     settingsRepository = readerSettingsRepository(context),
                     lastReadRepository = lastReadRepository(context),
                     bookmarkRepository = bookmarkRepository(context),
+                    translationRepository = TranslationRepository(context),
                     initialOpenMode = openMode,
                     initialAyahKey = initialAyahKey,
                 ) as T
@@ -505,6 +677,7 @@ class ReaderViewModel(
                     settingsRepository = readerSettingsRepository(context),
                     lastReadRepository = lastReadRepository(context),
                     bookmarkRepository = bookmarkRepository(context),
+                    translationRepository = TranslationRepository(context),
                     initialOpenMode = anchor.defaultOpenMode(),
                     initialAnchor = anchor,
                 ) as T

@@ -8,12 +8,83 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 val LocalElderMode = staticCompositionLocalOf { false }
 val LocalThemeMode = staticCompositionLocalOf { ThemeMode.SYSTEM }
+val LocalIsDarkTheme = staticCompositionLocalOf { false }
+
+/**
+ * Reader-specific semantic colour tokens (Feature C), kept separate from the Material
+ * [androidx.compose.material3.ColorScheme] roles above because "primary"/"tertiary" are shared
+ * by the whole app's chrome, while the reading surface needs its own calm, low-glare identity --
+ * a warm paper background, near-black (not pure-black) text, and muted sage accents instead of
+ * the brand green used for navigation/buttons elsewhere.
+ */
+data class ReaderPalette(
+    val background: Color,
+    val text: Color,
+    val secondaryText: Color,
+    val chromeBackground: Color,
+    val chromeContent: Color,
+    val divider: Color,
+    val activeControl: Color,
+    val onActiveControl: Color,
+    val inactiveControl: Color,
+    val pageMarker: Color,
+    val currentAyahHighlight: Color,
+    val controlSurface: Color,
+)
+
+private val LightReaderPalette = ReaderPalette(
+    background = LightBackground,
+    text = LightOnSurface,
+    secondaryText = LightOnSurfaceVariant,
+    chromeBackground = LightBackground,
+    chromeContent = LightOnBackground,
+    divider = LightDivider,
+    activeControl = AmanahSageDeep,
+    onActiveControl = LightSurface,
+    inactiveControl = LightOnSurfaceVariant.copy(alpha = 0.55f),
+    pageMarker = AmanahSageMuted,
+    currentAyahHighlight = AmanahSageSoft.copy(alpha = 0.55f),
+    controlSurface = LightCardSurface,
+)
+
+private val DarkReaderPalette = ReaderPalette(
+    background = DarkBackground,
+    text = DarkOnSurface,
+    secondaryText = DarkOnSurfaceVariant,
+    chromeBackground = DarkBackground,
+    chromeContent = DarkOnBackground,
+    divider = DarkDivider,
+    activeControl = AmanahSageOnDark,
+    onActiveControl = AmanahGreenDarker,
+    inactiveControl = DarkOnSurfaceVariant.copy(alpha = 0.55f),
+    pageMarker = AmanahSageOnDark,
+    currentAyahHighlight = AmanahSageSoftOnDark.copy(alpha = 0.75f),
+    controlSurface = DarkCardSurface,
+)
+
+private val SepiaReaderPalette = ReaderPalette(
+    background = SepiaBackground,
+    text = SepiaOnSurface,
+    secondaryText = SepiaOnSurfaceVariant,
+    chromeBackground = SepiaBackground,
+    chromeContent = SepiaOnBackground,
+    divider = SepiaDivider,
+    activeControl = AmanahSageDeep,
+    onActiveControl = SepiaSurface,
+    inactiveControl = SepiaOnSurfaceVariant.copy(alpha = 0.55f),
+    pageMarker = AmanahSageMuted,
+    currentAyahHighlight = AmanahSageSoft.copy(alpha = 0.6f),
+    controlSurface = SepiaCardSurface,
+)
+
+val LocalReaderPalette = staticCompositionLocalOf { LightReaderPalette }
 
 private val AmanahLightColorScheme = lightColorScheme(
     primary = AmanahGreenDeep,
@@ -131,9 +202,18 @@ fun AmanahQuranTheme(
         ThemeMode.SEPIA -> AmanahSepiaColorScheme
     }
 
+    val readerPalette = when (themeMode) {
+        ThemeMode.SYSTEM -> if (useDarkTheme) DarkReaderPalette else LightReaderPalette
+        ThemeMode.LIGHT -> LightReaderPalette
+        ThemeMode.DARK -> DarkReaderPalette
+        ThemeMode.SEPIA -> SepiaReaderPalette
+    }
+
     CompositionLocalProvider(
         LocalElderMode provides elderMode,
         LocalThemeMode provides themeMode,
+        LocalIsDarkTheme provides useDarkTheme,
+        LocalReaderPalette provides readerPalette,
     ) {
         MaterialTheme(
             colorScheme = colorScheme,

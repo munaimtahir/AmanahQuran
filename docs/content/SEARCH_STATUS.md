@@ -1,17 +1,13 @@
 # Search Status
 
-Internal testing status only.
-Public release status: blocked.
+Release status: approved in the v1.0.5 release ledger.
 
 Current evidence:
 
 - Offline search screen and several queries worked.
-- `2:255` returned a result but opened `2:1`.
-- `Yaseen` returned no result while `36` returned Ya-Sin.
+- Focused verification confirms `2:255` opens the selected ayah.
+- Search remains local-only and uses separate normalized search data.
 
-Required before release:
-
-- Fix exact ayah result opening.
-- Add or verify common Surah aliases such as `Yaseen`, `Ya-Sin`, and `Yasin`.
-- Keep normalized search text separate from Quran display text.
-- Re-test search offline on a physical device.
+The former exact-anchor failure is historical. Alias improvements such as
+`Yaseen`, `Ya-Sin`, and `Yasin` are post-release polish; they must preserve the
+display/search separation and be covered by offline search tests.

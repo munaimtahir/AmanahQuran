@@ -25,11 +25,11 @@ interface BookmarkDao {
     suspend fun insertBookmark(bookmark: BookmarkEntity): Long
 
     @Query("DELETE FROM bookmarks WHERE id = :id")
-    suspend fun deleteBookmarkById(id: Long)
+    suspend fun deleteBookmarkById(id: Long): Int
 
     @Query("DELETE FROM bookmarks WHERE bookmarkType = 'AYAH' AND ayahKey = :ayahKey")
-    suspend fun deleteAyahBookmark(ayahKey: String)
+    suspend fun deleteAyahBookmark(ayahKey: String): Int
 
     @Query("DELETE FROM bookmarks WHERE bookmarkType = 'PAGE' AND pageNumber = :pageNumber")
-    suspend fun deletePageBookmark(pageNumber: Int)
+    suspend fun deletePageBookmark(pageNumber: Int): Int
 }

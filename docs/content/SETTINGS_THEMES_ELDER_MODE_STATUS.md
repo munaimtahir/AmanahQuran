@@ -1,16 +1,13 @@
 # Settings, Themes, and Elder Mode Status
 
-Internal testing only.
-Public release status: blocked by broader reader/release issues.
+Release status: approved in the v1.0.5 release ledger.
 
 Current evidence:
 
 - Script setting persisted.
 - Light, Dark, and Sepia themes applied.
 - Elder Mode persisted.
-- Elder Mode can make some Settings controls harder to access.
+- Elder Mode and theme flows are covered by the release evidence.
 
-Required before release:
-
-- Re-test settings after reader P0 fixes.
-- Confirm Elder Mode does not hide required controls on the test device.
+Any future settings, typography, or layout change requires an Elder Mode
+small-screen and Android font-scaling regression check.

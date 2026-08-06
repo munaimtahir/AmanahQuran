@@ -120,7 +120,7 @@ fun SearchScreen(
                         ),
                     )
                     Text(
-                        text = "Arabic search is local and offline.",
+                        text = "Arabic and Urdu translation search are local and offline.",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -230,6 +230,16 @@ private fun SearchResultRow(
                 textAlign = TextAlign.End,
                 modifier = Modifier.fillMaxWidth(),
                 color = MaterialTheme.colorScheme.onSurface,
+                maxLines = 3,
+            )
+        }
+        item.translationText?.takeIf { it.isNotBlank() }?.let { translation ->
+            Text(
+                text = translation,
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Right,
+                modifier = Modifier.fillMaxWidth(),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 3,
             )
         }

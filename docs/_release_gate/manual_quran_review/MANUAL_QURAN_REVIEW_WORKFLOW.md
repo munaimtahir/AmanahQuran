@@ -50,4 +50,6 @@
 
 ## 8. Release Rule
 
-- Public release remains blocked until manual review is signed off.
+- The v1.0.5 release ledger records that this review was signed off for that
+  release on 2026-07-23. Every new or changed Quran content pack requires a new
+  signed review before it can be publicly released.

@@ -1078,7 +1078,7 @@ def main():
         "app_content_integrity_placeholders": ["Human reviewer sign-off archived", "Font/license review archived", "Public release approval granted"],
         "claims_not_made": ["scholar endorsement", "independent typo-free claim", "Quran Foundation as final source", "server-side content sync"],
         "release_approval": {"status": "APPROVED", "approved_by": "Project owner", "approved_at": NOW.split('T')[0], "notes": "Public release approval granted after human reviewer and font/license review completion."},
-        "app_version": {"version_name": "0.1.0", "version_code": 1},
+        "app_version": {"version_name": "2.1.0", "version_code": 8},
     }
     write_json(BUILD / "trust_center_content.json", trust_center)
     write_text(

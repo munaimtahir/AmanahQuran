@@ -13,12 +13,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.FolderOpen
-import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material.icons.rounded.Security
 import androidx.compose.material.icons.rounded.VerifiedUser
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -28,6 +27,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import org.amanahquran.app.core.repository.PackagedAssetVerification
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -42,7 +42,6 @@ import org.amanahquran.app.R
 import org.amanahquran.app.core.theme.AmanahSpacing
 import org.amanahquran.app.core.theme.LocalElderMode
 import org.amanahquran.app.core.ui.AmanahCard
-import org.amanahquran.app.core.ui.AmanahDivider
 import org.amanahquran.app.core.ui.AmanahSectionCard
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -126,12 +125,26 @@ fun TrustCenterScreen(
                                     )
                                 }
                             }
+                            uiState.productionApprovalStatement?.let { statement ->
+                                Text(
+                                    text = statement,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.primary,
+                                    modifier = Modifier.padding(top = AmanahSpacing.sm),
+                                )
+                            }
                         }
                     }
 
                     // Quran text sources
                     item {
-                            TrustSectionHeader(title = "Quran Text Sources", icon = Icons.Rounded.FolderOpen)
+                        TrustSectionHeader(title = "Quran Text Sources", icon = Icons.Rounded.FolderOpen)
+                        Text(
+                            text = "Displayed exactly as sourced. Nothing has been changed.",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.padding(bottom = AmanahSpacing.sm),
+                        )
                         Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
                             uiState.quranTextSourcesActuallyUsed.forEach { source ->
                                 AmanahCard(modifier = Modifier.fillMaxWidth()) {
@@ -140,19 +153,20 @@ fun TrustCenterScreen(
                                         style = MaterialTheme.typography.titleSmall,
                                         color = MaterialTheme.colorScheme.onSurface,
                                     )
-                                    val detail = listOfNotNull(
-                                        source.referenceType?.let { "Type: $it" },
-                                        source.scriptType?.let { "Script: $it" },
-                                        source.rawSource?.let { "Raw source: $it" },
-                                        source.sourceUrl?.let { "URL: $it" },
-                                        source.licenseName?.let { "License: $it" },
-                                        source.licenseUrl?.let { "License URL: $it" },
-                                        source.notes?.let { "Notes: $it" },
-                                        source.validationStatus?.let { "Validation: $it" },
-                                    ).joinToString(" · ")
-                                    if (detail.isNotBlank()) {
+                                }
+                            }
+                        }
+                    }
+
+                    if (uiState.optionalContentPacks.isNotEmpty()) {
+                        item {
+                            TrustSectionHeader(title = "Installed Content", icon = Icons.Rounded.VerifiedUser)
+                            Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
+                                uiState.optionalContentPacks.forEach { pack ->
+                                    AmanahCard(modifier = Modifier.fillMaxWidth()) {
+                                        Text(pack.displayName, style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onSurface)
                                         Text(
-                                            text = detail,
+                                            text = "Displayed exactly as published. Nothing has been changed.",
                                             style = MaterialTheme.typography.bodySmall,
                                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                                         )
@@ -162,9 +176,47 @@ fun TrustCenterScreen(
                         }
                     }
 
+                    // On-device content verification
+                    item {
+                        TrustSectionHeader(title = "Verify Your Content", icon = Icons.Rounded.Security)
+                        AmanahCard(modifier = Modifier.fillMaxWidth()) {
+                            Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
+                                Text(
+                                    text = "Check that the Quran text on this device still matches the original source.",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                )
+                                Button(
+                                    onClick = { viewModel.verifyNow() },
+                                    enabled = !uiState.isVerifying,
+                                ) {
+                                    if (uiState.isVerifying) {
+                                        CircularProgressIndicator(
+                                            modifier = Modifier.size(16.dp),
+                                            color = MaterialTheme.colorScheme.onPrimary,
+                                            strokeWidth = 2.dp,
+                                        )
+                                    } else {
+                                        Text("Verify now")
+                                    }
+                                }
+                                uiState.verificationError?.let { error ->
+                                    Text(
+                                        text = error,
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.error,
+                                    )
+                                }
+                                uiState.verificationResults.forEach { result ->
+                                    VerificationResultRow(result)
+                                }
+                            }
+                        }
+                    }
+
                     if (uiState.sourceReferences.isNotEmpty()) {
                         item {
-                            TrustSectionHeader(title = "Reference Sources", icon = Icons.Rounded.FolderOpen)
+                            TrustSectionHeader(title = "Fonts & Attribution", icon = Icons.Rounded.FolderOpen)
                             Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
                                 uiState.sourceReferences.forEach { reference ->
                                     AmanahCard(modifier = Modifier.fillMaxWidth()) {
@@ -173,72 +225,14 @@ fun TrustCenterScreen(
                                             style = MaterialTheme.typography.titleSmall,
                                             color = MaterialTheme.colorScheme.onSurface,
                                         )
-                                        val detail = listOfNotNull(
-                                            reference.referenceType?.let { "Type: $it" },
-                                            reference.sourceUrl?.let { "URL: $it" },
-                                            reference.licenseName?.let { "License: $it" },
-                                            reference.licenseUrl?.let { "License URL: $it" },
-                                            reference.notes?.let { "Notes: $it" },
-                                        ).joinToString(" · ")
-                                        if (detail.isNotBlank()) {
+                                        reference.licenseName?.let { license ->
                                             Text(
-                                                text = detail,
+                                                text = "License: $license",
                                                 style = MaterialTheme.typography.bodySmall,
                                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                                             )
                                         }
                                     }
-                                }
-                            }
-                        }
-                    }
-
-                    // No-modification statement
-                    item {
-                        TrustSectionHeader(title = "No-Modification Statement", icon = Icons.Rounded.CheckCircle)
-                        Text(
-                            text = uiState.noModificationStatement.orEmpty(),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurface,
-                        )
-                    }
-
-                    // Validation status
-                    item {
-                        TrustSectionHeader(title = "Validation Status", icon = Icons.Rounded.Security)
-                        Column(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalArrangement = Arrangement.spacedBy(AmanahSpacing.xs),
-                        ) {
-                            ValidationStat("Validation rows", uiState.validationRowCount.toString())
-                            AmanahDivider()
-                            ValidationStat("Failed rows", uiState.failedValidationRowCount.toString())
-                            AmanahDivider()
-                            ValidationStat("Content source rows", uiState.contentSourceCount.toString())
-                        }
-                    }
-
-                    // Mushaf Page Layout Section
-                    uiState.mushafLayoutInfo?.let { info ->
-                        item {
-                            TrustSectionHeader(title = "Mushaf Page Layout", icon = Icons.Rounded.VerifiedUser)
-                            AmanahCard(modifier = Modifier.fillMaxWidth()) {
-                                Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.xs)) {
-                                    ValidationStat("Page Layout Source", info.pageLayoutSource)
-                                    AmanahDivider()
-                                    ValidationStat("Script Type", info.scriptType)
-                                    AmanahDivider()
-                                    ValidationStat("Page Count", info.pageCount)
-                                    AmanahDivider()
-                                    ValidationStat("Line Mapping", info.lineMappingStatus)
-                                    AmanahDivider()
-                                    ValidationStat("Import Date", info.importDate)
-                                    AmanahDivider()
-                                    ValidationStat("Checksum", info.checksum)
-                                    AmanahDivider()
-                                    ValidationStat("Validation Status", info.validationStatus)
-                                    AmanahDivider()
-                                    ValidationStat("Manual Review Status", info.manualReviewStatus)
                                 }
                             }
                         }
@@ -252,65 +246,6 @@ fun TrustCenterScreen(
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurface,
                         )
-                    }
-
-                    if (uiState.releaseApprovalStatus != null || uiState.appVersionName != null) {
-                        item {
-                            TrustSectionHeader(title = "Release Information", icon = Icons.Rounded.VerifiedUser)
-                            AmanahCard(modifier = Modifier.fillMaxWidth()) {
-                                Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.xs)) {
-                                    uiState.releaseApprovalStatus?.let { ValidationStat("Status", it) }
-                                    uiState.releaseApprovalBy?.let {
-                                        AmanahDivider()
-                                        ValidationStat("Approved By", it)
-                                    }
-                                    uiState.releaseApprovalAt?.let {
-                                        AmanahDivider()
-                                        ValidationStat("Approved At", it)
-                                    }
-                                    uiState.appVersionName?.let {
-                                        AmanahDivider()
-                                        ValidationStat("App Version", it)
-                                    }
-                                    uiState.appVersionCode?.let {
-                                        AmanahDivider()
-                                        ValidationStat("Version Code", it.toString())
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    // Claims not made
-                    if (uiState.claimsNotMade.isNotEmpty()) {
-                        item {
-                            TrustSectionHeader(title = "Claims Not Made", icon = Icons.Rounded.Info)
-                            Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.xs)) {
-                                uiState.claimsNotMade.forEach { claim ->
-                                    Text(
-                                        text = "· $claim",
-                                        style = MaterialTheme.typography.bodyMedium,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    )
-                                }
-                            }
-                        }
-                    }
-
-                    // Integrity placeholders
-                    if (uiState.appContentIntegrityPlaceholders.isNotEmpty()) {
-                        item {
-                            TrustSectionHeader(title = "Content Integrity", icon = Icons.Rounded.VerifiedUser)
-                            Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.xs)) {
-                                uiState.appContentIntegrityPlaceholders.forEach { placeholder ->
-                                    Text(
-                                        text = "· $placeholder",
-                                        style = MaterialTheme.typography.bodyMedium,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    )
-                                }
-                            }
-                        }
                     }
                 }
             }
@@ -340,21 +275,21 @@ private fun TrustSectionHeader(title: String, icon: ImageVector) {
 }
 
 @Composable
-private fun ValidationStat(label: String, value: String) {
+private fun VerificationResultRow(result: PackagedAssetVerification) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
-            text = label,
+            text = result.assetName,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurface,
         )
         Text(
-            text = value,
+            text = if (result.matches) "Matches original" else "Mismatch detected",
             style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.primary,
+            color = if (result.matches) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error,
         )
     }
 }

@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,6 +19,8 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Bookmark
 import androidx.compose.material.icons.rounded.BookmarkBorder
 import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.rounded.CreateNewFolder
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -25,11 +29,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import org.amanahquran.app.core.model.ScriptType
 import androidx.compose.material3.Text
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -53,6 +64,8 @@ fun BookmarksScreen(
     val uiState by viewModel.uiState.collectAsState()
     val elder = LocalElderMode.current
     val horizontalPadding = if (elder) AmanahSpacing.screenHorizontalPaddingElder else AmanahSpacing.screenHorizontalPadding
+    var showCreateCollection by remember { mutableStateOf(false) }
+    var newCollectionName by remember { mutableStateOf("") }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
@@ -106,12 +119,31 @@ fun BookmarksScreen(
                         .padding(padding),
                     contentPadding = PaddingValues(horizontal = horizontalPadding, vertical = AmanahSpacing.sm),
                 ) {
+                    item {
+                        Row(
+                            modifier = Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(bottom = AmanahSpacing.sm),
+                            horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.xs),
+                        ) {
+                            uiState.collections.forEach { collection ->
+                                FilterChip(
+                                    selected = collection.id == uiState.selectedCollectionId,
+                                    onClick = { viewModel.selectCollection(collection.id) },
+                                    label = { Text(collection.name) },
+                                )
+                            }
+                            TextButton(onClick = { showCreateCollection = true }) { Text("New") }
+                        }
+                    }
                     items(uiState.items, key = { it.record.id }) { item ->
                         BookmarkRow(
                             item = item,
                             scriptType = uiState.selectedScript,
+                            collections = uiState.collections.filterNot { it.isDefault },
                             onOpen = { onOpenBookmark(item) },
                             onRemove = { viewModel.removeBookmark(item.record) },
+                            onToggleCollection = { collectionId, shouldBeIn ->
+                                viewModel.setBookmarkInCollection(item.record.id, collectionId, shouldBeIn)
+                            },
                         )
                         AmanahDivider()
                     }
@@ -119,15 +151,41 @@ fun BookmarksScreen(
             }
         }
     }
+
+    if (showCreateCollection) {
+        AlertDialog(
+            onDismissRequest = { showCreateCollection = false },
+            title = { Text("New bookmark collection") },
+            text = {
+                OutlinedTextField(
+                    value = newCollectionName,
+                    onValueChange = { newCollectionName = it.take(80) },
+                    label = { Text("Collection name") },
+                    singleLine = true,
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    viewModel.createCollection(newCollectionName)
+                    newCollectionName = ""
+                    showCreateCollection = false
+                }, enabled = newCollectionName.isNotBlank()) { Text("Create") }
+            },
+            dismissButton = { TextButton(onClick = { showCreateCollection = false }) { Text("Cancel") } },
+        )
+    }
 }
 
 @Composable
 private fun BookmarkRow(
     item: BookmarkUiItem,
     scriptType: ScriptType,
+    collections: List<org.amanahquran.app.core.repository.BookmarkCollection>,
     onOpen: () -> Unit,
     onRemove: () -> Unit,
+    onToggleCollection: (collectionId: String, shouldBeIn: Boolean) -> Unit,
 ) {
+    var showCollectionPicker by remember { mutableStateOf(false) }
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -174,6 +232,19 @@ private fun BookmarkRow(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
+        if (collections.isNotEmpty()) {
+            IconButton(
+                onClick = { showCollectionPicker = true },
+                modifier = Modifier.size(AmanahSpacing.minTouchTarget),
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.CreateNewFolder,
+                    contentDescription = "Add to collection",
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.size(20.dp),
+                )
+            }
+        }
         IconButton(
             onClick = onRemove,
             modifier = Modifier.size(AmanahSpacing.minTouchTarget),
@@ -185,5 +256,34 @@ private fun BookmarkRow(
                 modifier = Modifier.size(20.dp),
             )
         }
+    }
+
+    if (showCollectionPicker) {
+        AlertDialog(
+            onDismissRequest = { showCollectionPicker = false },
+            title = { Text("Add to collection") },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.xs)) {
+                    collections.forEach { collection ->
+                        val isIn = collection.bookmarkIds.contains(item.record.id)
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { onToggleCollection(collection.id, !isIn) },
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Checkbox(
+                                checked = isIn,
+                                onCheckedChange = { checked -> onToggleCollection(collection.id, checked) },
+                            )
+                            Text(collection.name, style = MaterialTheme.typography.bodyMedium)
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showCollectionPicker = false }) { Text("Done") }
+            },
+        )
     }
 }

@@ -1,12 +1,13 @@
 # Trust Center Status
 
-Status: internal testing only.
-
-Public release is blocked.
+Status: approved for the v1.0.5 public-release record.
 
 - Automated structural database validation passes.
-- The Trust Center now derives release status conservatively and cannot show
+- Trust Center release status remains conservative: it must never show
   `APPROVED` while checksum, validation, or manual review metadata is pending.
-- Signed human/scholarly review evidence is not complete.
-- Prototype Mushaf line mapping remains not approved for public release.
+- The v1.0.5 approval record includes completed manual reviewer sign-off and
+  completed validation evidence.
 - Offline source attribution and privacy wording remain available.
+
+Any content, font, or Trust Center metadata update reopens the corresponding
+release gate until its evidence is refreshed.

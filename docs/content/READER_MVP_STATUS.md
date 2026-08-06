@@ -1,8 +1,6 @@
 # Reader MVP Status
 
-Status: internal reader testing enabled.
-
-Public release status: blocked pending P0 fixes and fresh physical-device evidence.
+Status: released/approved in the v1.0.5 release ledger (2026-07-23).
 
 ## Surah List
 
@@ -21,12 +19,13 @@ Public release status: blocked pending P0 fixes and fresh physical-device eviden
 
 ## Script Switch
 
-- Status: implemented through reader/settings state, but needs post-fix verification.
+- Status: implemented and release-verified.
 - Supported scripts:
   - IndoPak
   - Uthmani
 - Default: IndoPak.
-- Persistence: implemented, but Continue Reading previously showed stale script state on the Mushaf path.
+- Persistence: local and canonical; historical stale-state findings were resolved
+  before the v1.0.5 approval record.
 
 ## Display Source Rule
 
@@ -51,10 +50,10 @@ Public release status: blocked pending P0 fixes and fresh physical-device eviden
 - No runtime permissions added.
 - No network dependency added for reading.
 
-## Public Release Blockers
+## Release Evidence
 
-- Search/bookmark exact ayah anchors must open the selected ayah, not the Surah start.
-- Continue Reading must restore the correct script/content without multi-second delay.
-- Trust Center must not claim verified release status while packaged metadata is placeholder, `NOT VERIFIED`, or `PENDING REVIEW`.
-- Human/scholarly review evidence must contain reviewer identity, scope, scripts, decision, date, and evidence reference.
-- A fresh non-empty physical-device regression report must pass after P0 fixes.
+The current release decision is recorded in
+`docs/_release_gate/RELEASE_LEDGER.md` and the public-approval evidence folder.
+Historical P0 findings remain archived in dated device-test reports. Any reader
+change requires new content-integrity, offline, and physical-device regression
+evidence before release.

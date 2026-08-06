@@ -24,9 +24,11 @@ import org.amanahquran.app.core.database.entity.MushafLineEntity
         FontInventoryEntity::class,
         ContentManifestEntity::class,
         MushafPageEntity::class,
-        MushafLineEntity::class
+        MushafLineEntity::class,
+        BookmarkCollectionEntity::class,
+        BookmarkCollectionMembershipEntity::class,
     ],
-    version = 3,
+    version = 4,
     exportSchema = true
 )
 @TypeConverters(CommonConverters::class)
@@ -43,6 +45,7 @@ abstract class AmanahQuranDatabase : RoomDatabase() {
     abstract fun fontInventoryDao(): FontInventoryDao
     abstract fun contentManifestDao(): ContentManifestDao
     abstract fun mushafDao(): MushafDao
+    abstract fun bookmarkCollectionDao(): BookmarkCollectionDao
 
     companion object {
         const val DATABASE_NAME = "amanah_quran.db"

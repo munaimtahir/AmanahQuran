@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import kotlinx.coroutines.test.runTest
+import org.amanahquran.app.content.translation.TranslationDatabase
 import org.amanahquran.app.core.database.AmanahContentDatabase
 import org.amanahquran.app.core.model.PageReferenceType
 import org.amanahquran.app.core.model.ScriptType
@@ -23,6 +24,7 @@ import org.junit.runner.RunWith
 class SearchRepositoryTest {
     private lateinit var context: Context
     private lateinit var database: AmanahContentDatabase
+    private lateinit var translationDatabase: TranslationDatabase
     private lateinit var repository: SearchRepository
 
     @Before
@@ -36,17 +38,27 @@ class SearchRepositoryTest {
             .createFromAsset(AmanahContentDatabase.ASSET_PATH)
             .allowMainThreadQueries()
             .build()
+        translationDatabase = Room.databaseBuilder(
+            context,
+            TranslationDatabase::class.java,
+            "search-translation-test-${System.nanoTime()}-${TranslationDatabase.DATABASE_NAME}",
+        )
+            .createFromAsset(TranslationDatabase.ASSET_PATH)
+            .allowMainThreadQueries()
+            .build()
         repository = SearchRepositoryImpl(
             searchIndexDao = database.searchIndexDao(),
             quranTextDao = database.quranTextDao(),
             surahDao = database.surahDao(),
             ayahDao = database.ayahDao(),
+            translationDao = translationDatabase.translationDao(),
         )
     }
 
     @After
     fun tearDown() {
         database.close()
+        translationDatabase.close()
     }
 
     @Test
@@ -100,6 +112,19 @@ class SearchRepositoryTest {
                 it.resultType == SearchResultType.SURAH && it.surahNumber == 36
             })
         }
+    }
+
+    @Test
+    fun urduTranslationSearchReturnsMatchingAyahWithArabicDisplayText() = runTest {
+        val results = repository.search("معبود برحق", ScriptType.UTHMANI)
+
+        val result = results.first { it.ayahKey == "2:255" }
+        assertEquals(SearchResultType.AYAH, result.resultType)
+        assertEquals(2, result.surahNumber)
+        assertEquals(255, result.ayahNumber)
+        assertNotNull(result.translationText)
+        assertTrue(result.translationText!!.contains("معبود"))
+        assertNotNull(result.previewText)
     }
 
     @Test

@@ -3,6 +3,9 @@ package org.amanahquran.app.feature.reader
 import org.amanahquran.app.core.model.ScriptType
 import org.amanahquran.app.core.model.ReaderOpenMode
 import org.amanahquran.app.core.model.ReaderAnchor
+import org.amanahquran.app.core.model.AutoScrollPace
+import org.amanahquran.app.core.model.ReaderContentMode
+import org.amanahquran.app.core.model.ReaderZoomLevel
 
 data class SurahListItem(
     val surahNumber: Int,
@@ -49,6 +52,18 @@ data class ReaderUiState(
     val anchorScrollRequestId: Long = 0,
     val isPageBookmarked: Boolean = false,
     val errorMessage: String? = null,
+    val translationEnabled: Boolean = false,
+    val translationFontSizeSp: Float = 18f,
+    val translations: Map<String, String> = emptyMap(),
+    val arabicLineSpacingMultiplier: Float = 1.88f,
+    val readerHorizontalPaddingDp: Float = 16f,
+    val zoomLevel: ReaderZoomLevel = ReaderZoomLevel.default,
+    val autoScrollPace: AutoScrollPace = AutoScrollPace.default,
+    val firstZoomHintShown: Boolean = false,
+    val pinchToResizeEnabled: Boolean = true,
+    val contentMode: ReaderContentMode = ReaderContentMode.default,
+    val translationZoomLevel: ReaderZoomLevel = ReaderZoomLevel.default,
+    val linkedZoomEnabled: Boolean = true,
 )
 
 data class SurahListUiState(

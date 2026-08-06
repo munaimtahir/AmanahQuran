@@ -196,6 +196,65 @@ class ReaderStructuralContentTest {
     }
 
     @Test
+    fun pageDividerOptedOutByDefaultEvenAcrossARealPageBoundary() {
+        runBlocking {
+            val boundary = findInternalPageBoundary() ?: error("No internal page boundary found")
+            val previous = ayahModel(boundary.previousAyahKey, ScriptType.INDOPAK)
+            val current = ayahModel(boundary.currentAyahKey, ScriptType.INDOPAK)
+
+            val blocks = buildReaderStructuralItems(
+                ayahs = listOf(previous, current),
+                openMode = ReaderOpenMode.Surah(previous.surahNumber),
+            )
+
+            assertFalse(blocks.any { it is ReaderStructuralItem.PageDivider })
+        }
+    }
+
+    @Test
+    fun pageDividerInsertedWhenOptedInAndNoOtherHeaderMarksThatBoundary() {
+        runBlocking {
+            val boundary = findInternalPageBoundary() ?: error("No internal page boundary found")
+            val previous = ayahModel(boundary.previousAyahKey, ScriptType.INDOPAK)
+            val current = ayahModel(boundary.currentAyahKey, ScriptType.INDOPAK)
+
+            val blocks = buildReaderStructuralItems(
+                ayahs = listOf(previous, current),
+                openMode = ReaderOpenMode.Surah(previous.surahNumber),
+                showPageDividers = true,
+            )
+
+            assertEquals(
+                listOf(
+                    "ayah-${previous.ayahKey}-INDOPAK",
+                    "page-divider-${current.pageNumber}",
+                    "ayah-${current.ayahKey}-INDOPAK",
+                ),
+                blocks.map { it.key() },
+            )
+        }
+    }
+
+    @Test
+    fun pageDividerDoesNotDoubleUpWithAJuzHeaderAtTheSameBoundary() {
+        runBlocking {
+            val boundary = findInternalJuzBoundary() ?: error("No internal juz boundary found")
+            val previous = ayahModel(boundary.previousAyahKey, ScriptType.INDOPAK)
+            val current = ayahModel(boundary.currentAyahKey, ScriptType.INDOPAK)
+
+            val blocks = buildReaderStructuralItems(
+                ayahs = listOf(previous, current),
+                openMode = ReaderOpenMode.Page(previous.pageNumber, PageReferenceType.INDOPAK),
+                showPageDividers = true,
+            )
+
+            // A page-number change and a Juz boundary can coincide; the Juz header alone should
+            // mark it, not a redundant PageDivider right next to it.
+            assertFalse(blocks.any { it is ReaderStructuralItem.PageDivider })
+        }
+    }
+
+    @Test
     fun scriptSwitchKeepsCanonicalAyahIdentityAcrossBlocks() {
         runBlocking {
             val ayahsIndopak = listOf(
@@ -257,6 +316,20 @@ class ReaderStructuralContentTest {
             val previousKey = "${current.surahNumber}:${current.ayahNumber - 1}"
             val previous = database.ayahDao().getAyahByKey(previousKey) ?: continue
             if (previous.surahNumber == current.surahNumber) {
+                return InternalBoundary(previousAyahKey = previous.ayahKey, currentAyahKey = current.ayahKey)
+            }
+        }
+        return null
+    }
+
+    private suspend fun findInternalPageBoundary(): InternalBoundary? {
+        for (pageNumber in 1..603) {
+            val nextPageFirstKey = repository.getFirstAyahForPage(pageNumber + 1, PageReferenceType.INDOPAK) ?: continue
+            val current = database.ayahDao().getAyahByKey(nextPageFirstKey) ?: continue
+            if (current.ayahNumber <= 1) continue
+            val previousKey = "${current.surahNumber}:${current.ayahNumber - 1}"
+            val previous = database.ayahDao().getAyahByKey(previousKey) ?: continue
+            if (previous.surahNumber == current.surahNumber && previous.pageNumber != current.pageNumber) {
                 return InternalBoundary(previousAyahKey = previous.ayahKey, currentAyahKey = current.ayahKey)
             }
         }
