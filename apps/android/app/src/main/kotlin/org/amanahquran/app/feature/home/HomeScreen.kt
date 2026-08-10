@@ -108,6 +108,7 @@ fun HomeScreen(
     onOpenSettings: () -> Unit,
     onOpenTrustCenter: () -> Unit,
     onOpenReadingStreak: () -> Unit,
+    onOpenReadingActivity: () -> Unit,
     viewModel: HomeViewModel = viewModel(factory = HomeViewModel.factory(LocalContext.current)),
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -163,6 +164,8 @@ fun HomeScreen(
                     onOpenBookmarks = onOpenBookmarks,
                 )
             }
+
+            ReadingActivitySummaryStrip(onOpenReadingActivity = onOpenReadingActivity)
 
             TrustSummaryStrip(onOpenTrustCenter = onOpenTrustCenter)
 
@@ -576,6 +579,44 @@ private fun QuickActionCard(
                 textAlign = TextAlign.Center,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
+            )
+        }
+    }
+}
+
+@Composable
+private fun ReadingActivitySummaryStrip(onOpenReadingActivity: () -> Unit) {
+    AmanahSectionCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClickLabel = "Open Reading Activity", onClick = onOpenReadingActivity),
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.md),
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Rounded.MenuBook,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.size(24.dp),
+            )
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = "Reading Activity",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+                Text(
+                    text = "See your reading stats",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+            Icon(
+                imageVector = Icons.Rounded.ChevronRight,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
     }

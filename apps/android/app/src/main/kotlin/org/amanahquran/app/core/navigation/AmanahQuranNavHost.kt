@@ -31,6 +31,7 @@ import org.amanahquran.app.feature.reader.mushaf.MushafPageScreen
 import org.amanahquran.app.feature.search.SearchScreen
 import org.amanahquran.app.feature.reminder.ReadingReminderScreen
 import org.amanahquran.app.feature.settings.SettingsScreen
+import org.amanahquran.app.feature.stats.ReadingActivityDashboardScreen
 import org.amanahquran.app.feature.streak.ReadingStreakScreen
 import org.amanahquran.app.feature.trust.TrustCenterScreen
 
@@ -116,10 +117,17 @@ fun AmanahQuranNavHost(
                     ReaderPerfLogger.log("nav_click", detail = "home->reading_streak")
                     navController.navigate(AppRoute.ReadingStreak)
                 },
+                onOpenReadingActivity = {
+                    ReaderPerfLogger.log("nav_click", detail = "home->reading_activity")
+                    navController.navigate(AppRoute.ReadingActivityDashboard)
+                },
             )
         }
         composable(AppRoute.ReadingStreak) {
             ReadingStreakScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(AppRoute.ReadingActivityDashboard) {
+            ReadingActivityDashboardScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable(AppRoute.QuranNavigation) {
             QuranNavigationScreen(
