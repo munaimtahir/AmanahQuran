@@ -349,6 +349,26 @@ private fun ReaderScreen(
             centered?.let(onUpdateReadingPosition)
         },
     )
+
+    // Reading-streak time tracking reuses the same "centered item" signal the reader already
+    // computes for auto-scroll's last-read bookkeeping above, rather than adding new
+    // scroll-visibility instrumentation.
+    ReadingActivitySession(
+        currentAyahKey = {
+            listState.layoutInfo.visibleItemsInfo.firstOrNull()?.let { first ->
+                val blockIndex = first.index - headerItemCountFor(uiState)
+                displayBlocks.getOrNull(blockIndex)?.representativeAyahKey()
+            } ?: uiState.selectedAyahKey
+        },
+        currentPageNumber = {
+            val key = listState.layoutInfo.visibleItemsInfo.firstOrNull()?.let { first ->
+                val blockIndex = first.index - headerItemCountFor(uiState)
+                displayBlocks.getOrNull(blockIndex)?.representativeAyahKey()
+            } ?: uiState.selectedAyahKey
+            uiState.ayahs.firstOrNull { it.ayahKey == key }?.pageNumber
+        },
+    )
+
     var controlsVisible by remember { mutableStateOf(true) }
     LaunchedEffect(autoScroll.state) {
         when (autoScroll.state) {

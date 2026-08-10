@@ -35,6 +35,10 @@ interface ReadingActivityRepository {
     )
 
     suspend fun getStreakSummary(today: LocalDate = LocalDate.now(ZoneId.systemDefault())): StreakSummary
+
+    /** Reactive counterpart of [getStreakSummary], recomputed whenever stored activity changes. */
+    fun observeStreakSummary(today: () -> LocalDate = { LocalDate.now(ZoneId.systemDefault()) }): Flow<StreakSummary>
+
     suspend fun replaceAllActivity(records: List<DailyReadingActivity>)
 }
 
@@ -89,6 +93,11 @@ class ReadingActivityRepositoryImpl(
             .map { it.date }
             .toSet()
         return StreakCalculator.calculate(qualifyingDates, today)
+    }
+
+    override fun observeStreakSummary(today: () -> LocalDate): Flow<StreakSummary> = activityFlow.map { records ->
+        val qualifyingDates = records.filter { it.qualifiedForReadingDay }.map { it.date }.toSet()
+        StreakCalculator.calculate(qualifyingDates, today())
     }
 
     override suspend fun replaceAllActivity(records: List<DailyReadingActivity>): Unit = withContext(NonCancellable) {

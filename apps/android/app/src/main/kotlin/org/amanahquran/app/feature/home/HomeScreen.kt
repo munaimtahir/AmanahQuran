@@ -25,6 +25,7 @@ import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material.icons.automirrored.rounded.List
 import androidx.compose.material.icons.automirrored.rounded.MenuBook
 import androidx.compose.material.icons.rounded.Book
+import androidx.compose.material.icons.rounded.LocalFireDepartment
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.VerifiedUser
@@ -51,6 +52,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.amanahquran.app.R
 import org.amanahquran.app.core.model.ScriptType
+import org.amanahquran.app.core.model.StreakSummary
 import org.amanahquran.app.core.theme.AmanahAccentGoldBg
 import org.amanahquran.app.core.theme.AmanahAccentGoldBgDark
 import org.amanahquran.app.core.theme.AmanahAccentGoldIcon
@@ -105,6 +107,7 @@ fun HomeScreen(
     onOpenBookmarks: () -> Unit,
     onOpenSettings: () -> Unit,
     onOpenTrustCenter: () -> Unit,
+    onOpenReadingStreak: () -> Unit,
     viewModel: HomeViewModel = viewModel(factory = HomeViewModel.factory(LocalContext.current)),
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -132,6 +135,11 @@ fun HomeScreen(
                 continueReading = uiState.continueReading,
                 onContinue = onContinueReading,
                 onStartReading = { onOpenMushafReader(1, uiState.selectedScript) },
+            )
+
+            StreakLine(
+                summary = uiState.streakSummary,
+                onClick = onOpenReadingStreak,
             )
 
             // Extra breathing room beyond the standard xl gap so the hero and the
@@ -320,6 +328,58 @@ private fun ReadingHeroCard(
             icon = Icons.AutoMirrored.Rounded.MenuBook,
             containerColor = goldTone,
             contentColor = AmanahGreenDarker,
+        )
+    }
+}
+
+/**
+ * One calm, compact line -- never a dashboard -- so the streak supports the reading habit
+ * without competing with Continue Reading for visual weight.
+ */
+@Composable
+private fun StreakLine(summary: StreakSummary, onClick: () -> Unit) {
+    val label = when {
+        summary.currentStreak > 0 -> "${summary.currentStreak}-day reading streak"
+        else -> "Start your reading streak today"
+    }
+    val status = when {
+        summary.currentStreak <= 0 -> null
+        summary.readToday -> "Read today ✓"
+        else -> "Continue today"
+    }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClickLabel = "Open Reading Streak", onClick = onClick)
+            .padding(horizontal = AmanahSpacing.xs, vertical = AmanahSpacing.xs),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.xs),
+    ) {
+        Icon(
+            imageVector = Icons.Rounded.LocalFireDepartment,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.size(18.dp),
+        )
+        Text(
+            text = label,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurface,
+            modifier = Modifier.weight(1f),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
+        if (status != null) {
+            Text(
+                text = status,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+        Icon(
+            imageVector = Icons.Rounded.ChevronRight,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }
 }

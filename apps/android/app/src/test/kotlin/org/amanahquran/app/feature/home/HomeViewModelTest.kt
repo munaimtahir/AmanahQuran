@@ -16,6 +16,7 @@ import org.amanahquran.app.core.repository.LastReadRepositoryImpl
 import org.amanahquran.app.core.repository.QuranContentRepository
 import org.amanahquran.app.core.repository.QuranContentRepositoryImpl
 import org.amanahquran.app.core.repository.ReaderSettingsRepositoryImpl
+import org.amanahquran.app.core.repository.ReadingActivityRepositoryImpl
 import org.amanahquran.app.core.repository.LastReadState
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -41,6 +42,7 @@ class HomeViewModelTest {
     private lateinit var settingsRepository: ReaderSettingsRepositoryImpl
     private lateinit var lastReadRepository: LastReadRepositoryImpl
     private lateinit var bookmarkRepository: BookmarkRepositoryImpl
+    private lateinit var readingActivityRepository: ReadingActivityRepositoryImpl
     private lateinit var tempFile: File
 
     @Before
@@ -68,6 +70,7 @@ class HomeViewModelTest {
         settingsRepository = ReaderSettingsRepositoryImpl(dataSource)
         lastReadRepository = LastReadRepositoryImpl(dataSource)
         bookmarkRepository = BookmarkRepositoryImpl(dataSource)
+        readingActivityRepository = ReadingActivityRepositoryImpl(dataSource)
     }
 
     @After
@@ -94,6 +97,7 @@ class HomeViewModelTest {
             repository = repository,
             lastReadRepository = lastReadRepository,
             settingsRepository = settingsRepository,
+            readingActivityRepository = readingActivityRepository,
             dispatcher = UnconfinedTestDispatcher(testScheduler),
         )
 
@@ -102,5 +106,23 @@ class HomeViewModelTest {
         assertNotNull(state.continueReading)
         assertEquals("2:255", state.continueReading!!.ayahKey)
         assertEquals(2, state.continueReading!!.surahNumber)
+    }
+
+    @Test
+    fun streakSummaryReflectsQualifyingReadingActivity() = runTest {
+        val today = java.time.LocalDate.now()
+        readingActivityRepository.recordSession(today, 150, emptySet(), emptySet(), timestamp = 1L)
+
+        val viewModel = HomeViewModel(
+            repository = repository,
+            lastReadRepository = lastReadRepository,
+            settingsRepository = settingsRepository,
+            readingActivityRepository = readingActivityRepository,
+            dispatcher = UnconfinedTestDispatcher(testScheduler),
+        )
+
+        val state = viewModel.uiState.first { it.streakSummary.currentStreak > 0 }
+        assertEquals(1, state.streakSummary.currentStreak)
+        assertEquals(true, state.streakSummary.readToday)
     }
 }

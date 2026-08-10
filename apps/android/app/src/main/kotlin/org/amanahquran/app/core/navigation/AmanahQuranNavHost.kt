@@ -25,6 +25,7 @@ import org.amanahquran.app.feature.reader.SurahReaderScreen
 import org.amanahquran.app.feature.reader.mushaf.MushafPageScreen
 import org.amanahquran.app.feature.search.SearchScreen
 import org.amanahquran.app.feature.settings.SettingsScreen
+import org.amanahquran.app.feature.streak.ReadingStreakScreen
 import org.amanahquran.app.feature.trust.TrustCenterScreen
 
 @Composable
@@ -89,7 +90,14 @@ fun AmanahQuranNavHost(modifier: Modifier = Modifier) {
                     ReaderPerfLogger.log("nav_click", detail = "home->trust_center")
                     navController.navigate(AppRoute.TrustCenter)
                 },
+                onOpenReadingStreak = {
+                    ReaderPerfLogger.log("nav_click", detail = "home->reading_streak")
+                    navController.navigate(AppRoute.ReadingStreak)
+                },
             )
+        }
+        composable(AppRoute.ReadingStreak) {
+            ReadingStreakScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable(AppRoute.QuranNavigation) {
             QuranNavigationScreen(

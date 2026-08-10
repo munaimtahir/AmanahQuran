@@ -14,10 +14,13 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import org.amanahquran.app.core.model.ScriptType
+import org.amanahquran.app.core.model.StreakSummary
 import org.amanahquran.app.core.repository.LastReadRepository
 import org.amanahquran.app.core.repository.QuranContentRepository
 import org.amanahquran.app.core.repository.ReaderSettingsRepository
+import org.amanahquran.app.core.repository.ReadingActivityRepository
 
 data class HomeContinueReadingUiModel(
     val title: String,
@@ -32,12 +35,14 @@ data class HomeUiState(
     val continueReading: HomeContinueReadingUiModel? = null,
     val showFirstLaunchMessage: Boolean = false,
     val selectedScript: ScriptType = ScriptType.INDOPAK,
+    val streakSummary: StreakSummary = StreakSummary.EMPTY,
 )
 
 class HomeViewModel(
     private val repository: QuranContentRepository,
     private val lastReadRepository: LastReadRepository,
     private val settingsRepository: ReaderSettingsRepository,
+    private val readingActivityRepository: ReadingActivityRepository,
     private val dispatcher: CoroutineDispatcher = Dispatchers.Main.immediate,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeUiState())
@@ -45,6 +50,15 @@ class HomeViewModel(
 
     init {
         observeState()
+        observeStreak()
+    }
+
+    private fun observeStreak() {
+        viewModelScope.launch(dispatcher) {
+            readingActivityRepository.observeStreakSummary { LocalDate.now() }.collectLatest { summary ->
+                _uiState.update { it.copy(streakSummary = summary) }
+            }
+        }
     }
 
     fun dismissFirstLaunchMessage() {
@@ -111,6 +125,7 @@ class HomeViewModel(
                     repository = org.amanahquran.app.feature.reader.quranContentRepository(context),
                     lastReadRepository = org.amanahquran.app.core.repository.lastReadRepository(context),
                     settingsRepository = org.amanahquran.app.core.repository.readerSettingsRepository(context),
+                    readingActivityRepository = org.amanahquran.app.core.repository.readingActivityRepository(context),
                 ) as T
             }
         }

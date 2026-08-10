@@ -63,6 +63,7 @@ import org.amanahquran.app.core.model.ScriptType
 import org.amanahquran.app.core.repository.MushafRepository
 import org.amanahquran.app.core.repository.MushafPageUi
 import org.amanahquran.app.core.repository.MushafLineUi
+import org.amanahquran.app.feature.reader.ReadingActivitySession
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -78,6 +79,13 @@ fun MushafPageScreen(
 ) {
     val state by viewModel.uiState.collectAsState()
     val scope = rememberCoroutineScope()
+
+    // The Mushaf reader shows a whole page at once rather than discrete scrollable ayahs, so
+    // reading-streak tracking here is time + page based (no per-ayah signal to piggyback on).
+    ReadingActivitySession(
+        currentAyahKey = { null },
+        currentPageNumber = { state.pageNumber },
+    )
 
     val pageCount = state.pageCount.coerceAtLeast(1)
     val pagerState = key(initialPageNumber) {
