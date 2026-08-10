@@ -27,6 +27,7 @@ class AppRouteTest {
                 AppRoute.ReadingStreak,
                 AppRoute.ReadingReminder,
                 AppRoute.ReadingActivityDashboard,
+                AppRoute.ReadingCalendar,
             ),
             AppRoute.all,
         )

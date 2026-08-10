@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material.icons.rounded.LocalFireDepartment
 import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -47,6 +48,7 @@ import org.amanahquran.app.core.ui.AmanahSectionHeader
 @Composable
 fun ReadingStreakScreen(
     onNavigateBack: () -> Unit,
+    onOpenCalendar: () -> Unit,
     viewModel: ReadingStreakViewModel = viewModel(factory = ReadingStreakViewModel.factory(LocalContext.current)),
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -93,6 +95,22 @@ fun ReadingStreakScreen(
                     longestStreak = uiState.summary.longestStreak,
                     totalDays = uiState.summary.totalQualifyingDays,
                 )
+            }
+            item {
+                AmanahSectionCard(modifier = Modifier.fillMaxWidth()) {
+                    org.amanahquran.app.core.ui.AmanahSettingsRow(
+                        title = "Reading History Calendar",
+                        subtitle = "See past reading days on a calendar",
+                        onClick = onOpenCalendar,
+                        trailing = {
+                            Icon(
+                                imageVector = Icons.Rounded.ChevronRight,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        },
+                    )
+                }
             }
             item {
                 QualificationExplainerCard()

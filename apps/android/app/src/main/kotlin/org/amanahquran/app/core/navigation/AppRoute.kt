@@ -28,6 +28,7 @@ object AppRoute {
     const val ReadingStreak = "reading-streak"
     const val ReadingReminder = "reading-reminder"
     const val ReadingActivityDashboard = "reading-activity-dashboard"
+    const val ReadingCalendar = "reading-calendar"
 
     fun surahReader(surahNumber: Int): String = "reader/surah/$surahNumber"
 
@@ -71,5 +72,6 @@ object AppRoute {
         ReadingStreak,
         ReadingReminder,
         ReadingActivityDashboard,
+        ReadingCalendar,
     )
 }
