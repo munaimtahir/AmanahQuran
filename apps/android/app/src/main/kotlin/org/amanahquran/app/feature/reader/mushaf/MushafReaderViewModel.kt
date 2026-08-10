@@ -49,7 +49,9 @@ class MushafReaderViewModel(
                     scriptType = settings.selectedScript,
                     fontScale = settings.arabicFontSizeSp / 24f,
                     elderModeEnabled = settings.elderModeEnabled,
-                    bookModeEnabled = settings.bookModeEnabled
+                    bookModeEnabled = settings.bookModeEnabled,
+                    isFullScreen = settings.fullScreenReadingDefault,
+                    keepScreenAwakeEnabled = settings.keepScreenAwakeEnabled,
                 )
             }
             observeSettings()
@@ -67,7 +69,8 @@ class MushafReaderViewModel(
                         scriptType = settings.selectedScript,
                         fontScale = settings.arabicFontSizeSp / 24f,
                         elderModeEnabled = settings.elderModeEnabled,
-                        bookModeEnabled = settings.bookModeEnabled
+                        bookModeEnabled = settings.bookModeEnabled,
+                        keepScreenAwakeEnabled = settings.keepScreenAwakeEnabled,
                     )
                 }
                 if (scriptChanged) {

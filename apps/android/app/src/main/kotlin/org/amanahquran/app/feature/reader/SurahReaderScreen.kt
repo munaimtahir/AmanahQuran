@@ -350,6 +350,8 @@ private fun ReaderScreen(
         },
     )
 
+    org.amanahquran.app.core.ui.KeepScreenOnEffect(enabled = uiState.keepScreenAwakeEnabled)
+
     // Reading-streak time tracking reuses the same "centered item" signal the reader already
     // computes for auto-scroll's last-read bookkeeping above, rather than adding new
     // scroll-visibility instrumentation.
@@ -436,11 +438,45 @@ private fun ReaderScreen(
             if (!isPageModeActive) {
                 TopAppBar(
                     title = {
-                        Text(
-                            text = uiState.surahName.ifBlank { uiState.modeTitle },
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onBackground,
-                        )
+                        val headerPageNumber = remember(uiState.selectedAyahKey, uiState.ayahs) {
+                            val key = uiState.selectedAyahKey ?: uiState.ayahs.firstOrNull()?.ayahKey
+                            uiState.ayahs.firstOrNull { it.ayahKey == key }?.pageNumber
+                        }
+                        val headerParts = remember(uiState.readerHeaderFormat, uiState.surahName, uiState.modeTitle, uiState.juzNumber, headerPageNumber) {
+                            org.amanahquran.app.core.util.ReaderHeaderTextBuilder.build(
+                                format = uiState.readerHeaderFormat,
+                                surahName = uiState.surahName.ifBlank { uiState.modeTitle },
+                                juzNumber = uiState.juzNumber,
+                                pageNumber = headerPageNumber,
+                            )
+                        }
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            headerParts.primary?.let { primary ->
+                                Text(
+                                    text = primary,
+                                    style = MaterialTheme.typography.titleMedium,
+                                    color = MaterialTheme.colorScheme.onBackground,
+                                    maxLines = 1,
+                                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                                    modifier = Modifier.weight(1f, fill = false),
+                                )
+                            }
+                            headerParts.page?.let { page ->
+                                if (headerParts.primary != null) {
+                                    Text(
+                                        text = " · ",
+                                        style = MaterialTheme.typography.titleMedium,
+                                        color = MaterialTheme.colorScheme.onBackground,
+                                    )
+                                }
+                                Text(
+                                    text = page,
+                                    style = MaterialTheme.typography.titleMedium,
+                                    color = MaterialTheme.colorScheme.onBackground,
+                                    maxLines = 1,
+                                )
+                            }
+                        }
                     },
                     navigationIcon = {
                         IconButton(onClick = onNavigateBack) {

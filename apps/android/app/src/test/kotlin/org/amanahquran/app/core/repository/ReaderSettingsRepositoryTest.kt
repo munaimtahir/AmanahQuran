@@ -8,6 +8,7 @@ import kotlinx.coroutines.test.runTest
 import org.amanahquran.app.core.datastore.amanahPreferencesDataSourceForFile
 import org.amanahquran.app.core.model.AutoScrollPace
 import org.amanahquran.app.core.model.ReaderContentMode
+import org.amanahquran.app.core.model.ReaderHeaderFormat
 import org.amanahquran.app.core.model.ReaderZoomLevel
 import org.amanahquran.app.core.model.ScriptType
 import org.amanahquran.app.core.theme.ThemeMode
@@ -257,5 +258,81 @@ class ReaderSettingsRepositoryTest {
 
         assertEquals(ReaderContentMode.AYAH, settings.readerContentMode)
         assertEquals(ReaderZoomLevel.STANDARD, settings.translationZoomLevel)
+    }
+
+    @Test
+    fun freshInstallDefaultsHeaderFormatAndDisplayPreferences() = runTest {
+        val settings = repository.settings.first()
+
+        assertEquals(ReaderHeaderFormat.SURAH_PAGE, settings.readerHeaderFormat)
+        assertFalse(settings.keepScreenAwakeEnabled)
+        assertTrue(settings.fullScreenReadingDefault) // matches MushafReaderUiState's pre-existing default
+    }
+
+    @Test
+    fun headerFormatAndDisplayPreferencesPersist() = runTest {
+        repository.setReaderHeaderFormat(ReaderHeaderFormat.SURAH_JUZ_PAGE)
+        repository.setKeepScreenAwakeEnabled(true)
+        repository.setFullScreenReadingDefault(false)
+
+        val settings = repository.settings.first()
+        assertEquals(ReaderHeaderFormat.SURAH_JUZ_PAGE, settings.readerHeaderFormat)
+        assertTrue(settings.keepScreenAwakeEnabled)
+        assertFalse(settings.fullScreenReadingDefault)
+    }
+
+    @Test
+    fun invalidStoredHeaderFormatFallsBackToDefaultSafely() = runTest {
+        dataSource.dataStore.edit { preferences ->
+            preferences[stringPreferencesKey("reader_header_format")] = "NOT_A_REAL_FORMAT"
+        }
+
+        assertEquals(ReaderHeaderFormat.SURAH_PAGE, repository.settings.first().readerHeaderFormat)
+    }
+
+    @Test
+    fun resetReaderPreferencesRestoresOnlyIntendedFieldsToDefaults() = runTest {
+        repository.setArabicFontSize(32f)
+        repository.setTranslationFontSize(26f)
+        repository.setArabicLineSpacing(2.2f)
+        repository.setReaderHorizontalPadding(28f)
+        repository.setAutoScrollPace(AutoScrollPace.VERY_FAST)
+        repository.setReaderContentMode(ReaderContentMode.CONTINUOUS)
+        repository.setLinkedZoomEnabled(false)
+        repository.setReaderHeaderFormat(ReaderHeaderFormat.PAGE_ONLY)
+        repository.setKeepScreenAwakeEnabled(true)
+        repository.setFullScreenReadingDefault(false)
+        repository.setBookModeEnabled(true)
+
+        repository.resetReaderPreferences()
+
+        val settings = repository.settings.first()
+        assertEquals(24f, settings.arabicFontSizeSp, 0.01f)
+        assertEquals(18f, settings.translationFontSizeSp, 0.01f)
+        assertEquals(1.88f, settings.arabicLineSpacingMultiplier, 0.01f)
+        assertEquals(16f, settings.readerHorizontalPaddingDp, 0.01f)
+        assertEquals(AutoScrollPace.COMFORTABLE, settings.autoScrollPace)
+        assertEquals(ReaderContentMode.AYAH, settings.readerContentMode)
+        assertTrue(settings.linkedZoomEnabled)
+        assertEquals(ReaderHeaderFormat.SURAH_PAGE, settings.readerHeaderFormat)
+        assertFalse(settings.keepScreenAwakeEnabled)
+        assertTrue(settings.fullScreenReadingDefault)
+        assertFalse(settings.bookModeEnabled)
+    }
+
+    @Test
+    fun resetReaderPreferencesDoesNotTouchScriptThemeOrElderMode() = runTest {
+        repository.setSelectedScript(ScriptType.UTHMANI)
+        repository.setSelectedTheme(ThemeMode.SEPIA)
+        repository.setElderModeEnabled(true)
+        repository.setFirstLaunchMessageDismissed(true)
+
+        repository.resetReaderPreferences()
+
+        val settings = repository.settings.first()
+        assertEquals(ScriptType.UTHMANI, settings.selectedScript)
+        assertEquals(ThemeMode.SEPIA, settings.selectedTheme)
+        assertTrue(settings.elderModeEnabled)
+        assertTrue(settings.firstLaunchMessageDismissed)
     }
 }

@@ -31,6 +31,8 @@ import org.amanahquran.app.feature.reader.mushaf.MushafPageScreen
 import org.amanahquran.app.feature.search.SearchScreen
 import org.amanahquran.app.feature.reminder.ReadingReminderScreen
 import org.amanahquran.app.feature.calendar.ReadingCalendarScreen
+import org.amanahquran.app.feature.settings.AdvancedReaderSettingsScreen
+import org.amanahquran.app.feature.settings.ResetReadingSettingsScreen
 import org.amanahquran.app.feature.settings.SettingsScreen
 import org.amanahquran.app.feature.stats.ReadingActivityDashboardScreen
 import org.amanahquran.app.feature.streak.ReadingStreakScreen
@@ -261,10 +263,20 @@ fun AmanahQuranNavHost(
                 onNavigateBack = { navController.popBackStack() },
                 onOpenTrustCenter = { navController.navigate(AppRoute.TrustCenter) },
                 onOpenReadingReminder = { navController.navigate(AppRoute.ReadingReminder) },
+                onOpenAdvancedReaderSettings = { navController.navigate(AppRoute.AdvancedReaderSettings) },
             )
         }
         composable(AppRoute.ReadingReminder) {
             ReadingReminderScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(AppRoute.AdvancedReaderSettings) {
+            AdvancedReaderSettingsScreen(
+                onNavigateBack = { navController.popBackStack() },
+                onOpenResetReadingSettings = { navController.navigate(AppRoute.ResetReadingSettings) },
+            )
+        }
+        composable(AppRoute.ResetReadingSettings) {
+            ResetReadingSettingsScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable(AppRoute.TrustCenter) {
             TrustCenterScreen(onNavigateBack = { navController.popBackStack() })

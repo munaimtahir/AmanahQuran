@@ -85,6 +85,8 @@ class ReaderViewModel(
                     contentMode = initialSettings.readerContentMode,
                     translationZoomLevel = initialSettings.translationZoomLevel,
                     linkedZoomEnabled = initialSettings.linkedZoomEnabled,
+                    readerHeaderFormat = initialSettings.readerHeaderFormat,
+                    keepScreenAwakeEnabled = initialSettings.keepScreenAwakeEnabled,
                 )
             }
             if (initialSettings.translationEnabled) loadTranslations()
@@ -454,6 +456,8 @@ class ReaderViewModel(
                         contentMode = settings.readerContentMode,
                         translationZoomLevel = settings.translationZoomLevel,
                         linkedZoomEnabled = settings.linkedZoomEnabled,
+                        readerHeaderFormat = settings.readerHeaderFormat,
+                        keepScreenAwakeEnabled = settings.keepScreenAwakeEnabled,
                     )
                 }
                 if (settings.translationEnabled && !current.translationEnabled) loadTranslations()

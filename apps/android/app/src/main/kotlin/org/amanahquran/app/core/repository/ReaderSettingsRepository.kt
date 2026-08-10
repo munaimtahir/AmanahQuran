@@ -15,6 +15,7 @@ import org.amanahquran.app.core.datastore.AmanahPreferencesDataSource
 import org.amanahquran.app.core.datastore.amanahPreferencesDataSource
 import org.amanahquran.app.core.model.AutoScrollPace
 import org.amanahquran.app.core.model.ReaderContentMode
+import org.amanahquran.app.core.model.ReaderHeaderFormat
 import org.amanahquran.app.core.model.ReaderZoomLevel
 import org.amanahquran.app.core.model.ScriptType
 import org.amanahquran.app.core.theme.QuranTypography
@@ -52,6 +53,13 @@ data class ReaderSettings(
     val readerContentMode: ReaderContentMode = ReaderContentMode.default,
     val translationZoomLevel: ReaderZoomLevel = ReaderZoomLevel.default,
     val linkedZoomEnabled: Boolean = true,
+    // Advanced Reader Settings additions: header context format, keep-screen-awake while
+    // reading, and the default full-screen state a Mushaf page session opens in.
+    val readerHeaderFormat: ReaderHeaderFormat = ReaderHeaderFormat.SURAH_PAGE,
+    val keepScreenAwakeEnabled: Boolean = false,
+    // Matches MushafReaderUiState's pre-existing default (true) so introducing this setting
+    // doesn't silently change current behavior for users who never touch it.
+    val fullScreenReadingDefault: Boolean = true,
 ) {
     /** The zoom level that applies right now, given the currently selected script and Elder Mode. */
     fun effectiveZoomLevel(scriptType: ScriptType = selectedScript, elderMode: Boolean = elderModeEnabled): ReaderZoomLevel {
@@ -93,6 +101,18 @@ interface ReaderSettingsRepository {
     suspend fun increaseTranslationZoomLevel()
     suspend fun decreaseTranslationZoomLevel()
     suspend fun resetTranslationZoomLevel()
+
+    suspend fun setReaderHeaderFormat(format: ReaderHeaderFormat)
+    suspend fun setKeepScreenAwakeEnabled(enabled: Boolean)
+    suspend fun setFullScreenReadingDefault(enabled: Boolean)
+
+    /**
+     * Resets reader display/behavior preferences to their defaults. Does not touch script/theme/
+     * Elder Mode (accessibility, not a "reading preference"), nor anything outside this
+     * preferences file -- bookmarks, last-read, reading history, and streak data live in their
+     * own keys and are untouched by construction.
+     */
+    suspend fun resetReaderPreferences()
 }
 
 class ReaderSettingsRepositoryImpl(
@@ -221,6 +241,40 @@ class ReaderSettingsRepositoryImpl(
         setTranslationZoomLevel(ReaderZoomLevel.default)
     }
 
+    override suspend fun setReaderHeaderFormat(format: ReaderHeaderFormat): Unit = withContext(NonCancellable) {
+        dataSource.dataStore.edit { preferences -> preferences[Keys.readerHeaderFormat] = format.name }
+    }
+
+    override suspend fun setKeepScreenAwakeEnabled(enabled: Boolean): Unit = withContext(NonCancellable) {
+        dataSource.dataStore.edit { preferences -> preferences[Keys.keepScreenAwakeEnabled] = enabled }
+    }
+
+    override suspend fun setFullScreenReadingDefault(enabled: Boolean): Unit = withContext(NonCancellable) {
+        dataSource.dataStore.edit { preferences -> preferences[Keys.fullScreenReadingDefault] = enabled }
+    }
+
+    override suspend fun resetReaderPreferences(): Unit = withContext(NonCancellable) {
+        dataSource.dataStore.edit { preferences ->
+            preferences.remove(Keys.arabicFontSizeSp)
+            preferences.remove(Keys.translationFontSizeSp)
+            preferences.remove(Keys.arabicLineSpacingMultiplier)
+            preferences.remove(Keys.readerHorizontalPaddingDp)
+            preferences.remove(Keys.zoomIndoPakNormal)
+            preferences.remove(Keys.zoomUthmaniNormal)
+            preferences.remove(Keys.zoomIndoPakElder)
+            preferences.remove(Keys.zoomUthmaniElder)
+            preferences.remove(Keys.autoScrollPace)
+            preferences.remove(Keys.pinchToResizeEnabled)
+            preferences.remove(Keys.readerContentMode)
+            preferences.remove(Keys.translationZoomLevel)
+            preferences.remove(Keys.linkedZoomEnabled)
+            preferences.remove(Keys.readerHeaderFormat)
+            preferences.remove(Keys.keepScreenAwakeEnabled)
+            preferences.remove(Keys.fullScreenReadingDefault)
+            preferences.remove(Keys.bookModeEnabled)
+        }
+    }
+
     private suspend fun Flow<ReaderSettings>.currentEffectiveLevel(scriptType: ScriptType, elderMode: Boolean): ReaderZoomLevel {
         return first().effectiveZoomLevel(scriptType, elderMode)
     }
@@ -268,6 +322,11 @@ class ReaderSettingsRepositoryImpl(
             readerContentMode = ReaderContentMode.fromStoredName(this[Keys.readerContentMode]) ?: ReaderContentMode.default,
             translationZoomLevel = ReaderZoomLevel.fromStoredName(this[Keys.translationZoomLevel]) ?: ReaderZoomLevel.default,
             linkedZoomEnabled = this[Keys.linkedZoomEnabled] ?: true,
+            readerHeaderFormat = runCatching {
+                ReaderHeaderFormat.valueOf(this[Keys.readerHeaderFormat].orEmpty())
+            }.getOrDefault(ReaderHeaderFormat.SURAH_PAGE),
+            keepScreenAwakeEnabled = this[Keys.keepScreenAwakeEnabled] ?: false,
+            fullScreenReadingDefault = this[Keys.fullScreenReadingDefault] ?: true,
         )
     }
 
@@ -292,6 +351,9 @@ class ReaderSettingsRepositoryImpl(
         val readerContentMode = stringPreferencesKey("reader_content_mode")
         val translationZoomLevel = stringPreferencesKey("translation_zoom_level")
         val linkedZoomEnabled = booleanPreferencesKey("linked_zoom_enabled")
+        val readerHeaderFormat = stringPreferencesKey("reader_header_format")
+        val keepScreenAwakeEnabled = booleanPreferencesKey("keep_screen_awake_enabled")
+        val fullScreenReadingDefault = booleanPreferencesKey("full_screen_reading_default")
     }
 
     companion object {

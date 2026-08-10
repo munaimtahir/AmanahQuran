@@ -86,6 +86,7 @@ fun MushafPageScreen(
         currentAyahKey = { null },
         currentPageNumber = { state.pageNumber },
     )
+    org.amanahquran.app.core.ui.KeepScreenOnEffect(enabled = state.keepScreenAwakeEnabled)
 
     val pageCount = state.pageCount.coerceAtLeast(1)
     val pagerState = key(initialPageNumber) {

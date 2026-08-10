@@ -16,5 +16,6 @@ data class MushafReaderUiState(
     val fontScale: Float = 1.0f,
     val isFullScreen: Boolean = true,
     val elderModeEnabled: Boolean = false,
-    val bookModeEnabled: Boolean = false
+    val bookModeEnabled: Boolean = false,
+    val keepScreenAwakeEnabled: Boolean = false,
 )

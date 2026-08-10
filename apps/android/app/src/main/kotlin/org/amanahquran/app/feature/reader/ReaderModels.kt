@@ -5,6 +5,7 @@ import org.amanahquran.app.core.model.ReaderOpenMode
 import org.amanahquran.app.core.model.ReaderAnchor
 import org.amanahquran.app.core.model.AutoScrollPace
 import org.amanahquran.app.core.model.ReaderContentMode
+import org.amanahquran.app.core.model.ReaderHeaderFormat
 import org.amanahquran.app.core.model.ReaderZoomLevel
 
 data class SurahListItem(
@@ -64,6 +65,8 @@ data class ReaderUiState(
     val contentMode: ReaderContentMode = ReaderContentMode.default,
     val translationZoomLevel: ReaderZoomLevel = ReaderZoomLevel.default,
     val linkedZoomEnabled: Boolean = true,
+    val readerHeaderFormat: ReaderHeaderFormat = ReaderHeaderFormat.SURAH_PAGE,
+    val keepScreenAwakeEnabled: Boolean = false,
 )
 
 data class SurahListUiState(

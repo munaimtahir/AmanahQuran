@@ -16,6 +16,7 @@ import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material.icons.rounded.VerifiedUser
 import androidx.compose.material.icons.rounded.Backup
 import androidx.compose.material.icons.rounded.Notifications
+import androidx.compose.material.icons.rounded.TextFields
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -69,6 +70,7 @@ fun SettingsScreen(
     onNavigateBack: () -> Unit,
     onOpenTrustCenter: () -> Unit,
     onOpenReadingReminder: () -> Unit,
+    onOpenAdvancedReaderSettings: () -> Unit,
 ) {
     val context = LocalContext.current
     val settingsRepository = remember(context) { readerSettingsRepository(context) }
@@ -435,6 +437,27 @@ fun SettingsScreen(
                         backupMessage?.let { Text(it, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
                     }
                 }
+            }
+
+            AmanahDivider()
+
+            // Advanced Reader Settings
+            AmanahSectionCard(
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                AmanahSettingsRow(
+                    title = "Advanced Reader Settings",
+                    subtitle = "Default reader mode, auto-scroll speed, header format, and display",
+                    icon = Icons.Rounded.TextFields,
+                    onClick = onOpenAdvancedReaderSettings,
+                    trailing = {
+                        Icon(
+                            imageVector = Icons.Rounded.ChevronRight,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    },
+                )
             }
 
             AmanahDivider()
