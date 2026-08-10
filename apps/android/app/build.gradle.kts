@@ -298,6 +298,12 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
 
+    // Reading reminder scheduling (local-only; no network/sync work is ever enqueued).
+    // Pinned below latest: work 2.10+ pulls a newer androidx.sqlite transitively that conflicts
+    // with the Room 2.7.0-alpha01 pinned above (NoClassDefFoundError: androidx/sqlite/SQLiteKt).
+    implementation("androidx.work:work-runtime-ktx:2.9.1")
+    testImplementation("androidx.work:work-testing:2.9.1")
+
     debugImplementation("androidx.compose.ui:ui-tooling")
 
     // java.time on minSdk 24-25

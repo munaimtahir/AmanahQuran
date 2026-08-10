@@ -15,6 +15,7 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material.icons.rounded.VerifiedUser
 import androidx.compose.material.icons.rounded.Backup
+import androidx.compose.material.icons.rounded.Notifications
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -67,6 +68,7 @@ import org.amanahquran.app.core.ui.AmanahSlider
 fun SettingsScreen(
     onNavigateBack: () -> Unit,
     onOpenTrustCenter: () -> Unit,
+    onOpenReadingReminder: () -> Unit,
 ) {
     val context = LocalContext.current
     val settingsRepository = remember(context) { readerSettingsRepository(context) }
@@ -433,6 +435,27 @@ fun SettingsScreen(
                         backupMessage?.let { Text(it, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
                     }
                 }
+            }
+
+            AmanahDivider()
+
+            // Reading Reminder
+            AmanahSectionCard(
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                AmanahSettingsRow(
+                    title = "Reading Reminder",
+                    subtitle = "A gentle daily notification to read Quran",
+                    icon = Icons.Rounded.Notifications,
+                    onClick = onOpenReadingReminder,
+                    trailing = {
+                        Icon(
+                            imageVector = Icons.Rounded.ChevronRight,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    },
+                )
             }
 
             AmanahDivider()

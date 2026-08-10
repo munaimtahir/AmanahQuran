@@ -1,17 +1,22 @@
 package org.amanahquran.app.core.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.amanahquran.app.core.model.PageReferenceType
 import org.amanahquran.app.core.model.ReaderAnchor
 import org.amanahquran.app.core.model.ReaderOpenMode
+import org.amanahquran.app.core.model.lastReadAnchor
+import org.amanahquran.app.core.repository.lastReadRepository
 import org.amanahquran.app.feature.bookmarks.BookmarksScreen
 import org.amanahquran.app.feature.contentproof.ContentProofScreen
 import org.amanahquran.app.feature.home.HomeScreen
@@ -24,14 +29,31 @@ import org.amanahquran.app.feature.reader.SurahListScreen
 import org.amanahquran.app.feature.reader.SurahReaderScreen
 import org.amanahquran.app.feature.reader.mushaf.MushafPageScreen
 import org.amanahquran.app.feature.search.SearchScreen
+import org.amanahquran.app.feature.reminder.ReadingReminderScreen
 import org.amanahquran.app.feature.settings.SettingsScreen
 import org.amanahquran.app.feature.streak.ReadingStreakScreen
 import org.amanahquran.app.feature.trust.TrustCenterScreen
 
 @Composable
-fun AmanahQuranNavHost(modifier: Modifier = Modifier) {
+fun AmanahQuranNavHost(
+    modifier: Modifier = Modifier,
+    pendingDeepLink: DeepLinkRequest? = null,
+    onDeepLinkConsumed: () -> Unit = {},
+) {
     val navController = rememberNavController()
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+
+    LaunchedEffect(pendingDeepLink) {
+        if (pendingDeepLink is DeepLinkRequest.ContinueReading) {
+            val lastRead = lastReadRepository(context).getLastRead().first()
+            val anchor = lastRead?.let { lastReadAnchor(it.ayahKey, it.pageNumber, it.scriptType) }
+            if (anchor != null) {
+                navController.navigate(AppRoute.reader(anchor)) { launchSingleTop = true }
+            }
+            onDeepLinkConsumed()
+        }
+    }
 
     NavHost(
         navController = navController,
@@ -223,7 +245,11 @@ fun AmanahQuranNavHost(modifier: Modifier = Modifier) {
             SettingsScreen(
                 onNavigateBack = { navController.popBackStack() },
                 onOpenTrustCenter = { navController.navigate(AppRoute.TrustCenter) },
+                onOpenReadingReminder = { navController.navigate(AppRoute.ReadingReminder) },
             )
+        }
+        composable(AppRoute.ReadingReminder) {
+            ReadingReminderScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable(AppRoute.TrustCenter) {
             TrustCenterScreen(onNavigateBack = { navController.popBackStack() })

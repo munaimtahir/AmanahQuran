@@ -25,6 +25,7 @@ class AppRouteTest {
                 AppRoute.TrustCenter,
                 AppRoute.ContentProof,
                 AppRoute.ReadingStreak,
+                AppRoute.ReadingReminder,
             ),
             AppRoute.all,
         )

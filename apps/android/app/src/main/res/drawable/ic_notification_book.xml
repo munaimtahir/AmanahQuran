@@ -1,0 +1,11 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Simple open-book silhouette (two pages) for the status bar; Android tints/masks small
+         icons to a single color using only this shape's alpha, so fill color is irrelevant. -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M3,5 L10.5,5 L10.5,19 L3,19 Z M13.5,5 L21,5 L21,19 L13.5,19 Z" />
+</vector>

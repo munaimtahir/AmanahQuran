@@ -26,6 +26,7 @@ object AppRoute {
     const val TrustCenter = "trust-center"
     const val ContentProof = "content-proof"
     const val ReadingStreak = "reading-streak"
+    const val ReadingReminder = "reading-reminder"
 
     fun surahReader(surahNumber: Int): String = "reader/surah/$surahNumber"
 
@@ -67,5 +68,6 @@ object AppRoute {
         TrustCenter,
         ContentProof,
         ReadingStreak,
+        ReadingReminder,
     )
 }
