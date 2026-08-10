@@ -44,6 +44,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -139,6 +143,7 @@ fun AmanahOutlinedButton(
 fun AmanahCard(
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
+    onClickLabel: String? = null,
     containerColor: Color = MaterialTheme.colorScheme.surface,
     borderColor: Color = MaterialTheme.colorScheme.outline,
     borderWidth: Dp = 1.dp,
@@ -148,7 +153,11 @@ fun AmanahCard(
     val elder = LocalElderMode.current
     val padding = if (elder) AmanahSpacing.cardPaddingElder else AmanahSpacing.cardPadding
     Card(
-        modifier = if (onClick != null) modifier.clickable(onClick = onClick) else modifier,
+        modifier = if (onClick != null) {
+            modifier.clickable(onClickLabel = onClickLabel, onClick = onClick)
+        } else {
+            modifier
+        },
         shape = AmanahShapes.card,
         colors = CardDefaults.cardColors(
             containerColor = containerColor,
@@ -248,6 +257,8 @@ fun AmanahSlider(
     onValueChange: (Float) -> Unit,
     valueRange: ClosedFloatingPointRange<Float>,
     modifier: Modifier = Modifier,
+    accessibilityLabel: String? = null,
+    accessibilityValue: String? = null,
     onValueChangeFinished: (() -> Unit)? = null,
 ) {
     val elder = LocalElderMode.current
@@ -259,7 +270,18 @@ fun AmanahSlider(
         onValueChange = onValueChange,
         onValueChangeFinished = onValueChangeFinished,
         valueRange = valueRange,
-        modifier = modifier.heightIn(min = if (elder) AmanahSpacing.minTouchTargetElder else AmanahSpacing.minTouchTarget),
+        modifier = modifier
+            .heightIn(min = if (elder) AmanahSpacing.minTouchTargetElder else AmanahSpacing.minTouchTarget)
+            .then(
+                if (accessibilityLabel == null && accessibilityValue == null) {
+                    Modifier
+                } else {
+                    Modifier.semantics {
+                        accessibilityLabel?.let { contentDescription = it }
+                        accessibilityValue?.let { stateDescription = it }
+                    }
+                },
+            ),
         thumb = {
             Box(
                 modifier = Modifier
@@ -361,7 +383,7 @@ fun AmanahSectionHeader(
         text = title,
         style = MaterialTheme.typography.titleMedium,
         color = MaterialTheme.colorScheme.onSurface,
-        modifier = modifier,
+        modifier = modifier.semantics { heading() },
     )
 }
 
@@ -377,9 +399,9 @@ fun AmanahDivider(modifier: Modifier = Modifier) {
 @Composable
 fun AmanahSettingsRow(
     title: String,
+    modifier: Modifier = Modifier,
     subtitle: String? = null,
     icon: ImageVector? = null,
-    modifier: Modifier = Modifier,
     trailing: @Composable (() -> Unit)? = null,
     onClick: (() -> Unit)? = null,
 ) {
@@ -389,7 +411,13 @@ fun AmanahSettingsRow(
         modifier = modifier
             .fillMaxWidth()
             .heightIn(min = minHeight)
-            .then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier)
+            .then(
+                if (onClick != null) {
+                    Modifier.clickable(onClickLabel = "Open $title", onClick = onClick)
+                } else {
+                    Modifier
+                },
+            )
             .padding(horizontal = AmanahSpacing.lg, vertical = AmanahSpacing.md),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.md),

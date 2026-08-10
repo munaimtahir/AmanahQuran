@@ -273,6 +273,7 @@ private fun ReadingHeroCard(
     AmanahCard(
         modifier = Modifier.fillMaxWidth(),
         onClick = onPrimaryAction,
+        onClickLabel = buttonLabel,
         containerColor = fill,
         borderColor = goldTone,
         borderWidth = 1.2.dp,
@@ -481,7 +482,7 @@ private fun QuickActionCard(
 ) {
     Card(
         modifier = modifier
-            .clickable(onClick = onClick)
+            .clickable(onClickLabel = "Open $label", onClick = onClick)
             .heightIn(min = 88.dp),
         shape = AmanahShapes.card,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
@@ -525,7 +526,7 @@ private fun TrustSummaryStrip(onOpenTrustCenter: () -> Unit) {
     AmanahSectionCard(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onOpenTrustCenter),
+            .clickable(onClickLabel = "Open Trust Center", onClick = onOpenTrustCenter),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

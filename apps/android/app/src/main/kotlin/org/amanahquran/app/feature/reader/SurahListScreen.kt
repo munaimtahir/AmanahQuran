@@ -131,7 +131,7 @@ private fun SurahListRow(
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(min = if (elder) 76.dp else 64.dp)
-            .clickable(onClick = onClick)
+            .clickable(onClickLabel = "Open ${surah.simpleName}", onClick = onClick)
             .padding(vertical = AmanahSpacing.md),
         horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.md),
         verticalAlignment = Alignment.CenterVertically,

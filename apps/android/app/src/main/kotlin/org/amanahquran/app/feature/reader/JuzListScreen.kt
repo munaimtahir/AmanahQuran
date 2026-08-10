@@ -122,7 +122,7 @@ private fun JuzListRow(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
+            .clickable(onClickLabel = "Open Juz $juzNumber", onClick = onClick)
             .padding(vertical = AmanahSpacing.md),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.md),
@@ -277,7 +277,7 @@ private fun PageListRow(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
+            .clickable(onClickLabel = "Open page $pageNumber", onClick = onClick)
             .padding(vertical = AmanahSpacing.md),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.md),

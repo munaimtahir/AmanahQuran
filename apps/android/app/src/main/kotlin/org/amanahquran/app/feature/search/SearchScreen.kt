@@ -197,7 +197,7 @@ private fun SearchResultRow(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
+            .clickable(onClickLabel = "Open ${item.title}", onClick = onClick)
             .padding(vertical = AmanahSpacing.md),
         verticalArrangement = Arrangement.spacedBy(AmanahSpacing.xs),
     ) {

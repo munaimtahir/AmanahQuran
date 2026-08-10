@@ -189,7 +189,7 @@ private fun BookmarkRow(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onOpen)
+            .clickable(onClickLabel = "Open ${item.title}", onClick = onOpen)
             .padding(vertical = AmanahSpacing.md),
         verticalAlignment = Alignment.Top,
         horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.md),

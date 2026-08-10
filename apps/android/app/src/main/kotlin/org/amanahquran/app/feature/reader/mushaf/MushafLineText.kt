@@ -23,8 +23,8 @@ import org.amanahquran.app.core.repository.MushafLineUi
 fun MushafLineText(
     line: MushafLineUi,
     fontSize: TextUnit,
+    modifier: Modifier = Modifier,
     fontFamily: FontFamily? = null,
-    modifier: Modifier = Modifier
 ) {
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
         Text(

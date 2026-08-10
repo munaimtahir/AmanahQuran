@@ -39,6 +39,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import kotlinx.coroutines.launch
 import org.amanahquran.app.core.model.ReaderContentMode
 import org.amanahquran.app.core.model.ScriptType
@@ -251,6 +253,8 @@ fun SettingsScreen(
                         },
                         valueRange = 18f..36f,
                         modifier = Modifier.fillMaxWidth(),
+                        accessibilityLabel = "Arabic font size",
+                        accessibilityValue = "${settings.arabicFontSizeSp.toInt()} sp",
                     )
                 }
             }
@@ -272,6 +276,8 @@ fun SettingsScreen(
                             onValueChange = { value -> scope.launch { settingsRepository.setArabicLineSpacing(value) } },
                             valueRange = 1.5f..2.4f,
                             modifier = Modifier.fillMaxWidth(),
+                            accessibilityLabel = "Arabic line spacing",
+                            accessibilityValue = "${settings.arabicLineSpacingMultiplier} times",
                         )
                         AmanahDivider()
                         Row(
@@ -286,6 +292,8 @@ fun SettingsScreen(
                             onValueChange = { value -> scope.launch { settingsRepository.setReaderHorizontalPadding(value) } },
                             valueRange = 8f..32f,
                             modifier = Modifier.fillMaxWidth(),
+                            accessibilityLabel = "Reading margins",
+                            accessibilityValue = "${settings.readerHorizontalPaddingDp.toInt()} dp",
                         )
                     }
                 }
@@ -315,6 +323,9 @@ fun SettingsScreen(
                             }
                             Switch(
                                 checked = settings.elderModeEnabled,
+                                modifier = Modifier.semantics {
+                                    contentDescription = "Elder Mode"
+                                },
                                 onCheckedChange = { enabled ->
                                     scope.launch { settingsRepository.setElderModeEnabled(enabled) }
                                 },
@@ -346,6 +357,9 @@ fun SettingsScreen(
                             }
                             Switch(
                                 checked = settings.bookModeEnabled,
+                                modifier = Modifier.semantics {
+                                    contentDescription = "Page Mode"
+                                },
                                 onCheckedChange = { enabled ->
                                     scope.launch { settingsRepository.setBookModeEnabled(enabled) }
                                 },

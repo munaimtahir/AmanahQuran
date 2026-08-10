@@ -105,7 +105,7 @@ private fun NavigationOptionRow(
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(min = if (elder) 76.dp else 64.dp)
-            .clickable(onClick = onClick)
+            .clickable(onClickLabel = "Open $title", onClick = onClick)
             .padding(vertical = AmanahSpacing.md),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.md),

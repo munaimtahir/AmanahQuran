@@ -977,7 +977,7 @@ private fun ReaderPageHeader(
         ) {
             IconButton(
                 onClick = onNavigateBack,
-                modifier = Modifier.size(30.dp),
+                modifier = Modifier.size(AmanahSpacing.minTouchTarget),
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
@@ -989,11 +989,15 @@ private fun ReaderPageHeader(
             if (uiState.openMode is ReaderOpenMode.Page && onTogglePageBookmark != null) {
                 IconButton(
                     onClick = onTogglePageBookmark,
-                    modifier = Modifier.size(30.dp),
+                    modifier = Modifier.size(AmanahSpacing.minTouchTarget),
                 ) {
                     Icon(
                         imageVector = if (uiState.isPageBookmarked) Icons.Rounded.Bookmark else Icons.Rounded.BookmarkBorder,
-                        contentDescription = "Bookmark page",
+                        contentDescription = if (uiState.isPageBookmarked) {
+                            "Remove page bookmark"
+                        } else {
+                            "Bookmark this page"
+                        },
                         modifier = Modifier.size(18.dp),
                         tint = if (uiState.isPageBookmarked) AmanahGoldMuted else MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -1129,13 +1133,20 @@ private fun ReaderTypographyPanel(
                         Box(
                             modifier = Modifier
                                 .weight(1f)
-                                .height(6.dp)
-                                .background(
-                                    color = if (selected) palette.activeControl else palette.inactiveControl.copy(alpha = 0.35f),
-                                    shape = AmanahShapes.badge,
-                                )
+                                .height(touchTarget)
                                 .clickable(onClickLabel = level.displayName()) { onSelectLevel(level) },
-                        )
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(6.dp)
+                                    .background(
+                                        color = if (selected) palette.activeControl else palette.inactiveControl.copy(alpha = 0.35f),
+                                        shape = AmanahShapes.badge,
+                                    ),
+                            )
+                        }
                     }
                 }
                 TextButton(onClick = onReset) { Text("Reset to Standard") }
@@ -1478,7 +1489,9 @@ private fun ReaderAyahRow(
             text = ayah.displayText,
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { onSelectAyah(ayah.ayahKey) }
+                .clickable(onClickLabel = "Select ayah ${ayah.ayahKey}") {
+                    onSelectAyah(ayah.ayahKey)
+                }
                 .then(
                     if (!ayah.isSelected) Modifier else Modifier.background(
                         color = palette.currentAyahHighlight,
@@ -1706,7 +1719,7 @@ private fun PageFitZoomableContent(
     onZoomedChanged: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var zoom by remember(pageKey) { mutableStateOf(1f) }
+    var zoom by remember(pageKey) { mutableFloatStateOf(1f) }
     var pan by remember(pageKey) { mutableStateOf(Offset.Zero) }
 
     LaunchedEffect(zoom) { onZoomedChanged(zoom > 1.02f) }
@@ -1784,10 +1797,10 @@ private fun PageFitZoomableContent(
 private fun ReaderBookModeParagraph(
     ayahs: List<ReaderAyahUiModel>,
     arabicFontSizeSp: Float,
-    translations: Map<String, String> = emptyMap(),
-    translationFontSizeSp: Float = 18f,
     onSelectAyah: (String) -> Unit,
     modifier: Modifier = Modifier,
+    translations: Map<String, String> = emptyMap(),
+    translationFontSizeSp: Float = 18f,
 ) {
     val scriptType = ayahs.firstOrNull()?.scriptType ?: ScriptType.INDOPAK
     val fontFamily = remember(scriptType) { QuranFonts.getFontFamily(scriptType) }

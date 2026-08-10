@@ -182,7 +182,12 @@ fun MushafPageScreen(
                                     .fillMaxSize()
                                     .clickable(
                                         interactionSource = remember { MutableInteractionSource() },
-                                        indication = null
+                                        indication = null,
+                                        onClickLabel = if (state.isFullScreen) {
+                                            "Show reading controls"
+                                        } else {
+                                            "Hide reading controls"
+                                        },
                                     ) {
                                         viewModel.toggleFullScreen()
                                     }
@@ -207,7 +212,12 @@ fun MushafPageScreen(
                                     .fillMaxSize()
                                     .clickable(
                                         interactionSource = remember { MutableInteractionSource() },
-                                        indication = null
+                                        indication = null,
+                                        onClickLabel = if (state.isFullScreen) {
+                                            "Show reading controls"
+                                        } else {
+                                            "Hide reading controls"
+                                        },
                                     ) {
                                         viewModel.toggleFullScreen()
                                     }
@@ -236,7 +246,8 @@ fun MushafPageScreen(
                             .align(Alignment.CenterStart)
                             .clickable(
                                 interactionSource = remember { MutableInteractionSource() },
-                                indication = null
+                                indication = null,
+                                onClickLabel = "Next page",
                             ) {
                                 scope.launch {
                                     if (pagerState.currentPage < pageCount - 1) {
@@ -254,7 +265,8 @@ fun MushafPageScreen(
                             .align(Alignment.CenterEnd)
                             .clickable(
                                 interactionSource = remember { MutableInteractionSource() },
-                                indication = null
+                                indication = null,
+                                onClickLabel = "Previous page",
                             ) {
                                 scope.launch {
                                     if (pagerState.currentPage > 0) {
