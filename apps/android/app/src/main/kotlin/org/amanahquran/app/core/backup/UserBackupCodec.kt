@@ -1,7 +1,14 @@
 package org.amanahquran.app.core.backup
 
+import java.time.LocalDate
+import org.amanahquran.app.core.model.AutoScrollPace
 import org.amanahquran.app.core.model.BookmarkType
+import org.amanahquran.app.core.model.DailyReadingActivity
 import org.amanahquran.app.core.model.PageReferenceType
+import org.amanahquran.app.core.model.ReaderContentMode
+import org.amanahquran.app.core.model.ReaderHeaderFormat
+import org.amanahquran.app.core.model.ReaderZoomLevel
+import org.amanahquran.app.core.model.ReminderSettings
 import org.amanahquran.app.core.model.ScriptType
 import org.amanahquran.app.core.repository.BookmarkRecord
 import org.amanahquran.app.core.repository.ReaderSettings
@@ -10,33 +17,34 @@ import org.amanahquran.app.core.model.ValidationHelpers
 import org.amanahquran.app.core.theme.ThemeMode
 import org.json.JSONArray
 import org.json.JSONObject
+import java.time.DayOfWeek
 
 data class UserBackupPayload(
     val bookmarks: List<BookmarkRecord>,
     val collectionsJson: String,
     val settings: ReaderSettings,
     val lastRead: LastReadState? = null,
+    val readingActivity: List<DailyReadingActivity> = emptyList(),
+    val reminderSettings: ReminderSettings = ReminderSettings(),
 )
 
 object UserBackupCodec {
-    const val CURRENT_VERSION = 1
+    /**
+     * v1: bookmarks/collections/a subset of settings/last-read only. v2 adds reading activity,
+     * reminder settings, and the remaining reader settings fields (zoom levels, auto-scroll pace,
+     * content mode, header format, keep-awake/full-screen defaults) that v1 never captured.
+     * Both versions are accepted on import -- v1 fields simply default -- so a backup exported by
+     * an earlier release still restores cleanly instead of being rejected as incompatible.
+     */
+    const val CURRENT_VERSION = 2
+    private val SUPPORTED_VERSIONS = setOf(1, 2)
 
     fun encode(payload: UserBackupPayload): String = JSONObject().apply {
         put("format", "amanah-quran-user-backup")
         put("version", CURRENT_VERSION)
         put("bookmarks", JSONArray().apply { payload.bookmarks.forEach { put(bookmarkToJson(it)) } })
         put("collections", JSONArray(payload.collectionsJson))
-        put("settings", JSONObject().apply {
-            put("script", payload.settings.selectedScript.name)
-            put("theme", payload.settings.selectedTheme.name)
-            put("arabicFontSizeSp", payload.settings.arabicFontSizeSp)
-            put("elderMode", payload.settings.elderModeEnabled)
-            put("bookMode", payload.settings.bookModeEnabled)
-            put("translationEnabled", payload.settings.translationEnabled)
-            put("translationFontSizeSp", payload.settings.translationFontSizeSp)
-            put("arabicLineSpacingMultiplier", payload.settings.arabicLineSpacingMultiplier)
-            put("readerHorizontalPaddingDp", payload.settings.readerHorizontalPaddingDp)
-        })
+        put("settings", settingsToJson(payload.settings))
         payload.lastRead?.let { lastRead -> put("lastRead", JSONObject().apply {
             put("ayahKey", lastRead.ayahKey)
             put("surahNumber", lastRead.surahNumber)
@@ -46,12 +54,16 @@ object UserBackupCodec {
             put("scriptType", lastRead.scriptType.name)
             put("updatedAt", lastRead.updatedAt)
         }) }
+        put("readingActivity", JSONArray().apply { payload.readingActivity.forEach { put(activityToJson(it)) } })
+        put("reminderSettings", reminderSettingsToJson(payload.reminderSettings))
     }.toString(2)
 
     fun validateAndParse(json: String): UserBackupPayload {
         val root = JSONObject(json)
         require(root.optString("format") == "amanah-quran-user-backup") { "Unsupported backup format" }
-        require(root.optInt("version") == CURRENT_VERSION) { "Unsupported backup version" }
+        val version = root.optInt("version", -1)
+        require(version in SUPPORTED_VERSIONS) { "Unsupported backup version" }
+
         val bookmarks = buildList {
             val array = root.optJSONArray("bookmarks") ?: JSONArray()
             for (index in 0 until array.length()) {
@@ -69,17 +81,7 @@ object UserBackupCodec {
         }
         require(root.optJSONArray("collections") != null) { "Missing collections" }
         val settingsJson = root.optJSONObject("settings") ?: error("Missing settings")
-        val settings = ReaderSettings(
-            selectedScript = enumOrDefault(settingsJson.optString("script"), ScriptType.INDOPAK),
-            selectedTheme = enumOrDefault(settingsJson.optString("theme"), ThemeMode.SYSTEM),
-            arabicFontSizeSp = settingsJson.optDouble("arabicFontSizeSp", 24.0).toFloat().coerceIn(16f, 42f),
-            elderModeEnabled = settingsJson.optBoolean("elderMode", false),
-            bookModeEnabled = settingsJson.optBoolean("bookMode", false),
-            translationEnabled = settingsJson.optBoolean("translationEnabled", false),
-            translationFontSizeSp = settingsJson.optDouble("translationFontSizeSp", 18.0).toFloat().coerceIn(14f, 32f),
-            arabicLineSpacingMultiplier = settingsJson.optDouble("arabicLineSpacingMultiplier", 1.88).toFloat().coerceIn(1.5f, 2.4f),
-            readerHorizontalPaddingDp = settingsJson.optDouble("readerHorizontalPaddingDp", 16.0).toFloat().coerceIn(8f, 32f),
-        )
+        val settings = settingsFromJson(settingsJson)
         val lastRead = root.optJSONObject("lastRead")?.let { item ->
             val ayahKey = item.optString("ayahKey")
             require(ValidationHelpers.isValidAyahKey(ayahKey)) { "Invalid last-read ayah key" }
@@ -93,7 +95,114 @@ object UserBackupCodec {
                 updatedAt = item.optLong("updatedAt"),
             )
         }
-        return UserBackupPayload(bookmarks, root.getJSONArray("collections").toString(), settings, lastRead)
+        val readingActivity = buildList {
+            val array = root.optJSONArray("readingActivity") ?: JSONArray()
+            for (index in 0 until array.length()) {
+                array.optJSONObject(index)?.let { activityFromJson(it) }?.let(::add)
+            }
+        }
+        val reminderSettings = root.optJSONObject("reminderSettings")?.let { reminderSettingsFromJson(it) } ?: ReminderSettings()
+
+        return UserBackupPayload(bookmarks, root.getJSONArray("collections").toString(), settings, lastRead, readingActivity, reminderSettings)
+    }
+
+    private fun settingsToJson(settings: ReaderSettings) = JSONObject().apply {
+        put("script", settings.selectedScript.name)
+        put("theme", settings.selectedTheme.name)
+        put("arabicFontSizeSp", settings.arabicFontSizeSp)
+        put("elderMode", settings.elderModeEnabled)
+        put("bookMode", settings.bookModeEnabled)
+        put("translationEnabled", settings.translationEnabled)
+        put("translationFontSizeSp", settings.translationFontSizeSp)
+        put("arabicLineSpacingMultiplier", settings.arabicLineSpacingMultiplier)
+        put("readerHorizontalPaddingDp", settings.readerHorizontalPaddingDp)
+        put("indoPakZoomLevel", settings.indoPakZoomLevel.name)
+        put("uthmaniZoomLevel", settings.uthmaniZoomLevel.name)
+        put("indoPakElderZoomLevel", settings.indoPakElderZoomLevel.name)
+        put("uthmaniElderZoomLevel", settings.uthmaniElderZoomLevel.name)
+        put("autoScrollPace", settings.autoScrollPace.name)
+        put("pinchToResizeEnabled", settings.pinchToResizeEnabled)
+        put("readerContentMode", settings.readerContentMode.name)
+        put("translationZoomLevel", settings.translationZoomLevel.name)
+        put("linkedZoomEnabled", settings.linkedZoomEnabled)
+        put("readerHeaderFormat", settings.readerHeaderFormat.name)
+        put("keepScreenAwakeEnabled", settings.keepScreenAwakeEnabled)
+        put("fullScreenReadingDefault", settings.fullScreenReadingDefault)
+    }
+
+    private fun settingsFromJson(settingsJson: JSONObject): ReaderSettings = ReaderSettings(
+        selectedScript = enumOrDefault(settingsJson.optString("script"), ScriptType.INDOPAK),
+        selectedTheme = enumOrDefault(settingsJson.optString("theme"), ThemeMode.SYSTEM),
+        arabicFontSizeSp = settingsJson.optDouble("arabicFontSizeSp", 24.0).toFloat().coerceIn(16f, 42f),
+        elderModeEnabled = settingsJson.optBoolean("elderMode", false),
+        bookModeEnabled = settingsJson.optBoolean("bookMode", false),
+        translationEnabled = settingsJson.optBoolean("translationEnabled", false),
+        translationFontSizeSp = settingsJson.optDouble("translationFontSizeSp", 18.0).toFloat().coerceIn(14f, 32f),
+        arabicLineSpacingMultiplier = settingsJson.optDouble("arabicLineSpacingMultiplier", 1.88).toFloat().coerceIn(1.5f, 2.4f),
+        readerHorizontalPaddingDp = settingsJson.optDouble("readerHorizontalPaddingDp", 16.0).toFloat().coerceIn(8f, 32f),
+        indoPakZoomLevel = zoomOrDefault(settingsJson.optString("indoPakZoomLevel"), ReaderZoomLevel.default),
+        uthmaniZoomLevel = zoomOrDefault(settingsJson.optString("uthmaniZoomLevel"), ReaderZoomLevel.default),
+        indoPakElderZoomLevel = zoomOrDefault(settingsJson.optString("indoPakElderZoomLevel"), ReaderZoomLevel.elderDefault),
+        uthmaniElderZoomLevel = zoomOrDefault(settingsJson.optString("uthmaniElderZoomLevel"), ReaderZoomLevel.elderDefault),
+        autoScrollPace = AutoScrollPace.fromStoredName(settingsJson.optString("autoScrollPace")) ?: AutoScrollPace.default,
+        pinchToResizeEnabled = settingsJson.optBoolean("pinchToResizeEnabled", true),
+        readerContentMode = ReaderContentMode.fromStoredName(settingsJson.optString("readerContentMode")) ?: ReaderContentMode.default,
+        translationZoomLevel = zoomOrDefault(settingsJson.optString("translationZoomLevel"), ReaderZoomLevel.default),
+        linkedZoomEnabled = settingsJson.optBoolean("linkedZoomEnabled", true),
+        readerHeaderFormat = enumOrDefault(settingsJson.optString("readerHeaderFormat"), ReaderHeaderFormat.SURAH_PAGE),
+        keepScreenAwakeEnabled = settingsJson.optBoolean("keepScreenAwakeEnabled", false),
+        fullScreenReadingDefault = settingsJson.optBoolean("fullScreenReadingDefault", true),
+    )
+
+    private fun activityToJson(activity: DailyReadingActivity) = JSONObject().apply {
+        put("date", activity.date.toString())
+        put("durationSeconds", activity.readingDurationSeconds)
+        put("ayahKeys", JSONArray(activity.ayahKeysRead.toList()))
+        put("pages", JSONArray(activity.pagesRead.toList()))
+        put("firstTimestamp", activity.firstReadingTimestamp)
+        put("lastTimestamp", activity.lastReadingTimestamp)
+    }
+
+    private fun activityFromJson(item: JSONObject): DailyReadingActivity? {
+        val date = runCatching { LocalDate.parse(item.optString("date")) }.getOrNull() ?: return null
+        val ayahKeysArray = item.optJSONArray("ayahKeys") ?: JSONArray()
+        val pagesArray = item.optJSONArray("pages") ?: JSONArray()
+        return DailyReadingActivity(
+            date = date,
+            readingDurationSeconds = item.optLong("durationSeconds"),
+            ayahKeysRead = buildSet { for (i in 0 until ayahKeysArray.length()) add(ayahKeysArray.optString(i)) },
+            pagesRead = buildSet { for (i in 0 until pagesArray.length()) add(pagesArray.optInt(i)) },
+            firstReadingTimestamp = item.optLong("firstTimestamp"),
+            lastReadingTimestamp = item.optLong("lastTimestamp"),
+        )
+    }
+
+    private fun reminderSettingsToJson(settings: ReminderSettings) = JSONObject().apply {
+        put("enabled", settings.enabled)
+        put("hour", settings.hour)
+        put("minute", settings.minute)
+        put("repeatDays", JSONArray(settings.repeatDays.map { it.name }))
+        put("smartReminderEnabled", settings.smartReminderEnabled)
+    }
+
+    private fun reminderSettingsFromJson(json: JSONObject): ReminderSettings {
+        val daysArray = json.optJSONArray("repeatDays")
+        val days = if (daysArray != null) {
+            buildSet {
+                for (i in 0 until daysArray.length()) {
+                    runCatching { DayOfWeek.valueOf(daysArray.getString(i)) }.getOrNull()?.let(::add)
+                }
+            }
+        } else {
+            DayOfWeek.entries.toSet()
+        }
+        return ReminderSettings(
+            enabled = json.optBoolean("enabled", false),
+            hour = json.optInt("hour", 20),
+            minute = json.optInt("minute", 0),
+            repeatDays = days,
+            smartReminderEnabled = json.optBoolean("smartReminderEnabled", true),
+        )
     }
 
     private fun bookmarkToJson(bookmark: BookmarkRecord) = JSONObject().apply {
@@ -109,6 +218,9 @@ object UserBackupCodec {
     }
 
     private fun JSONObject.optIntOrNull(key: String): Int? = if (has(key) && !isNull(key)) optInt(key) else null
+
+    private fun zoomOrDefault(value: String, default: ReaderZoomLevel): ReaderZoomLevel =
+        ReaderZoomLevel.fromStoredName(value) ?: default
 
     private inline fun <reified T : Enum<T>> enumOrDefault(value: String, default: T): T =
         runCatching { enumValueOf<T>(value) }.getOrDefault(default)

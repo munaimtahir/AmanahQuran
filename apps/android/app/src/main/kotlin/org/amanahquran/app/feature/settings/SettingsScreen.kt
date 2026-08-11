@@ -79,7 +79,18 @@ fun SettingsScreen(
     var pendingRestore by remember { mutableStateOf<UserBackupPayload?>(null) }
     var backupMessage by remember { mutableStateOf<String?>(null) }
     val backupService = remember(context) {
-        UserBackupService(context, bookmarkRepository(context), bookmarkCollectionRepository(context), settingsRepository, lastReadRepository(context))
+        UserBackupService(
+            context = context,
+            bookmarks = bookmarkRepository(context),
+            collections = bookmarkCollectionRepository(context),
+            settings = settingsRepository,
+            lastRead = lastReadRepository(context),
+            readingActivity = org.amanahquran.app.core.repository.readingActivityRepository(context),
+            reminderSettings = org.amanahquran.app.core.repository.reminderSettingsRepository(context),
+            onReminderSettingsRestored = { restored ->
+                org.amanahquran.app.feature.reminder.ReminderScheduler.reschedule(context, restored)
+            },
+        )
     }
     val createBackup = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri ->
         if (uri != null) scope.launch { runCatching { backupService.write(uri, backupService.encodeCurrent()) }.onSuccess { backupMessage = "Backup saved" }.onFailure { backupMessage = "Backup failed: ${it.message}" } }
