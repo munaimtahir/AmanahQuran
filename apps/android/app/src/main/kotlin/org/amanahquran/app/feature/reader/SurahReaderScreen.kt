@@ -442,10 +442,13 @@ private fun ReaderScreen(
                             val key = uiState.selectedAyahKey ?: uiState.ayahs.firstOrNull()?.ayahKey
                             uiState.ayahs.firstOrNull { it.ayahKey == key }?.pageNumber
                         }
-                        val headerParts = remember(uiState.readerHeaderFormat, uiState.surahName, uiState.modeTitle, uiState.juzNumber, headerPageNumber) {
+                        val headerParts = remember(uiState.readerHeaderFormat, uiState.surahName, uiState.pageSurahName, uiState.juzNumber, headerPageNumber) {
                             org.amanahquran.app.core.util.ReaderHeaderTextBuilder.build(
                                 format = uiState.readerHeaderFormat,
-                                surahName = uiState.surahName.ifBlank { uiState.modeTitle },
+                                // modeTitle is deliberately not used as a fallback here -- in Page
+                                // mode it reads e.g. "Page 1", which would duplicate the page part
+                                // this builder appends separately (READER-UX bug fix).
+                                surahName = uiState.surahName.ifBlank { uiState.pageSurahName },
                                 juzNumber = uiState.juzNumber,
                                 pageNumber = headerPageNumber,
                             )
