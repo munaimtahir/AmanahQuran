@@ -128,4 +128,34 @@ class ReadingActivityRepositoryTest {
 
         assertNull(repository.getActivityForDate(today))
     }
+
+    @Test
+    fun sessionSpanningMidnightSplitsCleanlyAcrossTwoDayEntries() = runTest {
+        // A reading session that checkpoints once before midnight and once after: each
+        // checkpoint call already carries the correct local date for when it fired (this is how
+        // ReadingActivitySession's periodic checkpoint naturally behaves), so the two calls must
+        // land in two distinct, independently-qualifying day entries -- never merged into one.
+        val beforeMidnight = LocalDate.of(2026, 8, 11)
+        val afterMidnight = beforeMidnight.plusDays(1)
+        repository.recordSession(beforeMidnight, 90, setOf("1:1"), emptySet(), timestamp = 1L)
+        repository.recordSession(afterMidnight, 90, setOf("1:2"), emptySet(), timestamp = 2L)
+
+        val day1 = repository.getActivityForDate(beforeMidnight)!!
+        val day2 = repository.getActivityForDate(afterMidnight)!!
+        assertEquals(90L, day1.readingDurationSeconds)
+        assertEquals(90L, day2.readingDurationSeconds)
+        assertFalse(day1.qualifiedForReadingDay) // 90s + 1 ayah alone doesn't qualify
+        assertFalse(day2.qualifiedForReadingDay)
+        assertEquals(2, repository.observeAllActivity().first().size)
+    }
+
+    @Test
+    fun rapidRepeatedCheckpointsOnSameDayNeverCreateDuplicateEntries() = runTest {
+        // Simulates the 20-second periodic checkpoint firing many times during one sitting.
+        val today = LocalDate.of(2026, 8, 11)
+        repeat(10) { repository.recordSession(today, 20, emptySet(), emptySet(), timestamp = it.toLong()) }
+
+        assertEquals(1, repository.observeAllActivity().first().size)
+        assertEquals(200L, repository.getActivityForDate(today)!!.readingDurationSeconds)
+    }
 }
