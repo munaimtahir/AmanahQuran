@@ -130,4 +130,69 @@ class ContinuousQuranBlocksTest {
         assertTrue(collapsed[1] is ReaderStructuralItem.PageDivider)
         assertTrue(collapsed[2] is ReaderStructuralItem.ContinuousBlock)
     }
+
+    @Test
+    fun buildContinuousQuranBlocks_splitsOnJuzBoundaryAndNeverBeginsInline() {
+        val ayahs = listOf(
+            ReaderAyahUiModel(
+                ayahKey = "36:27",
+                surahNumber = 36,
+                ayahNumber = 27,
+                juzNumber = 22,
+                pageNumber = 442,
+                displayText = "qila-dkhulil-jannah",
+                scriptType = ScriptType.INDOPAK,
+            ),
+            ReaderAyahUiModel(
+                ayahKey = "36:28",
+                surahNumber = 36,
+                ayahNumber = 28,
+                juzNumber = 23,
+                pageNumber = 443,
+                displayText = "wa-ma-anzalna",
+                scriptType = ScriptType.INDOPAK,
+            ),
+        )
+
+        val blocks = buildContinuousQuranBlocks(ayahs)
+
+        assertEquals(2, blocks.size)
+        assertEquals(listOf("36:27"), blocks[0].ayahRanges.map { it.ayahKey })
+        assertEquals(listOf("36:28"), blocks[1].ayahRanges.map { it.ayahKey })
+        assertTrue(blocks[1].isJuzStart)
+        assertTrue(blocks[1].ayahRanges[0].isJuzStart)
+    }
+
+    @Test
+    fun buildContinuousQuranBlocks_splitsOnJuzBoundaryEvenOnSamePage() {
+        val ayahs = listOf(
+            ReaderAyahUiModel(
+                ayahKey = "2:141",
+                surahNumber = 2,
+                ayahNumber = 141,
+                juzNumber = 1,
+                pageNumber = 21,
+                displayText = "tilka-ummatun",
+                scriptType = ScriptType.INDOPAK,
+            ),
+            ReaderAyahUiModel(
+                ayahKey = "2:142",
+                surahNumber = 2,
+                ayahNumber = 142,
+                juzNumber = 2,
+                pageNumber = 21,
+                displayText = "sayaqoolu-ssufahaau",
+                scriptType = ScriptType.INDOPAK,
+            ),
+        )
+
+        val blocks = buildContinuousQuranBlocks(ayahs)
+
+        assertEquals(2, blocks.size)
+        assertEquals(listOf("2:141"), blocks[0].ayahRanges.map { it.ayahKey })
+        assertEquals(listOf("2:142"), blocks[1].ayahRanges.map { it.ayahKey })
+        assertTrue(blocks[1].isJuzStart)
+        assertTrue(blocks[1].ayahRanges[0].isJuzStart)
+    }
 }
+

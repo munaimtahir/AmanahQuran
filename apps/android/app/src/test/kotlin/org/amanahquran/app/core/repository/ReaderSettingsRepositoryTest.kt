@@ -196,22 +196,22 @@ class ReaderSettingsRepositoryTest {
     }
 
     @Test
-    fun freshInstallDefaultsToAyahModeAndLinkedTranslationZoom() = runTest {
+    fun freshInstallDefaultsToContinuousModeAndLinkedTranslationZoom() = runTest {
         val settings = repository.settings.first()
 
-        assertEquals(ReaderContentMode.AYAH, settings.readerContentMode)
+        assertEquals(ReaderContentMode.CONTINUOUS, settings.readerContentMode)
         assertEquals(ReaderZoomLevel.STANDARD, settings.translationZoomLevel)
         assertTrue(settings.linkedZoomEnabled)
     }
 
     @Test
     fun readerContentModeAndLinkedZoomPersist() = runTest {
-        repository.setReaderContentMode(ReaderContentMode.CONTINUOUS)
+        repository.setReaderContentMode(ReaderContentMode.AYAH)
         repository.setLinkedZoomEnabled(false)
 
         val settings = repository.settings.first()
 
-        assertEquals(ReaderContentMode.CONTINUOUS, settings.readerContentMode)
+        assertEquals(ReaderContentMode.AYAH, settings.readerContentMode)
         assertFalse(settings.linkedZoomEnabled)
     }
 
@@ -256,7 +256,7 @@ class ReaderSettingsRepositoryTest {
 
         val settings = repository.settings.first()
 
-        assertEquals(ReaderContentMode.AYAH, settings.readerContentMode)
+        assertEquals(ReaderContentMode.CONTINUOUS, settings.readerContentMode)
         assertEquals(ReaderZoomLevel.STANDARD, settings.translationZoomLevel)
     }
 
@@ -312,7 +312,7 @@ class ReaderSettingsRepositoryTest {
         assertEquals(1.88f, settings.arabicLineSpacingMultiplier, 0.01f)
         assertEquals(16f, settings.readerHorizontalPaddingDp, 0.01f)
         assertEquals(AutoScrollPace.COMFORTABLE, settings.autoScrollPace)
-        assertEquals(ReaderContentMode.AYAH, settings.readerContentMode)
+        assertEquals(ReaderContentMode.CONTINUOUS, settings.readerContentMode)
         assertTrue(settings.linkedZoomEnabled)
         assertEquals(ReaderHeaderFormat.SURAH_PAGE, settings.readerHeaderFormat)
         assertFalse(settings.keepScreenAwakeEnabled)

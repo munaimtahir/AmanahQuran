@@ -3,8 +3,8 @@ package org.amanahquran.app.feature.reader
 /**
  * Character offsets for one ayah inside a [ContinuousQuranBlock.plainText]. [textStart]/[textEnd]
  * cover the ayah's own display text (unmodified, canonical); [markerStart]/[markerEnd] cover the
- * inline ayah-number marker appended right after it. Tap hit-testing and current-ayah highlighting
- * both key off these ranges instead of re-deriving them from raw character positions each time.
+ * inline ayah-number marker appended right after it. [isJuzStart] indicates if this ayah begins
+ * a new Juz transition, receiving subtle, respectful visual emphasis without altering Quran text.
  */
 data class AyahTextRange(
     val ayahKey: String,
@@ -12,20 +12,19 @@ data class AyahTextRange(
     val textEnd: Int,
     val markerStart: Int,
     val markerEnd: Int,
+    val isJuzStart: Boolean = false,
 )
 
 /**
- * One virtualized unit of Continuous Mode text -- in practice always the ayahs of a single Mushaf
- * page, since [buildContinuousQuranBlocks] splits on every page-number change. [plainText] is the
- * raw concatenation of canonical ayah text plus inline markers; no Quran word is altered, only
- * assembled. Styling (marker colour, current-ayah highlight) is applied at render time from this
- * plain text, not baked in here, so the same block never needs rebuilding when only the selected
- * ayah or theme changes.
+ * One virtualized unit of Continuous Mode text -- bounded by canonical page and Juz transitions.
+ * [plainText] is the concatenation of canonical ayah text plus inline markers; no Quran word is
+ * altered.
  */
 data class ContinuousQuranBlock(
     val pageNumber: Int,
     val plainText: String,
     val ayahRanges: List<AyahTextRange>,
+    val isJuzStart: Boolean = false,
 )
 
 /** Arabic end-of-ayah glyph (U+06DD) followed by the ayah number in Arabic-Indic digits. */
@@ -37,32 +36,53 @@ fun toArabicIndicDigits(number: Int): String {
 }
 
 /**
- * Assembles consecutive ayahs (already ordered) into virtualized, page-bounded continuous blocks.
- * Splitting on [ReaderAyahUiModel.pageNumber] keeps each block roughly one printed page, which
- * both bounds block size for `LazyColumn` virtualization and gives a natural, already-canonical
- * seam for a page divider -- no ayah is duplicated or omitted across block boundaries.
+ * Assembles consecutive ayahs (already ordered) into virtualized, page-and-juz-bounded continuous blocks.
+ * Splitting on [ReaderAyahUiModel.pageNumber] and [ReaderAyahUiModel.juzNumber] ensures:
+ * 1. A new Juz never begins inline with previous Juz text.
+ * 2. Each block stays roughly one printed page for LazyColumn virtualization.
+ * 3. Canonical Quran metadata is strictly preserved.
  */
 fun buildContinuousQuranBlocks(ayahs: List<ReaderAyahUiModel>): List<ContinuousQuranBlock> {
     if (ayahs.isEmpty()) return emptyList()
 
     val blocks = mutableListOf<ContinuousQuranBlock>()
     var currentPage = ayahs.first().pageNumber
+    var currentJuz = ayahs.first().juzNumber
+    var blockIsJuzStart = false
     var text = StringBuilder()
     var ranges = mutableListOf<AyahTextRange>()
 
     fun flush() {
         if (ranges.isNotEmpty()) {
-            blocks += ContinuousQuranBlock(currentPage, text.toString(), ranges.toList())
+            blocks += ContinuousQuranBlock(
+                pageNumber = currentPage,
+                plainText = text.toString(),
+                ayahRanges = ranges.toList(),
+                isJuzStart = blockIsJuzStart,
+            )
         }
         text = StringBuilder()
         ranges = mutableListOf()
+        blockIsJuzStart = false
     }
 
-    for (ayah in ayahs) {
-        if (ayah.pageNumber != currentPage) {
+    var previousJuzNumber: Int? = null
+
+    for ((index, ayah) in ayahs.withIndex()) {
+        val juzChanged = previousJuzNumber != null && ayah.juzNumber != previousJuzNumber
+        val pageChanged = ayah.pageNumber != currentPage
+
+        if (pageChanged || juzChanged) {
             flush()
             currentPage = ayah.pageNumber
+            currentJuz = ayah.juzNumber
+            if (juzChanged) {
+                blockIsJuzStart = true
+            }
         }
+
+        val isFirstAyahOfJuz = (index == 0 && ayah.ayahNumber == 1 && (ayah.juzNumber == 1 || juzChanged)) || juzChanged
+
         val textStart = text.length
         text.append(ayah.displayText)
         val textEnd = text.length
@@ -71,7 +91,16 @@ fun buildContinuousQuranBlocks(ayahs: List<ReaderAyahUiModel>): List<ContinuousQ
         text.append(ayahMarkerText(ayah.ayahNumber))
         val markerEnd = text.length
         text.append(' ')
-        ranges += AyahTextRange(ayah.ayahKey, textStart, textEnd, markerStart, markerEnd)
+        ranges += AyahTextRange(
+            ayahKey = ayah.ayahKey,
+            textStart = textStart,
+            textEnd = textEnd,
+            markerStart = markerStart,
+            markerEnd = markerEnd,
+            isJuzStart = isFirstAyahOfJuz,
+        )
+
+        previousJuzNumber = ayah.juzNumber
     }
     flush()
 
@@ -81,10 +110,7 @@ fun buildContinuousQuranBlocks(ayahs: List<ReaderAyahUiModel>): List<ContinuousQ
 /**
  * Replaces every consecutive run of [ReaderStructuralItem.Ayah] items (i.e. a run with no
  * Juz/Surah/Bismillah/PageDivider header inside it) with one or more [ReaderStructuralItem.ContinuousBlock]
- * items, leaving every existing header/divider item exactly where the already-tested
- * [buildReaderStructuralItems] placed it. Because every page transition already gets some
- * non-Ayah marker there (a header or a page divider -- see [buildReaderStructuralItems]), a run
- * of Ayah items is already page-bounded before it even reaches [buildContinuousQuranBlocks].
+ * items, leaving every existing header/divider item exactly where [buildReaderStructuralItems] placed it.
  */
 fun collapseIntoContinuousBlocks(structuralItems: List<ReaderStructuralItem>): List<ReaderStructuralItem> {
     val result = mutableListOf<ReaderStructuralItem>()

@@ -112,14 +112,14 @@
     "public_statement": "This version has been completely reviewed by qualified people and is verified and approved for open production release."
   },
   "app_version": {
-    "version_name": "2.1.0",
-    "version_code": 8
+    "version_name": "2.1.1",
+    "version_code": 9
   },
   "validation_status": "PASSED",
   "public_release_status": "APPROVED",
   "indoPak_public_release_source_status": "RESOLVED",
   "simple_clean_source_role": "SEARCH_NORMALIZATION_SOURCE",
   "packaged_asset_checksums": {
-    "quran_db_sha256": "cf8693ca972f5049d640556804bf06bceb3530793afbfd34de518bae6bd8d8c5"
+    "quran_db_sha256": "5dbef3d41be01d04980e8240cbc485a1c3059649f0bf401db05367da6747f944"
   }
 }

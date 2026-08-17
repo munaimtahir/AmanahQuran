@@ -172,23 +172,23 @@ fun SettingsScreen(
                 AmanahCard(modifier = Modifier.fillMaxWidth()) {
                     Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
                         Text(
-                            text = "How the Quran text is laid out",
+                            text = "How the Quran text is presented",
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                         Row(horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
                             AmanahScriptChip(
-                                label = "Ayah-by-Ayah",
-                                selected = settings.readerContentMode == ReaderContentMode.AYAH,
-                                onClick = {
-                                    scope.launch { settingsRepository.setReaderContentMode(ReaderContentMode.AYAH) }
-                                },
-                            )
-                            AmanahScriptChip(
-                                label = "Continuous Reading",
+                                label = "Continuous View",
                                 selected = settings.readerContentMode == ReaderContentMode.CONTINUOUS,
                                 onClick = {
                                     scope.launch { settingsRepository.setReaderContentMode(ReaderContentMode.CONTINUOUS) }
+                                },
+                            )
+                            AmanahScriptChip(
+                                label = "Ayah View",
+                                selected = settings.readerContentMode == ReaderContentMode.AYAH,
+                                onClick = {
+                                    scope.launch { settingsRepository.setReaderContentMode(ReaderContentMode.AYAH) }
                                 },
                             )
                         }
@@ -341,42 +341,7 @@ fun SettingsScreen(
                                 modifier = Modifier.semantics {
                                     contentDescription = "Elder Mode"
                                 },
-                                onCheckedChange = { enabled ->
-                                    scope.launch { settingsRepository.setElderModeEnabled(enabled) }
-                                },
-                                colors = SwitchDefaults.colors(
-                                    checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
-                                    checkedTrackColor = MaterialTheme.colorScheme.primary,
-                                ),
-                            )
-                        }
-
-                        AmanahDivider()
-
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Column(modifier = Modifier.weight(1f)) {
-                                Text(
-                                    text = "Page Mode",
-                                    style = MaterialTheme.typography.bodyLarge,
-                                    color = MaterialTheme.colorScheme.onSurface,
-                                )
-                                Text(
-                                    text = "Fits a full page on screen, swipe left/right to turn pages, pinch to zoom. Off: scroll continuously instead.",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                )
-                            }
-                            Switch(
-                                checked = settings.bookModeEnabled,
-                                modifier = Modifier.semantics {
-                                    contentDescription = "Page Mode"
-                                },
-                                onCheckedChange = { enabled ->
-                                    scope.launch { settingsRepository.setBookModeEnabled(enabled) }
+                                onCheckedChange = { enabled ->                                     scope.launch { settingsRepository.setElderModeEnabled(enabled) }
                                 },
                                 colors = SwitchDefaults.colors(
                                     checkedThumbColor = MaterialTheme.colorScheme.onPrimary,

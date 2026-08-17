@@ -320,6 +320,8 @@ def generate_staging_data() -> dict[str, Any]:
     simple_clean = parse_text_xml(ROOT / "sourcedata" / "2" / "quran-simple-clean.xml")
     indopak = parse_indopak_json(ROOT / "sourcedata" / "3" / "digital-khatt-indopak-ayah-by-ayah-script.json.zip")
     surah_meta = parse_json_zip(ROOT / "sourcedata" / "5" / "quran-metadata-surah-name.json.zip")
+    if "3" in surah_meta:
+        surah_meta["3"]["name_simple"] = "Al Imran"
     ayah_meta = parse_json_zip(ROOT / "sourcedata" / "5" / "quran-metadata-ayah.json.zip")
     juz_meta = parse_json_zip(ROOT / "sourcedata" / "5" / "quran-metadata-juz.json.zip")
     sajda_meta = parse_json_zip(ROOT / "sourcedata" / "5" / "quran-metadata-sajda.json.zip")
@@ -539,6 +541,11 @@ def build_generated_project_data(staging: dict[str, Any], registry: list[dict]) 
     target_db = CONTENT_PIPELINE / "06_generated_projectdata" / "amanah_quran.sqlite"
     if source_db.resolve() != target_db.resolve():
         shutil.copy2(source_db, target_db)
+    conn = sqlite3.connect(target_db)
+    cur = conn.cursor()
+    cur.execute("UPDATE surahs SET name_simple = 'Al Imran' WHERE number = 3;")
+    conn.commit()
+    conn.close()
     quran_db_checksum = sha256_file(target_db)
 
     # Check if scholar reviewer has signed off

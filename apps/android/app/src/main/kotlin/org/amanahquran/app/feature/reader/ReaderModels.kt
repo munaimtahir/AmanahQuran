@@ -31,6 +31,20 @@ data class ReaderAyahUiModel(
     val isBookmarked: Boolean = false,
 )
 
+/**
+ * Single source of truth representing the content currently occupying the user's active reading zone.
+ * Derives dynamic context (Surah, Juz, Page, and canonical position) continuously during reading and auto-scroll.
+ */
+data class ActiveReadingPosition(
+    val ayahKey: String,
+    val surahNumber: Int,
+    val surahNameSimple: String,
+    val surahNameArabic: String,
+    val ayahNumber: Int,
+    val juzNumber: Int,
+    val canonicalPageNumber: Int,
+)
+
 data class ReaderUiState(
     val isLoading: Boolean = true,
     val selectedScript: ScriptType = ScriptType.INDOPAK,

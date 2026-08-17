@@ -338,6 +338,7 @@ class SearchRepositoryImpl(
             "attawbah" to 9,
             "aalimran" to 3,
             "alimran" to 3,
+            "aliimran" to 3,
             "aaleimran" to 3,
         )
     }

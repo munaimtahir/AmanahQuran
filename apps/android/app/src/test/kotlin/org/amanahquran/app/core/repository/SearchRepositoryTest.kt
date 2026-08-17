@@ -138,6 +138,7 @@ class SearchRepositoryTest {
             "Falaq" to 113,
             "Tawbah" to 9,
             "Aal-e-Imran" to 3,
+            "Al Imran" to 3,
             "Ali Imran" to 3,
         )
         aliases.forEach { (query, expectedSurah) ->

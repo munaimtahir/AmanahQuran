@@ -178,10 +178,9 @@ fun AmanahQuranNavHost(
             arguments = listOf(navArgument(AppRoute.PageNumberArg) { type = NavType.IntType }),
         ) { backStackEntry ->
             val pageNumber = backStackEntry.arguments?.getInt(AppRoute.PageNumberArg) ?: 1
-            MushafPageScreen(
-                initialPageNumber = pageNumber,
-                onBack = { navController.popBackStack() },
-                onOpenSettings = { navController.navigate(AppRoute.Settings) }
+            QuranReaderScreen(
+                openMode = ReaderOpenMode.Page(pageNumber, PageReferenceType.INDOPAK),
+                onNavigateBack = { navController.popBackStack() },
             )
         }
         composable(

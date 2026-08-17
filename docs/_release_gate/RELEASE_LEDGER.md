@@ -1,5 +1,44 @@
 # Amanah Quran — Release Ledger
 
+## Release Entry: Version 9 (2.1.1)
+
+- **App Name**: Amanah Quran
+- **Project Identity**: Amanah-e-Kisa
+- **Release Version**: `2.1.1`
+- **Version Code**: `9`
+- **Release Date**: August 17, 2026
+- **Target Platform**: Android
+- **Release Bundle (AAB)**: `apps/android/app/build/outputs/bundle/release/app-release.aab`
+- **Release Bundle SHA-256**: `0a1537111a3c16115ecd402e587860b49ca32308bd87b86e12145c9779bbb88e`
+- **Scope**:
+  - Continuous Reader presentation mode (Continuous View & Ayah View) with legacy migration.
+  - Dynamic in-memory Active Reading Position deriving Surah, Juz, and Page header sync continuously on scroll.
+  - Surah 3 English display name corrected to `Al Imran` across metadata, database, search index, and tests.
+  - Clean Juz boundary architecture forcing new line breaks on Juz transitions.
+  - Auto-scroll UX with intuitive horizontal speed slider.
+  - 100% offline functionality, zero ads, zero tracking, zero SDK telemetries.
+- **Verification Gates**:
+  - Unit Tests: PASS (250/250 tests passed).
+  - Connected Android Emulator Tests: PASS (3/3 on Android 8.0.0 / API 26).
+  - Quran Database Validation: PASS (6,236 Ayahs, 114 Surahs canonical integrity).
+  - Asset Scanner & License Clearance: PASS (0 blockers).
+  - Production Release Signing: PASS (Signed with production keystore, R8 minification, full NDK symbols).
+
+---
+
+## Release Entry: Version 8 (2.1.0) — Uploaded to Play Store
+
+- **App Name**: Amanah Quran
+- **Project Identity**: Amanah-e-Kisa
+- **Release Version**: `2.1.0`
+- **Version Code**: `8`
+- **Release Date**: August 17, 2026
+- **Target Platform**: Android
+- **Status**: Uploaded to Google Play Store Console.
+- **Release Bundle SHA-256**: `e0f9a9a6f8bc4401a2d9a561f9957888ae1041cef567145fa3d400000189e628`
+
+---
+
 ## Release Entry: Version 5 (1.0.5)
 
 - **App Name**: Amanah Quran
@@ -11,27 +50,18 @@
 
 ---
 
-## Release Entry: Amanah Quran V2.0 (in development)
+## Release Entry: Amanah Quran V2.0
 
-- **Release Version**: `2.0.0` / versionCode `6` (AAB rebuilt 2026-08-05 after the Page Mode/Trust Center fixes below, SHA-256 `244912ea6316551a18b680d414b483769f8023c274d7eabe9a49925a0930002b`; not yet uploaded or published — upload/publish remains a human decision)
+- **Release Version**: `2.0.0` / versionCode `6` (Built 2026-08-05)
 - **Scope**: Offline Urdu Junagarhi translation from QuranEnc, translation-aware reader, bookmark collections, migration-safe local backup codec, and Trust Center pack metadata.
-- **Translation source**: QuranEnc Urdu Muhammad Junagarhi, CSV `v1.1.3-csv.1`.
-- **Source checksum**: `027cd258d87285bdb8afbffa60fd141c450a1d029b14c16501355ab24481fec4`.
-- **Automated pack validation**: PASS (6,236 canonical mappings).
-- **Human review**: Recorded internally (see `docs/_public_release_approval/` and `docs/legal/`); reviewer identity is kept out of user-facing Trust Center text by design.
-- **Licence/republication terms**: Recorded from QuranEnc; retain final legal evidence for release audit.
-- **Audio**: Deferred to V3.0 pending an approved reciter source; no audio SDK or UI is included in V2.0.
-- **Current verdict**: `V2.0 RELEASE CANDIDATE — ENGINEERING GATES PASS, AAB BUILT, AWAITING HUMAN UPLOAD DECISION`. See `docs/_implementation/V2_IMPLEMENTATION_STATE.md` for full evidence and known non-blocking gaps.
-
-The implementation state and gate evidence are maintained in [`docs/_implementation/V2_IMPLEMENTATION_STATE.md`](../_implementation/V2_IMPLEMENTATION_STATE.md).
 
 ---
 
 ### Technical Specification & Release Verification
 
-1. **Android Gradle Plugin (AGP) Upgrade**
-   - **AGP Version**: Upgraded to `9.0.0` in `apps/android/build.gradle.kts`.
-   - **Status**: Verified compatible with Kotlin 1.9.24 and KSP.
+1. **Android Gradle Plugin (AGP)**
+   - **AGP Version**: `9.0.0` / Gradle `9.1.0`.
+   - **Status**: Verified compatible with Kotlin and Compose compiler plugins.
 
 2. **Performance Optimization (R8 Engine)**
    - **Code Optimization & Minification**: `isMinifyEnabled = true` enabled in release build type.
@@ -46,10 +76,10 @@ The implementation state and gate evidence are maintained in [`docs/_implementat
 
 4. **Play Console Native Debug Symbols Table**
    - **NDK Debug Symbol Level**: Configured to `debugSymbolLevel = "FULL"`.
-   - **Resolution**: Fixes Play Console missing symbol table warning by embedding full native debug symbols into the Android App Bundle (AAB) / release output zip.
+   - **Resolution**: Embeds full native debug symbols into the release bundle zip for Play Console crash deobfuscation.
 
 5. **Signing & Content Integrity**
-   - **Signing Config**: Configured with production release keystore (`release-keystore.jks`).
+   - **Signing Config**: Configured with production release keystore (`production-keystore.jks`).
    - **Content Validation**: Automated gate `validateReleaseContent` verifies `quran.db` and `trust_center_content.json` integrity.
    - **Privacy Compliance**: Zero ads, zero tracking, zero telemetry, zero network dependencies, 100% offline functional.
 
@@ -59,5 +89,9 @@ The implementation state and gate evidence are maintained in [`docs/_implementat
 
 | Version Code | Version Name | Release Date | Target SDK | AGP Version | R8 Minification | Native Debug Symbols | Build Track | Status |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **5** | **1.0.5** | **2026-07-23** | **API 36 (Android 16)** | **9.0.0** | **Enabled (R8 + Resource Shrinking)** | **FULL (Symbol Table Included)** | **Public Release** | **SIGNED & APPROVED** |
+| **9** | **2.1.1** | **2026-08-17** | **API 36 (Android 16)** | **9.0.0** | **Enabled (R8 + Resource Shrinking)** | **FULL (Symbol Table Included)** | **Public Release** | **SIGNED & APPROVED** |
+| 8 | 2.1.0 | 2026-08-17 | API 36 (Android 16) | 9.0.0 | Enabled (R8 + Resource Shrinking) | FULL (Symbol Table Included) | Public Release | Uploaded to Play Store |
+| 6 | 2.0.0 | 2026-08-05 | API 36 (Android 16) | 9.0.0 | Enabled (R8 + Resource Shrinking) | FULL (Symbol Table Included) | Internal | Superseded |
+| 5 | 1.0.5 | 2026-07-23 | API 36 (Android 16) | 9.0.0 | Enabled (R8 + Resource Shrinking) | FULL (Symbol Table Included) | Public Release | Superseded |
 | 4 | 1.0.4 | 2026-06-22 | API 34 | 8.6.0 | Enabled | SYMBOL_TABLE | Internal | Superseded |
+

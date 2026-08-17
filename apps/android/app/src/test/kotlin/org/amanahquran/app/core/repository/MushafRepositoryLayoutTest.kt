@@ -62,7 +62,7 @@ class MushafRepositoryLayoutTest {
 
         assertFalse(page66.startsAtSurahBoundary)
         assertEquals(3, page66.surahNumber)
-        assertEquals("Ali 'Imran", page66.surahLabel)
+        assertEquals("Al Imran", page66.surahLabel)
         assertNotNull(page66.surahAyahCount)
     }
 

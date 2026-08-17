@@ -93,4 +93,12 @@ class QuranContentRepositoryPageJuzTest {
         assertNotNull(quranText)
         assertEquals(quranText!!.displayText, firstAyah.displayText)
     }
+
+    @Test
+    fun surah3EnglishDisplayNameIsAlImran() = runTest {
+        val surah = repository.getSurahByNumber(3)
+        assertNotNull(surah)
+        assertEquals("Al Imran", surah?.nameSimple)
+    }
 }
+

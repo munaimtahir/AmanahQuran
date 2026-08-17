@@ -17,11 +17,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -92,15 +94,15 @@ fun AdvancedReaderSettingsScreen(
                             Text("Default reader mode", style = MaterialTheme.typography.bodyLarge)
                             Row(horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
                                 AmanahScriptChip(
-                                    label = "Ayah by Ayah",
-                                    selected = settings.readerContentMode == ReaderContentMode.AYAH,
-                                    onClick = { scope.launch { settingsRepository.setReaderContentMode(ReaderContentMode.AYAH) } },
+                                    label = "Continuous View",
+                                    selected = settings.readerContentMode == ReaderContentMode.CONTINUOUS,
+                                    onClick = { scope.launch { settingsRepository.setReaderContentMode(ReaderContentMode.CONTINUOUS) } },
                                     modifier = Modifier.weight(1f),
                                 )
                                 AmanahScriptChip(
-                                    label = "Continuous",
-                                    selected = settings.readerContentMode == ReaderContentMode.CONTINUOUS,
-                                    onClick = { scope.launch { settingsRepository.setReaderContentMode(ReaderContentMode.CONTINUOUS) } },
+                                    label = "Ayah View",
+                                    selected = settings.readerContentMode == ReaderContentMode.AYAH,
+                                    onClick = { scope.launch { settingsRepository.setReaderContentMode(ReaderContentMode.AYAH) } },
                                     modifier = Modifier.weight(1f),
                                 )
                             }
@@ -140,13 +142,6 @@ fun AdvancedReaderSettingsScreen(
                                 subtitle = "Prevent the screen from sleeping while reading",
                                 checked = settings.keepScreenAwakeEnabled,
                                 onCheckedChange = { enabled -> scope.launch { settingsRepository.setKeepScreenAwakeEnabled(enabled) } },
-                            )
-                            AmanahDivider()
-                            SwitchRow(
-                                title = "Full-screen reading",
-                                subtitle = "Open the Mushaf page reader in full-screen by default",
-                                checked = settings.fullScreenReadingDefault,
-                                onCheckedChange = { enabled -> scope.launch { settingsRepository.setFullScreenReadingDefault(enabled) } },
                             )
                         }
                     }
@@ -197,19 +192,27 @@ private fun SwitchRow(title: String, subtitle: String, checked: Boolean, onCheck
 
 @Composable
 private fun AutoScrollPaceRow(selected: AutoScrollPace, onSelect: (AutoScrollPace) -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .horizontalScroll(androidx.compose.foundation.rememberScrollState()),
-        horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.xs),
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(AmanahSpacing.xs),
     ) {
-        AutoScrollPace.entries.forEach { pace ->
-            AmanahScriptChip(
-                label = pace.label,
-                selected = pace == selected,
-                onClick = { onSelect(pace) },
-            )
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 4.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text("Slow", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text("Fast", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
+        Slider(
+            value = selected.ordinal.toFloat(),
+            onValueChange = { value ->
+                val index = kotlin.math.round(value).toInt().coerceIn(0, AutoScrollPace.entries.lastIndex)
+                onSelect(AutoScrollPace.entries[index])
+            },
+            valueRange = 0f..AutoScrollPace.entries.lastIndex.toFloat(),
+            steps = AutoScrollPace.entries.size - 2,
+        )
     }
 }
 

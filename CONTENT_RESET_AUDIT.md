@@ -1,10 +1,10 @@
 # CONTENT_RESET_AUDIT
 
-Generated: 2026-08-06T12:51:33+00:00
+Generated: 2026-08-17T08:21:57+00:00
 
 ## Summary
 
-- Content-related files discovered: 590
+- Content-related files discovered: 579
 - Registry assets: 123
 
 ## Classification
@@ -30,7 +30,7 @@ Generated: 2026-08-06T12:51:33+00:00
 
 ### CANDIDATE_SOURCE
 
-- Count: 90
+- Count: 88
 - `sourcedata/1/quran-uthmani.xml`
 - `sourcedata/2/quran-simple-clean.xml`
 - `sourcedata/3/digital-khatt-indopak-ayah-by-ayah-script.db.zip`
@@ -83,9 +83,7 @@ Generated: 2026-08-06T12:51:33+00:00
 - `sourcedata/8/Surah-header-ligature.json.zip`
 - `sourcedata/8/UthmanicHafs_V22.ttf.zip`
 - `sourcedata/8/UthmanicHafs_V22.woff2.zip`
-- `sourcedata/8/extracted/DigitalKhattIndoPak.otf`
 - `sourcedata/8/extracted/DigitalKhattQuranicV1.otf`
-- `sourcedata/8/extracted/DigitalKhattV2.otf`
 - `sourcedata/8/extracted/KFGQPCNastaleeq-Regular.ttf`
 - `sourcedata/8/extracted/UthmanicHafs_V22.ttf`
 - `sourcedata/8/ligatures (1).json.bz2`
@@ -124,13 +122,10 @@ Generated: 2026-08-06T12:51:33+00:00
 
 ### GENERATED_OUTPUT
 
-- Count: 481
-- `apps/android/app/src/main/assets/content/.gitkeep`
+- Count: 472
 - `apps/android/app/src/main/assets/content/translations/translation_urdu_junagarhi.db`
 - `apps/android/app/src/main/assets/content/translations/translation_urdu_junagarhi_manifest.json`
 - `apps/android/app/src/main/assets/database/quran.db`
-- `apps/android/app/src/main/assets/db/.gitkeep`
-- `apps/android/app/src/main/assets/fonts/.gitkeep`
 - `apps/android/app/src/main/assets/trust/trust_center_content.json`
 - `apps/android/app/src/main/res/font/digital_khatt_indopak.otf`
 - `apps/android/app/src/main/res/font/digital_khatt_v2.otf`
@@ -201,11 +196,9 @@ Generated: 2026-08-06T12:51:33+00:00
 - `docs/_implementation/amanah_adb_device_validation/phase4_launch_crash_check_report.md`
 - `docs/_implementation/amanah_adb_device_validation/phase5_offline_mode_report.md`
 - `docs/_implementation/amanah_adb_device_validation/phase6_launch_crash_fix_report.md`
-- `docs/_implementation/amanah_adb_device_validation/screenshots/01_home.png`
 - `docs/_implementation/amanah_adb_device_validation/screenshots/02_quran_navigation.png`
 - `docs/_implementation/amanah_adb_device_validation/screenshots/03_surah_list.png`
 - `docs/_implementation/amanah_adb_device_validation/screenshots/04_surah_reader_indopak.png`
-- `docs/_implementation/amanah_adb_device_validation/screenshots/05_surah_reader_uthmani.png`
 - `docs/_implementation/amanah_adb_device_validation/screenshots/06_juz_list.png`
 - `docs/_implementation/amanah_adb_device_validation/screenshots/07_juz_30_reader.png`
 - `docs/_implementation/amanah_adb_device_validation/screenshots/08_page_list.png`
@@ -325,7 +318,12 @@ Generated: 2026-08-06T12:51:33+00:00
 - `docs/_release_gate/phase2_manual_quran_review_package_report.md`
 - `docs/_release_gate/phase3_manual_review_workflow_report.md`
 - `docs/_release_gate/phase4_font_license_review_report.md`
-- ... 281 more
+- `docs/_release_gate/phase5_trust_center_wording_review_report.md`
+- `docs/_release_gate/phase6_privacy_permission_audit_report.md`
+- `docs/_release_gate/phase7_content_integrity_audit_report.md`
+- `docs/_release_gate/phase8_release_readiness_matrix_report.md`
+- `docs/_release_gate/phase9_play_store_readiness_notes_report.md`
+- ... 272 more
 
 ### QUARANTINE_LEGACY_CONTENT
 

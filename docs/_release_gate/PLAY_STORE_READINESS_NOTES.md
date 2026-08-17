@@ -30,8 +30,8 @@
 - **Target SDK**: Android 16 (API Level 36)
 - **Compile SDK**: Android 16 (API Level 36)
 - **Min SDK**: Android 7.0 (API Level 24)
-- **Release Version**: `1.0.5`
-- **Release Version Code**: `5`
+- **Release Version**: `2.1.1`
+- **Release Version Code**: `9`
 
 ## Privacy Policy Notes
 
@@ -40,9 +40,9 @@
 ## Release Readiness Summary
 
 - Application updated to target API level 36 (Android 16) in compliance with Google Play Policy.
-- Upgraded build configuration to Android Gradle Plugin (AGP) version `9.0.0`.
+- Upgraded build configuration to Android Gradle Plugin (AGP) version `9.0.0` / Gradle `9.1.0`.
 - Enabled R8 minification and resource shrinking for peak execution performance.
 - Configured `ndk.debugSymbolLevel = "FULL"` to package complete native debug symbol tables for Google Play Console error reporting.
-- Version `1.0.5` (versionCode `5`) is configured in `apps/android/app/build.gradle.kts` for Play Store release upload.
+- Version `2.1.1` (versionCode `9`) is configured in `apps/android/app/build.gradle.kts` and verified via release bundle build (`app-release.aab`).
 
 

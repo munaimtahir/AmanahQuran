@@ -52,4 +52,19 @@ class ReaderHeaderTextBuilderTest {
         val parts = ReaderHeaderTextBuilder.build(ReaderHeaderFormat.SURAH_JUZ_PAGE, "Al-Baqarah", null, 8)
         assertEquals("Al-Baqarah", parts.primary)
     }
+
+    @Test
+    fun surah3FormattedWithAlImran() {
+        val parts = ReaderHeaderTextBuilder.build(ReaderHeaderFormat.SURAH_PAGE, "Al Imran", 3, 50)
+        assertEquals("Al Imran", parts.primary)
+        assertEquals("Page 50", parts.page)
+    }
+
+    @Test
+    fun surahYaseenJuz23FormattedCorrectly() {
+        val parts = ReaderHeaderTextBuilder.build(ReaderHeaderFormat.SURAH_JUZ_PAGE, "Ya-Sin", 23, 443)
+        assertEquals("Ya-Sin · Juz 23", parts.primary)
+        assertEquals("Page 443", parts.page)
+    }
 }
+
