@@ -3,6 +3,7 @@ package org.amanahquran.app.core.repository
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -59,8 +60,29 @@ class TrustCenterRepositoryTest {
         assertNotNull(quranDb.expectedChecksum)
         assertTrue(quranDb.matches)
 
-        val translation = results.first { it.assetName == "translation_urdu_junagarhi.db" }
+        val translation = results.first { it.assetName == "translation_content.db" }
         assertNotNull(translation.expectedChecksum)
         assertTrue(translation.matches)
+    }
+
+    @Test
+    fun translationTrustInfoReflectsActualImportedCounts() = runTest {
+        val uiState = repository.loadTrustCenterUiState()
+
+        assertEquals(2, uiState.translations.size)
+        val manifest = uiState.translations.first { it.translationId == "TAHIR_QADRI_MANIFEST_EN" }
+        val irfan = uiState.translations.first { it.translationId == "TAHIR_QADRI_IRFAN_UR" }
+
+        assertEquals(6236, manifest.totalCanonicalCount)
+        assertEquals(1, manifest.sourceMissingCount)
+        assertEquals(6235, manifest.availableCount)
+        assertEquals(142, manifest.footnoteCount)
+        assertEquals("APPROVED", manifest.permissionStatus)
+
+        assertEquals(6236, irfan.totalCanonicalCount)
+        assertEquals(1, irfan.sourceMissingCount)
+        assertEquals(6235, irfan.availableCount)
+        assertEquals(45, irfan.footnoteCount)
+        assertEquals("APPROVED", irfan.permissionStatus)
     }
 }

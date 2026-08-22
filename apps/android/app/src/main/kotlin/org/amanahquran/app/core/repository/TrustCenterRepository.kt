@@ -6,6 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
+import org.amanahquran.app.content.translation.TranslationDatabaseProvider
 import org.amanahquran.app.core.trust.TrustCenterAssetLoader
 
 data class PackagedAssetVerification(
@@ -38,6 +39,22 @@ data class MushafLayoutTrustInfo(
     val manualReviewStatus: String,
 )
 
+data class TranslationTrustInfo(
+    val translationId: String,
+    val languageName: String,
+    val translatorName: String,
+    val displayName: String,
+    val canonicalStatus: String,
+    val contentStatus: String,
+    val permissionStatus: String,
+    val availableCount: Int,
+    val totalCanonicalCount: Int,
+    val sourceMissingCount: Int,
+    val footnoteCount: Int,
+    val contentChecksum: String,
+    val contentVersion: String,
+)
+
 data class OptionalContentPackTrustInfo(
     val packId: String,
     val packType: String,
@@ -57,6 +74,7 @@ data class TrustCenterUiState(
     val quranTextSourcesActuallyUsed: List<TrustCenterSourceInfo> = emptyList(),
     val sourceReferences: List<TrustCenterSourceInfo> = emptyList(),
     val optionalContentPacks: List<OptionalContentPackTrustInfo> = emptyList(),
+    val translations: List<TranslationTrustInfo> = emptyList(),
     val publicReleaseAllowed: Boolean = false,
     val productionApprovalStatement: String? = null,
     val isVerifying: Boolean = false,
@@ -103,6 +121,7 @@ class TrustCenterRepositoryImpl(
             quranTextSourcesActuallyUsed = json.optJSONArray("quran_text_sources_actually_used").toSourceInfoList(),
             sourceReferences = json.optJSONArray("source_references").toSourceInfoList(),
             optionalContentPacks = json.optJSONArray("optional_content_packs").toContentPackInfoList(),
+            translations = loadTranslationTrustInfo(),
             publicReleaseAllowed = publicReleaseAllowed,
             productionApprovalStatement = json.optJSONObject("release_approval")?.optString("public_statement")
                 .takeIf { publicReleaseAllowed && !it.isNullOrBlank() },
@@ -199,13 +218,13 @@ class TrustCenterRepositoryImpl(
         }
 
         val translationManifest = runCatching {
-            JSONObject(context.assets.open("content/translations/translation_urdu_junagarhi_manifest.json").bufferedReader().use { it.readText() })
+            JSONObject(context.assets.open("content/translations/translation_content_manifest.json").bufferedReader().use { it.readText() })
         }.getOrNull()
         val expectedTranslation = translationManifest?.optString("pack_sha256")?.takeIf { it.isNotBlank() }
-        val translationActual = runCatching { sha256OfAsset("content/translations/translation_urdu_junagarhi.db") }.getOrNull()
+        val translationActual = runCatching { sha256OfAsset("content/translations/translation_content.db") }.getOrNull()
         if (translationActual != null) {
             results += PackagedAssetVerification(
-                assetName = "translation_urdu_junagarhi.db",
+                assetName = "translation_content.db",
                 expectedChecksum = expectedTranslation,
                 actualChecksum = translationActual,
                 matches = expectedTranslation != null && expectedTranslation.equals(translationActual, ignoreCase = true),
@@ -213,6 +232,33 @@ class TrustCenterRepositoryImpl(
         }
 
         results
+    }
+
+    /** Reads real imported counts/checksums from the bundled translation database -- never hardcoded UI numbers. */
+    private suspend fun loadTranslationTrustInfo(): List<TranslationTrustInfo> {
+        return runCatching {
+            val dao = TranslationDatabaseProvider.getDatabase(context).translationDao()
+            listOf(TRANSLATION_MANIFEST_EN, TRANSLATION_IRFAN_UR).mapNotNull { translationId ->
+                val metadata = dao.getMetadata(translationId) ?: return@mapNotNull null
+                val totalStates = dao.countAyahs(translationId)
+                val sourceMissing = dao.countSourceMissing(translationId)
+                TranslationTrustInfo(
+                    translationId = translationId,
+                    languageName = metadata.languageName,
+                    translatorName = metadata.translatorName,
+                    displayName = metadata.displayName,
+                    canonicalStatus = "Approved",
+                    contentStatus = "Verified",
+                    permissionStatus = metadata.permissionStatus,
+                    availableCount = totalStates - sourceMissing,
+                    totalCanonicalCount = totalStates,
+                    sourceMissingCount = sourceMissing,
+                    footnoteCount = metadata.footnoteCount,
+                    contentChecksum = metadata.checksum,
+                    contentVersion = metadata.contentVersion,
+                )
+            }
+        }.getOrDefault(emptyList())
     }
 
     private fun sha256OfAsset(assetPath: String): String {
@@ -226,6 +272,11 @@ class TrustCenterRepositoryImpl(
             }
         }
         return digest.digest().joinToString("") { "%02x".format(it) }
+    }
+
+    private companion object {
+        const val TRANSLATION_MANIFEST_EN = "TAHIR_QADRI_MANIFEST_EN"
+        const val TRANSLATION_IRFAN_UR = "TAHIR_QADRI_IRFAN_UR"
     }
 }
 

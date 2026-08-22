@@ -158,6 +158,70 @@ fun TrustCenterScreen(
                         }
                     }
 
+                    if (uiState.translations.isNotEmpty()) {
+                        item {
+                            TrustSectionHeader(title = "Translations", icon = Icons.Rounded.VerifiedUser)
+                            Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
+                                uiState.translations.forEach { translation ->
+                                    AmanahCard(modifier = Modifier.fillMaxWidth()) {
+                                        Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                                            Text(
+                                                text = translation.displayName,
+                                                style = MaterialTheme.typography.titleSmall,
+                                                color = MaterialTheme.colorScheme.onSurface,
+                                            )
+                                            Text(
+                                                text = "Language: ${translation.languageName}",
+                                                style = MaterialTheme.typography.bodySmall,
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                            )
+                                            Text(
+                                                text = "Translator: ${translation.translatorName}",
+                                                style = MaterialTheme.typography.bodySmall,
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                            )
+                                            Text(
+                                                text = "Translation ID: ${translation.translationId}",
+                                                style = MaterialTheme.typography.bodySmall,
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                            )
+                                            Text(
+                                                text = "Canonical status: ${translation.canonicalStatus} · Content status: ${translation.contentStatus}",
+                                                style = MaterialTheme.typography.bodySmall,
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                            )
+                                            Text(
+                                                text = "Permission status: ${translation.permissionStatus}",
+                                                style = MaterialTheme.typography.bodySmall,
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                            )
+                                            Text(
+                                                text = "Available translations: ${translation.availableCount} / ${translation.totalCanonicalCount}",
+                                                style = MaterialTheme.typography.bodySmall,
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                            )
+                                            Text(
+                                                text = "SOURCE_MISSING: ${translation.sourceMissingCount}",
+                                                style = MaterialTheme.typography.bodySmall,
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                            )
+                                            Text(
+                                                text = "Footnotes: ${translation.footnoteCount}",
+                                                style = MaterialTheme.typography.bodySmall,
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                            )
+                                            Text(
+                                                text = "Content checksum: ${translation.contentChecksum.take(16)}… (v${translation.contentVersion})",
+                                                style = MaterialTheme.typography.bodySmall,
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     if (uiState.optionalContentPacks.isNotEmpty()) {
                         item {
                             TrustSectionHeader(title = "Installed Content", icon = Icons.Rounded.VerifiedUser)
