@@ -29,6 +29,7 @@ object AppRoute {
     const val ReadingReminder = "reading-reminder"
     const val ReadingActivityDashboard = "reading-activity-dashboard"
     const val ReadingCalendar = "reading-calendar"
+    const val DailyAyahHistory = "daily-ayah-history"
     const val AdvancedReaderSettings = "advanced-reader-settings"
     const val ResetReadingSettings = "reset-reading-settings"
 
@@ -75,6 +76,7 @@ object AppRoute {
         ReadingReminder,
         ReadingActivityDashboard,
         ReadingCalendar,
+        DailyAyahHistory,
         AdvancedReaderSettings,
         ResetReadingSettings,
     )

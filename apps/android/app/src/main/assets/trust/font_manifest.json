@@ -1,0 +1,26 @@
+[
+  {
+    "id": "DIGITAL_KHATT_INDOPAK",
+    "displayName": "DigitalKhatt IndoPak",
+    "scriptType": "INDOPAK",
+    "fileName": "digital_khatt_indopak.otf",
+    "licenseStatus": "CLEARED",
+    "sha256": "59a5e78c530de236a365354d558b37706f37d782f7ee95c3c9b7fe9e0fad042a"
+  },
+  {
+    "id": "DIGITAL_KHATT_UTHMANI",
+    "displayName": "DigitalKhatt Uthmani",
+    "scriptType": "UTHMANI",
+    "fileName": "digital_khatt_v2.otf",
+    "licenseStatus": "CLEARED",
+    "sha256": "0935c48269a57c9808e52dfae47864c189396452901c689977156036a72dd217"
+  },
+  {
+    "id": "INDOPAK_NASTALEEQ_FALLBACK",
+    "displayName": "IndoPak Nastaleeq fallback",
+    "scriptType": "UTHMANI_FALLBACK",
+    "fileName": "indopak_nastaleeq.ttf",
+    "licenseStatus": "CLEARED",
+    "sha256": "a6463e24e36651404e9eff52dae26e18e9ef0718eb620636a66a20026a75c563"
+  }
+]

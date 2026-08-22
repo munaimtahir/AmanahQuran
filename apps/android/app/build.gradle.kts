@@ -352,9 +352,18 @@ tasks.register<Exec>("validateQuranFonts") {
     isIgnoreExitValue = true
     
     doLast {
-        val manifestFile = file("${project.rootDir}/../../projectdata/managed/font_manifest.json")
+        val generatedManifestFile = file("${project.rootDir}/../../projectdata/managed/font_manifest.json")
+        // The content-pipeline workspace is intentionally ignored and may be absent in a
+        // clean checkout. Keep the release gate reproducible by falling back to the
+        // versioned manifest shipped with the app; generated pipeline metadata still wins
+        // whenever the local pipeline workspace is available.
+        val manifestFile = if (generatedManifestFile.exists()) {
+            generatedManifestFile
+        } else {
+            file("${project.projectDir}/src/main/assets/trust/font_manifest.json")
+        }
         if (!manifestFile.exists()) {
-            throw GradleException("BLOCKED: Font manifest file not found at: ${manifestFile.absolutePath}")
+            throw GradleException("BLOCKED: Font manifest file not found at: ${generatedManifestFile.absolutePath} or ${manifestFile.absolutePath}")
         }
         
         val expectedIndopakSha = "59a5e78c530de236a365354d558b37706f37d782f7ee95c3c9b7fe9e0fad042a"

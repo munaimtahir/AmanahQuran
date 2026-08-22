@@ -17,6 +17,8 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import org.amanahquran.app.core.model.ScriptType
 import org.amanahquran.app.core.model.StreakSummary
+import org.amanahquran.app.core.daily.DailyAyahContent
+import org.amanahquran.app.core.daily.DailyAyahRepository
 import org.amanahquran.app.core.repository.LastReadRepository
 import org.amanahquran.app.core.repository.QuranContentRepository
 import org.amanahquran.app.core.repository.ReaderSettingsRepository
@@ -36,6 +38,7 @@ data class HomeUiState(
     val showFirstLaunchMessage: Boolean = false,
     val selectedScript: ScriptType = ScriptType.INDOPAK,
     val streakSummary: StreakSummary = StreakSummary.EMPTY,
+    val dailyAyah: DailyAyahContent? = null,
 )
 
 class HomeViewModel(
@@ -43,6 +46,7 @@ class HomeViewModel(
     private val lastReadRepository: LastReadRepository,
     private val settingsRepository: ReaderSettingsRepository,
     private val readingActivityRepository: ReadingActivityRepository,
+    private val dailyAyahRepository: DailyAyahRepository? = null,
     private val dispatcher: CoroutineDispatcher = Dispatchers.Main.immediate,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeUiState())
@@ -83,6 +87,7 @@ class HomeViewModel(
                         continueReading = continueReading,
                         showFirstLaunchMessage = !settings.firstLaunchMessageDismissed,
                         selectedScript = settings.selectedScript,
+                        dailyAyah = dailyAyahRepository?.getToday(),
                     )
                 }
             }
@@ -126,6 +131,7 @@ class HomeViewModel(
                     lastReadRepository = org.amanahquran.app.core.repository.lastReadRepository(context),
                     settingsRepository = org.amanahquran.app.core.repository.readerSettingsRepository(context),
                     readingActivityRepository = org.amanahquran.app.core.repository.readingActivityRepository(context),
+                    dailyAyahRepository = org.amanahquran.app.core.daily.dailyAyahRepository(context),
                 ) as T
             }
         }

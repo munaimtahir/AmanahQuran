@@ -28,6 +28,7 @@ class AppRouteTest {
                 AppRoute.ReadingReminder,
                 AppRoute.ReadingActivityDashboard,
                 AppRoute.ReadingCalendar,
+                AppRoute.DailyAyahHistory,
                 AppRoute.AdvancedReaderSettings,
                 AppRoute.ResetReadingSettings,
             ),

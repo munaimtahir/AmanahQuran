@@ -29,6 +29,7 @@ import androidx.compose.material.icons.rounded.LocalFireDepartment
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.VerifiedUser
+import androidx.compose.material.icons.rounded.Today
 import androidx.compose.material.icons.automirrored.rounded.ViewList
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -95,6 +96,7 @@ import org.amanahquran.app.core.ui.AmanahPrimaryButton
 import org.amanahquran.app.core.ui.AmanahSectionCard
 import org.amanahquran.app.core.ui.AmanahSectionHeader
 import org.amanahquran.app.core.ui.AmanahTonalButton
+import org.amanahquran.app.core.daily.DailyAyahContent
 
 @Composable
 fun HomeScreen(
@@ -109,6 +111,8 @@ fun HomeScreen(
     onOpenTrustCenter: () -> Unit,
     onOpenReadingStreak: () -> Unit,
     onOpenReadingActivity: () -> Unit,
+    onOpenDailyAyah: (String) -> Unit,
+    onOpenDailyAyahHistory: () -> Unit,
     viewModel: HomeViewModel = viewModel(factory = HomeViewModel.factory(LocalContext.current)),
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -143,6 +147,12 @@ fun HomeScreen(
                 onClick = onOpenReadingStreak,
             )
 
+            DailyAyahCard(
+                dailyAyah = uiState.dailyAyah,
+                onOpen = { uiState.dailyAyah?.let { onOpenDailyAyah(it.record.ayahKey) } },
+                onOpenHistory = onOpenDailyAyahHistory,
+            )
+
             // Extra breathing room beyond the standard xl gap so the hero and the
             // browse section below read as two distinct groups, not one continuous list.
             Spacer(modifier = Modifier.height(AmanahSpacing.md))
@@ -171,6 +181,39 @@ fun HomeScreen(
 
             // Safe bottom padding
             Spacer(modifier = Modifier.height(32.dp))
+        }
+    }
+}
+
+@Composable
+private fun DailyAyahCard(
+    dailyAyah: DailyAyahContent?,
+    onOpen: () -> Unit,
+    onOpenHistory: () -> Unit,
+) {
+    AmanahSectionCard(
+    ) {
+        Text("Daily Ayah", style = MaterialTheme.typography.titleMedium)
+        Spacer(Modifier.height(AmanahSpacing.sm))
+        if (dailyAyah == null) {
+            Text("Daily Ayah is unavailable", style = MaterialTheme.typography.bodyMedium)
+        } else {
+            Text(
+                text = dailyAyah.arabicText,
+                style = MaterialTheme.typography.titleLarge,
+                textAlign = TextAlign.Right,
+                modifier = Modifier.fillMaxWidth(),
+                maxLines = 4,
+                overflow = TextOverflow.Ellipsis,
+            )
+            dailyAyah.translationText?.let {
+                Text(it, style = MaterialTheme.typography.bodyMedium, maxLines = 3, overflow = TextOverflow.Ellipsis)
+            }
+            Text("${dailyAyah.surahName} · ${dailyAyah.ayahNumber}", style = MaterialTheme.typography.labelLarge)
+            Row(horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
+                AmanahTonalButton(text = "Open", onClick = onOpen)
+                AmanahTonalButton(text = "History", onClick = onOpenHistory)
+            }
         }
     }
 }

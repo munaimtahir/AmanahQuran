@@ -37,6 +37,7 @@ import org.amanahquran.app.feature.settings.SettingsScreen
 import org.amanahquran.app.feature.stats.ReadingActivityDashboardScreen
 import org.amanahquran.app.feature.streak.ReadingStreakScreen
 import org.amanahquran.app.feature.trust.TrustCenterScreen
+import org.amanahquran.app.feature.daily.DailyAyahHistoryScreen
 
 @Composable
 fun AmanahQuranNavHost(
@@ -55,6 +56,9 @@ fun AmanahQuranNavHost(
             if (anchor != null) {
                 navController.navigate(AppRoute.reader(anchor)) { launchSingleTop = true }
             }
+            onDeepLinkConsumed()
+        } else if (pendingDeepLink is DeepLinkRequest.ExactAyah) {
+            navController.navigate(AppRoute.exactAyahReader(pendingDeepLink.ayahKey)) { launchSingleTop = true }
             onDeepLinkConsumed()
         }
     }
@@ -124,6 +128,8 @@ fun AmanahQuranNavHost(
                     ReaderPerfLogger.log("nav_click", detail = "home->reading_activity")
                     navController.navigate(AppRoute.ReadingActivityDashboard)
                 },
+                onOpenDailyAyah = { ayahKey -> navController.navigate(AppRoute.exactAyahReader(ayahKey)) },
+                onOpenDailyAyahHistory = { navController.navigate(AppRoute.DailyAyahHistory) },
             )
         }
         composable(AppRoute.ReadingStreak) {
@@ -137,6 +143,12 @@ fun AmanahQuranNavHost(
         }
         composable(AppRoute.ReadingCalendar) {
             ReadingCalendarScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(AppRoute.DailyAyahHistory) {
+            DailyAyahHistoryScreen(
+                onNavigateBack = { navController.popBackStack() },
+                onOpenAyah = { ayahKey -> navController.navigate(AppRoute.exactAyahReader(ayahKey)) },
+            )
         }
         composable(AppRoute.QuranNavigation) {
             QuranNavigationScreen(
