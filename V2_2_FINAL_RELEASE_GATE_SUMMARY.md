@@ -1,5 +1,10 @@
 # V2.2 Final Release Gate Summary
 
+- Starting HEAD: `1ab0aad` (`v2.2.0`)
+- Ending HEAD: `d85c0e5`
+- Release tag: none created; release-blocking external gates remain open.
+- Version: `2.2.0` / versionCode `10`
+
 ## Verdict
 
 `CONDITIONAL GO — HUMAN/DEVICE REVIEW REMAINS`

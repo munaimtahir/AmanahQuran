@@ -2,10 +2,9 @@
 
 This is the single authoritative V2.2 deferment ledger.
 
-No human-only item has been added yet. Items are recorded here only after
-autonomous engineering work and automated validation establish that the
-remaining action genuinely requires external content approval, credentials, or
-an unavailable device.
+Items are recorded here only after autonomous engineering work and automated
+validation establish that the remaining action genuinely requires external
+content approval, credentials, or an unavailable device.
 
 ## V22-AUDIO-001
 
