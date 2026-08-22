@@ -1,10 +1,24 @@
 # Amanah Quran V2.1 implementation state
 
-Updated: 2026-08-06
+Updated: 2026-08-22
 
 ## Current verdict
 
-`V2.1.0 RELEASE CANDIDATE — ENGINEERING GATES PASS, RELEASE AAB BUILT AND DEVICE-VERIFIED, AWAITING HUMAN UPLOAD DECISION`
+`MULTILINGUAL TRANSLATION INTEGRATION COMPLETE — ENGINEERING/CONTENT/PACKAGING GATES PASS, INDEPENDENTLY AUDITED, AWAITING HUMAN RELEASE/UPLOAD DECISION`
+
+Dual-translation integration (2026-08-22): replaced the single Urdu Junagarhi
+translation with two translations selectable Off/English/Urdu -- **The Manifest
+Quran** (English) and **Irfan-ul-Quran** (Urdu), both by Dr Muhammad
+Tahir-ul-Qadri -- sourced from a frozen, checksum-verified handoff produced by
+the `manifest-quran-builder/` translation-builder subproject (tag
+`translations-v1.0.1-final`). Full detail, including independently
+recalculated checksums/counts and the release verdict:
+`TRANSLATION_INTEGRATION_FINAL_VERIFICATION.md`. 267/267 unit tests pass
+(up from 249), lint clean, debug and signed public-track release builds pass
+all content gates, and 3 new device-level Compose UI tests pass on a real
+Android 15 emulator alongside the pre-existing smoke tests. Text/footnote
+fidelity against the frozen source: 0 mismatches across 6235+6235 ayahs and
+142+45 footnotes. Arabic Quran text unchanged (byte-identical `quran.db`).
 
 READER-UX-02 (2026-08-06) added Continuous Mode (book-style flowing text) and parallel split-screen
 translation on top of the READER-UX-01 foundation, plus a fix for a reported Surah-1 bug that grew
@@ -62,8 +76,21 @@ Updated `TrustCenterRepositoryTest.kt` and `ReaderMvpViewModelTest.kt` for the r
 | 11 — signed release | PASS (build gate) | V2.0.0/versionCode 6; internal and public release-track assemblies, content/license gates, R8, resource shrinking, and native symbols pass |
 | 12 — READER-UX-01 (adaptive zoom/auto-scroll/graphical redesign) | PASS | See `docs/_implementation/READER_UX_01_UNIFIED_ADAPTIVE_READER_EXPERIENCE_REPORT.md`; 125/125 tests, device-verified |
 | 13 — READER-UX-02 (Continuous Mode/split translation) | PASS (device-verified, incl. Surah-1 continuity fix) | V2.1.0/versionCode 8; see `docs/_implementation/READER_UX_02_CONTINUOUS_AND_SPLIT_TRANSLATION_REPORT.md`; 145/145 tests, signed AAB/APK built, content/DB integrity gates pass |
+| 14 — Dual-translation integration (Manifest English + Irfan-ul-Quran Urdu, replacing Junagarhi) | PASS (independently audited) | See `TRANSLATION_INTEGRATION_FINAL_VERIFICATION.md`; 267/267 tests, 0 text/footnote mismatches, deterministic import, packaged-content audit PASS, signed public-track release built, device-verified on Android 15 emulator |
 
 ## Verified content evidence
+
+### Current: Manifest English + Irfan-ul-Quran Urdu (2026-08-22, replaces Junagarhi below)
+
+- Source: `manifest-quran-builder/manifest-quran-builder/release/final/amanah-integration/` (translation-builder tag `translations-v1.0.1-final`).
+- Manifest EN source-native SHA-256: `0b0bd7e4f809afe4eaaeb8bf69f2d8666f91398398bbb3a76c0149ea4e744d25`; canonical confirmed SHA-256: `f7542cd24c4dbf109033d33ed585919974e816e7da0d14d30c92398bf98fbda7`.
+- Irfan UR source-native SHA-256: `23137c7a8855c0d8db05e36e0d0c91ce07ea170fb6e0a8f35d696e789302b340`; canonical confirmed SHA-256: `8e61e805972e87f76b8809f2b7c5afe3567000bb50c07b4c642b1ffe65b6455d`.
+- Canonical states per translation: 6236 (6235 translated + 1 `SOURCE_MISSING` at `1:1`); footnotes 142 (EN) / 45 (UR).
+- Packaged Room asset SHA-256: `6c8488e9fb99506b87356e14dad254f9ae8ec62a4a10b811428d54298a1baa41` (`translation_content.db`, both translations, deterministic/reproducible import).
+- Automated report: `content-pipeline/05_validation_reports/dual_translation_validation.json`.
+- Full detail: `TRANSLATION_INTEGRATION_FINAL_VERIFICATION.md`.
+
+### Historical: QuranEnc Urdu Junagarhi (retired 2026-08-22, no longer bundled)
 
 - QuranEnc Urdu Junagarhi CSV: version `v1.1.3-csv.1`.
 - Source SHA-256: `027cd258d87285bdb8afbffa60fd141c450a1d029b14c16501355ab24481fec4`.
@@ -75,8 +102,11 @@ Updated `TrustCenterRepositoryTest.kt` and `ReaderMvpViewModelTest.kt` for the r
 ## Recent implementation files
 
 - `apps/android/app/src/main/kotlin/org/amanahquran/app/content/translation/`
+- `apps/android/app/src/main/kotlin/org/amanahquran/app/core/model/TranslationSelection.kt`
+- `apps/android/app/src/main/kotlin/org/amanahquran/app/feature/reader/TranslationRendering.kt`
 - `apps/android/app/src/main/assets/content/translations/`
-- `tools/content-import/import_quranenc_translation.py`
+- `tools/content-import/import_dual_translation.py`
+- `tools/content-import/import_quranenc_translation.py` (historical, Junagarhi -- retired but preserved)
 - `apps/android/app/src/main/kotlin/org/amanahquran/app/core/backup/UserBackupCodec.kt`
 - `apps/android/app/src/main/kotlin/org/amanahquran/app/core/repository/BookmarkCollectionRepository.kt`
 - `apps/android/app/src/main/kotlin/org/amanahquran/app/core/database/DatabaseProvider.kt`

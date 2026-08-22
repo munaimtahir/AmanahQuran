@@ -1,5 +1,44 @@
 # Amanah Quran — Release Ledger
 
+## Release Entry: Version 10 (2.2.0)
+
+- **App Name**: Amanah Quran
+- **Project Identity**: Amanah-e-Kisa
+- **Release Version**: `2.2.0`
+- **Version Code**: `10`
+- **Release Date**: August 22, 2026
+- **Target Platform**: Android
+- **Release Bundle (AAB)**: `apps/android/app/build/outputs/bundle/release/app-release.aab`
+- **Release Bundle SHA-256**: `a053e6997b802f2d6d40fb8082cd69fc24a59684d3f514cd36f32c353936462e`
+- **Release APK SHA-256**: `8cd540db81f2f3b1cb5a8ee09dcbf5b261c59caa36eb4ab0274303319b20bfb8`
+- **Scope**:
+  - Multilingual translation integration: **The Manifest Quran** (English) and
+    **Irfan-ul-Quran** (Urdu), both by Dr Muhammad Tahir-ul-Qadri, selectable
+    Off/English/Urdu in Settings for both Continuous View and Ayah View.
+    Replaces the retired single Urdu Junagarhi translation.
+  - Stable translation domain contract (`TranslationSelection`, direction-aware
+    rendering, explicit `SOURCE_MISSING` state, first-class footnotes) sourced
+    from a frozen, checksum-verified handoff (`translations-v1.0.1-final`).
+  - Extended Trust Center with live per-translation verification (canonical
+    coverage, permission status, footnote counts, content checksum).
+  - Translation-scoped search; bookmark/last-read/Arabic-script selection
+    unaffected (separate canonical identity, untouched code paths).
+- **Verification Gates**:
+  - Unit Tests: PASS (267/267 tests passed; baseline before this release: 249).
+  - Content fidelity: PASS (0 text/footnote mismatches against the frozen source across 6235+6235 ayahs and 142+45 footnotes).
+  - Deterministic import: PASS (byte-identical packaged database across two independent builds).
+  - Connected Android Emulator Tests: PASS (Android 15; 3 new translation UI tests + pre-existing smoke tests).
+  - Quran Database Validation: PASS (6,236 Ayahs, 114 Surahs canonical integrity, unchanged from prior release).
+  - Asset Scanner & License Clearance: PASS (0 blockers, public track).
+  - Production Release Signing: PASS (signed AAB/APK, R8 minification).
+  - Full detail: `TRANSLATION_INTEGRATION_FINAL_VERIFICATION.md`.
+  - Independent audit (fresh-context agent, no reuse of the implementer's own
+    findings): re-derived checksums, ran a full row-by-row comparison of all
+    6235+6235 translated ayahs (not a sample) against the frozen source, ran
+    its own isolated gradle build -- **GO**, 0 blockers.
+
+---
+
 ## Release Entry: Version 9 (2.1.1)
 
 - **App Name**: Amanah Quran
