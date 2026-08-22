@@ -556,9 +556,12 @@ def build_generated_project_data(staging: dict[str, Any], registry: list[dict]) 
         if "Dr. Hafiz Muhammad Munaim Tahir" in text and "SIGNED AND APPROVED" in text:
             is_signed_off = True
 
-    # Check if the Urdu translation has a recorded public-distribution license clearance
-    translation_license_file = ROOT / "docs" / "legal" / "TRANSLATION_LICENSE_CLEARANCE_DECISION.md"
-    translation_validation_file = CONTENT_PIPELINE / "05_validation_reports" / "urdu_translation_validation.json"
+    # Check if the bundled dual-translation pack (Manifest English + Irfan-ul-Quran Urdu) has a
+    # recorded public-distribution license clearance. This supersedes the old single-translation
+    # Urdu Junagarhi gate (docs/legal/TRANSLATION_LICENSE_CLEARANCE_DECISION.md), preserved
+    # unchanged as historical record since Junagarhi is no longer bundled.
+    translation_license_file = ROOT / "docs" / "legal" / "DUAL_TRANSLATION_LICENSE_CLEARANCE_DECISION.md"
+    translation_validation_file = CONTENT_PIPELINE / "05_validation_reports" / "dual_translation_validation.json"
     is_translation_licensed = False
     if translation_license_file.exists() and translation_validation_file.exists():
         license_text = translation_license_file.read_text(encoding="utf-8")
@@ -566,6 +569,7 @@ def build_generated_project_data(staging: dict[str, Any], registry: list[dict]) 
         if (
             "TRANSLATION LICENSE CLEARANCE: APPROVED FOR PUBLIC DISTRIBUTION" in license_text
             and "APPROVED" in str(validation_data.get("reviewer_status", ""))
+            and str(validation_data.get("validation_status", "")) == "PASS"
         ):
             is_translation_licensed = True
 
@@ -639,8 +643,8 @@ def build_generated_project_data(staging: dict[str, Any], registry: list[dict]) 
         "trust_center_sources.json": sha256_file(CONTENT_PIPELINE / "06_generated_projectdata" / "trust_center_sources.json"),
     }
     translation_assets = {
-        "translation_urdu_junagarhi.db": ROOT / "apps" / "android" / "app" / "src" / "main" / "assets" / "content" / "translations" / "translation_urdu_junagarhi.db",
-        "translation_urdu_junagarhi_manifest.json": ROOT / "apps" / "android" / "app" / "src" / "main" / "assets" / "content" / "translations" / "translation_urdu_junagarhi_manifest.json",
+        "translation_content.db": ROOT / "apps" / "android" / "app" / "src" / "main" / "assets" / "content" / "translations" / "translation_content.db",
+        "translation_content_manifest.json": ROOT / "apps" / "android" / "app" / "src" / "main" / "assets" / "content" / "translations" / "translation_content_manifest.json",
     }
     translation_generated_assets = [
         {
@@ -830,7 +834,7 @@ def write_docs() -> None:
                 "- Tanzil Simple Clean XML is treated as search-normalization and cross-check input only.",
                 "- Current QUL IndoPak assets are retained in the pipeline but remain under review until license status is cleared.",
                 "- Approved reader fonts remain internal-testing only until explicit public distribution approval exists.",
-                "- QuranEnc Urdu Junagarhi translation is cleared for public distribution; see docs/legal/TRANSLATION_LICENSE_CLEARANCE_DECISION.md.",
+                "- The Manifest Quran (English) and Irfan-ul-Quran (Urdu), both by Dr Muhammad Tahir-ul-Qadri, are cleared for public distribution; see docs/legal/DUAL_TRANSLATION_LICENSE_CLEARANCE_DECISION.md. (Supersedes the retired QuranEnc Urdu Junagarhi translation; see docs/legal/TRANSLATION_LICENSE_CLEARANCE_DECISION.md for that historical record.)",
             ]
         )
         + "\n",

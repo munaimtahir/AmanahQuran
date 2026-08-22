@@ -205,18 +205,18 @@ def evaluate_findings(profile: str, scope: str) -> tuple[list[Finding], dict]:
             continue
 
         if kind == "TRANSLATION" and name in {
-            "translation_urdu_junagarhi.db",
-            "translation_urdu_junagarhi_manifest.json",
+            "translation_content.db",
+            "translation_content_manifest.json",
         }:
             generated_asset = generated.get(name, {})
             status = generated_asset.get("validation_status", "REVIEW_REQUIRED")
             if profile == "public" and status != "APPROVED":
                 findings.append(
-                    Finding(path, kind, profile, scope, "BLOCKER", "translation_not_public_release_approved", source_name="QuranEnc Urdu Junagarhi", license_status=status, checksum_sha256=checksum)
+                    Finding(path, kind, profile, scope, "BLOCKER", "translation_not_public_release_approved", source_name="The Manifest Quran (EN) + Irfan-ul-Quran (UR)", license_status=status, checksum_sha256=checksum)
                 )
                 blockers += 1
             else:
-                findings.append(Finding(path, kind, profile, scope, "OK", "internal_testing_translation", source_name="QuranEnc Urdu Junagarhi", license_status=status, checksum_sha256=checksum))
+                findings.append(Finding(path, kind, profile, scope, "OK", "internal_testing_translation", source_name="The Manifest Quran (EN) + Irfan-ul-Quran (UR)", license_status=status, checksum_sha256=checksum))
                 warnings += 1
             continue
 

@@ -104,12 +104,12 @@ def scan_inventory() -> list[PackageAsset]:
                 license_status = generated.get("trust_center_sources.json", {}).get("validation_status")
                 notes = "generated Trust Center JSON"
             elif kind == "TRANSLATION" and path.name in {
-                "translation_urdu_junagarhi.db",
-                "translation_urdu_junagarhi_manifest.json",
+                "translation_content.db",
+                "translation_content_manifest.json",
             }:
-                source_match = "docs/legal/TRANSLATION_LICENSE_CLEARANCE_DECISION.md"
+                source_match = "docs/legal/DUAL_TRANSLATION_LICENSE_CLEARANCE_DECISION.md"
                 license_status = generated.get(path.name, {}).get("validation_status")
-                notes = "packaged Urdu Junagarhi translation (QuranEnc)"
+                notes = "packaged Manifest English + Irfan-ul-Quran Urdu translations"
             else:
                 reg = (
                     registry.get(f"sourcedata/{path.name}")
@@ -164,8 +164,8 @@ def main() -> int:
             else:
                 warnings.append({**item.__dict__, "reason": "internal_testing_font"})
         elif item.kind == "TRANSLATION" and name in {
-            "translation_urdu_junagarhi.db",
-            "translation_urdu_junagarhi_manifest.json",
+            "translation_content.db",
+            "translation_content_manifest.json",
         }:
             if args.profile == "public" and item.license_status != "APPROVED":
                 blockers.append({**item.__dict__, "reason": "translation_not_public_release_approved"})

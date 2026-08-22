@@ -1,17 +1,17 @@
 # CONTENT_RESET_AUDIT
 
-Generated: 2026-08-17T08:21:57+00:00
+Generated: 2026-08-22T19:57:08+00:00
 
 ## Summary
 
-- Content-related files discovered: 579
+- Content-related files discovered: 585
 - Registry assets: 123
 
 ## Classification
 
 ### KEEP_APP_CODE
 
-- Count: 15
+- Count: 16
 - `scripts/__pycache__/content_pipeline_common.cpython-312.pyc`
 - `scripts/__pycache__/generate_content_pipeline.cpython-312.pyc`
 - `scripts/__pycache__/scan_packaged_content_assets.cpython-312.pyc`
@@ -24,6 +24,7 @@ Generated: 2026-08-17T08:21:57+00:00
 - `scripts/validate_quran_database.py`
 - `tools/content-import/README.md`
 - `tools/content-import/audit_projectdata.py`
+- `tools/content-import/import_dual_translation.py`
 - `tools/content-import/import_quranenc_translation.py`
 - `tools/content-import/rebuild_projectdata.py`
 - `tools/validation/README.md`
@@ -122,10 +123,13 @@ Generated: 2026-08-17T08:21:57+00:00
 
 ### GENERATED_OUTPUT
 
-- Count: 472
-- `apps/android/app/src/main/assets/content/translations/translation_urdu_junagarhi.db`
-- `apps/android/app/src/main/assets/content/translations/translation_urdu_junagarhi_manifest.json`
+- Count: 477
+- `apps/android/app/src/main/assets/content/.gitkeep`
+- `apps/android/app/src/main/assets/content/translations/translation_content.db`
+- `apps/android/app/src/main/assets/content/translations/translation_content_manifest.json`
 - `apps/android/app/src/main/assets/database/quran.db`
+- `apps/android/app/src/main/assets/db/.gitkeep`
+- `apps/android/app/src/main/assets/fonts/.gitkeep`
 - `apps/android/app/src/main/assets/trust/trust_center_content.json`
 - `apps/android/app/src/main/res/font/digital_khatt_indopak.otf`
 - `apps/android/app/src/main/res/font/digital_khatt_v2.otf`
@@ -320,10 +324,7 @@ Generated: 2026-08-17T08:21:57+00:00
 - `docs/_release_gate/phase4_font_license_review_report.md`
 - `docs/_release_gate/phase5_trust_center_wording_review_report.md`
 - `docs/_release_gate/phase6_privacy_permission_audit_report.md`
-- `docs/_release_gate/phase7_content_integrity_audit_report.md`
-- `docs/_release_gate/phase8_release_readiness_matrix_report.md`
-- `docs/_release_gate/phase9_play_store_readiness_notes_report.md`
-- ... 272 more
+- ... 277 more
 
 ### QUARANTINE_LEGACY_CONTENT
 

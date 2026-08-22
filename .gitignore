@@ -15,6 +15,15 @@ ProjectData/
 projectdata/
 content-pipeline/
 
+# Translation-builder subproject: an external, independently version-controlled
+# evidence/build subsystem (its own git history and release tags) copied in as
+# build input for tools/content-import/import_dual_translation.py. Not part of
+# this repo's history; the Android app never depends on it at runtime -- only
+# the deterministic, checksum-verified output it produces
+# (apps/android/app/src/main/assets/content/translations/translation_content.db)
+# is committed.
+manifest-quran-builder/
+
 # Folders containing files >50MB
 content-pipeline/00_candidate_sources/fonts/
 content-pipeline/00_candidate_sources/page_mapping/
