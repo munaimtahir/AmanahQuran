@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "0e80a3edafb63897bfdce39f436078a1",
+    "identityHash": "425e9a5584d08d0666d65ae0244eb89f",
     "entities": [
       {
         "tableName": "translation_metadata",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`translationId` TEXT NOT NULL, `languageCode` TEXT NOT NULL, `languageName` TEXT NOT NULL, `translatorName` TEXT NOT NULL, `editionName` TEXT NOT NULL, `sourceName` TEXT NOT NULL, `sourceUrl` TEXT NOT NULL, `version` TEXT NOT NULL, `licenseStatus` TEXT NOT NULL, `checksum` TEXT NOT NULL, `importDate` TEXT NOT NULL, `validationStatus` TEXT NOT NULL, `reviewerStatus` TEXT NOT NULL, PRIMARY KEY(`translationId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`translationId` TEXT NOT NULL, `languageCode` TEXT NOT NULL, `languageName` TEXT NOT NULL, `displayName` TEXT NOT NULL, `translatorName` TEXT NOT NULL, `sourceName` TEXT NOT NULL, `sourceUrl` TEXT NOT NULL, `direction` TEXT NOT NULL, `contentVersion` TEXT NOT NULL, `permissionStatus` TEXT NOT NULL, `attributionText` TEXT NOT NULL, `availableCount` INTEGER NOT NULL, `sourceMissingCount` INTEGER NOT NULL, `footnoteCount` INTEGER NOT NULL, `checksum` TEXT NOT NULL, `importDate` TEXT NOT NULL, PRIMARY KEY(`translationId`))",
         "fields": [
           {
             "fieldPath": "translationId",
@@ -27,14 +27,14 @@
             "notNull": true
           },
           {
-            "fieldPath": "translatorName",
-            "columnName": "translatorName",
+            "fieldPath": "displayName",
+            "columnName": "displayName",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "editionName",
-            "columnName": "editionName",
+            "fieldPath": "translatorName",
+            "columnName": "translatorName",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -51,15 +51,45 @@
             "notNull": true
           },
           {
-            "fieldPath": "version",
-            "columnName": "version",
+            "fieldPath": "direction",
+            "columnName": "direction",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "licenseStatus",
-            "columnName": "licenseStatus",
+            "fieldPath": "contentVersion",
+            "columnName": "contentVersion",
             "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "permissionStatus",
+            "columnName": "permissionStatus",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "attributionText",
+            "columnName": "attributionText",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "availableCount",
+            "columnName": "availableCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceMissingCount",
+            "columnName": "sourceMissingCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "footnoteCount",
+            "columnName": "footnoteCount",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
@@ -73,18 +103,6 @@
             "columnName": "importDate",
             "affinity": "TEXT",
             "notNull": true
-          },
-          {
-            "fieldPath": "validationStatus",
-            "columnName": "validationStatus",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "reviewerStatus",
-            "columnName": "reviewerStatus",
-            "affinity": "TEXT",
-            "notNull": true
           }
         ],
         "primaryKey": {
@@ -96,7 +114,7 @@
       },
       {
         "tableName": "translation_ayahs",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`translationId` TEXT NOT NULL, `ayahKey` TEXT NOT NULL, `displayText` TEXT NOT NULL, `normalizedSearchText` TEXT NOT NULL, PRIMARY KEY(`translationId`, `ayahKey`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`translationId` TEXT NOT NULL, `ayahKey` TEXT NOT NULL, `surahNumber` INTEGER NOT NULL, `ayahNumber` INTEGER NOT NULL, `displayText` TEXT, `availabilityStatus` TEXT NOT NULL, `normalizedSearchText` TEXT, PRIMARY KEY(`translationId`, `ayahKey`))",
         "fields": [
           {
             "fieldPath": "translationId",
@@ -111,16 +129,32 @@
             "notNull": true
           },
           {
+            "fieldPath": "surahNumber",
+            "columnName": "surahNumber",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ayahNumber",
+            "columnName": "ayahNumber",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
             "fieldPath": "displayText",
             "columnName": "displayText",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "availabilityStatus",
+            "columnName": "availabilityStatus",
             "affinity": "TEXT",
             "notNull": true
           },
           {
             "fieldPath": "normalizedSearchText",
             "columnName": "normalizedSearchText",
-            "affinity": "TEXT",
-            "notNull": true
+            "affinity": "TEXT"
           }
         ],
         "primaryKey": {
@@ -150,11 +184,67 @@
             "createSql": "CREATE INDEX IF NOT EXISTS `index_translation_ayahs_normalizedSearchText` ON `${TABLE_NAME}` (`normalizedSearchText`)"
           }
         ]
+      },
+      {
+        "tableName": "translation_footnotes",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`translationId` TEXT NOT NULL, `ayahKey` TEXT NOT NULL, `footnoteIndex` INTEGER NOT NULL, `marker` TEXT NOT NULL, `footnoteText` TEXT NOT NULL, PRIMARY KEY(`translationId`, `ayahKey`, `footnoteIndex`))",
+        "fields": [
+          {
+            "fieldPath": "translationId",
+            "columnName": "translationId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ayahKey",
+            "columnName": "ayahKey",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "footnoteIndex",
+            "columnName": "footnoteIndex",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "marker",
+            "columnName": "marker",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "footnoteText",
+            "columnName": "footnoteText",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "translationId",
+            "ayahKey",
+            "footnoteIndex"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_translation_footnotes_translationId_ayahKey",
+            "unique": false,
+            "columnNames": [
+              "translationId",
+              "ayahKey"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_translation_footnotes_translationId_ayahKey` ON `${TABLE_NAME}` (`translationId`, `ayahKey`)"
+          }
+        ]
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0e80a3edafb63897bfdce39f436078a1')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '425e9a5584d08d0666d65ae0244eb89f')"
     ]
   }
 }

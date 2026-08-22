@@ -1,0 +1,22 @@
+{
+  "pack_sha256": "6c8488e9fb99506b87356e14dad254f9ae8ec62a4a10b811428d54298a1baa41",
+  "generated_at": "2026-08-22T14:22:21.855193+00:00",
+  "handoff_dir": "manifest-quran-builder/manifest-quran-builder/release/final/amanah-integration",
+  "output_sha256": "6c8488e9fb99506b87356e14dad254f9ae8ec62a4a10b811428d54298a1baa41",
+  "output_byte_size": 11247616,
+  "room_identity_hash": "425e9a5584d08d0666d65ae0244eb89f",
+  "translations": {
+    "TAHIR_QADRI_MANIFEST_EN": {
+      "translated_count": 6235,
+      "source_missing_count": 1,
+      "footnote_count": 142
+    },
+    "TAHIR_QADRI_IRFAN_UR": {
+      "translated_count": 6235,
+      "source_missing_count": 1,
+      "footnote_count": 45
+    }
+  },
+  "validation_status": "PASS",
+  "reviewer_status": "APPROVED"
+}

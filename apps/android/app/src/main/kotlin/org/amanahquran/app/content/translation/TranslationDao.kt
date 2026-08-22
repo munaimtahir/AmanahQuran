@@ -12,9 +12,26 @@ interface TranslationDao {
     @Query("SELECT * FROM translation_ayahs WHERE translationId = :translationId AND ayahKey = :ayahKey LIMIT 1")
     suspend fun getAyah(translationId: String, ayahKey: String): TranslationAyahEntity?
 
-    @Query("SELECT * FROM translation_ayahs WHERE translationId = :translationId ORDER BY ayahKey")
+    @Query("SELECT * FROM translation_ayahs WHERE translationId = :translationId ORDER BY surahNumber, ayahNumber")
     fun observeAyahs(translationId: String): Flow<List<TranslationAyahEntity>>
 
-    @Query("SELECT * FROM translation_ayahs WHERE translationId = :translationId AND normalizedSearchText LIKE '%' || :query || '%' ORDER BY ayahKey LIMIT :limit")
+    @Query(
+        "SELECT * FROM translation_ayahs WHERE translationId = :translationId AND normalizedSearchText LIKE '%' || :query || '%' ORDER BY surahNumber, ayahNumber LIMIT :limit",
+    )
     suspend fun search(translationId: String, query: String, limit: Int): List<TranslationAyahEntity>
+
+    @Query("SELECT * FROM translation_footnotes WHERE translationId = :translationId ORDER BY ayahKey, footnoteIndex")
+    suspend fun getAllFootnotes(translationId: String): List<TranslationFootnoteEntity>
+
+    @Query("SELECT * FROM translation_footnotes WHERE translationId = :translationId AND ayahKey = :ayahKey ORDER BY footnoteIndex")
+    suspend fun getFootnotes(translationId: String, ayahKey: String): List<TranslationFootnoteEntity>
+
+    @Query("SELECT COUNT(*) FROM translation_ayahs WHERE translationId = :translationId")
+    suspend fun countAyahs(translationId: String): Int
+
+    @Query("SELECT COUNT(*) FROM translation_ayahs WHERE translationId = :translationId AND availabilityStatus = 'SOURCE_MISSING'")
+    suspend fun countSourceMissing(translationId: String): Int
+
+    @Query("SELECT COUNT(*) FROM translation_footnotes WHERE translationId = :translationId")
+    suspend fun countFootnotes(translationId: String): Int
 }

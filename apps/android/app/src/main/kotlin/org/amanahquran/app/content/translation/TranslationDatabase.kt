@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [TranslationMetadataEntity::class, TranslationAyahEntity::class],
+    entities = [TranslationMetadataEntity::class, TranslationAyahEntity::class, TranslationFootnoteEntity::class],
     version = 1,
     exportSchema = true,
 )
@@ -14,8 +14,8 @@ abstract class TranslationDatabase : RoomDatabase() {
     abstract fun translationDao(): TranslationDao
 
     companion object {
-        const val DATABASE_NAME = "translation_urdu_junagarhi.db"
-        const val ASSET_PATH = "content/translations/translation_urdu_junagarhi.db"
+        const val DATABASE_NAME = "translation_content.db"
+        const val ASSET_PATH = "content/translations/translation_content.db"
     }
 }
 
