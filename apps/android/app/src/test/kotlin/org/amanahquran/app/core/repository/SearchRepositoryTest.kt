@@ -115,16 +115,39 @@ class SearchRepositoryTest {
     }
 
     @Test
-    fun urduTranslationSearchReturnsMatchingAyahWithArabicDisplayText() = runTest {
-        val results = repository.search("معبود برحق", ScriptType.UTHMANI)
+    fun irfanUrduTranslationSearchReturnsMatchingAyahWithArabicDisplayText() = runTest {
+        val ayahText = translationDatabase.translationDao().getAyah(IRFAN_UR_TRANSLATION_ID, "2:255")
+        val queryFragment = requireNotNull(ayahText?.displayText).take(10)
+
+        val results = repository.search(queryFragment, ScriptType.UTHMANI, IRFAN_UR_TRANSLATION_ID)
 
         val result = results.first { it.ayahKey == "2:255" }
         assertEquals(SearchResultType.AYAH, result.resultType)
         assertEquals(2, result.surahNumber)
         assertEquals(255, result.ayahNumber)
         assertNotNull(result.translationText)
-        assertTrue(result.translationText!!.contains("معبود"))
+        assertTrue(result.translationText!!.contains(queryFragment.trim()))
         assertNotNull(result.previewText)
+    }
+
+    @Test
+    fun translationSearchIsScopedToTheRequestedTranslationOnly() = runTest {
+        val manifestFragment = requireNotNull(
+            translationDatabase.translationDao().getAyah(MANIFEST_EN_TRANSLATION_ID, "2:255")?.displayText,
+        ).take(10)
+
+        val resultsWithoutTranslationId = repository.search(manifestFragment, ScriptType.UTHMANI)
+        val resultsWithWrongTranslation = repository.search(manifestFragment, ScriptType.UTHMANI, IRFAN_UR_TRANSLATION_ID)
+        val resultsWithCorrectTranslation = repository.search(manifestFragment, ScriptType.UTHMANI, MANIFEST_EN_TRANSLATION_ID)
+
+        assertTrue(resultsWithoutTranslationId.none { it.translationText != null })
+        assertTrue(resultsWithWrongTranslation.none { it.translationText != null })
+        assertTrue(resultsWithCorrectTranslation.any { it.ayahKey == "2:255" && it.translationText != null })
+    }
+
+    private companion object {
+        const val MANIFEST_EN_TRANSLATION_ID = "TAHIR_QADRI_MANIFEST_EN"
+        const val IRFAN_UR_TRANSLATION_ID = "TAHIR_QADRI_IRFAN_UR"
     }
 
     @Test

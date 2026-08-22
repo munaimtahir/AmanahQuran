@@ -1,7 +1,6 @@
 package org.amanahquran.app.feature.reader
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,7 +15,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,16 +23,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.amanahquran.app.content.translation.TranslationAyahDisplay
+import org.amanahquran.app.content.translation.TranslationFootnote
 import org.amanahquran.app.core.model.ScriptType
+import org.amanahquran.app.core.model.TranslationDirection
 import org.amanahquran.app.core.theme.AmanahShapes
 import org.amanahquran.app.core.theme.AmanahSpacing
 import org.amanahquran.app.core.theme.LocalReaderPalette
@@ -138,10 +137,13 @@ fun ParallelTranslationBlockRow(
     scriptType: ScriptType,
     arabicFontSizeSp: Float,
     arabicLineSpacingMultiplier: Float,
-    translations: Map<String, String>,
+    translations: Map<String, TranslationAyahDisplay>,
+    translationFootnotes: Map<String, List<TranslationFootnote>>,
+    translationDirection: TranslationDirection,
     translationFontSizeSp: Float,
     selectedAyahKey: String?,
     onSelectAyah: (String) -> Unit,
+    onFootnotesRequested: (List<TranslationFootnote>) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val palette = LocalReaderPalette.current
@@ -156,32 +158,24 @@ fun ParallelTranslationBlockRow(
                 .weight(1f)
                 .padding(end = AmanahSpacing.sm),
         ) {
-            CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
-                block.ayahRanges.forEach { range ->
-                    val translationText = translations[range.ayahKey]
-                    if (!translationText.isNullOrBlank()) {
-                        Text(
-                            text = translationText,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable { onSelectAyah(range.ayahKey) }
-                                .then(
-                                    if (range.ayahKey == selectedAyahKey) {
-                                        Modifier.background(palette.currentAyahHighlight, AmanahShapes.ayahCard)
-                                    } else {
-                                        Modifier
-                                    },
-                                )
-                                .padding(horizontal = AmanahSpacing.xs, vertical = 2.dp),
-                            style = MaterialTheme.typography.bodyLarge.copy(
-                                fontSize = translationFontSizeSp.sp,
-                                lineHeight = (translationFontSizeSp * 1.65f).sp,
-                            ),
-                            textAlign = TextAlign.Right,
-                            color = palette.secondaryText,
-                        )
-                    }
-                }
+            block.ayahRanges.forEach { range ->
+                TranslationAyahText(
+                    display = translations[range.ayahKey],
+                    direction = translationDirection,
+                    footnotes = translationFootnotes[range.ayahKey].orEmpty(),
+                    translationFontSizeSp = translationFontSizeSp,
+                    onClick = { onSelectAyah(range.ayahKey) },
+                    onFootnotesRequested = onFootnotesRequested,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .then(
+                            if (range.ayahKey == selectedAyahKey) {
+                                Modifier.background(palette.currentAyahHighlight, AmanahShapes.ayahCard)
+                            } else {
+                                Modifier
+                            },
+                        ),
+                )
             }
         }
 

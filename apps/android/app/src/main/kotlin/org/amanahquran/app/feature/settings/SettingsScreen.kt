@@ -1,5 +1,6 @@
 package org.amanahquran.app.feature.settings
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,6 +22,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
@@ -46,6 +48,7 @@ import androidx.compose.ui.semantics.semantics
 import kotlinx.coroutines.launch
 import org.amanahquran.app.core.model.ReaderContentMode
 import org.amanahquran.app.core.model.ScriptType
+import org.amanahquran.app.core.model.TranslationSelection
 import org.amanahquran.app.core.repository.ReaderSettings
 import org.amanahquran.app.core.repository.readerSettingsRepository
 import org.amanahquran.app.core.repository.bookmarkRepository
@@ -354,28 +357,38 @@ fun SettingsScreen(
             }
 
             Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
-                AmanahSectionHeader(title = "Urdu Translation")
+                AmanahSectionHeader(title = "Translation")
                 AmanahCard(modifier = Modifier.fillMaxWidth()) {
                     Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.md)) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Column(modifier = Modifier.weight(1f)) {
-                                Text("Show Urdu translation", style = MaterialTheme.typography.bodyLarge)
-                                Text(
-                                    "Muhammad Junagarhi · QuranEnc · offline",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        TranslationSelectionOption.entries.forEachIndexed { index, option ->
+                            if (index > 0) AmanahDivider()
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        scope.launch { settingsRepository.setTranslationSelection(option.selection) }
+                                    }
+                                    .padding(vertical = AmanahSpacing.xs),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(option.title, style = MaterialTheme.typography.bodyLarge)
+                                    if (option.subtitle != null) {
+                                        Text(
+                                            option.subtitle,
+                                            style = MaterialTheme.typography.bodySmall,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        )
+                                    }
+                                }
+                                RadioButton(
+                                    selected = settings.translationSelection == option.selection,
+                                    onClick = {
+                                        scope.launch { settingsRepository.setTranslationSelection(option.selection) }
+                                    },
                                 )
                             }
-                            Switch(
-                                checked = settings.translationEnabled,
-                                onCheckedChange = { enabled ->
-                                    scope.launch { settingsRepository.setTranslationEnabled(enabled) }
-                                },
-                            )
                         }
                         if (settings.translationEnabled) {
                             AmanahDivider()
@@ -383,7 +396,7 @@ fun SettingsScreen(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceBetween,
                             ) {
-                                Text("Urdu font size", style = MaterialTheme.typography.bodyMedium)
+                                Text("Translation font size", style = MaterialTheme.typography.bodyMedium)
                                 Text("${settings.translationFontSizeSp.toInt()} sp", style = MaterialTheme.typography.labelLarge)
                             }
                             AmanahSlider(
@@ -489,4 +502,23 @@ fun SettingsScreen(
             dismissButton = { TextButton(onClick = { pendingRestore = null }) { Text("Cancel") } },
         )
     }
+}
+
+/** Off / The Manifest Quran (English) / Irfan-ul-Quran (Urdu) -- the closed set the Translation section offers. */
+private enum class TranslationSelectionOption(
+    val selection: TranslationSelection,
+    val title: String,
+    val subtitle: String?,
+) {
+    OFF(TranslationSelection.OFF, "Off", null),
+    MANIFEST_EN(
+        TranslationSelection.MANIFEST_EN,
+        "English",
+        "The Manifest Quran · Dr Muhammad Tahir-ul-Qadri · offline",
+    ),
+    IRFAN_UR(
+        TranslationSelection.IRFAN_UR,
+        "Urdu",
+        "Irfan-ul-Quran · Dr Muhammad Tahir-ul-Qadri · offline",
+    ),
 }

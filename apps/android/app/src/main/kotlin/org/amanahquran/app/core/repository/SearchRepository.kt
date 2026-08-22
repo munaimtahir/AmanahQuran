@@ -1,7 +1,6 @@
 package org.amanahquran.app.core.repository
 
 import org.amanahquran.app.content.translation.TranslationDao
-import org.amanahquran.app.content.translation.TranslationRepository.Companion.TRANSLATION_ID
 import org.amanahquran.app.core.database.dao.AyahDao
 import org.amanahquran.app.core.database.dao.QuranTextDao
 import org.amanahquran.app.core.database.dao.SearchIndexDao
@@ -38,7 +37,8 @@ data class SearchResultItem(
 )
 
 interface SearchRepository {
-    suspend fun search(query: String, scriptType: ScriptType): List<SearchResultItem>
+    /** [translationId] is the currently selected translation (see [org.amanahquran.app.core.model.TranslationSelection]), or null when translation is Off -- search then covers Arabic text only. */
+    suspend fun search(query: String, scriptType: ScriptType, translationId: String? = null): List<SearchResultItem>
     suspend fun searchNormalizedArabic(query: String, scriptType: String): List<SearchResultDisplay>
     suspend fun getSearchRow(ayahKey: String): SearchIndexEntity?
 }
@@ -50,7 +50,7 @@ class SearchRepositoryImpl(
     private val ayahDao: AyahDao? = null,
     private val translationDao: TranslationDao? = null,
 ) : SearchRepository {
-    override suspend fun search(query: String, scriptType: ScriptType): List<SearchResultItem> {
+    override suspend fun search(query: String, scriptType: ScriptType, translationId: String?): List<SearchResultItem> {
         val trimmed = query.trim()
         if (trimmed.isBlank()) return emptyList()
 
@@ -143,17 +143,19 @@ class SearchRepositoryImpl(
             )
         }
 
-        val translationMatches = searchUrduTranslation(trimmed, scriptType)
+        val translationMatches = searchTranslation(trimmed, scriptType, translationId)
 
         return (surahMatches + mergeAyahMatches(arabicMatches, translationMatches))
             .distinctBy { it.resultType to it.ayahKey to it.surahNumber to it.pageNumber to it.juzNumber }
     }
 
-    private suspend fun searchUrduTranslation(query: String, scriptType: ScriptType): List<SearchResultItem> {
+    private suspend fun searchTranslation(query: String, scriptType: ScriptType, translationId: String?): List<SearchResultItem> {
         val dao = translationDao ?: return emptyList()
+        if (translationId == null) return emptyList()
         val normalized = query.normalizeUrduForSearch()
         if (normalized.isBlank()) return emptyList()
-        return dao.search(TRANSLATION_ID, normalized, 50).mapNotNull { translation ->
+        return dao.search(translationId, normalized, 50).mapNotNull { translation ->
+            if (translation.displayText.isNullOrBlank()) return@mapNotNull null
             val ayah = ayahDao?.getAyahByKey(translation.ayahKey)
             val quran = quranTextDao.getTextByAyahAndScript(translation.ayahKey, scriptType.name)
             SearchResultItem(

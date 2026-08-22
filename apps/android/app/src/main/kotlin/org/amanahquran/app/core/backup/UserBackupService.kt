@@ -71,7 +71,7 @@ class UserBackupService(
         settings.setArabicFontSize(payload.settings.arabicFontSizeSp)
         settings.setElderModeEnabled(payload.settings.elderModeEnabled)
         settings.setBookModeEnabled(payload.settings.bookModeEnabled)
-        settings.setTranslationEnabled(payload.settings.translationEnabled)
+        settings.setTranslationSelection(payload.settings.translationSelection)
         settings.setTranslationFontSize(payload.settings.translationFontSizeSp)
         settings.setArabicLineSpacing(payload.settings.arabicLineSpacingMultiplier)
         settings.setReaderHorizontalPadding(payload.settings.readerHorizontalPaddingDp)

@@ -10,6 +10,7 @@ import org.amanahquran.app.core.model.ReaderHeaderFormat
 import org.amanahquran.app.core.model.ReaderZoomLevel
 import org.amanahquran.app.core.model.ReminderSettings
 import org.amanahquran.app.core.model.ScriptType
+import org.amanahquran.app.core.model.TranslationSelection
 import org.amanahquran.app.core.repository.BookmarkRecord
 import org.amanahquran.app.core.repository.ReaderSettings
 import org.amanahquran.app.core.repository.LastReadState
@@ -112,7 +113,7 @@ object UserBackupCodec {
         put("arabicFontSizeSp", settings.arabicFontSizeSp)
         put("elderMode", settings.elderModeEnabled)
         put("bookMode", settings.bookModeEnabled)
-        put("translationEnabled", settings.translationEnabled)
+        put("translationSelection", settings.translationSelection.name)
         put("translationFontSizeSp", settings.translationFontSizeSp)
         put("arabicLineSpacingMultiplier", settings.arabicLineSpacingMultiplier)
         put("readerHorizontalPaddingDp", settings.readerHorizontalPaddingDp)
@@ -136,7 +137,11 @@ object UserBackupCodec {
         arabicFontSizeSp = settingsJson.optDouble("arabicFontSizeSp", 24.0).toFloat().coerceIn(16f, 42f),
         elderModeEnabled = settingsJson.optBoolean("elderMode", false),
         bookModeEnabled = settingsJson.optBoolean("bookMode", false),
-        translationEnabled = settingsJson.optBoolean("translationEnabled", false),
+        // A backup written by an app version before the Manifest/Irfan translation integration
+        // carries the old boolean flag instead -- fall back to it the same way the live DataStore
+        // migration does (see ReaderSettingsRepository), rather than silently restoring to Off.
+        translationSelection = TranslationSelection.fromStoredName(settingsJson.optString("translationSelection").ifBlank { null })
+            ?: if (settingsJson.optBoolean("translationEnabled", false)) TranslationSelection.IRFAN_UR else TranslationSelection.OFF,
         translationFontSizeSp = settingsJson.optDouble("translationFontSizeSp", 18.0).toFloat().coerceIn(14f, 32f),
         arabicLineSpacingMultiplier = settingsJson.optDouble("arabicLineSpacingMultiplier", 1.88).toFloat().coerceIn(1.5f, 2.4f),
         readerHorizontalPaddingDp = settingsJson.optDouble("readerHorizontalPaddingDp", 16.0).toFloat().coerceIn(8f, 32f),

@@ -38,6 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import org.amanahquran.app.core.model.TranslationDirection
 import org.amanahquran.app.core.repository.SearchResultItem
 import org.amanahquran.app.core.repository.SearchResultType
 import org.amanahquran.app.core.theme.AmanahShapes
@@ -46,6 +47,8 @@ import org.amanahquran.app.core.theme.LocalElderMode
 import org.amanahquran.app.core.theme.QuranFonts
 import org.amanahquran.app.core.ui.AmanahDivider
 import org.amanahquran.app.core.ui.AmanahSectionHeader
+import org.amanahquran.app.feature.reader.toLayoutDirection
+import org.amanahquran.app.feature.reader.toTextAlign
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -177,6 +180,7 @@ fun SearchScreen(
                             item = result,
                             scriptType = uiState.selectedScript,
                             arabicFontSizeSp = uiState.arabicFontSizeSp,
+                            translationDirection = uiState.translationDirection,
                             onClick = { onOpenResult(result) },
                         )
                         AmanahDivider()
@@ -192,6 +196,7 @@ private fun SearchResultRow(
     item: SearchResultItem,
     scriptType: ScriptType,
     arabicFontSizeSp: Float,
+    translationDirection: TranslationDirection,
     onClick: () -> Unit,
 ) {
     Column(
@@ -234,14 +239,18 @@ private fun SearchResultRow(
             )
         }
         item.translationText?.takeIf { it.isNotBlank() }?.let { translation ->
-            Text(
-                text = translation,
-                style = MaterialTheme.typography.bodyMedium,
-                textAlign = TextAlign.Right,
-                modifier = Modifier.fillMaxWidth(),
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 3,
-            )
+            androidx.compose.runtime.CompositionLocalProvider(
+                androidx.compose.ui.platform.LocalLayoutDirection provides translationDirection.toLayoutDirection(),
+            ) {
+                Text(
+                    text = translation,
+                    style = MaterialTheme.typography.bodyMedium,
+                    textAlign = translationDirection.toTextAlign(),
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 3,
+                )
+            }
         }
     }
 }

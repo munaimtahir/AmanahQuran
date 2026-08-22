@@ -11,6 +11,7 @@ import org.amanahquran.app.core.model.ReaderContentMode
 import org.amanahquran.app.core.model.ReaderHeaderFormat
 import org.amanahquran.app.core.model.ReaderZoomLevel
 import org.amanahquran.app.core.model.ScriptType
+import org.amanahquran.app.core.model.TranslationSelection
 import org.amanahquran.app.core.theme.ThemeMode
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -48,6 +49,7 @@ class ReaderSettingsRepositoryTest {
         assertFalse(settings.elderModeEnabled)
         assertFalse(settings.firstLaunchMessageDismissed)
         assertFalse(settings.translationEnabled)
+        assertEquals(TranslationSelection.OFF, settings.translationSelection)
         assertEquals(18f, settings.translationFontSizeSp, 0.01f)
     }
 
@@ -57,7 +59,7 @@ class ReaderSettingsRepositoryTest {
         repository.setSelectedTheme(ThemeMode.SEPIA)
         repository.setArabicFontSize(28f)
         repository.setElderModeEnabled(true)
-        repository.setTranslationEnabled(true)
+        repository.setTranslationSelection(TranslationSelection.MANIFEST_EN)
         repository.setTranslationFontSize(22f)
 
         val persisted = repository.settings.first()
@@ -66,8 +68,29 @@ class ReaderSettingsRepositoryTest {
         assertEquals(ThemeMode.SEPIA, persisted.selectedTheme)
         assertEquals(28f, persisted.arabicFontSizeSp, 0.01f)
         assertEquals(true, persisted.elderModeEnabled)
+        assertEquals(TranslationSelection.MANIFEST_EN, persisted.translationSelection)
         assertEquals(true, persisted.translationEnabled)
         assertEquals(22f, persisted.translationFontSizeSp, 0.01f)
+    }
+
+    @Test
+    fun translationSelectionOffIsFalseAndAnyTranslationIsTrueForTranslationEnabled() = runTest {
+        repository.setTranslationSelection(TranslationSelection.IRFAN_UR)
+        assertTrue(repository.settings.first().translationEnabled)
+
+        repository.setTranslationSelection(TranslationSelection.OFF)
+        assertFalse(repository.settings.first().translationEnabled)
+    }
+
+    @Test
+    fun legacyTranslationEnabledFlagMigratesToIrfanUrduWhenNewKeyAbsent() = runTest {
+        dataSource.dataStore.edit { preferences ->
+            preferences[androidx.datastore.preferences.core.booleanPreferencesKey("translation_enabled")] = true
+        }
+
+        val settings = repository.settings.first()
+
+        assertEquals(TranslationSelection.IRFAN_UR, settings.translationSelection)
     }
 
     @Test

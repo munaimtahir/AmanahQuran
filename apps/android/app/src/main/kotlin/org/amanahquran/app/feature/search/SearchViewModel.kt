@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.amanahquran.app.content.translation.TranslationDatabaseProvider
 import org.amanahquran.app.core.model.ScriptType
+import org.amanahquran.app.core.model.TranslationDirection
 import org.amanahquran.app.core.repository.ReaderSettingsRepository
 import org.amanahquran.app.core.repository.SearchRepository
 import org.amanahquran.app.core.repository.SearchResultItem
@@ -32,6 +33,7 @@ data class SearchUiState(
     val errorMessage: String? = null,
     val selectedScript: ScriptType = ScriptType.INDOPAK,
     val arabicFontSizeSp: Float = 24f,
+    val translationDirection: TranslationDirection = TranslationDirection.RTL,
 )
 
 @OptIn(FlowPreview::class)
@@ -65,6 +67,7 @@ class SearchViewModel(
                     it.copy(
                         selectedScript = settings.selectedScript,
                         arabicFontSizeSp = settings.arabicFontSizeSp,
+                        translationDirection = settings.translationSelection.direction ?: TranslationDirection.RTL,
                     )
                 }
                 if (query.isBlank()) {
@@ -79,7 +82,7 @@ class SearchViewModel(
                 }
                 _uiState.update { it.copy(isLoading = true, errorMessage = null) }
                 runCatching {
-                    searchRepository.search(query, settings.selectedScript)
+                    searchRepository.search(query, settings.selectedScript, settings.translationSelection.translationId)
                 }.onSuccess { results ->
                     _uiState.update {
                         it.copy(

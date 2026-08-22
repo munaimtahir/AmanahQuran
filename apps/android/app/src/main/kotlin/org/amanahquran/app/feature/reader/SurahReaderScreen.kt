@@ -110,6 +110,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.amanahquran.app.content.translation.TranslationAyahDisplay
+import org.amanahquran.app.content.translation.TranslationAvailability
+import org.amanahquran.app.content.translation.TranslationFootnote
 import org.amanahquran.app.core.model.AutoScrollPace
 import org.amanahquran.app.core.model.AutoScrollState
 import org.amanahquran.app.core.model.PageReferenceType
@@ -118,6 +121,7 @@ import org.amanahquran.app.core.model.ReaderContentMode
 import org.amanahquran.app.core.model.ReaderOpenMode
 import org.amanahquran.app.core.model.ReaderZoomLevel
 import org.amanahquran.app.core.model.ScriptType
+import org.amanahquran.app.core.model.TranslationDirection
 import org.amanahquran.app.core.theme.AmanahGoldMuted
 import org.amanahquran.app.core.theme.AmanahShapes
 import org.amanahquran.app.core.theme.AmanahSpacing
@@ -164,6 +168,8 @@ fun SurahReaderScreen(
         translationEnabled = state.translationEnabled,
         translationFontSizeSp = state.translationFontSizeSp,
         translations = state.translations,
+        translationFootnotes = state.translationFootnotes,
+        translationDirection = state.translationSelection.direction ?: TranslationDirection.RTL,
         arabicLineSpacingMultiplier = state.arabicLineSpacingMultiplier,
         readerHorizontalPaddingDp = state.readerHorizontalPaddingDp,
     )
@@ -209,6 +215,8 @@ fun QuranReaderScreen(
         translationEnabled = state.translationEnabled,
         translationFontSizeSp = state.translationFontSizeSp,
         translations = state.translations,
+        translationFootnotes = state.translationFootnotes,
+        translationDirection = state.translationSelection.direction ?: TranslationDirection.RTL,
         arabicLineSpacingMultiplier = state.arabicLineSpacingMultiplier,
         readerHorizontalPaddingDp = state.readerHorizontalPaddingDp,
     )
@@ -249,6 +257,8 @@ fun JuzReaderScreen(
         translationEnabled = state.translationEnabled,
         translationFontSizeSp = state.translationFontSizeSp,
         translations = state.translations,
+        translationFootnotes = state.translationFootnotes,
+        translationDirection = state.translationSelection.direction ?: TranslationDirection.RTL,
         arabicLineSpacingMultiplier = state.arabicLineSpacingMultiplier,
         readerHorizontalPaddingDp = state.readerHorizontalPaddingDp,
     )
@@ -290,6 +300,8 @@ fun PageReaderScreen(
         translationEnabled = state.translationEnabled,
         translationFontSizeSp = state.translationFontSizeSp,
         translations = state.translations,
+        translationFootnotes = state.translationFootnotes,
+        translationDirection = state.translationSelection.direction ?: TranslationDirection.RTL,
         arabicLineSpacingMultiplier = state.arabicLineSpacingMultiplier,
         readerHorizontalPaddingDp = state.readerHorizontalPaddingDp,
     )
@@ -332,7 +344,9 @@ private fun ReaderScreen(
     onSelectTranslationZoom: (ReaderZoomLevel) -> Unit = {},
     translationEnabled: Boolean,
     translationFontSizeSp: Float,
-    translations: Map<String, String>,
+    translations: Map<String, TranslationAyahDisplay>,
+    translationFootnotes: Map<String, List<TranslationFootnote>> = emptyMap(),
+    translationDirection: TranslationDirection = TranslationDirection.RTL,
     arabicLineSpacingMultiplier: Float,
     readerHorizontalPaddingDp: Float,
 ) {
@@ -635,6 +649,7 @@ private fun ReaderScreen(
             else -> {
                 val readerPadding = if (elder) AmanahSpacing.readerPaddingElder else readerHorizontalPaddingDp.dp
                 var jumpDialogVisible by remember { mutableStateOf(false) }
+                var footnoteSheetContent by remember { mutableStateOf<List<TranslationFootnote>?>(null) }
                 val typographyTokens = remember(uiState.selectedScript, uiState.zoomLevel, uiState.elderModeEnabled) {
                     resolveQuranTypographyTokens(uiState.selectedScript, uiState.zoomLevel, uiState.elderModeEnabled)
                 }
@@ -737,9 +752,12 @@ private fun ReaderScreen(
                                     ayah = item.ayah,
                                     arabicFontSizeSp = uiState.arabicFontSizeSp,
                                     arabicLineSpacingMultiplier = arabicLineSpacingMultiplier,
-                                    translationText = if (translationEnabled) translations[item.ayah.ayahKey] else null,
+                                    translationDisplay = if (translationEnabled) translations[item.ayah.ayahKey] else null,
+                                    translationDirection = translationDirection,
+                                    translationFootnotes = translationFootnotes[item.ayah.ayahKey].orEmpty(),
                                     translationFontSizeSp = translationFontSizeSp,
                                     onSelectAyah = selectAyahAndPause,
+                                    onFootnotesRequested = { footnoteSheetContent = it },
                                 )
 
                                 is ReaderStructuralItem.ContinuousBlock -> if (translationEnabled) {
@@ -749,9 +767,12 @@ private fun ReaderScreen(
                                         arabicFontSizeSp = uiState.arabicFontSizeSp,
                                         arabicLineSpacingMultiplier = arabicLineSpacingMultiplier,
                                         translations = translations,
+                                        translationFootnotes = translationFootnotes,
+                                        translationDirection = translationDirection,
                                         translationFontSizeSp = translationFontSizeSp,
                                         selectedAyahKey = uiState.selectedAyahKey,
                                         onSelectAyah = selectAyahAndPause,
+                                        onFootnotesRequested = { footnoteSheetContent = it },
                                     )
                                 } else {
                                     ContinuousQuranBlockText(
@@ -795,7 +816,7 @@ private fun ReaderScreen(
                     if (selectedAyah != null) {
                         ReaderSelectedAyahActionCard(
                             ayah = selectedAyah,
-                            translationText = if (translationEnabled) translations[selectedAyah.ayahKey] else null,
+                            translationText = if (translationEnabled) translations[selectedAyah.ayahKey]?.toShareText() else null,
                             onToggleBookmark = toggleBookmarkAndPause,
                             onDismiss = onClearSelectedAyah,
                             modifier = Modifier.align(Alignment.BottomCenter),
@@ -812,6 +833,13 @@ private fun ReaderScreen(
                             uiState.ayahs.firstOrNull { it.ayahNumber == ayahNumber }?.let { ayah -> selectAyahAndPause(ayah.ayahKey) }
                             jumpDialogVisible = false
                         },
+                    )
+                }
+                footnoteSheetContent?.let { footnotes ->
+                    TranslationFootnoteSheet(
+                        footnotes = footnotes,
+                        direction = translationDirection,
+                        onDismiss = { footnoteSheetContent = null },
                     )
                 }
             }
@@ -1262,9 +1290,12 @@ private fun ReaderAyahRow(
     ayah: ReaderAyahUiModel,
     arabicFontSizeSp: Float,
     arabicLineSpacingMultiplier: Float = 1.88f,
-    translationText: String? = null,
+    translationDisplay: TranslationAyahDisplay? = null,
+    translationDirection: TranslationDirection = TranslationDirection.RTL,
+    translationFootnotes: List<TranslationFootnote> = emptyList(),
     translationFontSizeSp: Float = 18f,
     onSelectAyah: (String) -> Unit,
+    onFootnotesRequested: (List<TranslationFootnote>) -> Unit = {},
 ) {
     val elder = LocalElderMode.current
     val palette = LocalReaderPalette.current
@@ -1329,21 +1360,20 @@ private fun ReaderAyahRow(
                 )
             }
         }
-        if (!translationText.isNullOrBlank()) {
-            Text(
-                text = translationText,
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    fontSize = translationFontSizeSp.sp,
-                    lineHeight = (translationFontSizeSp * 1.65f).sp,
-                ),
-                color = palette.secondaryText,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { onSelectAyah(ayah.ayahKey) }
-                    .padding(vertical = 2.dp, horizontal = AmanahSpacing.xs),
-            )
-        }
+        TranslationAyahText(
+            display = translationDisplay,
+            direction = translationDirection,
+            footnotes = translationFootnotes,
+            translationFontSizeSp = translationFontSizeSp,
+            onClick = { onSelectAyah(ayah.ayahKey) },
+            onFootnotesRequested = onFootnotesRequested,
+        )
     }
+}
+
+private fun TranslationAyahDisplay.toShareText(): String = when (availability) {
+    TranslationAvailability.TRANSLATED -> displayText.orEmpty()
+    TranslationAvailability.SOURCE_MISSING -> "Translation not provided in this source"
 }
 
 private enum class ReportCategory(val label: String, val emailSubject: String) {

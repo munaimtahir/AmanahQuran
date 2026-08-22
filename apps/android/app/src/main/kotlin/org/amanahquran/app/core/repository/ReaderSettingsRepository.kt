@@ -18,6 +18,7 @@ import org.amanahquran.app.core.model.ReaderContentMode
 import org.amanahquran.app.core.model.ReaderHeaderFormat
 import org.amanahquran.app.core.model.ReaderZoomLevel
 import org.amanahquran.app.core.model.ScriptType
+import org.amanahquran.app.core.model.TranslationSelection
 import org.amanahquran.app.core.theme.QuranTypography
 import org.amanahquran.app.core.theme.ThemeMode
 
@@ -28,7 +29,10 @@ data class ReaderSettings(
     val elderModeEnabled: Boolean = false,
     val bookModeEnabled: Boolean = false,
     val firstLaunchMessageDismissed: Boolean = false,
-    val translationEnabled: Boolean = false,
+    // Off / The Manifest Quran (English) / Irfan-ul-Quran (Urdu). Replaces the old boolean
+    // Junagarhi on/off toggle -- translationEnabled below is now derived, not stored, so every
+    // pre-existing `settings.translationEnabled` read site keeps compiling unchanged.
+    val translationSelection: TranslationSelection = TranslationSelection.OFF,
     val translationFontSizeSp: Float = 18f,
     val arabicLineSpacingMultiplier: Float = 1.88f,
     val readerHorizontalPaddingDp: Float = 16f,
@@ -61,6 +65,9 @@ data class ReaderSettings(
     // doesn't silently change current behavior for users who never touch it.
     val fullScreenReadingDefault: Boolean = true,
 ) {
+    /** True whenever any translation is selected. Derived from [translationSelection], not stored. */
+    val translationEnabled: Boolean get() = translationSelection != TranslationSelection.OFF
+
     /** The zoom level that applies right now, given the currently selected script and Elder Mode. */
     fun effectiveZoomLevel(scriptType: ScriptType = selectedScript, elderMode: Boolean = elderModeEnabled): ReaderZoomLevel {
         return when (scriptType to elderMode) {
@@ -81,7 +88,7 @@ interface ReaderSettingsRepository {
     suspend fun setElderModeEnabled(enabled: Boolean)
     suspend fun setBookModeEnabled(enabled: Boolean)
     suspend fun setFirstLaunchMessageDismissed(dismissed: Boolean)
-    suspend fun setTranslationEnabled(enabled: Boolean)
+    suspend fun setTranslationSelection(selection: TranslationSelection)
     suspend fun setTranslationFontSize(fontSizeSp: Float)
     suspend fun setArabicLineSpacing(multiplier: Float)
     suspend fun setReaderHorizontalPadding(paddingDp: Float)
@@ -158,8 +165,8 @@ class ReaderSettingsRepositoryImpl(
         }
     }
 
-    override suspend fun setTranslationEnabled(enabled: Boolean): Unit = withContext(NonCancellable) {
-        dataSource.dataStore.edit { preferences -> preferences[Keys.translationEnabled] = enabled }
+    override suspend fun setTranslationSelection(selection: TranslationSelection): Unit = withContext(NonCancellable) {
+        dataSource.dataStore.edit { preferences -> preferences[Keys.translationSelection] = selection.name }
     }
 
     override suspend fun setTranslationFontSize(fontSizeSp: Float): Unit = withContext(NonCancellable) {
@@ -308,7 +315,13 @@ class ReaderSettingsRepositoryImpl(
             elderModeEnabled = this[Keys.elderModeEnabled] ?: false,
             bookModeEnabled = this[Keys.bookModeEnabled] ?: false,
             firstLaunchMessageDismissed = this[Keys.firstLaunchMessageDismissed] ?: false,
-            translationEnabled = this[Keys.translationEnabled] ?: false,
+            // Migration: a fresh install (or a pre-existing DataStore that never wrote the new key)
+            // falls back to the legacy Junagarhi on/off flag. A user who had it on had expressed a
+            // preference for an Urdu translation, so that intent maps to Irfan-ul-Quran (its
+            // replacement) rather than silently dropping to Off; a user who never touched it, or
+            // explicitly left it off, correctly lands on Off.
+            translationSelection = TranslationSelection.fromStoredName(this[Keys.translationSelection])
+                ?: if (this[Keys.legacyTranslationEnabled] == true) TranslationSelection.IRFAN_UR else TranslationSelection.OFF,
             translationFontSizeSp = this[Keys.translationFontSizeSp] ?: DEFAULT_TRANSLATION_FONT_SIZE_SP,
             arabicLineSpacingMultiplier = this[Keys.arabicLineSpacingMultiplier] ?: DEFAULT_ARABIC_LINE_SPACING,
             readerHorizontalPaddingDp = this[Keys.readerHorizontalPaddingDp] ?: DEFAULT_READER_PADDING_DP,
@@ -337,7 +350,9 @@ class ReaderSettingsRepositoryImpl(
         val elderModeEnabled = booleanPreferencesKey("elder_mode_enabled")
         val bookModeEnabled = booleanPreferencesKey("book_mode_enabled")
         val firstLaunchMessageDismissed = booleanPreferencesKey("first_launch_message_dismissed")
-        val translationEnabled = booleanPreferencesKey("translation_enabled")
+        /** Legacy Junagarhi on/off flag, read-only now -- kept only as a migration source for [translationSelection]. */
+        val legacyTranslationEnabled = booleanPreferencesKey("translation_enabled")
+        val translationSelection = stringPreferencesKey("translation_selection")
         val translationFontSizeSp = floatPreferencesKey("translation_font_size_sp")
         val arabicLineSpacingMultiplier = floatPreferencesKey("arabic_line_spacing_multiplier")
         val readerHorizontalPaddingDp = floatPreferencesKey("reader_horizontal_padding_dp")

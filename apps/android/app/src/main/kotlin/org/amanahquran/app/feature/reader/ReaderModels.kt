@@ -1,5 +1,7 @@
 package org.amanahquran.app.feature.reader
 
+import org.amanahquran.app.content.translation.TranslationAyahDisplay
+import org.amanahquran.app.content.translation.TranslationFootnote
 import org.amanahquran.app.core.model.ScriptType
 import org.amanahquran.app.core.model.ReaderOpenMode
 import org.amanahquran.app.core.model.ReaderAnchor
@@ -7,6 +9,7 @@ import org.amanahquran.app.core.model.AutoScrollPace
 import org.amanahquran.app.core.model.ReaderContentMode
 import org.amanahquran.app.core.model.ReaderHeaderFormat
 import org.amanahquran.app.core.model.ReaderZoomLevel
+import org.amanahquran.app.core.model.TranslationSelection
 
 data class SurahListItem(
     val surahNumber: Int,
@@ -67,9 +70,11 @@ data class ReaderUiState(
     val anchorScrollRequestId: Long = 0,
     val isPageBookmarked: Boolean = false,
     val errorMessage: String? = null,
+    val translationSelection: TranslationSelection = TranslationSelection.OFF,
     val translationEnabled: Boolean = false,
     val translationFontSizeSp: Float = 18f,
-    val translations: Map<String, String> = emptyMap(),
+    val translations: Map<String, TranslationAyahDisplay> = emptyMap(),
+    val translationFootnotes: Map<String, List<TranslationFootnote>> = emptyMap(),
     val arabicLineSpacingMultiplier: Float = 1.88f,
     val readerHorizontalPaddingDp: Float = 16f,
     val zoomLevel: ReaderZoomLevel = ReaderZoomLevel.default,

@@ -8,6 +8,7 @@ import org.amanahquran.app.core.model.PageReferenceType
 import org.amanahquran.app.core.model.ReaderHeaderFormat
 import org.amanahquran.app.core.model.ReminderSettings
 import org.amanahquran.app.core.model.ScriptType
+import org.amanahquran.app.core.model.TranslationSelection
 import org.amanahquran.app.core.repository.BookmarkRecord
 import org.amanahquran.app.core.repository.ReaderSettings
 import org.amanahquran.app.core.theme.ThemeMode
@@ -29,7 +30,7 @@ class UserBackupCodecTest {
                 BookmarkRecord(2L, BookmarkType.PAGE, null, null, null, 42, PageReferenceType.UTHMANI, 11L, 11L),
             ),
             collectionsJson = "[]",
-            settings = ReaderSettings(selectedScript = ScriptType.UTHMANI, selectedTheme = ThemeMode.SEPIA, translationEnabled = true, translationFontSizeSp = 22f),
+            settings = ReaderSettings(selectedScript = ScriptType.UTHMANI, selectedTheme = ThemeMode.SEPIA, translationSelection = TranslationSelection.IRFAN_UR, translationFontSizeSp = 22f),
         )
         val restored = UserBackupCodec.validateAndParse(UserBackupCodec.encode(payload))
         assertEquals("2:255", restored.bookmarks.first().ayahKey)
@@ -37,8 +38,25 @@ class UserBackupCodecTest {
         assertEquals(PageReferenceType.UTHMANI, restored.bookmarks[1].pageReferenceType)
         assertEquals(ScriptType.UTHMANI, restored.settings.selectedScript)
         assertEquals(ThemeMode.SEPIA, restored.settings.selectedTheme)
+        assertEquals(TranslationSelection.IRFAN_UR, restored.settings.translationSelection)
         assertEquals(true, restored.settings.translationEnabled)
         assertEquals(22f, restored.settings.translationFontSizeSp)
+    }
+
+    @Test
+    fun legacyTranslationEnabledBooleanBackupMigratesToIrfanUrduSelection() {
+        // A backup written before this integration only carried the boolean Junagarhi toggle.
+        val v1Json = JSONObjectOf(
+            "format" to "amanah-quran-user-backup",
+            "version" to 1,
+            "bookmarks" to org.json.JSONArray(),
+            "collections" to org.json.JSONArray(),
+            "settings" to JSONObjectOf("script" to "INDOPAK", "theme" to "SYSTEM", "translationEnabled" to true),
+        )
+
+        val restored = UserBackupCodec.validateAndParse(v1Json.toString())
+
+        assertEquals(TranslationSelection.IRFAN_UR, restored.settings.translationSelection)
     }
 
     @Test(expected = IllegalArgumentException::class)

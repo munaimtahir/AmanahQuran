@@ -22,6 +22,7 @@ import org.amanahquran.app.core.model.PageReferenceType
 import org.amanahquran.app.core.model.AutoScrollPace
 import org.amanahquran.app.core.model.ReaderContentMode
 import org.amanahquran.app.core.model.ReaderZoomLevel
+import org.amanahquran.app.core.model.TranslationSelection
 import org.amanahquran.app.core.repository.BookmarkRepository
 import org.amanahquran.app.core.repository.LastReadRepository
 import org.amanahquran.app.core.repository.LastReadState
@@ -74,6 +75,7 @@ class ReaderViewModel(
                     arabicFontSizeSp = initialSettings.arabicFontSizeSp,
                     elderModeEnabled = initialSettings.elderModeEnabled,
                     bookModeEnabled = initialSettings.bookModeEnabled,
+                    translationSelection = initialSettings.translationSelection,
                     translationEnabled = initialSettings.translationEnabled,
                     translationFontSizeSp = initialSettings.translationFontSizeSp,
                     arabicLineSpacingMultiplier = initialSettings.arabicLineSpacingMultiplier,
@@ -89,7 +91,7 @@ class ReaderViewModel(
                     keepScreenAwakeEnabled = initialSettings.keepScreenAwakeEnabled,
                 )
             }
-            if (initialSettings.translationEnabled) loadTranslations()
+            initialSettings.translationSelection.translationId?.let { loadTranslations(it) }
             observeSettings()
             observeBookmarks()
             ReaderPerfLogger.log("viewmodel_init_load_open_mode")
@@ -445,6 +447,7 @@ class ReaderViewModel(
                         arabicFontSizeSp = settings.arabicFontSizeSp,
                         elderModeEnabled = settings.elderModeEnabled,
                         bookModeEnabled = settings.bookModeEnabled,
+                        translationSelection = settings.translationSelection,
                         translationEnabled = settings.translationEnabled,
                         translationFontSizeSp = settings.translationFontSizeSp,
                         arabicLineSpacingMultiplier = settings.arabicLineSpacingMultiplier,
@@ -460,9 +463,13 @@ class ReaderViewModel(
                         keepScreenAwakeEnabled = settings.keepScreenAwakeEnabled,
                     )
                 }
-                if (settings.translationEnabled && !current.translationEnabled) loadTranslations()
-                if (!settings.translationEnabled && current.translationEnabled) {
-                    _uiState.update { it.copy(translations = emptyMap()) }
+                if (settings.translationSelection != current.translationSelection) {
+                    val translationId = settings.translationSelection.translationId
+                    if (translationId != null) {
+                        loadTranslations(translationId)
+                    } else {
+                        _uiState.update { it.copy(translations = emptyMap(), translationFootnotes = emptyMap()) }
+                    }
                 }
                 if (scriptChanged || bookModeChanged) {
                     val nextAnchor = when (val currentAnchor = current.anchor) {
@@ -524,11 +531,12 @@ class ReaderViewModel(
         }
     }
 
-    private fun loadTranslations() {
+    private fun loadTranslations(translationId: String) {
         viewModelScope.launch(dispatcher) {
-            val translations = translationRepository?.observeAll()?.first().orEmpty()
-                .associate { it.ayahKey to it.displayText }
-            _uiState.update { it.copy(translations = translations) }
+            val translations = translationRepository?.observeAll(translationId)?.first().orEmpty()
+                .associateBy { it.ayahKey }
+            val footnotes = translationRepository?.footnotesByAyah(translationId).orEmpty()
+            _uiState.update { it.copy(translations = translations, translationFootnotes = footnotes) }
         }
     }
 
