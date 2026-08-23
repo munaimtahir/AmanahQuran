@@ -43,6 +43,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -211,8 +213,16 @@ private fun DailyAyahCard(
             }
             Text("${dailyAyah.surahName} · ${dailyAyah.ayahNumber}", style = MaterialTheme.typography.labelLarge)
             Row(horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
-                AmanahTonalButton(text = "Open", onClick = onOpen)
-                AmanahTonalButton(text = "History", onClick = onOpenHistory)
+                AmanahTonalButton(
+                    text = "Open",
+                    onClick = onOpen,
+                    modifier = Modifier.semantics { contentDescription = "Open Daily Ayah" },
+                )
+                AmanahTonalButton(
+                    text = "History",
+                    onClick = onOpenHistory,
+                    modifier = Modifier.semantics { contentDescription = "Daily Ayah History" },
+                )
             }
         }
     }
@@ -588,6 +598,9 @@ private fun QuickActionCard(
 ) {
     Card(
         modifier = modifier
+            .semantics(mergeDescendants = true) {
+                contentDescription = label
+            }
             .clickable(onClickLabel = "Open $label", onClick = onClick)
             .heightIn(min = 88.dp),
         shape = AmanahShapes.card,
@@ -632,6 +645,9 @@ private fun ReadingActivitySummaryStrip(onOpenReadingActivity: () -> Unit) {
     AmanahSectionCard(
         modifier = Modifier
             .fillMaxWidth()
+            .semantics(mergeDescendants = true) {
+                contentDescription = "Reading Activity. See your reading stats."
+            }
             .clickable(onClickLabel = "Open Reading Activity", onClick = onOpenReadingActivity),
     ) {
         Row(
@@ -670,6 +686,9 @@ private fun TrustSummaryStrip(onOpenTrustCenter: () -> Unit) {
     AmanahSectionCard(
         modifier = Modifier
             .fillMaxWidth()
+            .semantics(mergeDescendants = true) {
+                contentDescription = "Quran Content Sources. Offline, source-attributed, no tracking."
+            }
             .clickable(onClickLabel = "Open Trust Center", onClick = onOpenTrustCenter),
     ) {
         Row(

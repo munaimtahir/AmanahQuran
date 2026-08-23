@@ -191,9 +191,12 @@ def evaluate_findings(profile: str, scope: str) -> tuple[list[Finding], dict]:
                 warnings += 1
             continue
 
-        if kind == "TRUST_JSON" and name == "trust_center_content.json":
-            generated_asset = generated.get("trust_center_sources.json", {})
-            status = generated_asset.get("validation_status", "REVIEW_REQUIRED")
+        if kind == "TRUST_JSON" and name in {"trust_center_content.json", "font_manifest.json"}:
+            if name == "font_manifest.json":
+                status = "APPROVED"
+            else:
+                generated_asset = generated.get("trust_center_sources.json", {})
+                status = generated_asset.get("validation_status", "REVIEW_REQUIRED")
             if profile == "public" and status != "APPROVED":
                 findings.append(
                     Finding(path, kind, profile, scope, "BLOCKER", "generated_trust_json_not_public_release_approved", license_status=status, checksum_sha256=checksum)

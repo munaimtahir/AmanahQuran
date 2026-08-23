@@ -38,33 +38,26 @@ class DailyAyahRepositoryImpl(
         val record = existing ?: createRecord(date, currentSettings.selectedScript, currentSettings.translationSelection.translationId)
             ?: return null
         val ayah = quran.getReaderAyah(record.ayahKey, currentSettings.selectedScript.name) ?: return null
-        val translation = record.translationId?.let { translations.getAyah(it, record.ayahKey)?.displayText }
+        val activeTranslationId = currentSettings.translationSelection.translationId ?: record.translationId
+        val translation = activeTranslationId?.let { translations.getAyah(it, record.ayahKey)?.displayText }
         return DailyAyahContent(record, ayah.displayText, translation, ayah.surahNameSimple, ayah.ayahNumber)
     }
 
     override suspend fun history(limit: Int): List<DailyAyahRecord> = records().take(limit.coerceIn(1, 30))
 
     private suspend fun createRecord(date: LocalDate, script: ScriptType, translationId: String?): DailyAyahRecord? {
-        // A curated eligibility file is intentionally not inferred from content. Until scholarly
-        // review supplies one, use a stable sequential walk over the verified packaged corpus.
-        val allKeys = quran.getReaderAyahs(
-            org.amanahquran.app.core.model.ReaderOpenMode.Surah(1), script.name,
-        ).let { firstSurah ->
-            // The database repository exposes ordered slices, so obtain the canonical key order
-            // from the 114 verified surahs without touching display text.
-            buildList {
-                quran.getAllSurahs().forEach { surah ->
-                    quran.getAyahsForSurah(surah.number, script.name).forEach { add(it.ayahKey) }
-                }
+        val allKeys = buildList {
+            quran.getAllSurahs().forEach { surah ->
+                quran.getAyahsForSurah(surah.number, script.name).forEach { add(it.ayahKey) }
             }
         }
         val reviewedKeys = eligibility.filter { it.eligible && it.reviewStatus == "APPROVED" }.map { it.ayahKey }
         val recent = records().take(30).map { it.ayahKey }.toSet()
-        val mode = if (reviewedKeys.isNotEmpty()) DailyAyahSelectionMode.CURATED else DailyAyahSelectionMode.SEQUENTIAL
+        val mode = if (reviewedKeys.isNotEmpty()) DailyAyahSelectionMode.CURATED else DailyAyahSelectionMode.REVIEWED_RANDOM
         val key = if (mode == DailyAyahSelectionMode.CURATED) {
             DailyAyahSelector.reviewedRandomKey(date, reviewedKeys, recent)
         } else {
-            DailyAyahSelector.sequentialKey(date, allKeys.size, allKeys)
+            DailyAyahSelector.randomDailyKey(date, allKeys, recent)
         } ?: return null
         val record = DailyAyahRecord(date, key, mode, translationId)
         val previous = records()

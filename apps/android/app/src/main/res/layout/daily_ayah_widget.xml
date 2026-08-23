@@ -5,27 +5,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@android:color/white">
+    android:background="@drawable/daily_ayah_widget_background">
     <TextView
         android:id="@+id/daily_ayah_arabic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right"
-        android:textSize="22sp"
-        android:maxLines="5"
+        android:textSize="20sp"
+        android:textColor="#1C1B1F"
+        android:maxLines="6"
         android:ellipsize="end" />
     <TextView
         android:id="@+id/daily_ayah_translation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:maxLines="3"
+        android:maxLines="4"
         android:ellipsize="end"
-        android:textSize="14sp" />
+        android:textColor="#49454F"
+        android:textSize="13sp" />
     <TextView
         android:id="@+id/daily_ayah_reference"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:textSize="12sp" />
+        android:textColor="#2D5A43"
+        android:textStyle="bold"
+        android:textSize="11sp" />
 </LinearLayout>

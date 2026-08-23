@@ -35,14 +35,34 @@ object DailyAyahSelector {
         return orderedAyahKeys[index]
     }
 
+    /**
+     * Deterministic pseudo-random selection for a given date.
+     * Uses SplitMix64 hashing on the epoch day to achieve uniform, non-linear
+     * distribution across the whole Quran, avoiding recent keys from the 30-day window.
+     */
+    fun randomDailyKey(
+        date: LocalDate,
+        allAyahKeys: List<String>,
+        recentKeys: Set<String> = emptySet(),
+    ): String? {
+        if (allAyahKeys.isEmpty()) return null
+        val candidates = allAyahKeys.filterNot(recentKeys::contains).ifEmpty { allAyahKeys }
+        
+        val epochDay = date.toEpochDay()
+        var hash = epochDay xor 0x5bf03635e293c021L
+        hash = (hash xor (hash ushr 30)) * 0xbf58476d1ce4e5b9UL.toLong()
+        hash = (hash xor (hash ushr 27)) * 0x94d049bb133111ebUL.toLong()
+        hash = hash xor (hash ushr 31)
+        
+        val index = Math.floorMod(hash, candidates.size.toLong()).toInt()
+        return candidates[index]
+    }
+
     fun reviewedRandomKey(
         date: LocalDate,
         eligibleKeys: List<String>,
         recentKeys: Set<String>,
     ): String? {
-        val candidates = eligibleKeys.filterNot(recentKeys::contains)
-        if (candidates.isEmpty()) return eligibleKeys.firstOrNull()
-        val index = Math.floorMod(date.toEpochDay(), candidates.size.toLong()).toInt()
-        return candidates[index]
+        return randomDailyKey(date, eligibleKeys, recentKeys)
     }
 }

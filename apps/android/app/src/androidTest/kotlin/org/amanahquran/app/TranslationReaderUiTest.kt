@@ -34,6 +34,7 @@ class TranslationReaderUiTest {
     @Before
     fun waitForHome() {
         composeRule.setContent { AmanahQuranApp() }
+        composeRule.waitForIdle()
         composeRule.waitUntilAtLeastOneExists(hasText("Amanah Quran"), timeoutMillis = 30_000)
     }
 

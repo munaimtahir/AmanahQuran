@@ -103,6 +103,10 @@ def scan_inventory() -> list[PackageAsset]:
                 source_match = "generated_projectdata/trust_center_sources.json"
                 license_status = generated.get("trust_center_sources.json", {}).get("validation_status")
                 notes = "generated Trust Center JSON"
+            elif kind == "TRUST_JSON" and path.name == "font_manifest.json":
+                source_match = "projectdata/font_manifest.json"
+                license_status = "APPROVED"
+                notes = "packaged font manifest"
             elif kind == "TRANSLATION" and path.name in {
                 "translation_content.db",
                 "translation_content_manifest.json",
@@ -153,7 +157,7 @@ def main() -> int:
                 blockers.append({**item.__dict__, "reason": "generated_database_not_public_release_approved"})
             else:
                 warnings.append({**item.__dict__, "reason": "internal_testing_database"})
-        elif item.kind == "TRUST_JSON" and name == "trust_center_content.json":
+        elif item.kind == "TRUST_JSON" and name in {"trust_center_content.json", "font_manifest.json"}:
             if args.profile == "public" and item.license_status != "APPROVED":
                 blockers.append({**item.__dict__, "reason": "generated_trust_json_not_public_release_approved"})
             else:

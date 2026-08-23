@@ -1,10 +1,10 @@
 # CONTENT_RESET_AUDIT
 
-Generated: 2026-08-22T19:57:08+00:00
+Generated: 2026-08-23T17:16:51+00:00
 
 ## Summary
 
-- Content-related files discovered: 585
+- Content-related files discovered: 586
 - Registry assets: 123
 
 ## Classification
@@ -123,13 +123,14 @@ Generated: 2026-08-22T19:57:08+00:00
 
 ### GENERATED_OUTPUT
 
-- Count: 477
+- Count: 478
 - `apps/android/app/src/main/assets/content/.gitkeep`
 - `apps/android/app/src/main/assets/content/translations/translation_content.db`
 - `apps/android/app/src/main/assets/content/translations/translation_content_manifest.json`
 - `apps/android/app/src/main/assets/database/quran.db`
 - `apps/android/app/src/main/assets/db/.gitkeep`
 - `apps/android/app/src/main/assets/fonts/.gitkeep`
+- `apps/android/app/src/main/assets/trust/font_manifest.json`
 - `apps/android/app/src/main/assets/trust/trust_center_content.json`
 - `apps/android/app/src/main/res/font/digital_khatt_indopak.otf`
 - `apps/android/app/src/main/res/font/digital_khatt_v2.otf`
@@ -323,8 +324,7 @@ Generated: 2026-08-22T19:57:08+00:00
 - `docs/_release_gate/phase3_manual_review_workflow_report.md`
 - `docs/_release_gate/phase4_font_license_review_report.md`
 - `docs/_release_gate/phase5_trust_center_wording_review_report.md`
-- `docs/_release_gate/phase6_privacy_permission_audit_report.md`
-- ... 277 more
+- ... 278 more
 
 ### QUARANTINE_LEGACY_CONTENT
 
