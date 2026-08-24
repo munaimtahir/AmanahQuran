@@ -1,6 +1,6 @@
 # V2.2 Final Release Gate Summary
 
-- Version: `2.2.0` / versionCode `10`
+- Version: `2.2.0` / versionCode `11`
 - Target Platform: Android (SDK 26 to 35+)
 
 ## Verdict
