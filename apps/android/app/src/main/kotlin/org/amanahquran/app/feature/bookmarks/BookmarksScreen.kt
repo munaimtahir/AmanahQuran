@@ -107,7 +107,7 @@ fun BookmarksScreen(
                     AmanahEmptyState(
                         icon = Icons.Rounded.BookmarkBorder,
                         title = "No bookmarks yet",
-                        message = "Bookmark any ayah from the reader. Bookmarks stay local to this device.",
+                        message = "Explicitly save ayahs to find them later. Your auto last-read position is tracked separately on the Home screen.",
                     )
                 }
             }
