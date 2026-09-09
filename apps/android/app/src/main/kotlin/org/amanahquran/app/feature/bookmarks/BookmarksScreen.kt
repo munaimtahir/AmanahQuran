@@ -202,35 +202,39 @@ private fun BookmarkRow(
         )
         Column(
             modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(2.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
-            Text(
-                text = item.title,
-                style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onSurface,
-            )
-            Text(
-                text = item.subtitle,
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.primary,
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "${item.title} ${item.subtitle}",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+                Text(
+                    text = item.createdLabel,
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
             item.previewText?.takeIf { it.isNotBlank() }?.let { preview ->
                 Text(
                     text = preview,
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        lineHeight = 20.sp,
+                    style = MaterialTheme.typography.headlineSmall.copy(
+                        lineHeight = 32.sp,
                         fontFamily = QuranFonts.getFontFamily(scriptType),
                         letterSpacing = 0.sp,
                     ),
+                    textAlign = androidx.compose.ui.text.style.TextAlign.Right,
+                    modifier = Modifier.fillMaxWidth(),
                     color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 2,
+                    maxLines = 3,
+                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
                 )
             }
-            Text(
-                text = item.createdLabel,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
         }
         if (collections.isNotEmpty()) {
             IconButton(

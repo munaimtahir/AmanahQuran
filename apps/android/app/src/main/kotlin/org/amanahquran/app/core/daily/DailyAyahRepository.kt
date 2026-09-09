@@ -21,6 +21,7 @@ interface DailyAyahRepository {
     suspend fun getToday(zoneId: ZoneId = ZoneId.systemDefault()): DailyAyahContent?
     suspend fun getForDate(date: LocalDate): DailyAyahContent?
     suspend fun history(limit: Int = 30): List<DailyAyahRecord>
+    suspend fun historyContent(limit: Int = 30): List<DailyAyahContent>
 }
 
 class DailyAyahRepositoryImpl(
@@ -44,6 +45,16 @@ class DailyAyahRepositoryImpl(
     }
 
     override suspend fun history(limit: Int): List<DailyAyahRecord> = records().take(limit.coerceIn(1, 30))
+
+    override suspend fun historyContent(limit: Int): List<DailyAyahContent> {
+        val currentSettings = settings.settings.first()
+        return records().take(limit.coerceIn(1, 30)).mapNotNull { record ->
+            val ayah = quran.getReaderAyah(record.ayahKey, currentSettings.selectedScript.name) ?: return@mapNotNull null
+            val activeTranslationId = currentSettings.translationSelection.translationId ?: record.translationId
+            val translation = activeTranslationId?.let { translations.getAyah(it, record.ayahKey)?.displayText }
+            DailyAyahContent(record, ayah.displayText, translation, ayah.surahNameSimple, ayah.ayahNumber)
+        }
+    }
 
     private suspend fun createRecord(date: LocalDate, script: ScriptType, translationId: String?): DailyAyahRecord? {
         val allKeys = buildList {

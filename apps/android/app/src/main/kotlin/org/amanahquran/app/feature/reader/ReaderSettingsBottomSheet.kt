@@ -47,7 +47,12 @@ fun ReaderSettingsBottomSheet(
                     FilterChip(
                         selected = selectedScript == script,
                         onClick = { onSelectScript(script) },
-                        label = { Text(script.name) }
+                        label = { Text(
+                            when(script) {
+                                org.amanahquran.app.core.model.ScriptType.INDOPAK -> "IndoPak"
+                                org.amanahquran.app.core.model.ScriptType.UTHMANI -> "Uthmani"
+                            }
+                        ) }
                     )
                 }
             }
@@ -58,7 +63,10 @@ fun ReaderSettingsBottomSheet(
                     FilterChip(
                         selected = translationSelection == translation,
                         onClick = { onSelectTranslation(translation) },
-                        label = { Text(translation.name.replace("_", " ")) }
+                        label = { 
+                            val text = if (translation.name == "NONE") "None" else translation.name.split("_").joinToString(" ") { word -> word.lowercase().replaceFirstChar { it.uppercase() } }
+                            Text(text)
+                        }
                     )
                 }
             }
@@ -105,7 +113,7 @@ fun ReaderSettingsBottomSheet(
                     FilterChip(
                         selected = selectedTheme == theme,
                         onClick = { onSelectTheme(theme) },
-                        label = { Text(theme.name) }
+                        label = { Text(theme.name.lowercase().replaceFirstChar { it.uppercase() }) }
                     )
                 }
             }
