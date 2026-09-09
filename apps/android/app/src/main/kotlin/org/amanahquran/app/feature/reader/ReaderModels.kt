@@ -11,6 +11,8 @@ import org.amanahquran.app.core.model.ReaderHeaderFormat
 import org.amanahquran.app.core.model.ReaderZoomLevel
 import org.amanahquran.app.core.model.TranslationSelection
 
+import org.amanahquran.app.core.theme.ThemeMode
+
 data class SurahListItem(
     val surahNumber: Int,
     val arabicName: String,
@@ -50,6 +52,7 @@ data class ActiveReadingPosition(
 
 data class ReaderUiState(
     val isLoading: Boolean = true,
+    val selectedTheme: ThemeMode = ThemeMode.SYSTEM,
     val selectedScript: ScriptType = ScriptType.INDOPAK,
     val arabicFontSizeSp: Float = 24f,
     val elderModeEnabled: Boolean = false,

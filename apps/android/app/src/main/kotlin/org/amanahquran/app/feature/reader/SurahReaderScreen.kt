@@ -1,4 +1,6 @@
 package org.amanahquran.app.feature.reader
+import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.foundation.gestures.detectTapGestures
 
 import android.content.Context
 import android.content.Intent
@@ -165,6 +167,9 @@ fun SurahReaderScreen(
         onDecreaseTranslationZoom = viewModel::decreaseTranslationZoom,
         onResetTranslationZoom = viewModel::resetTranslationZoom,
         onSelectTranslationZoom = viewModel::setTranslationZoomLevel,
+        onSelectScript = viewModel::setSelectedScript,
+        onSelectTranslation = viewModel::setTranslationSelection,
+        onSelectTheme = viewModel::setSelectedTheme,
         translationEnabled = state.translationEnabled,
         translationFontSizeSp = state.translationFontSizeSp,
         translations = state.translations,
@@ -212,6 +217,9 @@ fun QuranReaderScreen(
         onDecreaseTranslationZoom = viewModel::decreaseTranslationZoom,
         onResetTranslationZoom = viewModel::resetTranslationZoom,
         onSelectTranslationZoom = viewModel::setTranslationZoomLevel,
+        onSelectScript = viewModel::setSelectedScript,
+        onSelectTranslation = viewModel::setTranslationSelection,
+        onSelectTheme = viewModel::setSelectedTheme,
         translationEnabled = state.translationEnabled,
         translationFontSizeSp = state.translationFontSizeSp,
         translations = state.translations,
@@ -254,6 +262,9 @@ fun JuzReaderScreen(
         onDecreaseTranslationZoom = viewModel::decreaseTranslationZoom,
         onResetTranslationZoom = viewModel::resetTranslationZoom,
         onSelectTranslationZoom = viewModel::setTranslationZoomLevel,
+        onSelectScript = viewModel::setSelectedScript,
+        onSelectTranslation = viewModel::setTranslationSelection,
+        onSelectTheme = viewModel::setSelectedTheme,
         translationEnabled = state.translationEnabled,
         translationFontSizeSp = state.translationFontSizeSp,
         translations = state.translations,
@@ -297,6 +308,9 @@ fun PageReaderScreen(
         onDecreaseTranslationZoom = viewModel::decreaseTranslationZoom,
         onResetTranslationZoom = viewModel::resetTranslationZoom,
         onSelectTranslationZoom = viewModel::setTranslationZoomLevel,
+        onSelectScript = viewModel::setSelectedScript,
+        onSelectTranslation = viewModel::setTranslationSelection,
+        onSelectTheme = viewModel::setSelectedTheme,
         translationEnabled = state.translationEnabled,
         translationFontSizeSp = state.translationFontSizeSp,
         translations = state.translations,
@@ -342,6 +356,9 @@ private fun ReaderScreen(
     onDecreaseTranslationZoom: () -> Unit = {},
     onResetTranslationZoom: () -> Unit = {},
     onSelectTranslationZoom: (ReaderZoomLevel) -> Unit = {},
+    onSelectScript: (org.amanahquran.app.core.model.ScriptType) -> Unit = {},
+    onSelectTranslation: (org.amanahquran.app.core.model.TranslationSelection) -> Unit = {},
+    onSelectTheme: (org.amanahquran.app.core.theme.ThemeMode) -> Unit = {},
     translationEnabled: Boolean,
     translationFontSizeSp: Float,
     translations: Map<String, TranslationAyahDisplay>,
@@ -456,6 +473,7 @@ private fun ReaderScreen(
     )
 
     var controlsVisible by remember { mutableStateOf(true) }
+    var showSettingsSheet by remember { mutableStateOf(false) }
     LaunchedEffect(autoScroll.state) {
         when (autoScroll.state) {
             AutoScrollState.RUNNING -> {
@@ -505,8 +523,13 @@ private fun ReaderScreen(
     Scaffold(
         containerColor = readerBg,
         topBar = {
-            TopAppBar(
-                title = {
+            androidx.compose.animation.AnimatedVisibility(
+                visible = controlsVisible,
+                enter = androidx.compose.animation.slideInVertically(initialOffsetY = { -it }),
+                exit = androidx.compose.animation.slideOutVertically(targetOffsetY = { -it })
+            ) {
+                TopAppBar(
+                    title = {
                     val activeSurahName = activeReadingPosition?.surahNameSimple ?: uiState.surahName.ifBlank { uiState.pageSurahName }
                     val activeJuzNumber = activeReadingPosition?.juzNumber ?: uiState.juzNumber
                     val activePageNumber = activeReadingPosition?.canonicalPageNumber ?: uiState.ayahs.firstOrNull()?.pageNumber
@@ -559,7 +582,7 @@ private fun ReaderScreen(
                 },
                 actions = {
                     val chromeAlpha by animateFloatAsState(
-                        targetValue = if (controlsVisible) 1f else 0.4f,
+                        targetValue = if (controlsVisible) 1f else 0f,
                         label = "reader-chrome-alpha",
                     )
                     Row(modifier = Modifier.alpha(chromeAlpha)) {
@@ -572,34 +595,9 @@ private fun ReaderScreen(
                                 )
                             }
                         }
-                        ReaderTypographyPanel(
-                            zoomLevel = uiState.zoomLevel,
-                            firstZoomHintShown = uiState.firstZoomHintShown,
-                            onIncrease = {
-                                beginZoomAnchorCapture(); onIncreaseZoom()
-                                if (uiState.linkedZoomEnabled) onIncreaseTranslationZoom()
-                            },
-                            onDecrease = {
-                                beginZoomAnchorCapture(); onDecreaseZoom()
-                                if (uiState.linkedZoomEnabled) onDecreaseTranslationZoom()
-                            },
-                            onSelectLevel = { level ->
-                                beginZoomAnchorCapture(); onSelectZoomLevel(level)
-                                if (uiState.linkedZoomEnabled) onSelectTranslationZoom(level)
-                            },
-                            onReset = {
-                                beginZoomAnchorCapture(); onResetZoom()
-                                if (uiState.linkedZoomEnabled) onResetTranslationZoom()
-                            },
-                            linked = uiState.linkedZoomEnabled,
-                            onToggleLinked = onSetLinkedZoomEnabled,
-                            hasTranslation = translationEnabled,
-                            translationLevel = uiState.translationZoomLevel,
-                            onIncreaseTranslation = { beginZoomAnchorCapture(); onIncreaseTranslationZoom() },
-                            onDecreaseTranslation = { beginZoomAnchorCapture(); onDecreaseTranslationZoom() },
-                            onSelectTranslationLevel = { level -> beginZoomAnchorCapture(); onSelectTranslationZoom(level) },
-                            onResetTranslation = { beginZoomAnchorCapture(); onResetTranslationZoom() },
-                        )
+                        IconButton(onClick = { autoScroll.pause(); showSettingsSheet = true }) {
+                            Icon(Icons.Rounded.Settings, contentDescription = "Reader Settings")
+                        }
                         ReaderAutoScrollTrigger(
                             state = autoScroll.state,
                             onClick = {
@@ -619,8 +617,27 @@ private fun ReaderScreen(
                     actionIconContentColor = MaterialTheme.colorScheme.onBackground,
                 ),
             )
+            }
         },
     ) { padding ->
+        if (showSettingsSheet) {
+            ReaderSettingsBottomSheet(
+                onDismiss = { showSettingsSheet = false },
+                zoomLevel = uiState.zoomLevel,
+                onSelectZoomLevel = onSelectZoomLevel,
+                translationZoomLevel = uiState.translationZoomLevel,
+                onSelectTranslationZoomLevel = onSelectTranslationZoom,
+                contentMode = uiState.contentMode,
+                onSetContentMode = onSetContentMode,
+                hasTranslation = translationEnabled,
+                selectedScript = uiState.selectedScript,
+                onSelectScript = onSelectScript,
+                translationSelection = uiState.translationSelection,
+                onSelectTranslation = onSelectTranslation,
+                selectedTheme = uiState.selectedTheme,
+                onSelectTheme = onSelectTheme,
+            )
+        }
         when {
             uiState.isLoading -> {
                 Box(
@@ -671,7 +688,12 @@ private fun ReaderScreen(
                     )
                 }
                 CompositionLocalProvider(LocalQuranTypographyTokens provides typographyTokens) {
-                Box(modifier = Modifier.fillMaxSize()) {
+                Box(modifier = Modifier
+                    .fillMaxSize()
+                    .pointerInput(Unit) {
+                        detectTapGestures(onTap = { controlsVisible = !controlsVisible })
+                    }
+                ) {
                     LazyColumn(
                         state = listState,
                         modifier = Modifier
