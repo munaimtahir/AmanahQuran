@@ -38,3 +38,6 @@ sourcedata/8/
 
 __pycache__/
 *.pyc
+
+# One-off local scratch scripts
+scratch/
