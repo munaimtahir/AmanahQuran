@@ -1,0 +1,8 @@
+Screen Off Timeout: 1800000 ms (30 mins stay awake)
+Font Scale: 1.0 (default baseline)
+Screen Brightness: 255 (max emulator brightness for consistent captures)
+Window Animation Scale: 0 (deterministic UI capture)
+Transition Animation Scale: 0 (deterministic UI capture)
+Animator Duration Scale: 0 (deterministic UI capture)
+Initial Orientation: Portrait (1080x1920)
+Keyguard: Unlocked (keyevent 82)

@@ -1,0 +1,12 @@
+AVD Name: AdForge_API_36
+Device Model: sdk_gphone64_x86_64 (Google Pixel 6 profile)
+Manufacturer: Google
+Android Version: 16
+API Level: 36
+CPU / ABI: x86_64
+Resolution: 1080 x 1920 (portrait)
+Density: 420 dpi
+RAM: 2048 MB
+Heap Size: 228 MB
+Data Partition: 6 GB
+SD Card: 512 MB

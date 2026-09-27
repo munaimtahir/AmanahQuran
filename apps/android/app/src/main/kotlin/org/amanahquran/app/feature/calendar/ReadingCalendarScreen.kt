@@ -239,8 +239,9 @@ private fun DayDetailCard(
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             } else {
+                val mins = maxOf(1L, activity.readingDurationSeconds / 60)
                 Text(
-                    text = "${activity.readingDurationSeconds / 60} min · ${activity.uniqueAyahsRead} ayahs · ${activity.pagesReadCount} pages",
+                    text = "$mins min · ${activity.uniqueAyahsRead} ayahs · ${activity.pagesReadCount} pages",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )

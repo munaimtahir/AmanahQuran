@@ -1,4 +1,6 @@
 package org.amanahquran.app.feature.reader
+import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.foundation.gestures.detectTapGestures
 
 import android.content.Context
 import android.content.Intent
@@ -165,6 +167,9 @@ fun SurahReaderScreen(
         onDecreaseTranslationZoom = viewModel::decreaseTranslationZoom,
         onResetTranslationZoom = viewModel::resetTranslationZoom,
         onSelectTranslationZoom = viewModel::setTranslationZoomLevel,
+        onSelectScript = viewModel::setSelectedScript,
+        onSelectTranslation = viewModel::setTranslationSelection,
+        onSelectTheme = viewModel::setSelectedTheme,
         translationEnabled = state.translationEnabled,
         translationFontSizeSp = state.translationFontSizeSp,
         translations = state.translations,
@@ -212,6 +217,9 @@ fun QuranReaderScreen(
         onDecreaseTranslationZoom = viewModel::decreaseTranslationZoom,
         onResetTranslationZoom = viewModel::resetTranslationZoom,
         onSelectTranslationZoom = viewModel::setTranslationZoomLevel,
+        onSelectScript = viewModel::setSelectedScript,
+        onSelectTranslation = viewModel::setTranslationSelection,
+        onSelectTheme = viewModel::setSelectedTheme,
         translationEnabled = state.translationEnabled,
         translationFontSizeSp = state.translationFontSizeSp,
         translations = state.translations,
@@ -254,6 +262,9 @@ fun JuzReaderScreen(
         onDecreaseTranslationZoom = viewModel::decreaseTranslationZoom,
         onResetTranslationZoom = viewModel::resetTranslationZoom,
         onSelectTranslationZoom = viewModel::setTranslationZoomLevel,
+        onSelectScript = viewModel::setSelectedScript,
+        onSelectTranslation = viewModel::setTranslationSelection,
+        onSelectTheme = viewModel::setSelectedTheme,
         translationEnabled = state.translationEnabled,
         translationFontSizeSp = state.translationFontSizeSp,
         translations = state.translations,
@@ -297,6 +308,9 @@ fun PageReaderScreen(
         onDecreaseTranslationZoom = viewModel::decreaseTranslationZoom,
         onResetTranslationZoom = viewModel::resetTranslationZoom,
         onSelectTranslationZoom = viewModel::setTranslationZoomLevel,
+        onSelectScript = viewModel::setSelectedScript,
+        onSelectTranslation = viewModel::setTranslationSelection,
+        onSelectTheme = viewModel::setSelectedTheme,
         translationEnabled = state.translationEnabled,
         translationFontSizeSp = state.translationFontSizeSp,
         translations = state.translations,
@@ -342,6 +356,9 @@ private fun ReaderScreen(
     onDecreaseTranslationZoom: () -> Unit = {},
     onResetTranslationZoom: () -> Unit = {},
     onSelectTranslationZoom: (ReaderZoomLevel) -> Unit = {},
+    onSelectScript: (org.amanahquran.app.core.model.ScriptType) -> Unit = {},
+    onSelectTranslation: (org.amanahquran.app.core.model.TranslationSelection) -> Unit = {},
+    onSelectTheme: (org.amanahquran.app.core.theme.ThemeMode) -> Unit = {},
     translationEnabled: Boolean,
     translationFontSizeSp: Float,
     translations: Map<String, TranslationAyahDisplay>,
@@ -351,6 +368,7 @@ private fun ReaderScreen(
     readerHorizontalPaddingDp: Float,
 ) {
     val elder = LocalElderMode.current
+    val iconTouchTarget = if (elder) AmanahSpacing.minTouchTargetElder else AmanahSpacing.minTouchTarget
     val readerPalette = LocalReaderPalette.current
     val readerBg = readerPalette.background
     val firstContentLogged = remember(uiState.readerOpenStartedAtMs, uiState.openMode, uiState.selectedScript) {
@@ -456,6 +474,7 @@ private fun ReaderScreen(
     )
 
     var controlsVisible by remember { mutableStateOf(true) }
+    var showSettingsSheet by remember { mutableStateOf(false) }
     LaunchedEffect(autoScroll.state) {
         when (autoScroll.state) {
             AutoScrollState.RUNNING -> {
@@ -505,8 +524,13 @@ private fun ReaderScreen(
     Scaffold(
         containerColor = readerBg,
         topBar = {
-            TopAppBar(
-                title = {
+            androidx.compose.animation.AnimatedVisibility(
+                visible = controlsVisible,
+                enter = androidx.compose.animation.slideInVertically(initialOffsetY = { -it }),
+                exit = androidx.compose.animation.slideOutVertically(targetOffsetY = { -it })
+            ) {
+                TopAppBar(
+                    title = {
                     val activeSurahName = activeReadingPosition?.surahNameSimple ?: uiState.surahName.ifBlank { uiState.pageSurahName }
                     val activeJuzNumber = activeReadingPosition?.juzNumber ?: uiState.juzNumber
                     val activePageNumber = activeReadingPosition?.canonicalPageNumber ?: uiState.ayahs.firstOrNull()?.pageNumber
@@ -553,53 +577,40 @@ private fun ReaderScreen(
                     }
                 },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
+                    IconButton(onClick = onNavigateBack, modifier = Modifier.size(iconTouchTarget)) {
                         Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = "Go back")
                     }
                 },
                 actions = {
                     val chromeAlpha by animateFloatAsState(
-                        targetValue = if (controlsVisible) 1f else 0.4f,
+                        targetValue = if (controlsVisible) 1f else 0f,
                         label = "reader-chrome-alpha",
                     )
-                    Row(modifier = Modifier.alpha(chromeAlpha)) {
+                    Row(modifier = Modifier.alpha(chromeAlpha), verticalAlignment = Alignment.CenterVertically) {
                         run {
                             val nextMode = if (uiState.contentMode == ReaderContentMode.AYAH) ReaderContentMode.CONTINUOUS else ReaderContentMode.AYAH
-                            IconButton(onClick = { autoScroll.pause(); onSetContentMode(nextMode) }) {
-                                Icon(
-                                    imageVector = if (uiState.contentMode == ReaderContentMode.AYAH) Icons.AutoMirrored.Rounded.MenuBook else Icons.Rounded.ViewAgenda,
-                                    contentDescription = if (uiState.contentMode == ReaderContentMode.AYAH) "Switch to Continuous View" else "Switch to Ayah View",
-                                )
+                            if (elder) {
+                                TextButton(onClick = { autoScroll.pause(); onSetContentMode(nextMode) }) {
+                                    Text(if (uiState.contentMode == ReaderContentMode.AYAH) "Continuous View" else "Ayah View")
+                                }
+                            } else {
+                                IconButton(onClick = { autoScroll.pause(); onSetContentMode(nextMode) }, modifier = Modifier.size(iconTouchTarget)) {
+                                    Icon(
+                                        imageVector = if (uiState.contentMode == ReaderContentMode.AYAH) Icons.AutoMirrored.Rounded.MenuBook else Icons.Rounded.ViewAgenda,
+                                        contentDescription = if (uiState.contentMode == ReaderContentMode.AYAH) "Switch to Continuous View" else "Switch to Ayah View",
+                                    )
+                                }
                             }
                         }
-                        ReaderTypographyPanel(
-                            zoomLevel = uiState.zoomLevel,
-                            firstZoomHintShown = uiState.firstZoomHintShown,
-                            onIncrease = {
-                                beginZoomAnchorCapture(); onIncreaseZoom()
-                                if (uiState.linkedZoomEnabled) onIncreaseTranslationZoom()
-                            },
-                            onDecrease = {
-                                beginZoomAnchorCapture(); onDecreaseZoom()
-                                if (uiState.linkedZoomEnabled) onDecreaseTranslationZoom()
-                            },
-                            onSelectLevel = { level ->
-                                beginZoomAnchorCapture(); onSelectZoomLevel(level)
-                                if (uiState.linkedZoomEnabled) onSelectTranslationZoom(level)
-                            },
-                            onReset = {
-                                beginZoomAnchorCapture(); onResetZoom()
-                                if (uiState.linkedZoomEnabled) onResetTranslationZoom()
-                            },
-                            linked = uiState.linkedZoomEnabled,
-                            onToggleLinked = onSetLinkedZoomEnabled,
-                            hasTranslation = translationEnabled,
-                            translationLevel = uiState.translationZoomLevel,
-                            onIncreaseTranslation = { beginZoomAnchorCapture(); onIncreaseTranslationZoom() },
-                            onDecreaseTranslation = { beginZoomAnchorCapture(); onDecreaseTranslationZoom() },
-                            onSelectTranslationLevel = { level -> beginZoomAnchorCapture(); onSelectTranslationZoom(level) },
-                            onResetTranslation = { beginZoomAnchorCapture(); onResetTranslationZoom() },
-                        )
+                        if (elder) {
+                            TextButton(onClick = { autoScroll.pause(); showSettingsSheet = true }) {
+                                Text("Settings")
+                            }
+                        } else {
+                            IconButton(onClick = { autoScroll.pause(); showSettingsSheet = true }, modifier = Modifier.size(iconTouchTarget)) {
+                                Icon(Icons.Rounded.Settings, contentDescription = "Reader Settings")
+                            }
+                        }
                         ReaderAutoScrollTrigger(
                             state = autoScroll.state,
                             onClick = {
@@ -619,8 +630,27 @@ private fun ReaderScreen(
                     actionIconContentColor = MaterialTheme.colorScheme.onBackground,
                 ),
             )
+            }
         },
     ) { padding ->
+        if (showSettingsSheet) {
+            ReaderSettingsBottomSheet(
+                onDismiss = { showSettingsSheet = false },
+                zoomLevel = uiState.zoomLevel,
+                onSelectZoomLevel = onSelectZoomLevel,
+                translationZoomLevel = uiState.translationZoomLevel,
+                onSelectTranslationZoomLevel = onSelectTranslationZoom,
+                contentMode = uiState.contentMode,
+                onSetContentMode = onSetContentMode,
+                hasTranslation = translationEnabled,
+                selectedScript = uiState.selectedScript,
+                onSelectScript = onSelectScript,
+                translationSelection = uiState.translationSelection,
+                onSelectTranslation = onSelectTranslation,
+                selectedTheme = uiState.selectedTheme,
+                onSelectTheme = onSelectTheme,
+            )
+        }
         when {
             uiState.isLoading -> {
                 Box(
@@ -671,11 +701,19 @@ private fun ReaderScreen(
                     )
                 }
                 CompositionLocalProvider(LocalQuranTypographyTokens provides typographyTokens) {
-                Box(modifier = Modifier.fillMaxSize()) {
+                Box(modifier = Modifier
+                    .fillMaxSize()
+                    .pointerInput(Unit) {
+                        detectTapGestures(onTap = { controlsVisible = !controlsVisible })
+                    },
+                    contentAlignment = Alignment.TopCenter
+                ) {
                     LazyColumn(
                         state = listState,
                         modifier = Modifier
-                            .fillMaxSize()
+                            .fillMaxHeight()
+                            .widthIn(max = 800.dp)
+                            .fillMaxWidth()
                             .padding(padding)
                             .graphicsLayer(scaleX = zoomPreviewScale, scaleY = zoomPreviewScale)
                             .then(
@@ -1062,20 +1100,27 @@ private fun ReaderAutoScrollTrigger(
     val palette = LocalReaderPalette.current
     val touchTarget = if (elder) AmanahSpacing.minTouchTargetElder else AmanahSpacing.minTouchTarget
     val running = state == AutoScrollState.RUNNING || state == AutoScrollState.STARTING
-    IconButton(
-        onClick = onClick,
-        modifier = modifier.size(touchTarget),
-    ) {
-        val description = when (state) {
-            AutoScrollState.RUNNING, AutoScrollState.STARTING -> "Pause auto-scroll"
-            AutoScrollState.PAUSED -> "Resume auto-scroll"
-            AutoScrollState.INACTIVE, AutoScrollState.COMPLETED -> "Start hands-free auto-scroll"
+    val description = when (state) {
+        AutoScrollState.RUNNING, AutoScrollState.STARTING -> "Pause auto-scroll"
+        AutoScrollState.PAUSED -> "Resume auto-scroll"
+        AutoScrollState.INACTIVE, AutoScrollState.COMPLETED -> "Start hands-free auto-scroll"
+    }
+
+    if (elder) {
+        TextButton(onClick = onClick) {
+            Text(if (running) "Pause Scroll" else "Auto-Scroll")
         }
-        Icon(
-            imageVector = if (running) Icons.Rounded.Pause else Icons.Rounded.PlayArrow,
-            contentDescription = description,
-            tint = if (state != AutoScrollState.INACTIVE) palette.activeControl else LocalContentColor.current,
-        )
+    } else {
+        IconButton(
+            onClick = onClick,
+            modifier = modifier.size(touchTarget),
+        ) {
+            Icon(
+                imageVector = if (running) Icons.Rounded.Pause else Icons.Rounded.PlayArrow,
+                contentDescription = description,
+                tint = if (state != AutoScrollState.INACTIVE) palette.activeControl else LocalContentColor.current,
+            )
+        }
     }
 }
 

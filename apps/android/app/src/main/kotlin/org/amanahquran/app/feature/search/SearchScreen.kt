@@ -117,6 +117,14 @@ fun SearchScreen(
                                 }
                             }
                         },
+                        keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(imeAction = androidx.compose.ui.text.input.ImeAction.Search),
+                        keyboardActions = androidx.compose.foundation.text.KeyboardActions(
+                            onSearch = {
+                                if (uiState.results.isNotEmpty()) {
+                                    onOpenResult(uiState.results.first())
+                                }
+                            }
+                        ),
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = MaterialTheme.colorScheme.primary,
                             unfocusedBorderColor = MaterialTheme.colorScheme.outline,
@@ -127,6 +135,12 @@ fun SearchScreen(
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
+                }
+            }
+
+            if (uiState.query.isBlank() && !uiState.isLoading) {
+                item {
+                    SearchSuggestions(onSuggestionSelected = { viewModel.onQueryChanged(it) })
                 }
             }
 
@@ -249,6 +263,30 @@ private fun SearchResultRow(
                     modifier = Modifier.fillMaxWidth(),
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 3,
+                )
+            }
+        }
+    }
+}
+
+@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
+@Composable
+private fun SearchSuggestions(onSuggestionSelected: (String) -> Unit) {
+    Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
+        Text("Suggestions", style = MaterialTheme.typography.titleMedium)
+        androidx.compose.foundation.layout.FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.sm),
+            verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm),
+        ) {
+            val suggestions = listOf("Yasin", "Al-Kahf", "Al-Mulk", "2:255", "Juz 30", "Page 1")
+            suggestions.forEach { suggestion ->
+                androidx.compose.material3.AssistChip(
+                    onClick = { onSuggestionSelected(suggestion) },
+                    label = { Text(suggestion) },
+                    colors = androidx.compose.material3.AssistChipDefaults.assistChipColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    ),
+                    border = null,
                 )
             }
         }

@@ -34,6 +34,8 @@ import org.amanahquran.app.core.repository.lastReadRepository
 import org.amanahquran.app.core.repository.readerSettingsRepository
 import org.amanahquran.app.content.translation.TranslationRepository
 
+import org.amanahquran.app.core.theme.ThemeMode
+
 class ReaderViewModel(
     private val repository: QuranContentRepository,
     private val settingsRepository: ReaderSettingsRepository,
@@ -71,6 +73,7 @@ class ReaderViewModel(
             ReaderPerfLogger.log("viewmodel_init_settings_loaded")
             _uiState.update {
                 it.copy(
+                    selectedTheme = initialSettings.selectedTheme,
                     selectedScript = initialSettings.selectedScript,
                     arabicFontSizeSp = initialSettings.arabicFontSizeSp,
                     elderModeEnabled = initialSettings.elderModeEnabled,
@@ -102,6 +105,24 @@ class ReaderViewModel(
                 selectedAyahKey = resolvedAnchor.selectedAyahKey,
                 anchor = initialAnchor,
             )
+        }
+    }
+
+    fun setTranslationSelection(selection: TranslationSelection) {
+        viewModelScope.launch(dispatcher) {
+            settingsRepository.setTranslationSelection(selection)
+        }
+    }
+
+    fun setSelectedScript(scriptType: ScriptType) {
+        viewModelScope.launch(dispatcher) {
+            settingsRepository.setSelectedScript(scriptType)
+        }
+    }
+
+    fun setSelectedTheme(themeMode: ThemeMode) {
+        viewModelScope.launch(dispatcher) {
+            settingsRepository.setSelectedTheme(themeMode)
         }
     }
 
@@ -443,6 +464,7 @@ class ReaderViewModel(
                 val bookModeChanged = current.bookModeEnabled != settings.bookModeEnabled
                 _uiState.update {
                     it.copy(
+                        selectedTheme = settings.selectedTheme,
                         selectedScript = settings.selectedScript,
                         arabicFontSizeSp = settings.arabicFontSizeSp,
                         elderModeEnabled = settings.elderModeEnabled,

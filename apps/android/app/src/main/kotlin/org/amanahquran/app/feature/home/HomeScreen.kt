@@ -328,8 +328,8 @@ private fun ReadingHeroCard(
     val goldTone = if (isDark) DarkAccentGold else AmanahGoldMuted
     val badgeBackground = if (isDark) DarkAccentGold else AmanahGoldSoftSurface
 
-    val title = if (continueReading != null) "Resume Reading" else "Start Reading"
-    val subtitle = continueReading?.title
+    val labelTitle = if (continueReading != null) continueReading.title else "Start Reading"
+    val subtitle = continueReading?.subtitle
         ?: "Read by Surah, Juz, or Page using offline source-attributed text"
     val buttonLabel = if (continueReading != null) "Continue Reading" else "Open Mushaf Page"
     val onPrimaryAction = { if (continueReading != null) onContinue(continueReading) else onStartReading() }
@@ -363,9 +363,16 @@ private fun ReadingHeroCard(
                     modifier = Modifier.size(24.dp),
                 )
             }
-            Column {
+            Column(modifier = Modifier.weight(1f)) {
+                if (continueReading != null) {
+                    Text(
+                        text = "Continue Reading",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = goldTone,
+                    )
+                }
                 Text(
-                    text = title,
+                    text = labelTitle,
                     style = MaterialTheme.typography.titleMedium,
                     color = titleColor,
                 )
@@ -375,16 +382,12 @@ private fun ReadingHeroCard(
                     color = subtitleColor,
                 )
             }
+            Icon(
+                imageVector = Icons.Rounded.ChevronRight,
+                contentDescription = null,
+                tint = goldTone,
+            )
         }
-        Spacer(Modifier.height(AmanahSpacing.md))
-        AmanahPrimaryButton(
-            text = buttonLabel,
-            onClick = onPrimaryAction,
-            modifier = Modifier.fillMaxWidth(),
-            icon = Icons.AutoMirrored.Rounded.MenuBook,
-            containerColor = goldTone,
-            contentColor = AmanahGreenDarker,
-        )
     }
 }
 

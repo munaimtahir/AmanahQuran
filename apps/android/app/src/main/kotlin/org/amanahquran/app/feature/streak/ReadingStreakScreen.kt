@@ -136,7 +136,7 @@ private fun StreakHeadlineCard(currentStreak: Int, readToday: Boolean) {
                     text = if (currentStreak > 0) {
                         "$currentStreak-day reading streak"
                     } else {
-                        "Start your reading streak today"
+                        "No current reading streak"
                     },
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onSurface,
@@ -145,7 +145,7 @@ private fun StreakHeadlineCard(currentStreak: Int, readToday: Boolean) {
             }
             Spacer(Modifier.height(AmanahSpacing.xs))
             Text(
-                text = if (readToday) "Read today ✓" else "Continue today",
+                text = if (readToday) "Read today ✓" else "Not yet read today",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -156,7 +156,8 @@ private fun StreakHeadlineCard(currentStreak: Int, readToday: Boolean) {
 @Composable
 private fun WeekHistoryCard(days: List<DayHistoryUiModel>) {
     Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
-        AmanahSectionHeader(title = "This week")
+        val qualifiedCount = days.count { it.qualified }
+        AmanahSectionHeader(title = "You read on $qualifiedCount of the last 7 days")
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.xs),

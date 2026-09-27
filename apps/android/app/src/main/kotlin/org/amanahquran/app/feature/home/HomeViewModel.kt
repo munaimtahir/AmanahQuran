@@ -103,17 +103,13 @@ class HomeViewModel(
     ): HomeContinueReadingUiModel? {
         val surah = repository.getSurahByNumber(surahNumber) ?: return null
         val display = repository.getAyahDisplay(ayahKey, scriptType.name)
-        val titleText = if (pageNumber != null) {
-            "Last read: Page $pageNumber · ${surah.nameSimple.ifBlank { "Surah $surahNumber" }}"
-        } else {
-            "Continue: ${surah.nameSimple.ifBlank { "Surah $surahNumber" }} $surahNumber:$ayahNumber"
-        }
+        val surahName = surah.nameSimple.ifBlank { "Surah $surahNumber" }
         return HomeContinueReadingUiModel(
-            title = titleText,
-            subtitle = if (display?.displayText.isNullOrBlank()) {
-                "Open last-read position"
+            title = surahName,
+            subtitle = if (pageNumber != null) {
+                "Page $pageNumber · Ayah $ayahNumber"
             } else {
-                "Resume from ${display?.displayText?.take(36)}"
+                "Ayah $ayahNumber"
             },
             previewText = display?.displayText,
             surahNumber = surahNumber,

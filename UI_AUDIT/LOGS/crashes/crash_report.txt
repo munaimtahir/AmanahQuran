@@ -1,0 +1,3 @@
+NO CRASHES OR ANRS OBSERVED DURING AUDIT SESSION.
+System logcat checked for FATAL EXCEPTION, ANR in org.amanahquran.app, and SIGSEGV.
+Session result: 0 crashes, 0 ANRs.

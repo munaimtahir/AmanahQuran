@@ -1,0 +1,9 @@
+2026-09-08 17:38:33 - Launched emulator with wipe-data:
+Command: /home/munaim/Android/Sdk/emulator/emulator -avd AdForge_API_36 -wipe-data -port 5556 -no-boot-anim
+2026-09-08 17:39:13 - Wait for device and sys.boot_completed == 1:
+Output: BOOT_COMPLETED_SUCCESS
+2026-09-08 17:39:20 - Applied standardized device display & animation settings.
+2026-09-08 17:39:47 - adb uninstall org.amanahquran.app
+2026-09-08 17:39:50 - adb install -r apps/android/app/build/outputs/apk/debug/app-debug.apk
+Output: Success
+Verified package: org.amanahquran.app

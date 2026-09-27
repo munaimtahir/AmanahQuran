@@ -1,0 +1,11 @@
+=== AMANAH QURAN READER PERFORMANCE TIMINGS & ACTIVITY LOGS ===
+09-08 17:41:12.540   698   719 I ActivityTaskManager: Displayed org.amanahquran.app/.MainActivity for user 0: +1s499ms
+09-08 17:42:04.087   698   719 I ActivityTaskManager: Displayed org.amanahquran.app/.MainActivity for user 0: +222ms
+09-08 17:43:03.724   698   719 I ActivityTaskManager: Displayed org.amanahquran.app/.MainActivity for user 0: +250ms
+09-08 17:45:05.976   698   719 I ActivityTaskManager: Displayed org.amanahquran.app/.MainActivity for user 0: +1s26ms
+09-08 17:46:33.724   698   719 I ActivityTaskManager: Displayed org.amanahquran.app/.MainActivity for user 0: +1s57ms
+09-08 17:47:49.356   698   719 I ActivityTaskManager: Displayed org.amanahquran.app/.MainActivity for user 0: +990ms
+09-08 17:50:00.801   698   719 I ActivityTaskManager: Displayed org.amanahquran.app/.MainActivity for user 0: +1s420ms
+09-08 17:50:08.441   698   719 I ActivityTaskManager: Displayed org.amanahquran.app/.MainActivity for user 0: +1s336ms
+09-08 17:50:16.882   698   719 I ActivityTaskManager: Displayed org.amanahquran.app/.MainActivity for user 0: +1s306ms
+09-08 17:50:37.822   698   719 I ActivityTaskManager: Displayed org.amanahquran.app/.MainActivity for user 0: +588ms
