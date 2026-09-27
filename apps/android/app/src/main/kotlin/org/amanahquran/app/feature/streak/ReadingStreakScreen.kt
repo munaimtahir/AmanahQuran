@@ -136,7 +136,7 @@ private fun StreakHeadlineCard(currentStreak: Int, readToday: Boolean) {
                     text = if (currentStreak > 0) {
                         "$currentStreak-day reading streak"
                     } else {
-                        "No current reading streak"
+                        "Read any ayah today to begin a streak"
                     },
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onSurface,

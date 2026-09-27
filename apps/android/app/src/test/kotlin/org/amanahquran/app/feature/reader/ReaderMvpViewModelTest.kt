@@ -345,4 +345,38 @@ class ReaderMvpViewModelTest {
         assertEquals(quranText!!.displayText, readerAyah!!.displayText)
         assertFalse(readerAyah.displayText == searchRow!!.normalizedArabic)
     }
+
+    @Test
+    fun jumpToReference_selectsLoadedAyah_reloadsForOtherSurahs_andRejectsInvalidReferences() = runTest {
+        val viewModel = ReaderViewModel(
+            repository = repository,
+            settingsRepository = settingsRepository,
+            lastReadRepository = lastReadRepository,
+            bookmarkRepository = bookmarkRepository,
+            initialOpenMode = ReaderOpenMode.Juz(30),
+            dispatcher = UnconfinedTestDispatcher(testScheduler),
+        )
+        viewModel.uiState.first { !it.isLoading }
+
+        suspend fun jump(surah: Int, ayah: Int): Boolean {
+            val done = kotlinx.coroutines.CompletableDeferred<Boolean>()
+            viewModel.jumpToReference(surah, ayah) { done.complete(it) }
+            return done.await()
+        }
+
+        // Already loaded (Juz 30 contains Surah 114): selected in place.
+        assertTrue(jump(114, 6))
+        assertEquals("114:6", viewModel.uiState.value.selectedAyahKey)
+
+        // Outside the loaded range: reloads anchored on the exact ayah.
+        assertTrue(jump(2, 286))
+        val reloaded = viewModel.uiState.first { !it.isLoading && it.selectedAyahKey == "2:286" }
+        assertTrue(reloaded.ayahs.any { it.ayahKey == "2:286" })
+
+        // Ayah beyond the surah's count, and surah beyond 114, are rejected without navigating.
+        assertFalse(jump(1, 8))
+        assertFalse(jump(115, 1))
+        assertEquals("2:286", viewModel.uiState.value.selectedAyahKey)
+        viewModel.viewModelScope.cancel()
+    }
 }

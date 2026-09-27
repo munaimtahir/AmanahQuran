@@ -84,6 +84,21 @@ private val SepiaReaderPalette = ReaderPalette(
     controlSurface = SepiaCardSurface,
 )
 
+private val BlackReaderPalette = ReaderPalette(
+    background = BlackBackground,
+    text = BlackOnSurface,
+    secondaryText = BlackOnSurfaceVariant,
+    chromeBackground = BlackBackground,
+    chromeContent = BlackOnSurface,
+    divider = BlackDivider,
+    activeControl = AmanahSageOnDark,
+    onActiveControl = BlackBackground,
+    inactiveControl = BlackOnSurfaceVariant.copy(alpha = 0.55f),
+    pageMarker = AmanahSageOnDark,
+    currentAyahHighlight = AmanahSageSoftOnDark.copy(alpha = 0.75f),
+    controlSurface = BlackCardSurface,
+)
+
 val LocalReaderPalette = staticCompositionLocalOf { LightReaderPalette }
 
 private val AmanahLightColorScheme = lightColorScheme(
@@ -132,6 +147,23 @@ private val AmanahDarkColorScheme = darkColorScheme(
     onSurfaceVariant = DarkOnSurfaceVariant,
     outline = DarkBorder,
     outlineVariant = DarkDivider,
+)
+
+private val AmanahBlackColorScheme = AmanahDarkColorScheme.copy(
+    background = BlackBackground,
+    onBackground = BlackOnSurface,
+    surface = BlackSurface,
+    onSurface = BlackOnSurface,
+    surfaceVariant = BlackCardSurface,
+    onSurfaceVariant = BlackOnSurfaceVariant,
+    surfaceContainerLowest = BlackBackground,
+    surfaceContainerLow = BlackSurface,
+    surfaceContainer = BlackSurface,
+    surfaceContainerHigh = BlackCardSurface,
+    surfaceContainerHighest = BlackCardSurface,
+    tertiaryContainer = BlackCardSurface,
+    outline = BlackBorder,
+    outlineVariant = BlackDivider,
 )
 
 private val AmanahSepiaColorScheme = lightColorScheme(
@@ -188,18 +220,14 @@ fun AmanahQuranTheme(
     elderMode: Boolean,
     content: @Composable () -> Unit,
 ) {
-    val useDarkTheme = when (themeMode) {
-        ThemeMode.SYSTEM -> isSystemInDarkTheme()
-        ThemeMode.LIGHT -> false
-        ThemeMode.DARK -> true
-        ThemeMode.SEPIA -> false
-    }
+    val useDarkTheme = themeMode.isDark ?: isSystemInDarkTheme()
 
     val colorScheme = when (themeMode) {
         ThemeMode.SYSTEM -> if (useDarkTheme) AmanahDarkColorScheme else AmanahLightColorScheme
         ThemeMode.LIGHT -> AmanahLightColorScheme
         ThemeMode.DARK -> AmanahDarkColorScheme
         ThemeMode.SEPIA -> AmanahSepiaColorScheme
+        ThemeMode.BLACK -> AmanahBlackColorScheme
     }
 
     val readerPalette = when (themeMode) {
@@ -207,6 +235,7 @@ fun AmanahQuranTheme(
         ThemeMode.LIGHT -> LightReaderPalette
         ThemeMode.DARK -> DarkReaderPalette
         ThemeMode.SEPIA -> SepiaReaderPalette
+        ThemeMode.BLACK -> BlackReaderPalette
     }
 
     CompositionLocalProvider(

@@ -2,6 +2,11 @@ package org.amanahquran.app.feature.settings
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.selection.toggleable
+import androidx.compose.ui.semantics.Role
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -47,7 +52,7 @@ import org.amanahquran.app.core.ui.AmanahSectionCard
 import org.amanahquran.app.core.ui.AmanahSectionHeader
 import org.amanahquran.app.core.ui.AmanahSettingsRow
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun AdvancedReaderSettingsScreen(
     onNavigateBack: () -> Unit,
@@ -92,7 +97,14 @@ fun AdvancedReaderSettingsScreen(
                     AmanahCard(modifier = Modifier.fillMaxWidth()) {
                         Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.md)) {
                             Text("Default reader mode", style = MaterialTheme.typography.bodyLarge)
-                            Row(horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
+                            // Elder Mode stacks the options full-width so each keeps a large target
+                            // and its label never wraps into a cramped half-width chip.
+                            FlowRow(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.sm),
+                                verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm),
+                                maxItemsInEachRow = if (elder) 1 else 2,
+                            ) {
                                 AmanahScriptChip(
                                     label = "Continuous View",
                                     selected = settings.readerContentMode == ReaderContentMode.CONTINUOUS,
@@ -170,8 +182,13 @@ fun AdvancedReaderSettingsScreen(
 
 @Composable
 private fun SwitchRow(title: String, subtitle: String, checked: Boolean, onCheckedChange: (Boolean) -> Unit) {
+    val elder = LocalElderMode.current
+    // Whole row toggles (not just the small switch), with an Elder Mode-sized minimum height.
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = if (elder) AmanahSpacing.minTouchTargetElder else AmanahSpacing.minTouchTarget)
+            .toggleable(value = checked, role = Role.Switch, onValueChange = onCheckedChange),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -181,7 +198,7 @@ private fun SwitchRow(title: String, subtitle: String, checked: Boolean, onCheck
         }
         Switch(
             checked = checked,
-            onCheckedChange = onCheckedChange,
+            onCheckedChange = null,
             colors = SwitchDefaults.colors(
                 checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
                 checkedTrackColor = MaterialTheme.colorScheme.primary,
@@ -204,14 +221,16 @@ private fun AutoScrollPaceRow(selected: AutoScrollPace, onSelect: (AutoScrollPac
             Text("Slow", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Text("Fast", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
+        val elder = LocalElderMode.current
         Slider(
             value = selected.ordinal.toFloat(),
             onValueChange = { value ->
                 val index = kotlin.math.round(value).toInt().coerceIn(0, AutoScrollPace.entries.lastIndex)
-                onSelect(AutoScrollPace.entries[index])
+                if (index != selected.ordinal) onSelect(AutoScrollPace.entries[index])
             },
             valueRange = 0f..AutoScrollPace.entries.lastIndex.toFloat(),
             steps = AutoScrollPace.entries.size - 2,
+            modifier = Modifier.heightIn(min = if (elder) AmanahSpacing.minTouchTargetElder else AmanahSpacing.minTouchTarget),
         )
     }
 }

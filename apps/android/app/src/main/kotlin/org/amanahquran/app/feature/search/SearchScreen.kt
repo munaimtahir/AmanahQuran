@@ -120,9 +120,10 @@ fun SearchScreen(
                         keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(imeAction = androidx.compose.ui.text.input.ImeAction.Search),
                         keyboardActions = androidx.compose.foundation.text.KeyboardActions(
                             onSearch = {
-                                if (uiState.results.isNotEmpty()) {
-                                    onOpenResult(uiState.results.first())
-                                }
+                                // Only jump straight in when the query resolves to exactly one
+                                // place (e.g. "2:255", "Juz 30", "Yasin"); word searches with many
+                                // hits stay on the results list.
+                                shouldOpenSingleResult(uiState.results)?.let(onOpenResult)
                             }
                         ),
                         colors = OutlinedTextFieldDefaults.colors(
@@ -292,3 +293,7 @@ private fun SearchSuggestions(onSuggestionSelected: (String) -> Unit) {
         }
     }
 }
+
+/** The result the keyboard Search action should open directly, or null to stay on the list. */
+internal fun shouldOpenSingleResult(results: List<org.amanahquran.app.core.repository.SearchResultItem>): org.amanahquran.app.core.repository.SearchResultItem? =
+    results.singleOrNull()

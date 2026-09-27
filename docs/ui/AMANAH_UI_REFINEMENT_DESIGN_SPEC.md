@@ -1,12 +1,15 @@
 # AMANAH QURAN UI REFINEMENT DESIGN SPECIFICATION
 
+> **Numbering note:** PROP IDs in this spec pre-date the canonical backlog numbering. Mapping to `COMPETITOR_UI_BENCHMARK/AMANAH_UI_OPPORTUNITY_BACKLOG.md`: spec PROP-01→backlog PROP-01, 02→02, 03→03, 04→04, 05→05, 06 (Daily Ayah history) and 07 (Trust Center disclosure) are extra spec items, 08 (immersive chrome) is from the Mushaf-reader row of `AMANAH_VS_COMPETITORS.md`, 09→backlog PROP-08. Backlog PROP-06 (jump dialog) and PROP-07 (OLED black) are specified in `docs/ui/UI_REFINEMENT_REVIEW_AND_PLAN.md`.
+
+
 ## Amanah Design Tokens
 - **Spacing**: 4dp baseline grid (4, 8, 16, 24, 32, 48).
-- **Corner Radius**: 12dp for cards, 16dp for bottom sheets, 8dp for chips.
+- **Corner Radius**: 16dp for cards (as implemented in `AmanahShapes`), Material default for bottom sheets, pill chips.
 - **Typography**: IndoPak font (Digital Khatt), Uthmani font (KFGQPC), Sans for UI.
 - **Surfaces**: Material 3 surfaces.
 - **Colors**: Green primary, Gold accents.
-- **Themes**: Light (white background), Dark (true black OLED), Sepia (warm paper).
+- **Themes**: System, Light (warm paper white), Dark (deep green-black #101714), Sepia (warm paper), and optional **Black (OLED)** (#000000 background, #E6E4DE text).
 - **Touch Target**: Minimum 48dp (larger in Elder Mode).
 - **Animations**: Minimal fade/slide.
 

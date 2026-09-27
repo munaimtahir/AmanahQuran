@@ -83,6 +83,7 @@ data class ReaderUiState(
     val zoomLevel: ReaderZoomLevel = ReaderZoomLevel.default,
     val autoScrollPace: AutoScrollPace = AutoScrollPace.default,
     val firstZoomHintShown: Boolean = false,
+    val ayahTapHintShown: Boolean = false,
     val pinchToResizeEnabled: Boolean = true,
     val contentMode: ReaderContentMode = ReaderContentMode.default,
     val translationZoomLevel: ReaderZoomLevel = ReaderZoomLevel.default,

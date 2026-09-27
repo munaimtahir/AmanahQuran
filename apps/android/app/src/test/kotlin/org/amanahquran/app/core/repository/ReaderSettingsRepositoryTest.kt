@@ -185,6 +185,19 @@ class ReaderSettingsRepositoryTest {
     }
 
     @Test
+    fun ayahTapHintDefaultsOffAndPersists() = runTest {
+        assertFalse(repository.settings.first().ayahTapHintShown)
+        repository.setAyahTapHintShown(true)
+        assertTrue(repository.settings.first().ayahTapHintShown)
+    }
+
+    @Test
+    fun optionalBlackThemePersists() = runTest {
+        repository.setSelectedTheme(ThemeMode.BLACK)
+        assertEquals(ThemeMode.BLACK, repository.settings.first().selectedTheme)
+    }
+
+    @Test
     fun firstZoomHintAndPinchToResizePreferencesPersist() = runTest {
         repository.setFirstZoomHintShown(true)
         repository.setPinchToResizeEnabled(false)

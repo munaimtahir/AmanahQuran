@@ -44,6 +44,17 @@ class UserBackupCodecTest {
     }
 
     @Test
+    fun blackThemeRoundTripsThroughBackup() {
+        val payload = UserBackupPayload(
+            bookmarks = emptyList(),
+            collectionsJson = "[]",
+            settings = ReaderSettings(selectedTheme = ThemeMode.BLACK),
+        )
+        val restored = UserBackupCodec.validateAndParse(UserBackupCodec.encode(payload))
+        assertEquals(ThemeMode.BLACK, restored.settings.selectedTheme)
+    }
+
+    @Test
     fun legacyTranslationEnabledBooleanBackupMigratesToIrfanUrduSelection() {
         // A backup written before this integration only carried the boolean Junagarhi toggle.
         val v1Json = JSONObjectOf(

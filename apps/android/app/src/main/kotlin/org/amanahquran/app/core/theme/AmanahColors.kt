@@ -44,6 +44,16 @@ val DarkAccentGold = Color(0xFFD9C070)
 val DarkSurfaceVariant = Color(0xFF24382F)
 val DarkReaderSurface = Color(0xFF24382F)
 
+// Optional "Black (OLED)" theme: true #000000 background so OLED pixels stay off, with
+// soft off-white text (not pure white) to limit glare/halation in a dark room.
+val BlackBackground = Color(0xFF000000)
+val BlackSurface = Color(0xFF0A0D0B)
+val BlackCardSurface = Color(0xFF121714)
+val BlackOnSurface = Color(0xFFE6E4DE)
+val BlackOnSurfaceVariant = Color(0xFFB8B5AD)
+val BlackDivider = Color(0xFF232B27)
+val BlackBorder = Color(0xFF2E3833)
+
 // Muted sage/eucalyptus reader accents (calm, not promotional -- see ReaderPalette). Deliberately
 // desaturated compared to AmanahGreenDeep/AmanahGreenMuted, which stay reserved for primary
 // brand/navigation chrome outside the reading surface itself.

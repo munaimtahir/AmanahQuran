@@ -239,6 +239,19 @@ fun SettingsScreen(
                                 themeChip(ThemeMode.DARK)
                                 themeChip(ThemeMode.SEPIA)
                             }
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.sm),
+                            ) {
+                                themeChip(ThemeMode.BLACK)
+                            }
+                            if (settings.selectedTheme == ThemeMode.BLACK) {
+                                Text(
+                                    text = "Pure black background for OLED screens and night reading.",
+                                    style = MaterialTheme.typography.labelMedium,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                )
+                            }
                         }
                     }
                 }
@@ -314,6 +327,20 @@ fun SettingsScreen(
                             accessibilityValue = "${settings.readerHorizontalPaddingDp.toInt()} dp",
                         )
                     }
+                }
+            }
+
+            // Live typography preview: reflects script, sizes and spacing chosen above.
+            Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
+                AmanahSectionHeader(title = "Preview")
+                AmanahCard(modifier = Modifier.fillMaxWidth()) {
+                    TypographyPreviewCard(
+                        scriptType = settings.selectedScript,
+                        arabicFontSizeSp = settings.arabicFontSizeSp,
+                        arabicLineSpacingMultiplier = settings.arabicLineSpacingMultiplier,
+                        translationSelection = settings.translationSelection,
+                        translationFontSizeSp = settings.translationFontSizeSp,
+                    )
                 }
             }
 

@@ -267,6 +267,9 @@ fun AmanahQuranNavHost(
                         }
                     }
                 },
+                onOpenReadingPosition = { ayahKey ->
+                    navController.navigate(AppRoute.exactAyahReader(ayahKey))
+                },
             )
         }
         composable(AppRoute.Settings) {

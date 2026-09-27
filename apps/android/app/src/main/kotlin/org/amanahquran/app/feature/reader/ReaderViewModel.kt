@@ -86,6 +86,7 @@ class ReaderViewModel(
                     zoomLevel = initialSettings.effectiveZoomLevel(),
                     autoScrollPace = initialSettings.autoScrollPace,
                     firstZoomHintShown = initialSettings.firstZoomHintShown,
+                    ayahTapHintShown = initialSettings.ayahTapHintShown,
                     pinchToResizeEnabled = initialSettings.pinchToResizeEnabled,
                     contentMode = initialSettings.readerContentMode,
                     translationZoomLevel = initialSettings.translationZoomLevel,
@@ -204,6 +205,39 @@ class ReaderViewModel(
     fun resetTranslationZoom() {
         viewModelScope.launch(dispatcher) {
             settingsRepository.resetTranslationZoomLevel()
+        }
+    }
+
+    fun setAyahTapHintShown(shown: Boolean) {
+        viewModelScope.launch(dispatcher) {
+            settingsRepository.setAyahTapHintShown(shown)
+        }
+    }
+
+    /**
+     * Jumps to canonical `surah:ayah`. Selects it in place when it is already loaded; otherwise
+     * reloads the reader on that surah anchored at the ayah. Returns false via [onResult] when the
+     * reference doesn't exist (surah outside 1..114 or ayah beyond that surah's count).
+     */
+    fun jumpToReference(surahNumber: Int, ayahNumber: Int, onResult: (Boolean) -> Unit = {}) {
+        val ayahKey = "$surahNumber:$ayahNumber"
+        if (_uiState.value.ayahs.any { it.ayahKey == ayahKey }) {
+            selectAyah(ayahKey)
+            onResult(true)
+            return
+        }
+        viewModelScope.launch(dispatcher) {
+            val surah = if (surahNumber in 1..114) repository.getSurahByNumber(surahNumber) else null
+            if (surah == null || ayahNumber !in 1..surah.ayahCount) {
+                onResult(false)
+                return@launch
+            }
+            loadOpenMode(
+                openMode = ReaderOpenMode.Surah(surahNumber),
+                selectedAyahKey = ayahKey,
+                anchor = ReaderAnchor.ExactAyah(ayahKey),
+            )
+            onResult(true)
         }
     }
 
@@ -477,6 +511,7 @@ class ReaderViewModel(
                         zoomLevel = settings.effectiveZoomLevel(),
                         autoScrollPace = settings.autoScrollPace,
                         firstZoomHintShown = settings.firstZoomHintShown,
+                        ayahTapHintShown = settings.ayahTapHintShown,
                         pinchToResizeEnabled = settings.pinchToResizeEnabled,
                         contentMode = settings.readerContentMode,
                         translationZoomLevel = settings.translationZoomLevel,

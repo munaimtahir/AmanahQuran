@@ -81,7 +81,7 @@ With airplane mode enabled, user can:
   - Infinix/Tecno if available.
 - Small-screen layout tested.
 - Elder Mode tested.
-- Dark/Sepia themes tested.
+- Dark/Sepia/Black (OLED) themes tested.
 
 ## Dependency Gate
 

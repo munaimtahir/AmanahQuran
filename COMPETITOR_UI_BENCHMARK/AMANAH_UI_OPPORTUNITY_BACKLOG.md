@@ -1,12 +1,16 @@
 # AMANAH UI OPPORTUNITY BACKLOG — SPRINT ROADMAP
 
+> **Evidence corrections (2026-09-27):** some claims in this benchmark were unsupported or wrong and have been corrected or flagged in place. See `UI_AUDIT_VNEXT/EVIDENCE_INTEGRITY_REPORT.md` for the full list. Play Store reviewer names, avatars and review IDs were removed from `LOGS/*_reviews.json`.
+
+
 > **Backlog Scope**: Evidence-based design proposals derived strictly from competitive audit findings and real user feedback.
 > **Priority Classification**:
 > - **P0**: Critical usability defect or essential competitor-proven requirement.
 > - **P1**: High-value UX improvement backed by strong evidence.
 > - **P2**: Useful ergonomic refinement.
 > - **P3**: Experimental or future exploratory feature.
-> **Note**: This sprint is READ-ONLY. No changes are to be implemented during this benchmark phase.
+> **Note**: The benchmark phase itself was read-only. Items were implemented afterwards in the UI refinement sprints R1–R5; status and evidence are in `docs/ui/UI_REFINEMENT_REVIEW_AND_PLAN.md` and `UI_AUDIT_VNEXT/`.
+> **Numbering**: PROP IDs here are canonical. `docs/ui/AMANAH_UI_REFINEMENT_DESIGN_SPEC.md` now maps to these IDs.
 
 ---
 
@@ -36,7 +40,7 @@
 - **Proposed Interaction Design**: In Reader Settings Sheet, provide two linked sliders: "Arabic Script Size" (24sp - 48sp) and "Translation Text Size" (14sp - 28sp), with minimum 1.4x line-height multiplier for Urdu.
 - **Expected Usability Benefit**: Elderly and low-vision readers can read Arabic comfortably without ballooning translation text to screen-filling heights.
 - **Potential Risks**: Low. Purely presentation layer styling.
-- **Accessibility & Elder Impact**: Transformative. WCAG 1.4.4 compliant up to 200% scaling without clipping.
+- **Accessibility & Elder Impact**: Expected to be high. *(Earlier text claimed WCAG 1.4.4 compliance at 200%; Amanah was only measured at 130% in the audit, so this is a target, not a verified result.)*
 - **Estimated Complexity**: `Low (Compose TextUnit state)`
 - **Quran Text / Content Integrity**: Zero risk. Quran text strings remain completely immutable.
 - **Recommended Quality Gate**: `Visual regression test at 100%, 150%, and 200% font scaling.`
@@ -71,7 +75,7 @@
 
 ### [PROP-04] Suggestion Chips & Direct Reference Jump in Offline Search (P1)
 - **Problem Statement**: Blank search screen provides no guidance for users who do not know exact Arabic spelling or transliteration rules.
-- **Competitor Evidence**: Quran for Android search is empty; Greentech offers quick suggestion chips (e.g. Yasin, Al-Mulk, Al-Kahf, Ayatul Kursi) that drive 60% of search traffic.
+- **Competitor Evidence**: Quran for Android search is empty; Greentech offers quick suggestion chips (e.g. Yasin, Al-Mulk, Al-Kahf, Ayatul Kursi). *(An earlier "60% of search traffic" figure had no source and was removed.)*
 - **Competitor Reference**: `Greentech Search Home & Quran Majeed Quick Index.`
 - **User Review Sentiment**: Search usability, finding popular chapters easily.
 - **Amanah Surface Affected**: `Search Screen (`SearchScreen.kt`). Evidence: `UI_AUDIT/SCREENSHOTS/06_search/001_offline_search_empty.png`.`
@@ -112,7 +116,7 @@
 - **Recommended Quality Gate**: `Navigation test with boundary values (1:1, 2:286, 114:6).`
 
 ### [PROP-07] Pure OLED True Black Palette for Dark Theme (P2)
-- **Problem Statement**: Current Dark theme uses deep grey (#121212), which is good for general dark mode but does not achieve 0-pixel emission on OLED screens.
+- **Problem Statement**: Current Dark theme uses a deep green-black (`DarkBackground` = #101714, not #121212 as first recorded), which is good for general dark mode but does not achieve 0-pixel emission on OLED screens.
 - **Competitor Evidence**: Tarteel and modern Quran apps offer an "OLED Black" option which saves battery and maximizes contrast in dark rooms.
 - **Competitor Reference**: `Tarteel Pure Black Theme.`
 - **User Review Sentiment**: Night reading comfort, OLED battery conservation.

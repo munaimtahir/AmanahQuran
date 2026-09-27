@@ -16,6 +16,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.MenuBook
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
+import org.amanahquran.app.core.ui.AmanahSectionHeader
 import androidx.compose.material.icons.rounded.Bookmark
 import androidx.compose.material.icons.rounded.BookmarkBorder
 import androidx.compose.material.icons.rounded.Delete
@@ -59,6 +64,7 @@ import org.amanahquran.app.core.ui.AmanahEmptyState
 fun BookmarksScreen(
     onNavigateBack: () -> Unit,
     onOpenBookmark: (BookmarkUiItem) -> Unit,
+    onOpenReadingPosition: (ayahKey: String) -> Unit = {},
     viewModel: BookmarksViewModel = viewModel(factory = BookmarksViewModel.factory(LocalContext.current)),
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -97,7 +103,7 @@ fun BookmarksScreen(
                 }
             }
 
-            uiState.items.isEmpty() -> {
+            uiState.items.isEmpty() && uiState.readingPosition == null -> {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -107,7 +113,7 @@ fun BookmarksScreen(
                     AmanahEmptyState(
                         icon = Icons.Rounded.BookmarkBorder,
                         title = "No bookmarks yet",
-                        message = "Explicitly save ayahs to find them later. Your auto last-read position is tracked separately on the Home screen.",
+                        message = "Tap an ayah in the reader and choose Bookmark to save it here. Your reading position is saved automatically and shown separately.",
                     )
                 }
             }
@@ -119,6 +125,19 @@ fun BookmarksScreen(
                         .padding(padding),
                     contentPadding = PaddingValues(horizontal = horizontalPadding, vertical = AmanahSpacing.sm),
                 ) {
+                    uiState.readingPosition?.let { position ->
+                        item(key = "reading-position") {
+                            AmanahSectionHeader(title = "Reading position")
+                            ReadingPositionRow(
+                                item = position,
+                                onOpen = { onOpenReadingPosition(position.ayahKey) },
+                            )
+                            AmanahDivider(modifier = Modifier.padding(bottom = AmanahSpacing.md))
+                        }
+                    }
+                    item(key = "saved-header") {
+                        AmanahSectionHeader(title = "Saved bookmarks")
+                    }
                     item {
                         Row(
                             modifier = Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(bottom = AmanahSpacing.sm),
@@ -132,6 +151,16 @@ fun BookmarksScreen(
                                 )
                             }
                             TextButton(onClick = { showCreateCollection = true }) { Text("New") }
+                        }
+                    }
+                    if (uiState.items.isEmpty()) {
+                        item(key = "saved-empty") {
+                            Text(
+                                text = "No bookmarks saved yet. Tap an ayah in the reader and choose Bookmark.",
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.padding(vertical = AmanahSpacing.md),
+                            )
                         }
                     }
                     items(uiState.items, key = { it.record.id }) { item ->
@@ -173,6 +202,29 @@ fun BookmarksScreen(
             },
             dismissButton = { TextButton(onClick = { showCreateCollection = false }) { Text("Cancel") } },
         )
+    }
+}
+
+@Composable
+private fun ReadingPositionRow(item: ReadingPositionUiItem, onOpen: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClickLabel = "Continue reading at ${item.title}", onClick = onOpen)
+            .padding(vertical = AmanahSpacing.md),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.md),
+    ) {
+        Icon(
+            imageVector = Icons.AutoMirrored.Rounded.MenuBook,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.size(20.dp),
+        )
+        Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            Text(item.title, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface)
+            Text(item.subtitle, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
     }
 }
 
@@ -221,19 +273,22 @@ private fun BookmarkRow(
                 )
             }
             item.previewText?.takeIf { it.isNotBlank() }?.let { preview ->
-                Text(
-                    text = preview,
-                    style = MaterialTheme.typography.headlineSmall.copy(
-                        lineHeight = 32.sp,
-                        fontFamily = QuranFonts.getFontFamily(scriptType),
-                        letterSpacing = 0.sp,
-                    ),
-                    textAlign = androidx.compose.ui.text.style.TextAlign.Right,
-                    modifier = Modifier.fillMaxWidth(),
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 3,
-                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
-                )
+                // Quran preview laid out RTL so wrapping and the ellipsis follow Arabic reading order.
+                CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+                    Text(
+                        text = preview,
+                        style = MaterialTheme.typography.headlineSmall.copy(
+                            lineHeight = 36.sp,
+                            fontFamily = QuranFonts.getFontFamily(scriptType),
+                            letterSpacing = 0.sp,
+                        ),
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Start,
+                        modifier = Modifier.fillMaxWidth(),
+                        color = MaterialTheme.colorScheme.onSurface,
+                        maxLines = 3,
+                        overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+                    )
+                }
             }
         }
         if (collections.isNotEmpty()) {

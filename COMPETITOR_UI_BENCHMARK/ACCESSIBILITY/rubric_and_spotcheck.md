@@ -28,6 +28,8 @@
 | Overall Spiritual Calmness | 8 | **10** | **9** | **9** | 6 | 6 | 1 | **10** |
 | OVERALL UX COMPOSITE SCORE | 7.6 | 8.2 | 8.3 | 8.3 | 6.7 | 6.0 | 3.8 | **9.5** |
 
+> **Caveat (2026-09-27):** the Amanah column was scored by the app's own team without the same device testing used for competitors, so it isn't a like-for-like comparison. Treat it as a self-assessment.
+
 ---
 
 ## 2. Objective Interaction Metrics

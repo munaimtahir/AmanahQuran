@@ -50,8 +50,9 @@ class DailyAyahRepositoryImpl(
         val currentSettings = settings.settings.first()
         return records().take(limit.coerceIn(1, 30)).mapNotNull { record ->
             val ayah = quran.getReaderAyah(record.ayahKey, currentSettings.selectedScript.name) ?: return@mapNotNull null
-            val activeTranslationId = currentSettings.translationSelection.translationId ?: record.translationId
-            val translation = activeTranslationId?.let { translations.getAyah(it, record.ayahKey)?.displayText }
+            // Follow the user's current choice: translation Off means no translation in history either.
+            val translation = currentSettings.translationSelection.translationId
+                ?.let { translations.getAyah(it, record.ayahKey)?.displayText }
             DailyAyahContent(record, ayah.displayText, translation, ayah.surahNameSimple, ayah.ayahNumber)
         }
     }

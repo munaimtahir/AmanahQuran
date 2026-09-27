@@ -1,5 +1,7 @@
 # UI Refinement — Review of `feature/ui-refinement-evidence-driven` and Forward Plan
 
+> **Status (2026-09-27):** R1–R5 and housekeeping are implemented. The optional Black (OLED) theme was approved by the owner. See `UI_REFINEMENT_IMPLEMENTATION_REPORT.md` for what shipped, tests and open items.
+
 Reviewed: merge commit `e69bf23` (PR #1), which brought in `2194f7e` WAVE A → `5378fc6` WAVE D and `989a10a`.
 Baseline for comparison: `9739d44` (v2.2.0).
 Date: 2026-09-27.

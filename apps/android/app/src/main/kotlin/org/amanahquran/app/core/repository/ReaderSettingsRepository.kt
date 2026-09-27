@@ -47,6 +47,8 @@ data class ReaderSettings(
     val uthmaniElderZoomLevel: ReaderZoomLevel = ReaderZoomLevel.elderDefault,
     val autoScrollPace: AutoScrollPace = AutoScrollPace.default,
     val firstZoomHintShown: Boolean = false,
+    /** One-time reader hint that ayahs are tappable (bookmark / share / jump). */
+    val ayahTapHintShown: Boolean = false,
     val pinchToResizeEnabled: Boolean = true,
     // READER-UX-02: Continuous Mode + parallel split translation. Content mode is purely a
     // rendering choice (the ViewModel loads the same ayahs either way). Translation zoom reuses
@@ -100,6 +102,7 @@ interface ReaderSettingsRepository {
     suspend fun resetZoomLevel(scriptType: ScriptType, elderMode: Boolean)
     suspend fun setAutoScrollPace(pace: AutoScrollPace)
     suspend fun setFirstZoomHintShown(shown: Boolean)
+    suspend fun setAyahTapHintShown(shown: Boolean)
     suspend fun setPinchToResizeEnabled(enabled: Boolean)
 
     suspend fun setReaderContentMode(mode: ReaderContentMode)
@@ -212,6 +215,10 @@ class ReaderSettingsRepositoryImpl(
 
     override suspend fun setFirstZoomHintShown(shown: Boolean): Unit = withContext(NonCancellable) {
         dataSource.dataStore.edit { preferences -> preferences[Keys.firstZoomHintShown] = shown }
+    }
+
+    override suspend fun setAyahTapHintShown(shown: Boolean): Unit = withContext(NonCancellable) {
+        dataSource.dataStore.edit { preferences -> preferences[Keys.ayahTapHintShown] = shown }
     }
 
     override suspend fun setPinchToResizeEnabled(enabled: Boolean): Unit = withContext(NonCancellable) {
@@ -331,6 +338,7 @@ class ReaderSettingsRepositoryImpl(
             uthmaniElderZoomLevel = ReaderZoomLevel.fromStoredName(this[Keys.zoomUthmaniElder]) ?: ReaderZoomLevel.elderDefault,
             autoScrollPace = AutoScrollPace.fromStoredName(this[Keys.autoScrollPace]) ?: AutoScrollPace.default,
             firstZoomHintShown = this[Keys.firstZoomHintShown] ?: false,
+            ayahTapHintShown = this[Keys.ayahTapHintShown] ?: false,
             pinchToResizeEnabled = this[Keys.pinchToResizeEnabled] ?: true,
             readerContentMode = ReaderContentMode.fromStoredName(this[Keys.readerContentMode]) ?: ReaderContentMode.default,
             translationZoomLevel = ReaderZoomLevel.fromStoredName(this[Keys.translationZoomLevel]) ?: ReaderZoomLevel.default,
@@ -362,6 +370,7 @@ class ReaderSettingsRepositoryImpl(
         val zoomUthmaniElder = stringPreferencesKey("zoom_level_uthmani_elder")
         val autoScrollPace = stringPreferencesKey("auto_scroll_pace")
         val firstZoomHintShown = booleanPreferencesKey("first_zoom_hint_shown")
+        val ayahTapHintShown = booleanPreferencesKey("ayah_tap_hint_shown")
         val pinchToResizeEnabled = booleanPreferencesKey("pinch_to_resize_enabled")
         val readerContentMode = stringPreferencesKey("reader_content_mode")
         val translationZoomLevel = stringPreferencesKey("translation_zoom_level")

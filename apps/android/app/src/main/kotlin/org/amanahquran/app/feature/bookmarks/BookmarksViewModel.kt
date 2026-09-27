@@ -22,7 +22,10 @@ import org.amanahquran.app.core.repository.BookmarkRepository
 import org.amanahquran.app.core.repository.BookmarkCollection
 import org.amanahquran.app.core.repository.BookmarkCollectionRepository
 import org.amanahquran.app.core.repository.bookmarkCollectionRepository
+import org.amanahquran.app.core.repository.LastReadRepository
+import org.amanahquran.app.core.repository.LastReadState
 import org.amanahquran.app.core.repository.QuranContentRepository
+import org.amanahquran.app.core.repository.lastReadRepository
 import org.amanahquran.app.core.repository.ReaderSettingsRepository
 import org.amanahquran.app.core.repository.bookmarkRepository
 import org.amanahquran.app.core.repository.readerSettingsRepository
@@ -36,6 +39,16 @@ data class BookmarkUiItem(
     val createdLabel: String,
 )
 
+/**
+ * The automatically tracked last-read position. Shown separately from bookmarks: it moves as you
+ * read, whereas bookmarks only change when the user saves or removes one.
+ */
+data class ReadingPositionUiItem(
+    val ayahKey: String,
+    val title: String,
+    val subtitle: String,
+)
+
 data class BookmarksUiState(
     val isLoading: Boolean = true,
     val items: List<BookmarkUiItem> = emptyList(),
@@ -43,6 +56,7 @@ data class BookmarksUiState(
     val selectedScript: ScriptType = ScriptType.INDOPAK,
     val collections: List<BookmarkCollection> = emptyList(),
     val selectedCollectionId: String = "default",
+    val readingPosition: ReadingPositionUiItem? = null,
 )
 
 class BookmarksViewModel(
@@ -50,6 +64,7 @@ class BookmarksViewModel(
     private val settingsRepository: ReaderSettingsRepository,
     private val quranContentRepository: QuranContentRepository,
     private val collectionRepository: BookmarkCollectionRepository = EmptyBookmarkCollectionRepository,
+    private val lastReadRepository: LastReadRepository? = null,
     private val dispatcher: CoroutineDispatcher = Dispatchers.Main.immediate,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(BookmarksUiState())
@@ -89,6 +104,14 @@ class BookmarksViewModel(
     }
 
     private fun observeState() {
+        lastReadRepository?.let { repository ->
+            viewModelScope.launch(dispatcher) {
+                repository.getLastRead().collectLatest { lastRead ->
+                    val item = lastRead?.let { buildReadingPositionItem(it) }
+                    _uiState.update { it.copy(readingPosition = item) }
+                }
+            }
+        }
         viewModelScope.launch(dispatcher) {
             combine(
                 bookmarkRepository.getAllBookmarks(),
@@ -126,6 +149,12 @@ class BookmarksViewModel(
                 }
             }
         }
+    }
+
+    private suspend fun buildReadingPositionItem(lastRead: LastReadState): ReadingPositionUiItem {
+        val surahName = runCatching { quranContentRepository.getSurahByNumber(lastRead.surahNumber) }
+            .getOrNull()?.nameSimple?.takeIf { it.isNotBlank() } ?: "Surah ${lastRead.surahNumber}"
+        return readingPositionItem(lastRead, surahName)
     }
 
     private suspend fun buildBookmarkItem(
@@ -173,6 +202,7 @@ class BookmarksViewModel(
                     settingsRepository = readerSettingsRepository(context),
                     quranContentRepository = quranContentRepository(context),
                     collectionRepository = bookmarkCollectionRepository(context),
+                    lastReadRepository = lastReadRepository(context),
                 ) as T
             }
         }
@@ -187,6 +217,16 @@ private object EmptyBookmarkCollectionRepository : BookmarkCollectionRepository 
     override suspend fun addBookmark(collectionId: String, bookmarkId: Long) = Unit
     override suspend fun removeBookmark(collectionId: String, bookmarkId: Long) = Unit
 }
+
+internal fun readingPositionItem(lastRead: LastReadState, surahName: String): ReadingPositionUiItem =
+    ReadingPositionUiItem(
+        ayahKey = lastRead.ayahKey,
+        title = "$surahName ${lastRead.surahNumber}:${lastRead.ayahNumber}",
+        subtitle = listOfNotNull(
+            lastRead.pageNumber?.let { "Page $it" },
+            "Auto-saved as you read",
+        ).joinToString(" · "),
+    )
 
 private fun PageReferenceType.displayLabel(): String = when (this) {
     PageReferenceType.INDOPAK -> "IndoPak"

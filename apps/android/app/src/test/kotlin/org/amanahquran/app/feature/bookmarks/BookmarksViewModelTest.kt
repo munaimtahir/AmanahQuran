@@ -119,4 +119,37 @@ class BookmarksViewModelTest {
         assertTrue(item.subtitle.contains("Uthmani"))
         assertTrue(item.previewText.orEmpty().isNotBlank())
     }
+
+    @Test
+    fun readingPositionIsShownSeparatelyFromSavedBookmarks() = runTest {
+        val lastRead = org.amanahquran.app.core.repository.LastReadRepositoryImpl(
+            amanahPreferencesDataSourceForFile(
+                File(RuntimeEnvironment.getApplication().filesDir, "amanah-lastread-${System.nanoTime()}.preferences_pb"),
+            ),
+        )
+        lastRead.saveLastRead(
+            ayahKey = "36:58",
+            surahNumber = 36,
+            ayahNumber = 58,
+            juzNumber = 23,
+            pageNumber = 444,
+            scriptType = ScriptType.INDOPAK,
+        )
+
+        val viewModel = BookmarksViewModel(
+            bookmarkRepository = bookmarkRepository,
+            settingsRepository = settingsRepository,
+            quranContentRepository = repository,
+            lastReadRepository = lastRead,
+            dispatcher = UnconfinedTestDispatcher(testScheduler),
+        )
+
+        val state = viewModel.uiState.first { !it.isLoading && it.readingPosition != null }
+        val position = state.readingPosition!!
+        assertEquals("36:58", position.ayahKey)
+        assertTrue(position.title.endsWith("36:58"))
+        assertTrue(position.subtitle.contains("Auto-saved"))
+        // The auto-saved position never appears as a saved bookmark.
+        assertTrue(state.items.none { it.record.ayahKey == "36:58" })
+    }
 }

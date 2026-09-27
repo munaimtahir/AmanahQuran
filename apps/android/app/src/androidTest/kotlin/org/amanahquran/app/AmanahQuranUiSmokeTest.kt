@@ -54,7 +54,7 @@ class AmanahQuranUiSmokeTest {
 
     @Test
     fun reader_opensOfflineAndPassesAccessibilityChecks() {
-        composeRule.onNode(hasText("Open Mushaf Page") or hasText("Continue Reading"))
+        composeRule.onNode(hasText("Start Reading") or hasText("Continue Reading"))
             .performScrollTo()
             .performClick()
         composeRule.waitUntilAtLeastOneExists(

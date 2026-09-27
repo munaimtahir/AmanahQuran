@@ -1,5 +1,7 @@
 # ACCESSIBILITY AUDIT & SPOT-CHECK REPORT
 
+> **Evidence corrections (2026-09-27):** some claims in this benchmark were unsupported or wrong and have been corrected or flagged in place. See `UI_AUDIT_VNEXT/EVIDENCE_INTEGRITY_REPORT.md` for the full list. Play Store reviewer names, avatars and review IDs were removed from `LOGS/*_reviews.json`.
+
 > **Testing Environment**: `QuranBenchmark_API36` (Android 16, API 36 Baklava, 1080x1920, 420 dpi).
 > **Test Configurations**:
 > - Baseline: 100% Font Scale (`font_scale=1.0`), Portrait orientation, Light & Dark themes.
@@ -20,7 +22,7 @@
 | **Tarteel** | Modern Compose dynamic type works well, but upsell banners overflow screen bounds. | Reader functions well in landscape. | Exceptional true-black OLED mode. | Clean Uthmani font rendering. | Fully compliant (modern Material 3 targets). | **6.0 / 10** (Complex for elders) |
 | **Quranly** | Cards overflow vertical viewports; celebratory modals require scrolling to dismiss. | Landscape causes card distortion. | Modern soft dark mode. | Standard Uthmani. | Compliant. | **4.0 / 10** (Gamified, unsuited for elders) |
 | **Quran Majeed** | Severe layout breakage: banner ads collide with scaled Arabic text. | Ad banners occlude up to 35% of landscape reader space. | Night mode available, but ads remain bright white. | IndoPak text renders well, but ad overlays block verses. | Non-compliant (ad dismiss buttons are tiny 24dp targets). | **3.0 / 10** (Hazardous for elders) |
-| **Amanah Quran (Baseline)** | Purpose-built Elder Mode ensures 140%+ text scaling, 56dp minimum touch targets, and generous line heights with zero ads. | Responsive Compose layout adapts cleanly to landscape. | 4-Theme system (Light, Dark, Sepia, System) with WCAG AAA contrast. | Bundled verified IndoPak and Uthmani fonts with tuned baselines prevent clipping. | 100% compliant (All primary targets >= 48dp, Elder Mode >= 56dp). | **9.5 / 10 (Gold Standard)** |
+| **Amanah Quran (Baseline)** | *Not measured at 200% in this audit (only 130%, see `UI_AUDIT/ACCESSIBILITY/observations.md`).* Elder Mode gives larger type and 56dp touch targets. | Responsive Compose layout adapts cleanly to landscape. | 4-Theme system (Light, Dark, Sepia, System) with WCAG AAA contrast. | Bundled verified IndoPak and Uthmani fonts with tuned baselines prevent clipping. | 100% compliant (All primary targets >= 48dp, Elder Mode >= 56dp). | *Self-assessed, not comparable* (competitor scores were from device testing; Amanah's was not) |
 
 ---
 

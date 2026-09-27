@@ -43,6 +43,26 @@ fun TranslationDirection.toLayoutDirection(): LayoutDirection =
 fun TranslationDirection.toTextAlign(): TextAlign =
     if (this == TranslationDirection.RTL) TextAlign.Right else TextAlign.Left
 
+/** Line-height multiplier for LTR (English) translation text. */
+const val LTR_TRANSLATION_LINE_HEIGHT_MULTIPLIER = 1.65f
+
+/**
+ * Line-height multiplier for RTL (Urdu Nastaliq) translation text. Nastaliq stacks glyphs
+ * diagonally and carries tall ascenders/descenders, so it needs noticeably more leading than
+ * Latin text or the lines collide/clip at large sizes.
+ */
+const val RTL_TRANSLATION_LINE_HEIGHT_MULTIPLIER = 1.85f
+
+/** Line height (in sp) for translation text at [fontSizeSp]; never tighter than 1.4x at any size. */
+fun translationLineHeightSp(fontSizeSp: Float, direction: TranslationDirection): Float {
+    val multiplier = if (direction == TranslationDirection.RTL) {
+        RTL_TRANSLATION_LINE_HEIGHT_MULTIPLIER
+    } else {
+        LTR_TRANSLATION_LINE_HEIGHT_MULTIPLIER
+    }
+    return fontSizeSp * multiplier.coerceAtLeast(1.4f)
+}
+
 /**
  * Renders one ayah's translation paragraph, direction-aware (Urdu right-aligned/RTL, English
  * left-aligned/LTR), with a distinct neutral placeholder for [TranslationAvailability.SOURCE_MISSING]
@@ -68,6 +88,7 @@ fun TranslationAyahText(
                     text = SOURCE_MISSING_MESSAGE,
                     style = MaterialTheme.typography.bodyMedium.copy(
                         fontSize = translationFontSizeSp.sp,
+                        lineHeight = translationLineHeightSp(translationFontSizeSp, direction).sp,
                         fontStyle = FontStyle.Italic,
                     ),
                     color = palette.secondaryText.copy(alpha = 0.7f),
@@ -84,7 +105,7 @@ fun TranslationAyahText(
                             text = text,
                             style = MaterialTheme.typography.bodyLarge.copy(
                                 fontSize = translationFontSizeSp.sp,
-                                lineHeight = (translationFontSizeSp * 1.65f).sp,
+                                lineHeight = translationLineHeightSp(translationFontSizeSp, direction).sp,
                             ),
                             color = palette.secondaryText,
                             textAlign = direction.toTextAlign(),

@@ -50,7 +50,7 @@ V1 Sacred Reader MVP:
 - Bookmarks.
 - Offline search.
 - Elder Mode.
-- Light / Dark / Sepia / System themes.
+- Light / Dark / Sepia / System themes, plus an optional Black (OLED) theme (owner-approved in the UI refinement sprint).
 - Trust Center.
 - Content source attribution and verification.
 

@@ -41,3 +41,7 @@ __pycache__/
 
 # One-off local scratch scripts
 scratch/
+
+# Evidence bundles: keep the folders, never commit zipped duplicates of them.
+COMPETITOR_UI_BENCHMARK*.zip
+UI_AUDIT*.zip

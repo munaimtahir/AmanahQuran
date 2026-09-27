@@ -1,6 +1,26 @@
 package org.amanahquran.app.feature.reader
 import androidx.compose.material.icons.rounded.Settings
-import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.material.icons.rounded.ArrowDropDown
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.PointerInputChange
+import androidx.compose.ui.text.input.KeyboardType
+import org.amanahquran.app.core.util.AyahReferenceParser
+import androidx.compose.ui.semantics.isTraversalGroup
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.traversalIndex
 
 import android.content.Context
 import android.content.Intent
@@ -19,7 +39,6 @@ import java.io.IOException
 import kotlin.math.roundToInt
 import org.amanahquran.app.R
 
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -56,7 +75,6 @@ import androidx.compose.ui.input.pointer.PointerInputScope
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChanged
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -64,16 +82,13 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.MenuBook
-import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Bookmark
 import androidx.compose.material.icons.rounded.BookmarkBorder
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material.icons.rounded.PlayArrow
-import androidx.compose.material.icons.rounded.Remove
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.rounded.ReportProblem
-import androidx.compose.material.icons.rounded.TextFields
 import androidx.compose.material.icons.rounded.ViewAgenda
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.AlertDialog
@@ -170,6 +185,8 @@ fun SurahReaderScreen(
         onSelectScript = viewModel::setSelectedScript,
         onSelectTranslation = viewModel::setTranslationSelection,
         onSelectTheme = viewModel::setSelectedTheme,
+        onJumpToReference = viewModel::jumpToReference,
+        onAyahTapHintShown = { viewModel.setAyahTapHintShown(true) },
         translationEnabled = state.translationEnabled,
         translationFontSizeSp = state.translationFontSizeSp,
         translations = state.translations,
@@ -220,6 +237,8 @@ fun QuranReaderScreen(
         onSelectScript = viewModel::setSelectedScript,
         onSelectTranslation = viewModel::setTranslationSelection,
         onSelectTheme = viewModel::setSelectedTheme,
+        onJumpToReference = viewModel::jumpToReference,
+        onAyahTapHintShown = { viewModel.setAyahTapHintShown(true) },
         translationEnabled = state.translationEnabled,
         translationFontSizeSp = state.translationFontSizeSp,
         translations = state.translations,
@@ -265,6 +284,8 @@ fun JuzReaderScreen(
         onSelectScript = viewModel::setSelectedScript,
         onSelectTranslation = viewModel::setTranslationSelection,
         onSelectTheme = viewModel::setSelectedTheme,
+        onJumpToReference = viewModel::jumpToReference,
+        onAyahTapHintShown = { viewModel.setAyahTapHintShown(true) },
         translationEnabled = state.translationEnabled,
         translationFontSizeSp = state.translationFontSizeSp,
         translations = state.translations,
@@ -311,6 +332,8 @@ fun PageReaderScreen(
         onSelectScript = viewModel::setSelectedScript,
         onSelectTranslation = viewModel::setTranslationSelection,
         onSelectTheme = viewModel::setSelectedTheme,
+        onJumpToReference = viewModel::jumpToReference,
+        onAyahTapHintShown = { viewModel.setAyahTapHintShown(true) },
         translationEnabled = state.translationEnabled,
         translationFontSizeSp = state.translationFontSizeSp,
         translations = state.translations,
@@ -359,6 +382,8 @@ private fun ReaderScreen(
     onSelectScript: (org.amanahquran.app.core.model.ScriptType) -> Unit = {},
     onSelectTranslation: (org.amanahquran.app.core.model.TranslationSelection) -> Unit = {},
     onSelectTheme: (org.amanahquran.app.core.theme.ThemeMode) -> Unit = {},
+    onJumpToReference: (surahNumber: Int, ayahNumber: Int, onResult: (Boolean) -> Unit) -> Unit = { _, _, _ -> },
+    onAyahTapHintShown: () -> Unit = {},
     translationEnabled: Boolean,
     translationFontSizeSp: Float,
     translations: Map<String, TranslationAyahDisplay>,
@@ -475,11 +500,40 @@ private fun ReaderScreen(
 
     var controlsVisible by remember { mutableStateOf(true) }
     var showSettingsSheet by remember { mutableStateOf(false) }
+    var jumpDialogVisible by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+    // Immersive chrome never auto-hides for Elder Mode or TalkBack users: a hidden back button
+    // is a trap for anyone who can't discover the "tap to reveal" gesture.
+    val touchExplorationEnabled = remember(context) {
+        (context.getSystemService(Context.ACCESSIBILITY_SERVICE) as? android.view.accessibility.AccessibilityManager)
+            ?.isTouchExplorationEnabled == true
+    }
+    val chromeMayAutoHide = !elder && !touchExplorationEnabled
+    val chromeScrollConnection = remember(chromeMayAutoHide) {
+        object : NestedScrollConnection {
+            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+                if (chromeMayAutoHide && source == NestedScrollSource.UserInput) {
+                    when (readerChromeVisibilityForScroll(available.y)) {
+                        true -> controlsVisible = true
+                        false -> controlsVisible = false
+                        null -> Unit
+                    }
+                }
+                return Offset.Zero
+            }
+        }
+    }
+    LaunchedEffect(listState) {
+        // Back at the very top of the reader: always show the chrome again.
+        snapshotFlow { listState.canScrollBackward }.collect { canScrollBack ->
+            if (!canScrollBack) controlsVisible = true
+        }
+    }
     LaunchedEffect(autoScroll.state) {
         when (autoScroll.state) {
             AutoScrollState.RUNNING -> {
                 delay(1500)
-                if (autoScroll.state == AutoScrollState.RUNNING) controlsVisible = false
+                if (autoScroll.state == AutoScrollState.RUNNING && !touchExplorationEnabled) controlsVisible = false
             }
             AutoScrollState.PAUSED, AutoScrollState.INACTIVE, AutoScrollState.COMPLETED -> controlsVisible = true
             AutoScrollState.STARTING -> Unit
@@ -521,125 +575,141 @@ private fun ReaderScreen(
         }
     }
 
-    Scaffold(
-        containerColor = readerBg,
-        topBar = {
-            androidx.compose.animation.AnimatedVisibility(
-                visible = controlsVisible,
-                enter = androidx.compose.animation.slideInVertically(initialOffsetY = { -it }),
-                exit = androidx.compose.animation.slideOutVertically(targetOffsetY = { -it })
-            ) {
-                TopAppBar(
-                    title = {
-                    val activeSurahName = activeReadingPosition?.surahNameSimple ?: uiState.surahName.ifBlank { uiState.pageSurahName }
-                    val activeJuzNumber = activeReadingPosition?.juzNumber ?: uiState.juzNumber
-                    val activePageNumber = activeReadingPosition?.canonicalPageNumber ?: uiState.ayahs.firstOrNull()?.pageNumber
+    val readerTopBar: @Composable () -> Unit = {
+            TopAppBar(
+                title = {
+                val activeSurahName = activeReadingPosition?.surahNameSimple ?: uiState.surahName.ifBlank { uiState.pageSurahName }
+                val activeJuzNumber = activeReadingPosition?.juzNumber ?: uiState.juzNumber
+                val activePageNumber = activeReadingPosition?.canonicalPageNumber ?: uiState.ayahs.firstOrNull()?.pageNumber
 
-                    val headerParts = remember(
-                        uiState.readerHeaderFormat,
-                        activeSurahName,
-                        activeJuzNumber,
-                        activePageNumber,
-                    ) {
-                        org.amanahquran.app.core.util.ReaderHeaderTextBuilder.build(
-                            format = uiState.readerHeaderFormat,
-                            surahName = activeSurahName,
-                            juzNumber = activeJuzNumber,
-                            pageNumber = activePageNumber,
+                val headerParts = remember(
+                    uiState.readerHeaderFormat,
+                    activeSurahName,
+                    activeJuzNumber,
+                    activePageNumber,
+                ) {
+                    org.amanahquran.app.core.util.ReaderHeaderTextBuilder.build(
+                        format = uiState.readerHeaderFormat,
+                        surahName = activeSurahName,
+                        juzNumber = activeJuzNumber,
+                        pageNumber = activePageNumber,
+                    )
+                }
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .clickable(
+                            enabled = uiState.ayahs.isNotEmpty(),
+                            onClickLabel = "Jump to ayah",
+                        ) { autoScroll.pause(); jumpDialogVisible = true }
+                        .heightIn(min = iconTouchTarget),
+                ) {
+                    headerParts.primary?.let { primary ->
+                        Text(
+                            text = primary,
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onBackground,
+                            maxLines = 1,
+                            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                            modifier = Modifier.weight(1f, fill = false),
                         )
                     }
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        headerParts.primary?.let { primary ->
+                    headerParts.page?.let { page ->
+                        if (headerParts.primary != null) {
                             Text(
-                                text = primary,
+                                text = " · ",
                                 style = MaterialTheme.typography.titleMedium,
                                 color = MaterialTheme.colorScheme.onBackground,
-                                maxLines = 1,
-                                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
-                                modifier = Modifier.weight(1f, fill = false),
                             )
                         }
-                        headerParts.page?.let { page ->
-                            if (headerParts.primary != null) {
-                                Text(
-                                    text = " · ",
-                                    style = MaterialTheme.typography.titleMedium,
-                                    color = MaterialTheme.colorScheme.onBackground,
-                                )
-                            }
-                            Text(
-                                text = page,
-                                style = MaterialTheme.typography.titleMedium,
-                                color = MaterialTheme.colorScheme.onBackground,
-                                maxLines = 1,
-                            )
-                        }
+                        Text(
+                            text = page,
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onBackground,
+                            maxLines = 1,
+                        )
                     }
-                },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateBack, modifier = Modifier.size(iconTouchTarget)) {
-                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = "Go back")
-                    }
-                },
-                actions = {
-                    val chromeAlpha by animateFloatAsState(
-                        targetValue = if (controlsVisible) 1f else 0f,
-                        label = "reader-chrome-alpha",
+                    Icon(
+                        imageVector = Icons.Rounded.ArrowDropDown,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onBackground,
                     )
-                    Row(modifier = Modifier.alpha(chromeAlpha), verticalAlignment = Alignment.CenterVertically) {
-                        run {
-                            val nextMode = if (uiState.contentMode == ReaderContentMode.AYAH) ReaderContentMode.CONTINUOUS else ReaderContentMode.AYAH
-                            if (elder) {
-                                TextButton(onClick = { autoScroll.pause(); onSetContentMode(nextMode) }) {
-                                    Text(if (uiState.contentMode == ReaderContentMode.AYAH) "Continuous View" else "Ayah View")
-                                }
-                            } else {
-                                IconButton(onClick = { autoScroll.pause(); onSetContentMode(nextMode) }, modifier = Modifier.size(iconTouchTarget)) {
-                                    Icon(
-                                        imageVector = if (uiState.contentMode == ReaderContentMode.AYAH) Icons.AutoMirrored.Rounded.MenuBook else Icons.Rounded.ViewAgenda,
-                                        contentDescription = if (uiState.contentMode == ReaderContentMode.AYAH) "Switch to Continuous View" else "Switch to Ayah View",
-                                    )
-                                }
-                            }
-                        }
+                }
+            },
+            navigationIcon = {
+                IconButton(onClick = onNavigateBack, modifier = Modifier.size(iconTouchTarget)) {
+                    Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = "Go back")
+                }
+            },
+            actions = {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    run {
+                        val nextMode = if (uiState.contentMode == ReaderContentMode.AYAH) ReaderContentMode.CONTINUOUS else ReaderContentMode.AYAH
                         if (elder) {
-                            TextButton(onClick = { autoScroll.pause(); showSettingsSheet = true }) {
-                                Text("Settings")
+                            TextButton(onClick = { autoScroll.pause(); onSetContentMode(nextMode) }) {
+                                Text(if (uiState.contentMode == ReaderContentMode.AYAH) "Continuous View" else "Ayah View")
                             }
                         } else {
-                            IconButton(onClick = { autoScroll.pause(); showSettingsSheet = true }, modifier = Modifier.size(iconTouchTarget)) {
-                                Icon(Icons.Rounded.Settings, contentDescription = "Reader Settings")
+                            IconButton(onClick = { autoScroll.pause(); onSetContentMode(nextMode) }, modifier = Modifier.size(iconTouchTarget)) {
+                                Icon(
+                                    imageVector = if (uiState.contentMode == ReaderContentMode.AYAH) Icons.AutoMirrored.Rounded.MenuBook else Icons.Rounded.ViewAgenda,
+                                    contentDescription = if (uiState.contentMode == ReaderContentMode.AYAH) "Switch to Continuous View" else "Switch to Ayah View",
+                                )
                             }
                         }
-                        ReaderAutoScrollTrigger(
-                            state = autoScroll.state,
-                            onClick = {
-                                when (autoScroll.state) {
-                                    AutoScrollState.INACTIVE, AutoScrollState.COMPLETED -> autoScroll.start()
-                                    AutoScrollState.PAUSED -> autoScroll.resume()
-                                    AutoScrollState.RUNNING, AutoScrollState.STARTING -> autoScroll.pause()
-                                }
-                            },
-                        )
                     }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = readerBg,
-                    titleContentColor = MaterialTheme.colorScheme.onBackground,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onBackground,
-                    actionIconContentColor = MaterialTheme.colorScheme.onBackground,
-                ),
-            )
-            }
-        },
-    ) { padding ->
+                    if (elder) {
+                        TextButton(onClick = { autoScroll.pause(); showSettingsSheet = true }) {
+                            Text("Settings")
+                        }
+                    } else {
+                        IconButton(onClick = { autoScroll.pause(); showSettingsSheet = true }, modifier = Modifier.size(iconTouchTarget)) {
+                            Icon(Icons.Rounded.Settings, contentDescription = "Reader Settings")
+                        }
+                    }
+                    ReaderAutoScrollTrigger(
+                        state = autoScroll.state,
+                        onClick = {
+                            when (autoScroll.state) {
+                                AutoScrollState.INACTIVE, AutoScrollState.COMPLETED -> autoScroll.start()
+                                AutoScrollState.PAUSED -> autoScroll.resume()
+                                AutoScrollState.RUNNING, AutoScrollState.STARTING -> autoScroll.pause()
+                            }
+                        },
+                    )
+                }
+            },
+            windowInsets = WindowInsets(0, 0, 0, 0),
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = readerBg,
+                titleContentColor = MaterialTheme.colorScheme.onBackground,
+                navigationIconContentColor = MaterialTheme.colorScheme.onBackground,
+                actionIconContentColor = MaterialTheme.colorScheme.onBackground,
+            ),
+        )
+    }
+
+    Scaffold(containerColor = readerBg) { systemPadding ->
+        // The toolbar overlays the reader instead of taking Scaffold space, so hiding it never
+        // reflows the Quran text; the list reserves its height as top content padding instead.
+        val padding = PaddingValues(
+            top = systemPadding.calculateTopPadding() + ReaderToolbarHeight,
+            bottom = systemPadding.calculateBottomPadding(),
+        )
+        Box(modifier = Modifier.fillMaxSize()) {
         if (showSettingsSheet) {
             ReaderSettingsBottomSheet(
                 onDismiss = { showSettingsSheet = false },
                 zoomLevel = uiState.zoomLevel,
-                onSelectZoomLevel = onSelectZoomLevel,
                 translationZoomLevel = uiState.translationZoomLevel,
-                onSelectTranslationZoomLevel = onSelectTranslationZoom,
+                linkedZoomEnabled = uiState.linkedZoomEnabled,
+                onSetLinkedZoomEnabled = onSetLinkedZoomEnabled,
+                onApplyZoom = { arabic, translation ->
+                    // Same anchor capture as pinch-zoom, so the reading position survives resizing.
+                    beginZoomAnchorCapture()
+                    arabic?.let(onSelectZoomLevel)
+                    translation?.let(onSelectTranslationZoom)
+                },
                 contentMode = uiState.contentMode,
                 onSetContentMode = onSetContentMode,
                 hasTranslation = translationEnabled,
@@ -678,12 +748,16 @@ private fun ReaderScreen(
 
             else -> {
                 val readerPadding = if (elder) AmanahSpacing.readerPaddingElder else readerHorizontalPaddingDp.dp
-                var jumpDialogVisible by remember { mutableStateOf(false) }
                 var footnoteSheetContent by remember { mutableStateOf<List<TranslationFootnote>?>(null) }
                 val typographyTokens = remember(uiState.selectedScript, uiState.zoomLevel, uiState.elderModeEnabled) {
                     resolveQuranTypographyTokens(uiState.selectedScript, uiState.zoomLevel, uiState.elderModeEnabled)
                 }
-                val selectAyahAndPause: (String) -> Unit = { key -> autoScroll.pause(); onSelectAyah(key) }
+                // Selecting an ayah already scrolls it into view (anchorScrollRequestId).
+                val selectAyahAndPause: (String) -> Unit = { key ->
+                    autoScroll.pause()
+                    if (!uiState.ayahTapHintShown) onAyahTapHintShown()
+                    onSelectAyah(key)
+                }
                 val selectAdjacentAyahAndPause: (Int) -> Unit = { direction -> autoScroll.pause(); onSelectAdjacentAyah(direction) }
                 val toggleBookmarkAndPause: (String) -> Unit = { key -> autoScroll.pause(); onToggleBookmark(key) }
 
@@ -703,8 +777,30 @@ private fun ReaderScreen(
                 CompositionLocalProvider(LocalQuranTypographyTokens provides typographyTokens) {
                 Box(modifier = Modifier
                     .fillMaxSize()
+                    .nestedScroll(chromeScrollConnection)
                     .pointerInput(Unit) {
-                        detectTapGestures(onTap = { controlsVisible = !controlsVisible })
+                        // While the chrome is hidden, the first plain tap anywhere (including on
+                        // an ayah) only reveals it; the tap is consumed so it doesn't also select.
+                        awaitEachGesture {
+                            val down = awaitFirstDown(requireUnconsumed = false, pass = PointerEventPass.Initial)
+                            if (controlsVisible) return@awaitEachGesture
+                            var isTap = true
+                            var up: PointerInputChange? = null
+                            while (true) {
+                                val event = awaitPointerEvent(PointerEventPass.Initial)
+                                if (event.changes.size > 1) isTap = false
+                                val change = event.changes.firstOrNull { it.id == down.id } ?: break
+                                if ((change.position - down.position).getDistance() > viewConfiguration.touchSlop) isTap = false
+                                if (!change.pressed) {
+                                    up = change
+                                    break
+                                }
+                            }
+                            if (isTap && up != null) {
+                                up.consume()
+                                controlsVisible = true
+                            }
+                        }
                     },
                     contentAlignment = Alignment.TopCenter
                 ) {
@@ -714,7 +810,7 @@ private fun ReaderScreen(
                             .fillMaxHeight()
                             .widthIn(max = 800.dp)
                             .fillMaxWidth()
-                            .padding(padding)
+                            .padding(systemPadding)
                             .graphicsLayer(scaleX = zoomPreviewScale, scaleY = zoomPreviewScale)
                             .then(
                                 if (uiState.pinchToResizeEnabled) {
@@ -761,7 +857,13 @@ private fun ReaderScreen(
                                     Modifier
                                 }
                             ),
-                        contentPadding = PaddingValues(readerPadding),
+                        contentPadding = PaddingValues(
+                            start = readerPadding,
+                            end = readerPadding,
+                            top = readerPadding + ReaderToolbarHeight,
+                            // Room for the selected-ayah action bar so the last ayah can scroll above it.
+                            bottom = readerPadding + if (uiState.selectedAyahKey != null) SelectedAyahBarReserve else 0.dp,
+                        ),
                         verticalArrangement = Arrangement.spacedBy(typographyTokens.ayahSpacingDp.dp),
                     ) {
                         item {
@@ -830,8 +932,19 @@ private fun ReaderScreen(
 
                     if (!uiState.firstZoomHintShown) {
                         ReaderFirstZoomHint(
-                            modifier = Modifier.align(Alignment.TopCenter),
+                            text = "Pinch with two fingers to adjust Quran text.",
+                            modifier = Modifier
+                                .align(Alignment.TopCenter)
+                                .padding(top = systemPadding.calculateTopPadding() + ReaderToolbarHeight),
                             onDismiss = onFirstZoomHintShown,
+                        )
+                    } else if (!uiState.ayahTapHintShown) {
+                        ReaderFirstZoomHint(
+                            text = "Tap an ayah to bookmark or share it. Tap the title to jump to an ayah.",
+                            modifier = Modifier
+                                .align(Alignment.TopCenter)
+                                .padding(top = systemPadding.calculateTopPadding() + ReaderToolbarHeight),
+                            onDismiss = onAyahTapHintShown,
                         )
                     }
 
@@ -846,6 +959,7 @@ private fun ReaderScreen(
                             },
                             modifier = Modifier
                                 .align(Alignment.BottomCenter)
+                                .padding(bottom = systemPadding.calculateBottomPadding())
                                 .padding(bottom = if (uiState.selectedAyahKey != null) 96.dp else 24.dp),
                         )
                     }
@@ -857,19 +971,26 @@ private fun ReaderScreen(
                             translationText = if (translationEnabled) translations[selectedAyah.ayahKey]?.toShareText() else null,
                             onToggleBookmark = toggleBookmarkAndPause,
                             onDismiss = onClearSelectedAyah,
-                            modifier = Modifier.align(Alignment.BottomCenter),
+                            modifier = Modifier
+                                .align(Alignment.BottomCenter)
+                                .widthIn(max = 800.dp)
+                                .padding(bottom = systemPadding.calculateBottomPadding()),
                         )
                     }
                 }
                 }
                 if (jumpDialogVisible) {
+                    val currentSurah = activeReadingPosition?.surahNumber ?: uiState.surahNumber
                     AyahJumpDialog(
-                        surahNumber = uiState.surahNumber,
-                        maxAyah = uiState.ayahs.maxOfOrNull { it.ayahNumber } ?: 1,
+                        currentSurahNumber = currentSurah,
+                        currentSurahName = activeReadingPosition?.surahNameSimple ?: uiState.surahName,
                         onDismiss = { jumpDialogVisible = false },
-                        onSelect = { ayahNumber ->
-                            uiState.ayahs.firstOrNull { it.ayahNumber == ayahNumber }?.let { ayah -> selectAyahAndPause(ayah.ayahKey) }
-                            jumpDialogVisible = false
+                        onJump = { reference, onResult ->
+                            autoScroll.pause()
+                            onJumpToReference(reference.surahNumber, reference.ayahNumber) { found ->
+                                if (found) jumpDialogVisible = false
+                                onResult(found)
+                            }
                         },
                     )
                 }
@@ -882,8 +1003,53 @@ private fun ReaderScreen(
                 }
             }
         }
+
+        // Status-bar backing so text scrolling under the (hidden) toolbar never sits behind icons.
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(systemPadding.calculateTopPadding())
+                .background(readerBg)
+                .align(Alignment.TopCenter),
+        )
+        AnimatedVisibility(
+            visible = controlsVisible,
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(top = systemPadding.calculateTopPadding())
+                // Drawn last so it overlays the text, but TalkBack should still reach it first.
+                .semantics {
+                    isTraversalGroup = true
+                    traversalIndex = -1f
+                },
+            enter = slideInVertically(initialOffsetY = { -it }) + fadeIn(),
+            exit = slideOutVertically(targetOffsetY = { -it }) + fadeOut(),
+        ) {
+            readerTopBar()
+        }
+        }
     }
 }
+
+/** Height of the reader's overlay toolbar (Material 3 small TopAppBar). */
+private val ReaderToolbarHeight = 64.dp
+
+/** Space reserved at the bottom of the list while the selected-ayah action bar is showing. */
+private val SelectedAyahBarReserve = 112.dp
+
+/** Minimum vertical drag (px per scroll event) that shows or hides the reader chrome. */
+private const val CHROME_SCROLL_THRESHOLD_PX = 6f
+
+/**
+ * Chrome visibility for a user drag of [deltaY] px (nested-scroll convention: negative = the
+ * content moves up, i.e. reading forward). Returns true to show, false to hide, null to leave as is.
+ */
+internal fun readerChromeVisibilityForScroll(deltaY: Float): Boolean? = when {
+    deltaY < -CHROME_SCROLL_THRESHOLD_PX -> false
+    deltaY > CHROME_SCROLL_THRESHOLD_PX -> true
+    else -> null
+}
+
 
 @Composable
 private fun ReaderContextBar(
@@ -923,28 +1089,46 @@ private fun ReaderContextBar(
 
 @Composable
 private fun AyahJumpDialog(
-    surahNumber: Int,
-    maxAyah: Int,
+    currentSurahNumber: Int,
+    currentSurahName: String,
     onDismiss: () -> Unit,
-    onSelect: (Int) -> Unit,
+    onJump: (org.amanahquran.app.core.util.AyahReference, onResult: (Boolean) -> Unit) -> Unit,
 ) {
     var value by remember { mutableStateOf("") }
+    var error by remember { mutableStateOf<String?>(null) }
+    val reference = AyahReferenceParser.parse(value, currentSurahNumber)
+    val submit = {
+        if (reference == null) {
+            error = "Enter an ayah number, or surah:ayah such as 2:255"
+        } else {
+            onJump(reference) { found ->
+                if (!found) error = "${reference.ayahKey} doesn't exist"
+            }
+        }
+    }
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text("Jump to ayah") },
         text = {
-            OutlinedTextField(
-                value = value,
-                onValueChange = { value = it.filter(Char::isDigit).take(3) },
-                label = { Text("Ayah number (1–$maxAyah)") },
-                singleLine = true,
-            )
+            Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
+                OutlinedTextField(
+                    value = value,
+                    onValueChange = { input ->
+                        value = input.filter { it.isDigit() || it == ':' }.take(7)
+                        error = null
+                    },
+                    label = { Text("Ayah or surah:ayah") },
+                    supportingText = {
+                        Text(error ?: "Ayah number jumps within ${currentSurahName.ifBlank { "Surah $currentSurahNumber" }}")
+                    },
+                    isError = error != null,
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                )
+            }
         },
         confirmButton = {
-            TextButton(
-                onClick = { value.toIntOrNull()?.takeIf { it in 1..maxAyah }?.let(onSelect) },
-                enabled = value.toIntOrNull()?.let { it in 1..maxAyah } == true,
-            ) { Text("Open") }
+            TextButton(onClick = submit, enabled = value.isNotBlank()) { Text("Open") }
         },
         dismissButton = { TextButton(onClick = onDismiss) { Text("Cancel") } },
     )
@@ -974,119 +1158,6 @@ private fun PageBookmarkRow(
             contentDescription = if (isBookmarked) "Remove page bookmark" else "Bookmark page",
             tint = if (isBookmarked) AmanahGoldMuted else MaterialTheme.colorScheme.onSurfaceVariant,
         )
-    }
-}
-
-@Composable
-private fun ReaderTypographyPanel(
-    zoomLevel: ReaderZoomLevel,
-    firstZoomHintShown: Boolean,
-    onIncrease: () -> Unit,
-    onDecrease: () -> Unit,
-    onSelectLevel: (ReaderZoomLevel) -> Unit,
-    onReset: () -> Unit,
-    linked: Boolean = true,
-    onToggleLinked: (Boolean) -> Unit = {},
-    hasTranslation: Boolean = false,
-    translationLevel: ReaderZoomLevel = zoomLevel,
-    onIncreaseTranslation: () -> Unit = onIncrease,
-    onDecreaseTranslation: () -> Unit = onDecrease,
-    onSelectTranslationLevel: (ReaderZoomLevel) -> Unit = onSelectLevel,
-    onResetTranslation: () -> Unit = onReset,
-) {
-    var expanded by remember { mutableStateOf(false) }
-    val elder = LocalElderMode.current
-    val palette = LocalReaderPalette.current
-    val touchTarget = if (elder) AmanahSpacing.minTouchTargetElder else AmanahSpacing.minTouchTarget
-    Box {
-        IconButton(
-            onClick = { expanded = true },
-            modifier = Modifier.size(touchTarget),
-        ) {
-            Icon(Icons.Rounded.TextFields, contentDescription = "Adjust text size")
-        }
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-            modifier = Modifier
-                .background(palette.controlSurface)
-                .widthIn(min = 240.dp),
-        ) {
-            Column(
-                modifier = Modifier.padding(horizontal = AmanahSpacing.md, vertical = AmanahSpacing.sm),
-                verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm),
-            ) {
-                Text("Arabic text size", style = MaterialTheme.typography.labelLarge, color = palette.text)
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
-                    IconButton(
-                        onClick = onDecrease,
-                        enabled = !zoomLevel.isMinimum,
-                        modifier = Modifier.size(touchTarget),
-                    ) {
-                        Icon(Icons.Rounded.Remove, contentDescription = "Decrease Arabic text size")
-                    }
-                    Text(
-                        text = "${(zoomLevel.multiplier * 100).roundToInt()}%",
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = FontWeight.Medium,
-                        color = palette.text,
-                    )
-                    IconButton(
-                        onClick = onIncrease,
-                        enabled = !zoomLevel.isMaximum,
-                        modifier = Modifier.size(touchTarget),
-                    ) {
-                        Icon(Icons.Rounded.Add, contentDescription = "Increase Arabic text size")
-                    }
-                }
-
-                if (hasTranslation) {
-                    AmanahDivider()
-                    Text("Translation size", style = MaterialTheme.typography.labelLarge, color = palette.text)
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier.fillMaxWidth(),
-                    ) {
-                        IconButton(
-                            onClick = onDecreaseTranslation,
-                            enabled = !translationLevel.isMinimum,
-                            modifier = Modifier.size(touchTarget),
-                        ) {
-                            Icon(Icons.Rounded.Remove, contentDescription = "Decrease translation size")
-                        }
-                        Text(
-                            text = "${(translationLevel.multiplier * 100).roundToInt()}%",
-                            style = MaterialTheme.typography.bodyMedium,
-                            fontWeight = FontWeight.Medium,
-                            color = palette.text,
-                        )
-                        IconButton(
-                            onClick = onIncreaseTranslation,
-                            enabled = !translationLevel.isMaximum,
-                            modifier = Modifier.size(touchTarget),
-                        ) {
-                            Icon(Icons.Rounded.Add, contentDescription = "Increase translation size")
-                        }
-                    }
-                }
-
-                AmanahDivider()
-                TextButton(
-                    onClick = {
-                        onReset()
-                        if (hasTranslation) onResetTranslation()
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
-                    Text("Reset to default")
-                }
-            }
-        }
     }
 }
 
@@ -1221,6 +1292,7 @@ private fun ReaderAutoScrollPanel(
 
 @Composable
 private fun ReaderFirstZoomHint(
+    text: String,
     modifier: Modifier = Modifier,
     onDismiss: () -> Unit,
 ) {
@@ -1238,7 +1310,7 @@ private fun ReaderFirstZoomHint(
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
     ) {
         Text(
-            text = "Pinch with two fingers to adjust Quran text.",
+            text = text,
             modifier = Modifier.padding(horizontal = AmanahSpacing.md, vertical = AmanahSpacing.sm),
             style = MaterialTheme.typography.labelMedium,
             color = palette.text,
@@ -1246,6 +1318,11 @@ private fun ReaderFirstZoomHint(
     }
 }
 
+/**
+ * Compact action bar for the selected ayah, docked at the bottom so it never covers the ayah
+ * (selecting an ayah scrolls it to the top of the reader). Primary actions carry visible labels;
+ * image sharing and error reports stay in the overflow menu.
+ */
 @Composable
 private fun ReaderSelectedAyahActionCard(
     ayah: ReaderAyahUiModel,
@@ -1255,48 +1332,68 @@ private fun ReaderSelectedAyahActionCard(
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
+    val elder = LocalElderMode.current
+    val touchTarget = if (elder) AmanahSpacing.minTouchTargetElder else AmanahSpacing.minTouchTarget
     Card(
         modifier = modifier
-            .padding(horizontal = 16.dp, vertical = 24.dp)
+            .padding(horizontal = 16.dp, vertical = 16.dp)
             .fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
     ) {
-        Row(
-            modifier = Modifier
-                .padding(horizontal = AmanahSpacing.md, vertical = AmanahSpacing.sm)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
+        Column(
+            modifier = Modifier.padding(horizontal = AmanahSpacing.md, vertical = AmanahSpacing.xs),
         ) {
-            Text(
-                text = "${ayah.surahNameSimple} ${ayah.surahNumber}:${ayah.ayahNumber}",
-                style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.weight(1f),
-            )
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                IconButton(onClick = { onToggleBookmark(ayah.ayahKey) }) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = "${ayah.surahNameSimple} ${ayah.surahNumber}:${ayah.ayahNumber}",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.weight(1f),
+                )
+                IconButton(onClick = onDismiss, modifier = Modifier.size(touchTarget)) {
                     Icon(
-                        imageVector = if (ayah.isBookmarked) Icons.Rounded.Bookmark else Icons.Rounded.BookmarkBorder,
-                        contentDescription = if (ayah.isBookmarked) "Remove bookmark" else "Bookmark ayah",
-                        tint = if (ayah.isBookmarked) AmanahGoldMuted else MaterialTheme.colorScheme.onSurfaceVariant,
+                        imageVector = Icons.Rounded.Close,
+                        contentDescription = "Close ayah actions",
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
-                var actionsMenuExpanded by remember { mutableStateOf(false) }
-                Box {
-                    IconButton(onClick = { actionsMenuExpanded = true }) {
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.xs),
+            ) {
+                TextButton(
+                    onClick = { onToggleBookmark(ayah.ayahKey) },
+                    modifier = Modifier.heightIn(min = touchTarget),
+                ) {
+                    Icon(
+                        imageVector = if (ayah.isBookmarked) Icons.Rounded.Bookmark else Icons.Rounded.BookmarkBorder,
+                        contentDescription = null,
+                        tint = if (ayah.isBookmarked) AmanahGoldMuted else MaterialTheme.colorScheme.primary,
+                    )
+                    Text(
+                        text = if (ayah.isBookmarked) "Bookmarked" else "Bookmark",
+                        modifier = Modifier.padding(start = AmanahSpacing.xs),
+                    )
+                }
+                TextButton(
+                    onClick = { shareAyah(context, ayah, translationText) },
+                    modifier = Modifier.heightIn(min = touchTarget),
+                ) {
+                    Icon(Icons.Rounded.Share, contentDescription = null)
+                    Text("Share", modifier = Modifier.padding(start = AmanahSpacing.xs))
+                }
+                Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.CenterEnd) {
+                    var actionsMenuExpanded by remember { mutableStateOf(false) }
+                    IconButton(onClick = { actionsMenuExpanded = true }, modifier = Modifier.size(touchTarget)) {
                         Icon(Icons.Rounded.MoreVert, contentDescription = "More ayah actions", tint = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                     DropdownMenu(expanded = actionsMenuExpanded, onDismissRequest = { actionsMenuExpanded = false }) {
-                        DropdownMenuItem(
-                            text = { Text("Share as text") },
-                            leadingIcon = { Icon(Icons.Rounded.Share, contentDescription = null) },
-                            onClick = {
-                                actionsMenuExpanded = false
-                                shareAyah(context, ayah, translationText)
-                            },
-                        )
                         DropdownMenuItem(
                             text = { Text("Share as image") },
                             leadingIcon = { Icon(Icons.Rounded.Share, contentDescription = null) },
@@ -1317,13 +1414,6 @@ private fun ReaderSelectedAyahActionCard(
                             )
                         }
                     }
-                }
-                IconButton(onClick = onDismiss) {
-                    Icon(
-                        imageVector = Icons.Rounded.Close,
-                        contentDescription = "Close",
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
                 }
             }
         }

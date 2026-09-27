@@ -94,7 +94,6 @@ import org.amanahquran.app.core.theme.DarkReaderSurface
 import org.amanahquran.app.core.theme.LocalElderMode
 import org.amanahquran.app.core.theme.LocalIsDarkTheme
 import org.amanahquran.app.core.ui.AmanahCard
-import org.amanahquran.app.core.ui.AmanahPrimaryButton
 import org.amanahquran.app.core.ui.AmanahSectionCard
 import org.amanahquran.app.core.ui.AmanahSectionHeader
 import org.amanahquran.app.core.ui.AmanahTonalButton
@@ -130,62 +129,74 @@ fun HomeScreen(
                 .padding(padding)
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = horizontalPadding)
-                .padding(top = AmanahSpacing.xl, bottom = AmanahSpacing.section),
-            verticalArrangement = Arrangement.spacedBy(AmanahSpacing.xl),
+                .padding(top = AmanahSpacing.lg, bottom = AmanahSpacing.section),
+            verticalArrangement = Arrangement.spacedBy(AmanahSpacing.lg),
         ) {
-            HomeHeader(
-                onOpenSettings = onOpenSettings,
-                onOpenTrustCenter = onOpenTrustCenter,
-            )
-
-            ReadingHeroCard(
-                continueReading = uiState.continueReading,
-                onContinue = onContinueReading,
-                onStartReading = { onOpenMushafReader(1, uiState.selectedScript) },
-            )
-
-            StreakLine(
-                summary = uiState.streakSummary,
-                onClick = onOpenReadingStreak,
-            )
-
-            DailyAyahCard(
-                dailyAyah = uiState.dailyAyah,
-                onOpen = { uiState.dailyAyah?.let { onOpenDailyAyah(it.record.ayahKey) } },
-                onOpenHistory = onOpenDailyAyahHistory,
-            )
-
-            // Extra breathing room beyond the standard xl gap so the hero and the
-            // browse section below read as two distinct groups, not one continuous list.
-            Spacer(modifier = Modifier.height(AmanahSpacing.md))
-
-            if (elder) {
-                ElderQuickActions(
-                    onOpenSurahList = onOpenSurahList,
-                    onOpenJuzList = onOpenJuzList,
-                    onOpenPageList = onOpenPageList,
-                    onOpenSearch = onOpenSearch,
-                    onOpenBookmarks = onOpenBookmarks,
-                )
-            } else {
-                QuickActionsGrid(
-                    onOpenSurahList = onOpenSurahList,
-                    onOpenJuzList = onOpenJuzList,
-                    onOpenPageList = onOpenPageList,
-                    onOpenSearch = onOpenSearch,
-                    onOpenBookmarks = onOpenBookmarks,
-                )
+            homeSectionOrder().forEach { section ->
+                when (section) {
+                    HomeSection.HEADER -> HomeHeader(
+                        onOpenSettings = onOpenSettings,
+                        onOpenTrustCenter = onOpenTrustCenter,
+                    )
+                    HomeSection.CONTINUE_READING -> ReadingHeroCard(
+                        continueReading = uiState.continueReading,
+                        onContinue = onContinueReading,
+                        onStartReading = { onOpenMushafReader(1, uiState.selectedScript) },
+                    )
+                    HomeSection.BROWSE -> if (elder) {
+                        ElderQuickActions(
+                            onOpenSurahList = onOpenSurahList,
+                            onOpenJuzList = onOpenJuzList,
+                            onOpenPageList = onOpenPageList,
+                            onOpenSearch = onOpenSearch,
+                            onOpenBookmarks = onOpenBookmarks,
+                        )
+                    } else {
+                        QuickActionsGrid(
+                            onOpenSurahList = onOpenSurahList,
+                            onOpenJuzList = onOpenJuzList,
+                            onOpenPageList = onOpenPageList,
+                            onOpenSearch = onOpenSearch,
+                            onOpenBookmarks = onOpenBookmarks,
+                        )
+                    }
+                    HomeSection.STREAK -> StreakLine(
+                        summary = uiState.streakSummary,
+                        onClick = onOpenReadingStreak,
+                    )
+                    HomeSection.DAILY_AYAH -> DailyAyahCard(
+                        dailyAyah = uiState.dailyAyah,
+                        onOpen = { uiState.dailyAyah?.let { onOpenDailyAyah(it.record.ayahKey) } },
+                        onOpenHistory = onOpenDailyAyahHistory,
+                    )
+                    HomeSection.ACTIVITY -> ReadingActivitySummaryStrip(onOpenReadingActivity = onOpenReadingActivity)
+                    HomeSection.TRUST -> TrustSummaryStrip(onOpenTrustCenter = onOpenTrustCenter)
+                }
             }
-
-            ReadingActivitySummaryStrip(onOpenReadingActivity = onOpenReadingActivity)
-
-            TrustSummaryStrip(onOpenTrustCenter = onOpenTrustCenter)
 
             // Safe bottom padding
             Spacer(modifier = Modifier.height(32.dp))
         }
     }
 }
+
+/** Home sections, top to bottom. */
+internal enum class HomeSection { HEADER, CONTINUE_READING, BROWSE, STREAK, DAILY_AYAH, ACTIVITY, TRUST }
+
+/**
+ * Reading comes first: Continue Reading, then the browse grid (Surah/Juz/Page/Search/Bookmarks)
+ * directly under it so Search and Bookmarks sit above the fold on a standard phone (UI audit
+ * O007). Streak, Daily Ayah, activity and Trust follow as secondary content.
+ */
+internal fun homeSectionOrder(): List<HomeSection> = listOf(
+    HomeSection.HEADER,
+    HomeSection.CONTINUE_READING,
+    HomeSection.BROWSE,
+    HomeSection.STREAK,
+    HomeSection.DAILY_AYAH,
+    HomeSection.ACTIVITY,
+    HomeSection.TRUST,
+)
 
 @Composable
 private fun DailyAyahCard(
@@ -553,6 +564,22 @@ private fun ElderQuickActions(
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
         AmanahSectionHeader(title = "Browse the Quran")
+        // Elder Mode stacks full-width buttons, so the two most-used shortcuts go first to stay
+        // above the fold even with larger type.
+        AmanahTonalButton(
+            text = "Search",
+            onClick = onOpenSearch,
+            modifier = Modifier.fillMaxWidth(),
+            icon = Icons.Rounded.Search,
+            iconTint = tileAccent(QuickActionKind.SEARCH).icon,
+        )
+        AmanahTonalButton(
+            text = "Bookmarks",
+            onClick = onOpenBookmarks,
+            modifier = Modifier.fillMaxWidth(),
+            icon = Icons.Rounded.Bookmark,
+            iconTint = tileAccent(QuickActionKind.BOOKMARKS).icon,
+        )
         AmanahTonalButton(
             text = "Surah Index",
             onClick = onOpenSurahList,
@@ -573,20 +600,6 @@ private fun ElderQuickActions(
             modifier = Modifier.fillMaxWidth(),
             icon = Icons.Rounded.Book,
             iconTint = tileAccent(QuickActionKind.PAGE).icon,
-        )
-        AmanahTonalButton(
-            text = "Search",
-            onClick = onOpenSearch,
-            modifier = Modifier.fillMaxWidth(),
-            icon = Icons.Rounded.Search,
-            iconTint = tileAccent(QuickActionKind.SEARCH).icon,
-        )
-        AmanahTonalButton(
-            text = "Bookmarks",
-            onClick = onOpenBookmarks,
-            modifier = Modifier.fillMaxWidth(),
-            icon = Icons.Rounded.Bookmark,
-            iconTint = tileAccent(QuickActionKind.BOOKMARKS).icon,
         )
     }
 }

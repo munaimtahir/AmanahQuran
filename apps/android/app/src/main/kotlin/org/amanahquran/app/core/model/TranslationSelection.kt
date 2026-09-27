@@ -17,6 +17,14 @@ enum class TranslationSelection(
     IRFAN_UR(translationId = "TAHIR_QADRI_IRFAN_UR", direction = TranslationDirection.RTL),
     ;
 
+    /** Short user-facing label, shared by Settings and the reader settings sheet. */
+    val shortLabel: String
+        get() = when (this) {
+            OFF -> "Off"
+            MANIFEST_EN -> "English"
+            IRFAN_UR -> "Urdu"
+        }
+
     companion object {
         val default = OFF
 
