@@ -31,4 +31,10 @@ content-pipeline/03_raw_immutable/fonts/
 content-pipeline/03_raw_immutable/page_mapping/
 sourcedata/6/
 sourcedata/8/
-.claude/
+# Claude Code: keep local state ignored, but share the project hook and settings.
+.claude/*
+!.claude/settings.json
+!.claude/hooks/
+
+__pycache__/
+*.pyc

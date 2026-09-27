@@ -2,7 +2,29 @@ package org.amanahquran.app.core.daily
 
 import java.time.LocalDate
 
-enum class DailyAyahSelectionMode { CURATED, SEQUENTIAL, REVIEWED_RANDOM }
+enum class DailyAyahSelectionMode {
+    /** Picked from the scholar-reviewed eligibility pool. */
+    CURATED,
+    SEQUENTIAL,
+
+    /**
+     * Legacy stored value only. Up to v2.2.0 it was written for full-corpus picks even though no
+     * review had happened, so it is read back and labelled as [FULL_CORPUS_RANDOM].
+     */
+    REVIEWED_RANDOM,
+
+    /** Deterministic pick from all 6,236 ayahs; no reviewed pool was involved. */
+    FULL_CORPUS_RANDOM,
+    ;
+
+    /** User-facing label. Never claims review for picks that were not reviewed. */
+    val displayLabel: String
+        get() = when (this) {
+            CURATED -> "curated"
+            SEQUENTIAL -> "sequential"
+            REVIEWED_RANDOM, FULL_CORPUS_RANDOM -> "random"
+        }
+}
 
 data class DailyAyahRecord(
     val date: LocalDate,
@@ -56,6 +78,21 @@ object DailyAyahSelector {
         
         val index = Math.floorMod(hash, candidates.size.toLong()).toInt()
         return candidates[index]
+    }
+
+    /**
+     * Chooses the mode and key for [date]: the reviewed pool when one exists, otherwise the full
+     * corpus. The mode reflects the pool actually used, so history never overstates review status.
+     */
+    fun select(
+        date: LocalDate,
+        allAyahKeys: List<String>,
+        reviewedKeys: List<String>,
+        recentKeys: Set<String>,
+    ): Pair<DailyAyahSelectionMode, String>? = if (reviewedKeys.isNotEmpty()) {
+        reviewedRandomKey(date, reviewedKeys, recentKeys)?.let { DailyAyahSelectionMode.CURATED to it }
+    } else {
+        randomDailyKey(date, allAyahKeys, recentKeys)?.let { DailyAyahSelectionMode.FULL_CORPUS_RANDOM to it }
     }
 
     fun reviewedRandomKey(

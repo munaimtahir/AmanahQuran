@@ -7,6 +7,7 @@ Development tools for Amanah Quran.
 - `content-import`: scripts for importing verified source content into local database artifacts.
 - `validation`: scripts for validating content integrity, counts, checksums, and manifests.
 - `release`: scripts/checklists for release preparation.
+- `legal`: one-off scripts that collect font/content licence evidence into `docs/legal/evidence/`. Run from the repository root.
 
 Rules:
 

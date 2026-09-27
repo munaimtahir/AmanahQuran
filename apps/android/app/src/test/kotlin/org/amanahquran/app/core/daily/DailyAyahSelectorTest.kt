@@ -54,5 +54,25 @@ class DailyAyahSelectorTest {
             DailyAyahSelector.sequentialKey(date, keys.size, keys),
         )
     }
-}
 
+    @Test
+    fun selectWithoutReviewedPoolIsLabelledFullCorpusNotReviewed() {
+        val (mode, key) = DailyAyahSelector.select(LocalDate.of(2026, 8, 22), keys, emptyList(), emptySet())!!
+        assertEquals(DailyAyahSelectionMode.FULL_CORPUS_RANDOM, mode)
+        assertTrue(keys.contains(key))
+        assertEquals("random", mode.displayLabel)
+    }
+
+    @Test
+    fun selectWithReviewedPoolUsesOnlyReviewedKeys() {
+        val reviewed = listOf("2:255", "112:1")
+        val (mode, key) = DailyAyahSelector.select(LocalDate.of(2026, 8, 22), keys, reviewed, emptySet())!!
+        assertEquals(DailyAyahSelectionMode.CURATED, mode)
+        assertTrue(reviewed.contains(key))
+    }
+
+    @Test
+    fun legacyReviewedRandomRecordsAreNotShownAsReviewed() {
+        assertEquals("random", DailyAyahSelectionMode.REVIEWED_RANDOM.displayLabel)
+    }
+}

@@ -1,12 +1,15 @@
 # 09 — Do Not Build Yet
 
-The following are explicitly **not allowed** in V1.
+> **Status (v2.2.0):** V1 has shipped. Items marked ~~struck through~~ were later approved and shipped in V2.x.
+> `/AGENTS.md` holds the authoritative current scope.
+
+The following are explicitly **not allowed** unless the owner approves them.
 
 ## Content Features Not Allowed
 
-- Audio recitation.
-- Urdu translation.
-- English translation.
+- Audio recitation. *(Gated: source-neutral contracts exist in V2.2, playback stays disabled until an approved source and licence exist.)*
+- ~~Urdu translation.~~ *(Shipped in V2.x from a verified, licensed source.)*
+- ~~English translation.~~ *(Shipped in V2.x from a verified, licensed source.)*
 - Tafsir.
 - Word-by-word meaning.
 - Root/lemma study.
@@ -21,7 +24,7 @@ The following are explicitly **not allowed** in V1.
 
 - Prayer times.
 - Qibla.
-- Islamic calendar.
+- Islamic (Hijri) calendar. *(The V2 on-device reading-activity calendar is allowed.)*
 - Hadith database.
 - Masjid directory.
 - Zakat calculator.
@@ -33,7 +36,7 @@ The following are explicitly **not allowed** in V1.
 - Cloud sync.
 - Server backend.
 - Web app implementation.
-- Push notifications.
+- Remote push notifications. *(Opt-in local reading reminders shipped in V2.x.)*
 - Social sharing feed.
 - Public profiles.
 
@@ -58,4 +61,4 @@ The following are explicitly **not allowed** in V1.
 
 ## Why
 
-V1 must prove trust first. It must be a polished, verified, offline Sacred Reader before any expansion.
+V1 had to prove trust first as a polished, verified, offline Sacred Reader. That same bar applies to every expansion: verified content, no tracking, and offline core behaviour.

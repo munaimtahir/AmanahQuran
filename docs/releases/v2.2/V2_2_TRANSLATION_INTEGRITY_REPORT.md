@@ -8,6 +8,6 @@ The V2.2 sprint did not modify translation assets or mappings.
 - Translation text remains in the separate translation Room database.
 - Quran display text remains in the verified Quran database.
 - Search-normalized text is never rendered as Quran display text.
-- Existing independent verification is recorded in `TRANSLATION_INTEGRATION_FINAL_VERIFICATION.md`.
+- Existing independent verification is recorded in `/TRANSLATION_INTEGRATION_FINAL_VERIFICATION.md`.
 
 Status: PASS by preservation/retest; no content import was performed in this sprint.

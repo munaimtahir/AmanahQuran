@@ -64,12 +64,7 @@ class DailyAyahRepositoryImpl(
         }
         val reviewedKeys = eligibility.filter { it.eligible && it.reviewStatus == "APPROVED" }.map { it.ayahKey }
         val recent = records().take(30).map { it.ayahKey }.toSet()
-        val mode = if (reviewedKeys.isNotEmpty()) DailyAyahSelectionMode.CURATED else DailyAyahSelectionMode.REVIEWED_RANDOM
-        val key = if (mode == DailyAyahSelectionMode.CURATED) {
-            DailyAyahSelector.reviewedRandomKey(date, reviewedKeys, recent)
-        } else {
-            DailyAyahSelector.randomDailyKey(date, allKeys, recent)
-        } ?: return null
+        val (mode, key) = DailyAyahSelector.select(date, allKeys, reviewedKeys, recent) ?: return null
         val record = DailyAyahRecord(date, key, mode, translationId)
         val previous = records()
         store.edit { it[Keys.history] = (listOf(record) + previous.filterNot { r -> r.date == date }).take(30).toJson().toString() }

@@ -44,7 +44,7 @@ System/Light/Dark/Sepia themes; Trust Center and content provenance.
 - `apps/android/app/src/main/assets/content/translations/` — verified English/Urdu pack.
 - `apps/android/app/src/main/assets/trust/trust_center_content.json` — provenance metadata.
 - `scripts/` and `tools/content-import/` — offline content validation/import tooling.
-- `docs/legal/`, `docs/_release_gate/`, and `TRANSLATION_INTEGRATION_FINAL_VERIFICATION.md` — source/license evidence.
+- `docs/legal/`, `docs/_release_gate/`, and `/TRANSLATION_INTEGRATION_FINAL_VERIFICATION.md` — source/license evidence.
 
 ## Baseline gate
 
