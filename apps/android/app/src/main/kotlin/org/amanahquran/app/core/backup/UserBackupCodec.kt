@@ -203,8 +203,10 @@ object UserBackupCodec {
         }
         return ReminderSettings(
             enabled = json.optBoolean("enabled", false),
-            hour = json.optInt("hour", 20),
-            minute = json.optInt("minute", 0),
+            // Out-of-range values would make LocalTime.of / ZonedDateTime.withHour throw later
+            // (reminder screen and scheduler), so clamp them at the import boundary.
+            hour = json.optInt("hour", 20).coerceIn(0, 23),
+            minute = json.optInt("minute", 0).coerceIn(0, 59),
             repeatDays = days,
             smartReminderEnabled = json.optBoolean("smartReminderEnabled", true),
         )

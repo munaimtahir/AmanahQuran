@@ -43,7 +43,7 @@ fun DailyAyahHistoryScreen(onNavigateBack: () -> Unit, onOpenAyah: (String) -> U
                     ListItem(
                         modifier = Modifier.fillMaxWidth().clickable { onOpenAyah(record.ayahKey) },
                         headlineContent = { Text(record.ayahKey) },
-                        supportingContent = { Text("${record.date} · ${record.selectionMode.name.lowercase()}") },
+                        supportingContent = { Text("${record.date} · ${record.selectionMode.displayLabel}") },
                     )
                 }
             }

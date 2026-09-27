@@ -144,6 +144,21 @@ class UserBackupCodecTest {
         assertEquals(false, restored.reminderSettings.enabled)
     }
 
+    @Test
+    fun outOfRangeReminderTimeIsClampedOnImport() {
+        val json = org.json.JSONObject(
+            UserBackupCodec.encode(
+                UserBackupPayload(bookmarks = emptyList(), collectionsJson = "[]", settings = ReaderSettings()),
+            ),
+        )
+        json.put("reminderSettings", JSONObjectOf("enabled" to false, "hour" to 99, "minute" to -5))
+
+        val restored = UserBackupCodec.validateAndParse(json.toString())
+
+        assertEquals(23, restored.reminderSettings.hour)
+        assertEquals(0, restored.reminderSettings.minute)
+    }
+
     private fun JSONObjectOf(vararg pairs: Pair<String, Any>): org.json.JSONObject =
         org.json.JSONObject().apply { pairs.forEach { (key, value) -> put(key, value) } }
 }

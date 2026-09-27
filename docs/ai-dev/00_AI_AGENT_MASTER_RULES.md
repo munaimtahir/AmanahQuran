@@ -12,9 +12,13 @@ These rules control all AI-assisted development for Amanah Quran.
 - Primary platform: **Android**
 - Commercial model: **Completely free, no ads, no in-app purchases, no monetization pressure**
 
-## V1 Scope
+## Current Scope
 
-V1 includes only:
+> **Status (v2.2.0):** V1 has shipped and V2.x additions (English/Urdu translations, continuous reader, local backup/restore, streaks/stats/reading calendar, local reminders, Daily Ayah widget) are approved and shipped. The full current scope is in `/AGENTS.md`. The V1 list below is kept as the baseline.
+
+## V1 Scope (baseline)
+
+V1 included:
 
 1. Offline Quran reading.
 2. IndoPak script.
@@ -43,7 +47,7 @@ V1 includes only:
 7. No cloud dependency.
 8. No donations inside the reader.
 9. No in-app purchases.
-10. No unnecessary Android permissions.
+10. No unnecessary Android permissions. (`POST_NOTIFICATIONS` is allowed only for opt-in local reminders, requested at runtime.)
 11. No Quran text modification.
 12. No unverified Quran display text.
 13. No network dependency for core reader functions.
@@ -69,6 +73,9 @@ Local-only allowed data:
 - Theme setting.
 - Script setting.
 - Elder Mode setting.
+- Translation selection (V2.x).
+- Reading activity, streaks and reminder settings (V2.x, on-device only).
+- Daily Ayah history (V2.x, last 30 canonical ayah keys).
 
 ## Android Technical Rules
 
@@ -95,7 +102,7 @@ The repository may be organized as a future-ready monorepo. However:
 
 Every implementation step must prove:
 
-- V1 scope respected.
+- Current approved scope respected (see `/AGENTS.md`).
 - Guardrails respected.
 - Tests run or test limitation explained.
 - Quran text integrity preserved.

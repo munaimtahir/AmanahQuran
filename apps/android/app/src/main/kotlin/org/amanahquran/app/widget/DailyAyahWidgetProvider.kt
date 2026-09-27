@@ -19,7 +19,7 @@ class DailyAyahWidgetProvider : AppWidgetProvider() {
         val pending = goAsync()
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val daily = dailyAyahRepository(context).getToday()
+                val daily = loadToday(context)
                 ids.forEach { id -> updateOne(context, manager, id, daily) }
             } finally {
                 pending.finish()
@@ -38,10 +38,15 @@ class DailyAyahWidgetProvider : AppWidgetProvider() {
             val ids = manager.getAppWidgetIds(component)
             if (ids.isNotEmpty()) manager.notifyAppWidgetViewDataChanged(ids, R.id.daily_ayah_widget_root)
             CoroutineScope(Dispatchers.IO).launch {
-                val daily = dailyAyahRepository(context).getToday()
+                val daily = loadToday(context)
                 ids.forEach { updateOne(context, manager, it, daily) }
             }
         }
+
+        // An exception escaping these fire-and-forget coroutines would crash the app process from
+        // a background broadcast; fall back to the "Open Amanah Quran" placeholder instead.
+        private suspend fun loadToday(context: Context): org.amanahquran.app.core.daily.DailyAyahContent? =
+            runCatching { dailyAyahRepository(context).getToday() }.getOrNull()
 
         private fun updateOne(
             context: Context,
