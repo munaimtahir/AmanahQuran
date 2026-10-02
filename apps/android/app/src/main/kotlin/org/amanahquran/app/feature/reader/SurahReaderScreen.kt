@@ -40,6 +40,7 @@ import kotlin.math.roundToInt
 import org.amanahquran.app.R
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -75,6 +76,7 @@ import androidx.compose.ui.input.pointer.PointerInputScope
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChanged
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -676,6 +678,7 @@ private fun ReaderScreen(
                                 AutoScrollState.RUNNING, AutoScrollState.STARTING -> autoScroll.pause()
                             }
                         },
+                        progress = autoScroll.progress,
                     )
                 }
             },
@@ -1165,6 +1168,7 @@ private fun PageBookmarkRow(
 private fun ReaderAutoScrollTrigger(
     state: AutoScrollState,
     onClick: () -> Unit,
+    progress: Float = 0f,
     modifier: Modifier = Modifier,
 ) {
     val elder = LocalElderMode.current
@@ -1178,19 +1182,48 @@ private fun ReaderAutoScrollTrigger(
     }
 
     if (elder) {
-        TextButton(onClick = onClick) {
-            Text(if (running) "Pause Scroll" else "Auto-Scroll")
+        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            TextButton(onClick = onClick) {
+                Text(if (running) "Pause Scroll" else "Auto-Scroll")
+            }
+            if (running && progress > 0f) {
+                androidx.compose.material3.LinearProgressIndicator(
+                    progress = { progress },
+                    modifier = Modifier.fillMaxWidth(),
+                    color = palette.activeControl,
+                    trackColor = palette.secondaryText.copy(alpha = 0.3f),
+                )
+            }
         }
     } else {
-        IconButton(
-            onClick = onClick,
-            modifier = modifier.size(touchTarget),
-        ) {
-            Icon(
-                imageVector = if (running) Icons.Rounded.Pause else Icons.Rounded.PlayArrow,
-                contentDescription = description,
-                tint = if (state != AutoScrollState.INACTIVE) palette.activeControl else LocalContentColor.current,
-            )
+        Box {
+            IconButton(
+                onClick = onClick,
+                modifier = modifier.size(touchTarget),
+            ) {
+                Icon(
+                    imageVector = if (running) Icons.Rounded.Pause else Icons.Rounded.PlayArrow,
+                    contentDescription = description,
+                    tint = if (state != AutoScrollState.INACTIVE) palette.activeControl else LocalContentColor.current,
+                )
+            }
+            // Progress indicator ring around the icon when scrolling
+            if (running && progress > 0f) {
+                androidx.compose.foundation.Canvas(
+                    modifier = Modifier.size(touchTarget),
+                    onDraw = {
+                        val strokeWidth = 2.dp.toPx()
+                        val sweepAngle = 360f * progress
+                        drawArc(
+                            color = palette.activeControl,
+                            startAngle = -90f,
+                            sweepAngle = sweepAngle,
+                            useCenter = false,
+                            style = Stroke(width = strokeWidth),
+                        )
+                    },
+                )
+            }
         }
     }
 }
@@ -1321,7 +1354,8 @@ private fun ReaderFirstZoomHint(
 /**
  * Compact action bar for the selected ayah, docked at the bottom so it never covers the ayah
  * (selecting an ayah scrolls it to the top of the reader). Primary actions carry visible labels;
- * image sharing and error reports stay in the overflow menu.
+ * image sharing and error reports stay in the overflow menu. Enhanced with fade-in animation
+ * and haptic feedback for better feedback.
  */
 @Composable
 private fun ReaderSelectedAyahActionCard(
@@ -1334,13 +1368,20 @@ private fun ReaderSelectedAyahActionCard(
     val context = LocalContext.current
     val elder = LocalElderMode.current
     val touchTarget = if (elder) AmanahSpacing.minTouchTargetElder else AmanahSpacing.minTouchTarget
-    Card(
-        modifier = modifier
-            .padding(horizontal = 16.dp, vertical = 16.dp)
-            .fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
-        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+    val hapticFeedback = LocalHapticFeedback.current
+    
+    AnimatedVisibility(
+        visible = true,
+        enter = fadeIn() + slideInVertically(initialOffsetY = { it }),
+        exit = fadeOut() + slideOutVertically(targetOffsetY = { it }),
     ) {
+        Card(
+            modifier = modifier
+                .padding(horizontal = 16.dp, vertical = 16.dp)
+                .fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+            elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+        ) {
         Column(
             modifier = Modifier.padding(horizontal = AmanahSpacing.md, vertical = AmanahSpacing.xs),
         ) {
@@ -1368,7 +1409,10 @@ private fun ReaderSelectedAyahActionCard(
                 horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.xs),
             ) {
                 TextButton(
-                    onClick = { onToggleBookmark(ayah.ayahKey) },
+                    onClick = { 
+                        hapticFeedback.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                        onToggleBookmark(ayah.ayahKey) 
+                    },
                     modifier = Modifier.heightIn(min = touchTarget),
                 ) {
                     Icon(
@@ -1417,6 +1461,7 @@ private fun ReaderSelectedAyahActionCard(
                 }
             }
         }
+    }
     }
 }
 

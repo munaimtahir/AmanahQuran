@@ -1,5 +1,10 @@
 package org.amanahquran.app.feature.reader
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -120,15 +125,22 @@ fun ReaderSettingsBottomSheet(
     }
 
     ModalBottomSheet(onDismissRequest = onDismiss, sheetState = sheetState) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .verticalScroll(rememberScrollState())
-                .navigationBarsPadding()
-                .padding(horizontal = AmanahSpacing.md)
-                .padding(bottom = AmanahSpacing.xl),
-            verticalArrangement = Arrangement.spacedBy(AmanahSpacing.md),
-        ) {
+        AnimatedContent(
+            targetState = "$selectedScript-$translationSelection-$contentMode-$selectedTheme",
+            transitionSpec = {
+                slideInVertically { it } togetherWith slideOutVertically { -it } using SizeTransform(clip = false)
+            },
+            label = "settings_sheet_animation"
+        ) { _ ->
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
+                    .navigationBarsPadding()
+                    .padding(horizontal = AmanahSpacing.md)
+                    .padding(bottom = AmanahSpacing.xl),
+                verticalArrangement = Arrangement.spacedBy(AmanahSpacing.md),
+            ) {
             Text(
                 "Reader Settings",
                 style = MaterialTheme.typography.titleLarge,
@@ -259,6 +271,7 @@ fun ReaderSettingsBottomSheet(
                     }
                 }
             }
+        }
         }
     }
 }

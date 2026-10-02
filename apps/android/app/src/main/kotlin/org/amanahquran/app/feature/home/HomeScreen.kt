@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -35,6 +36,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -44,6 +46,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -346,7 +349,15 @@ private fun ReadingHeroCard(
     val onPrimaryAction = { if (continueReading != null) onContinue(continueReading) else onStartReading() }
 
     AmanahCard(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
+            .semantics {
+                heading()
+                contentDescription = if (continueReading != null) {
+                    "Continue reading ${continueReading.title}, ${continueReading.subtitle}"
+                } else {
+                    "Start reading the Quran"
+                }
+            },
         onClick = onPrimaryAction,
         onClickLabel = buttonLabel,
         containerColor = fill,
@@ -354,50 +365,78 @@ private fun ReadingHeroCard(
         borderWidth = 1.2.dp,
         elevation = 6.dp,
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.md),
+        Column(
+            verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm),
         ) {
-            Box(
-                modifier = Modifier
-                    .size(44.dp)
-                    .background(
-                        color = badgeBackground,
-                        shape = AmanahShapes.numberBadge,
-                    ),
-                contentAlignment = Alignment.Center,
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.md),
             ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Rounded.MenuBook,
-                    contentDescription = null,
-                    tint = AmanahGreenDarker,
-                    modifier = Modifier.size(24.dp),
-                )
-            }
-            Column(modifier = Modifier.weight(1f)) {
-                if (continueReading != null) {
-                    Text(
-                        text = "Continue Reading",
-                        style = MaterialTheme.typography.labelMedium,
-                        color = goldTone,
+                Box(
+                    modifier = Modifier
+                        .size(44.dp)
+                        .background(
+                            color = badgeBackground,
+                            shape = AmanahShapes.numberBadge,
+                        ),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Rounded.MenuBook,
+                        contentDescription = null,
+                        tint = AmanahGreenDarker,
+                        modifier = Modifier.size(24.dp),
                     )
                 }
-                Text(
-                    text = labelTitle,
-                    style = MaterialTheme.typography.titleMedium,
-                    color = titleColor,
-                )
-                Text(
-                    text = subtitle,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = subtitleColor,
+                Column(modifier = Modifier.weight(1f)) {
+                    if (continueReading != null) {
+                        Text(
+                            text = "Continue Reading",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = goldTone,
+                        )
+                    }
+                    Text(
+                        text = labelTitle,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = titleColor,
+                    )
+                    Text(
+                        text = subtitle,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = subtitleColor,
+                    )
+                }
+                Icon(
+                    imageVector = Icons.Rounded.ChevronRight,
+                    contentDescription = null,
+                    tint = goldTone,
                 )
             }
-            Icon(
-                imageVector = Icons.Rounded.ChevronRight,
-                contentDescription = null,
-                tint = goldTone,
-            )
+            
+            // Progress bar for reading progress
+            if (continueReading != null && continueReading.progress > 0f) {
+                Column {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            text = "${(continueReading.progress * 100).toInt()}% of Surah complete",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = goldTone,
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(4.dp))
+                    LinearProgressIndicator(
+                        progress = { continueReading.progress },
+                        modifier = Modifier.fillMaxWidth(),
+                        color = goldTone,
+                        trackColor = subtitleColor.copy(alpha = 0.3f),
+                    )
+                }
+            }
         }
     }
 }

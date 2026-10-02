@@ -1,22 +1,18 @@
 # CONTENT_RESET_AUDIT
 
-Generated: 2026-09-09T08:14:06+00:00
+Generated: 2026-09-27T17:48:34+00:00
 
 ## Summary
 
-- Content-related files discovered: 586
+- Content-related files discovered: 582
 - Registry assets: 123
 
 ## Classification
 
 ### KEEP_APP_CODE
 
-- Count: 16
+- Count: 12
 - `scripts/__pycache__/content_pipeline_common.cpython-312.pyc`
-- `scripts/__pycache__/generate_content_pipeline.cpython-312.pyc`
-- `scripts/__pycache__/scan_packaged_content_assets.cpython-312.pyc`
-- `scripts/__pycache__/validate_content_licenses.cpython-312.pyc`
-- `scripts/__pycache__/validate_quran_database.cpython-312.pyc`
 - `scripts/content_pipeline_common.py`
 - `scripts/generate_content_pipeline.py`
 - `scripts/scan_packaged_content_assets.py`

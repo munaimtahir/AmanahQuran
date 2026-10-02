@@ -54,6 +54,18 @@ val BlackOnSurfaceVariant = Color(0xFFB8B5AD)
 val BlackDivider = Color(0xFF232B27)
 val BlackBorder = Color(0xFF2E3833)
 
+// High-contrast mode colors for maximum legibility (WCAG AAA compliance)
+val HighContrastBackground = Color(0xFF000000)
+val HighContrastSurface = Color(0xFF000000)
+val HighContrastCardSurface = Color(0xFF000000)
+val HighContrastOnBackground = Color(0xFFFFFFFF)
+val HighContrastOnSurface = Color(0xFFFFFFFF)
+val HighContrastOnSurfaceVariant = Color(0xFFE0E0E0)
+val HighContrastDivider = Color(0xFF404040)
+val HighContrastBorder = Color(0xFF606060)
+val HighContrastPrimaryGreen = Color(0xFF00FF00)
+val HighContrastAccentGold = Color(0xFFFFD700)
+
 // Muted sage/eucalyptus reader accents (calm, not promotional -- see ReaderPalette). Deliberately
 // desaturated compared to AmanahGreenDeep/AmanahGreenMuted, which stay reserved for primary
 // brand/navigation chrome outside the reading surface itself.

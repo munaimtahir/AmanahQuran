@@ -99,6 +99,21 @@ private val BlackReaderPalette = ReaderPalette(
     controlSurface = BlackCardSurface,
 )
 
+private val HighContrastReaderPalette = ReaderPalette(
+    background = HighContrastBackground,
+    text = HighContrastOnBackground,
+    secondaryText = HighContrastOnSurfaceVariant,
+    chromeBackground = HighContrastBackground,
+    chromeContent = HighContrastOnBackground,
+    divider = HighContrastDivider,
+    activeControl = HighContrastPrimaryGreen,
+    onActiveControl = HighContrastBackground,
+    inactiveControl = HighContrastOnSurfaceVariant.copy(alpha = 0.7f),
+    pageMarker = HighContrastAccentGold,
+    currentAyahHighlight = HighContrastPrimaryGreen.copy(alpha = 0.3f),
+    controlSurface = HighContrastCardSurface,
+)
+
 val LocalReaderPalette = staticCompositionLocalOf { LightReaderPalette }
 
 private val AmanahLightColorScheme = lightColorScheme(
@@ -166,6 +181,29 @@ private val AmanahBlackColorScheme = AmanahDarkColorScheme.copy(
     outlineVariant = BlackDivider,
 )
 
+private val AmanahHighContrastColorScheme = darkColorScheme(
+    primary = HighContrastPrimaryGreen,
+    onPrimary = HighContrastBackground,
+    primaryContainer = HighContrastSurface,
+    onPrimaryContainer = HighContrastPrimaryGreen,
+    secondary = HighContrastAccentGold,
+    onSecondary = HighContrastBackground,
+    secondaryContainer = HighContrastSurface,
+    onSecondaryContainer = HighContrastAccentGold,
+    tertiary = HighContrastAccentGold,
+    onTertiary = HighContrastBackground,
+    tertiaryContainer = HighContrastCardSurface,
+    onTertiaryContainer = HighContrastAccentGold,
+    background = HighContrastBackground,
+    onBackground = HighContrastOnBackground,
+    surface = HighContrastSurface,
+    onSurface = HighContrastOnSurface,
+    surfaceVariant = HighContrastCardSurface,
+    onSurfaceVariant = HighContrastOnSurfaceVariant,
+    outline = HighContrastBorder,
+    outlineVariant = HighContrastDivider,
+)
+
 private val AmanahSepiaColorScheme = lightColorScheme(
     primary = AmanahGreenDeep,
     onPrimary = SepiaSurface,
@@ -228,6 +266,7 @@ fun AmanahQuranTheme(
         ThemeMode.DARK -> AmanahDarkColorScheme
         ThemeMode.SEPIA -> AmanahSepiaColorScheme
         ThemeMode.BLACK -> AmanahBlackColorScheme
+        ThemeMode.HIGH_CONTRAST -> AmanahHighContrastColorScheme
     }
 
     val readerPalette = when (themeMode) {
@@ -236,6 +275,7 @@ fun AmanahQuranTheme(
         ThemeMode.DARK -> DarkReaderPalette
         ThemeMode.SEPIA -> SepiaReaderPalette
         ThemeMode.BLACK -> BlackReaderPalette
+        ThemeMode.HIGH_CONTRAST -> HighContrastReaderPalette
     }
 
     CompositionLocalProvider(

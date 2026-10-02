@@ -14,6 +14,7 @@ class ThemeModeTest {
                 ThemeMode.DARK,
                 ThemeMode.SEPIA,
                 ThemeMode.BLACK,
+                ThemeMode.HIGH_CONTRAST,
             ),
             ThemeMode.entries.toList(),
         )

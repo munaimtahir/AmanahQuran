@@ -31,6 +31,7 @@ data class HomeContinueReadingUiModel(
     val surahNumber: Int,
     val ayahKey: String,
     val pageNumber: Int? = null,
+    val progress: Float = 0f, // 0f to 1f representing % of Surah completed
 )
 
 data class HomeUiState(
@@ -104,6 +105,15 @@ class HomeViewModel(
         val surah = repository.getSurahByNumber(surahNumber) ?: return null
         val display = repository.getAyahDisplay(ayahKey, scriptType.name)
         val surahName = surah.nameSimple.ifBlank { "Surah $surahNumber" }
+        
+        // Calculate progress: ayahNumber / totalAyahsInSurah
+        val totalAyahs = surah.ayahCount
+        val progress = if (totalAyahs > 0) {
+            (ayahNumber.toFloat() / totalAyahs.toFloat()).coerceIn(0f, 1f)
+        } else {
+            0f
+        }
+        
         return HomeContinueReadingUiModel(
             title = surahName,
             subtitle = if (pageNumber != null) {
@@ -115,6 +125,7 @@ class HomeViewModel(
             surahNumber = surahNumber,
             ayahKey = ayahKey,
             pageNumber = pageNumber,
+            progress = progress,
         )
     }
 

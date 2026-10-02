@@ -1,5 +1,34 @@
 # Amanah Quran — Release Ledger
 
+## Release Entry: Version 12 (2.3.0) — Redesigned UI & Reader Refinement Release
+
+- **App Name**: Amanah Quran
+- **Project Identity**: Amanah-e-Kisa
+- **Release Version**: `2.3.0`
+- **Version Code**: `12`
+- **Release Date**: September 27, 2026
+- **Target Platform**: Android
+- **Release Bundle (AAB)**: `apps/android/app/build/outputs/bundle/release/app-release.aab`
+- **Release Bundle SHA-256**: `7b557c28e3b69ada5105dfb63c48c2044a3a5161ccc7daf987537c5ba7916dbb`
+- **Release APK SHA-256**: `7beac7456420ebd6562b8bcab127f1ac74807a003defe4457d8c3a2c7e07145f`
+- **Scope (R1–R5 UI Refinements & Features)**:
+  - Redesigned Reader Settings Bottom Sheet (linked text size toggle, release-on-release sliders preserving reading anchor, Elder-friendly wrapping chip rows).
+  - Immersive Reader Chrome (overlay toolbar, hide on scroll down, reveal on scroll up/tap, locked in Elder Mode / TalkBack).
+  - Jump to Ayah affordance (tapping title/counter opens direct surah:ayah jump dialog).
+  - Bookmarks screen redesign (separate auto-saved "Reading position" section above "Saved bookmarks").
+  - Home screen section reordering (Header → Continue Reading → Browse → Streak → Daily Ayah → Activity → Trust Center).
+  - Black (OLED) Theme (#000000 background, WCAG AAA contrast, persistent & backup-safe).
+  - Live Typography Preview card in Settings (renders verified ayah 1:2 from database with active script & translation).
+  - Dynamic Urdu Nastaliq line height adjustments (1.85× line height, preventing glyph clipping at high font scale).
+- **Verification Gates**:
+  - Unit Tests: PASS (300/300 JVM unit & Robolectric Compose UI tests passed).
+  - Factory-Reset Emulator Tests: PASS (6/6 connected Android UI tests passed on wiped `quran` AVD).
+  - On-Emulator Interactive & Screenshot Verification: PASS (8 real device screenshots captured under `UI_AUDIT_VNEXT/SCREENSHOTS/`).
+  - Quran Database & Content Integrity: PASS (6,236 Ayahs, 114 Surahs, public content license check 0 blockers).
+  - Production Release Signing: PASS (Signed with production keystore `production-keystore.jks`, R8 minification & resource shrinking active).
+
+---
+
 ## Release Entry: Version 10 (2.2.0)
 
 - **App Name**: Amanah Quran

@@ -45,6 +45,15 @@ class AutoScrollController internal constructor(
         private set
     var elapsedMs: Long by mutableLongStateOf(0L)
         private set
+    
+    val progress: Float
+        get() {
+            if (state == AutoScrollState.INACTIVE) return 0f
+            val totalItems = listState.layoutInfo.totalItemsCount
+            if (totalItems == 0) return 0f
+            val firstVisibleIndex = listState.firstVisibleItemIndex
+            return (firstVisibleIndex.toFloat() / totalItems.toFloat()).coerceIn(0f, 1f)
+        }
 
     private var job: Job? = null
 

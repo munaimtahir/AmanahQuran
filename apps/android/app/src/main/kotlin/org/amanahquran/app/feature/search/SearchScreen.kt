@@ -273,13 +273,17 @@ private fun SearchResultRow(
 @OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
 private fun SearchSuggestions(onSuggestionSelected: (String) -> Unit) {
-    Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm)) {
-        Text("Suggestions", style = MaterialTheme.typography.titleMedium)
+    Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.md)) {
+        Text("Popular Passages", style = MaterialTheme.typography.titleMedium)
         androidx.compose.foundation.layout.FlowRow(
             horizontalArrangement = Arrangement.spacedBy(AmanahSpacing.sm),
             verticalArrangement = Arrangement.spacedBy(AmanahSpacing.sm),
         ) {
-            val suggestions = listOf("Yasin", "Al-Kahf", "Al-Mulk", "2:255", "Juz 30", "Page 1")
+            val suggestions = listOf(
+                "Yasin", "Al-Kahf", "Al-Mulk", "Ar-Rahman",
+                "2:255", "2:286", "67:1", "112:1",
+                "Juz 30", "Page 1"
+            )
             suggestions.forEach { suggestion ->
                 androidx.compose.material3.AssistChip(
                     onClick = { onSuggestionSelected(suggestion) },
@@ -290,6 +294,32 @@ private fun SearchSuggestions(onSuggestionSelected: (String) -> Unit) {
                     border = null,
                 )
             }
+        }
+        
+        AmanahDivider()
+        
+        Column(verticalArrangement = Arrangement.spacedBy(AmanahSpacing.xs)) {
+            Text("Search Tips", style = MaterialTheme.typography.titleMedium)
+            Text(
+                "• Use Surah names: Yasin, Al-Kahf, Al-Mulk",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Text(
+                "• Jump to ayah: 2:255 (Surah:Ayah)",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Text(
+                "• Navigate by Juz: Juz 30",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Text(
+                "• Search Arabic or Urdu text directly",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
         }
     }
 }

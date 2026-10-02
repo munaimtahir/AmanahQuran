@@ -46,9 +46,9 @@ class TypographyPreviewCardUiTest {
                 )
             }
         }
-        composeRule.waitUntil(timeoutMillis = 10_000) {
-            composeRule.onAllNodesWithTextCount(expected!!) > 0
-        }
+        // The preview now shows multiple ayahs with a header text
+        composeRule.onNodeWithText("Preview · Al-Fatiha 1:1-4").assertIsDisplayed()
+        // Also verify the first ayah text is displayed
         composeRule.onNodeWithText(expected!!).assertIsDisplayed()
     }
 
